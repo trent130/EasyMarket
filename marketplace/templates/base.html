@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Website Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+        <header>
+            <div class="logo">
+                <a href="{% url 'home' %}">
+                    <!-- <img src="{% static 'images/logo.png' %}" alt="Logo"> -->
+                    <h1>Sonet</h1>
+                </a>
+            </div>
+            <div class="search">
+                <form action="{% url 'search' %}" method="GET">
+                    <input type="text" name="query" placeholder="Search...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <div class="dashboard">
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'chat' %}">Chat</a></li>
+                    <li><a href="{% url 'about_us' %}">About Us</a></li>
+                    <li><a href="{% url 'help' %}">Help</a></li>
+                </ul>
+            </div>
+            <div class="auth">
+                <ul>
+                    <li><a href="{% url 'signin' %}">Sign In</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                </ul>
+            </div>
+            
+        </header>
+
+    <main>
+        {% block content %}
+        <!-- Default content for child templates -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Your footer content goes here -->
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
