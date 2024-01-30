@@ -11,7 +11,7 @@
             <div class="logo">
                 <a href="{% url 'home' %}">
                     <!-- <img src="{% static 'images/logo.png' %}" alt="Logo"> -->
-                    <h1>Sonet</h1>
+                    <h1>Easymarket</h1>
                 </a>
             </div>
             <div class="search">
@@ -44,7 +44,35 @@
     </main>
 
     <footer>
-        <!-- Your footer content goes here -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h2>About EasyMarket</h2>
+                <p>EasyMarket is a marketplace platform where you can buy and sell various products.</p>
+            </div>
+            <div class="footer-section links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'categories' %}">Categories</a></li>
+                    <li><a href="{% url 'my_products' %}">My Products</a></li>
+                    <li><a href="{% url 'my_orders' %}">My Orders</a></li>
+                    <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h2>Contact Information</h2>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, City, Country</li>
+                    <li><i class="fas fa-envelope"></i> info@easymarket.com</li>
+                    <li><i class="fas fa-phone"></i> +1234567890</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EasyMarket. All rights reserved.</p>
+        </div>
+    </footer>
     </footer>
 
     <script src="{% static 'js/script.js' %}"></script>

@@ -1,36 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-    <div class="header">
-        <div class="left">
-            <a href="index.html">Sonet</a>
-        </div>
-        <div class="center">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-        </div>
-        <div class="right">
-            <a href="login.html">Login</a>
-            <a href="register.html">Register</a>
-        </div>
-    </div>
-    <div class="content">
-        <h1>Home</h1>
-        <p>Lorem ipsum dolor s
-            it amet consectetur ad
-            ipisicing elit. Quisquam
-            , voluptatum. Quisquam,
-        </p>
+{% extends 'marketplace/base.html' %}
 
-    </div>
-    <div class="footer">
-        <p>Footer</p>
-    </div>
-</body>
-</html>
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the Student Marketplace!</h1>
+    <p>Find and connect with students for various services and opportunities.</p>
+    <!-- Add your marketplace content here -->
+{% endblock %}
