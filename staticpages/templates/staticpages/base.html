@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your Website Title</title>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -55,9 +55,9 @@
                 <ul>
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'categories' %}">Categories</a></li>
-                    <li><a href="{% url 'my_products' %}">My Products</a></li>
-                    <li><a href="{% url 'my_orders' %}">My Orders</a></li>
-                    <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                    <li><a href="{% url 'products' %}">My Products</a></li>
+                    <li><a href="{% url 'orders' %}">My Orders</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
                 </ul>
             </div>
             <div class="footer-section contact">

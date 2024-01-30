@@ -1,17 +1,12 @@
-{% extends 'marketplace/base.html' %}
+{% extends 'staticpages/base.html' %}
 {% load static %}
 
 {% block title %}
-    Register
+    Chat
 {% endblock %}
 
 {% block content %}
-    <h1>Register</h1>
+    <h1>Chat</h1>
     <p>Find and connect with students for various services and opportunities.</p>
     <!-- Add your marketplace content here -->
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
 {% endblock %}
