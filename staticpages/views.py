@@ -18,12 +18,12 @@ def help(request):
     return render(request, 'staticpages/help.html')
 
 def signin(request):
-    context = {'title': 'signin'}
-    return render(request, 'marketplace/account/register.html')
+    context = {'title': 'login'}
+    return render(request, 'staticpages/account/login.html')
 
 def register(request):
     context = {'title': 'register'}
-    return render(request, 'marketplace/account/register.html')
+    return render(request, 'staticpages/account/register.html')
 
 def search(request):
     context = {'title': 'search'}
