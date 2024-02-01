@@ -22,8 +22,6 @@ def help(request):
     context = {'title': 'help'}
     return render(request, 'staticpages/help.html')
 
-from .forms import LoginForm
-
 def signin(request):
     form = LoginForm()
     context = {'title': 'login', 'form': form}
@@ -79,3 +77,6 @@ def user_Login(request):
     else:
         form = LoginForm()
     return render(request, 'staticpages/account/login.html', {'form': form})  
+def password_reset(request):
+    context = {'title': 'password_reset'}
+    return render(request, 'staticpages/account/password_reset.html')
