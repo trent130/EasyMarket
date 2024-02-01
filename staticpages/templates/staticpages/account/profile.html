@@ -1,0 +1,18 @@
+{% extends 'staticpages/base.html' %}
+{% load static %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block content %}
+    <div class="profile-container">
+        <h1>Profile</h1>
+        <p>Update your profile</p>
+        <form method="post" class="profile-form">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit" class="profile-button">Update</button>
+        </form>
+    </div>
+{% endblock %}

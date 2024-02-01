@@ -80,3 +80,7 @@ def user_Login(request):
 def password_reset(request):
     context = {'title': 'password_reset'}
     return render(request, 'staticpages/account/password_reset.html')
+
+def user_profile(request):
+    context = {'title': 'user_profile'}
+    return render(request, 'staticpages/account/profile.html')
