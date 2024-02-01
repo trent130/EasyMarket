@@ -2,11 +2,73 @@
 {% load static %}
 
 {% block title %}
-    Chat
+Chat
 {% endblock %}
 
 {% block content %}
-    <h1>Chat</h1>
-    <p>Find and connect with students for various services and opportunities.</p>
-    <!-- Add your marketplace content here -->
+<h1>Chat</h1>
+<p>Find and connect with students for various services and opportunities.</p>
+<!-- Add your marketplace content here -->
+<div class="chat-container">
+    <div class="chat-sidebar">
+        <h2>Users</h2>
+        <ul id="users">
+            <!-- User list will be added here dynamically -->
+            <li>User 1</li>
+            <li>User 2</li>
+            <li>User 3</li>
+        </ul>
+    </div>
+    <div class="chat-main">
+        <div class="chat-header">
+            <h2>Chat Room</h2>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Chat messages will be added here dynamically -->
+            <div class="message">
+                <img src="user1-avatar.jpg" alt="User 1 Avatar" class="user-avatar">
+                <div class="message-content">
+                    <p>This is a sample message from User 1.</p>
+                    <span class="message-time">12:30 PM</span>
+                </div>
+            </div>
+            <div class="message">
+                <img src="user2-avatar.jpg" alt="User 2 Avatar" class="user-avatar">
+                <div class="message-content">
+                    <p>This is a sample message from User 2.</p>
+                    <span class="message-time">12:35 PM</span>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <form id="message-form">
+                <input type="text" id="message-input" placeholder="Type a message...">
+                <!-- <input type="file" id="file-input">
+                <button type="button" id="emoji-button">😀</button> -->
+                <button type="submit">Send</button>
+            </form>
+            <div id="emoji-picker" style="display: none;">
+                <!-- Emojis will be added here dynamically -->
+            </div>
+            <div id="typing-indicator"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('#emoji-button').addEventListener('click', function() {
+    var emojiPicker = document.querySelector('#emoji-picker');
+    if (emojiPicker.style.display === 'none') {
+        emojiPicker.style.display = 'block';
+    } else {
+        emojiPicker.style.display = 'none';
+    }
+});
+
+document.querySelector('#emoji-picker').addEventListener('click', function(event) {
+    if (event.target.tagName === 'SPAN') {
+        document.querySelector('#message-input').value += event.target.textContent;
+    }
+});
+</script>
 {% endblock %}
