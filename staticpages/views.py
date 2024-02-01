@@ -35,6 +35,7 @@ def search(request):
     context = {'title': 'search'}
     return render(request, 'marketplace/search.html')
 
+@login_required
 def chat(request):
     context = {'title': 'chat'}
     return render(request, 'staticpages/chat.html')
@@ -52,6 +53,7 @@ def products(request):
     context = {'title': 'products'}
     return render(request, 'products/product.html')
 
+@login_required
 def orders(request):
     context = {'title': 'orders'}
     return render(request, 'orders/order.html')
@@ -84,3 +86,36 @@ def password_reset(request):
 def user_profile(request):
     context = {'title': 'user_profile'}
     return render(request, 'staticpages/account/profile.html')
+
+def cart(request):
+    context = {'title': 'cart'}
+    return render(request, 'marketplace/cart.html')
+
+# def user_register(request):
+#     context = {'title': 'user_register'}  
+#     return render(request, 'staticpages/account/register.html')
+
+# def user_logout(request):
+#     context = {'title': 'user_logout'}
+#     return render(request, 'staticpages/account/logout.html')
+
+# def user_profile_edit(request):
+#     context = {'title': 'user_profile_edit'}
+#     return render(request, 'staticpages/account/profile_edit.html')
+
+# def user_profile_delete(request):
+#     context = {'title': 'user_profile_delete'}
+#     return render(request, 'staticpages/account/profile_delete.html')
+
+# def user_profile_password(request):
+#     context = {'title': 'user_profile_password'}      
+#     return render(request, 'staticpages/account/profile_password.html')
+
+# def user_profile_orders(request): 
+#     context = {'title': 'user_profile_orders'}
+#     return render(request, 'staticpages/account/profile_orders.html')
+
+# def user_profile_order_details(request):
+#     context = {'title': 'user_profile_order_details'}
+#     return render(request, 'staticpages/account/profile_order_details.html')
+

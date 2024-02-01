@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your Website Title</title>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-GLhlTQ8i7uZuR7S1ZfGgFotZstYT5u9KGWY4YO5Fm49Mehb+6YpBmSJoNxmI1TwP" crossorigin="anonymous">
 </head>
 <body>
         <header>
@@ -14,12 +15,15 @@
                     <h1>Easymarket</h1>
                 </a>
             </div>
-            <div class="search">
-                <form action="{% url 'search' %}" method="GET">
-                    <input type="text" name="query" placeholder="Search...">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
+           
+            {% if Request.user.is_authenticated %}
+            <div class="user">
+                <a href="{% url 'profile' %}">
+                    <i class="fas fa-user"></i>
+                    <p>{{ request.user.username }}</p>
+                </a>
+            </div>  
+            {% endif %}
             <div class="dashboard">
                 <ul>
                     <li><a href="{% url 'home' %}">Home</a></li>
@@ -28,13 +32,33 @@
                     <li><a href="{% url 'help' %}">Help</a></li>
                 </ul>
             </div>
-            <div class="auth">
+
+            <div class="search">
+                <form action="{% url 'search' %}" method="GET">
+                    <input type="text" name="q" placeholder="Search...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <div class="menu">
                 <ul>
-                    <li><a href="{% url 'signin' %}">Sign In</a></li>
+                    {% if Request.user.is_authenticated %}
+                    <li><a href="{% url 'signout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'signin' %}">Login</a></li>
                     <li><a href="{% url 'register' %}">Register</a></li>
+                    {% endif %}
                 </ul>
             </div>
-            
+
+            <div class="cart">
+                <a href="{% url 'cart' %}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Cart</p>
+                </a>
+
+            </div>
+           
         </header>
 
     <main>
@@ -43,38 +67,9 @@
         {% endblock %}
     </main>
 
-    <footer>
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h2>About EasyMarket</h2>
-                <p>EasyMarket is a marketplace platform where you can buy and sell various products.</p>
-            </div>
-            <div class="footer-section links">
-                <h2>Quick Links</h2>
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'categories' %}">Categories</a></li>
-                    <li><a href="{% url 'my_products' %}">My Products</a></li>
-                    <li><a href="{% url 'my_orders' %}">My Orders</a></li>
-                    <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-section contact">
-                <h2>Contact Information</h2>
-                <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, City, Country</li>
-                    <li><i class="fas fa-envelope"></i> info@easymarket.com</li>
-                    <li><i class="fas fa-phone"></i> +1234567890</li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 EasyMarket. All rights reserved.</p>
-        </div>
-    </footer>
-    </footer>
+
 
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
+

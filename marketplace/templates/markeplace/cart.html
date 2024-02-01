@@ -1,0 +1,36 @@
+{% extends 'marketplace/base.html' %}
+{% load static %}
+
+{% block title %}
+    Cart
+{% endblock %}
+
+{% block content %}
+    <div class="cart-container">
+        <h1>Cart</h1>
+        <p>Here are the items in your cart</p>
+        <div class="cart-items">
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                    </div>
+                    <div class="cart-item-info">
+                        <h3>{{ item.product.name }}</h3>
+                        <p>{{ item.product.description }}</p>
+                        <p>Price: {{ item.product.price }}</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Total: {{ item.total }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="cart-total">
+            <p>Total: {{ cart_total }}</p>
+        </div>
+        <div class="cart-buttons">
+            <a href="{% url 'marketplace:checkout' %}">Checkout</a>
+            <a href="{% url 'marketplace:clear_cart' %}">Clear cart</a>
+        </div>
+    </div>
+{% endblock %}
