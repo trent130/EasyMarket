@@ -9,10 +9,15 @@
     <div class="login-container">
         <h1>Login</h1>
         <p>Please, use the following to login</p>
+        {% if form.errors %}
+            <p class="error-message">Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
         <form method="post" class="login-form">
             {{ form.as_p }}
-            {% csrf_token %}  
-            <a href="{% url 'password_reset' %}">Forgot password?</a>   
+            {% csrf_token %} 
+            <input type="hidden" name="next" value="{{ next }}">
+  
             <button type="submit" class="login-button">Login</button>
         </form>
         <p class="signup-link">Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
