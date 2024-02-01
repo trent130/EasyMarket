@@ -48,4 +48,45 @@
         <a href="#signup" class="cta-button">Sign Up Now</a>
     </div>
 
+
+    <footer class="site-footer">
+    <div class="footer-container">
+        <!-- <div class="footer-section about">
+            <h2>About EasyMarket</h2>
+            <p>EasyMarket is your go-to marketplace for buying and selling a wide range of products.</p>
+        </div> -->
+
+        <div class="footer-section quick-links">
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'categories' %}">Categories</a></li>
+                <li><a href="{% url 'products' %}">My Products</a></li>
+                <li><a href="{% url 'orders' %}">My Orders</a></li>
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact">
+            <h2>Contact Information</h2>
+            <ul>
+                <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
+                <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com">info@easymarket.com</a></li>
+                <li><i class="fas fa-phone"></i> +254-725-796-722</li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact-form">
+            <h2>Contact Us</h2>
+            <form action="#" method="post">
+                <textarea name="message" rows="4" placeholder="Type your message here..."></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 EasyMarket. All rights reserved.</p>
+    </div>
+</footer>
 {% endblock %}

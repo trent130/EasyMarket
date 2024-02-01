@@ -6,7 +6,130 @@
 {% endblock %}
 
 {% block content %}
-    <h1>About Us</h1>
-    <p>Find and connect with students for various services and opportunities.</p>
-    <!-- Add your marketplace content here -->
+   <div class="about-section">
+    <h2>About EasyMarket</h2>
+    <p>EasyMarket is a dedicated marketplace for students across the globe. Our mission is to provide a platform where students can buy and sell academic materials, electronics, dorm essentials, and more.</p>
+    <p>Whether you're looking to sell your old textbooks, find a used laptop, or buy furniture for your dorm room, EasyMarket is the place for you. We believe in making the student life more affordable and sustainable by promoting the reuse of items.</p>
+    <p>Join us today and become part of our growing community!</p>
+
+    <!-- Mission and Values -->
+    <div class="mission-values">
+        <h3>Our Mission and Values</h3>
+        <p>We are committed to...</p>
+        <ul>
+            <li>Providing an affordable marketplace for students.</li>
+            <li>Promoting sustainability through the reuse of academic materials and essentials.</li>
+            <li>Fostering a community that values collaboration and support.</li>
+        </ul>
+    </div>
+
+   <!-- Testimonials -->
+<!-- Testimonials -->
+<div class="testimonials">
+    <h3>What Our Users Say</h3>
+    <div class="testimonial-carousel">
+        <div class="testimonial">
+            <img src="userA.jpg" alt="User A" class="user-photo">
+            <p>"EasyMarket made it easy for me to find affordable textbooks. Highly recommended!" - User A</p>
+            <div class="star-rating">
+                <span>★★★★★</span>
+            </div>
+        </div>
+        <div class="testimonial">
+            <img src="userB.jpg" alt="User B" class="user-photo">
+            <p>"I sold my old laptop on EasyMarket and had a great experience. Quick and secure transactions!" - User B</p>
+            <div class="star-rating">
+                <span>★★★★☆</span>
+            </div>
+        </div>
+        <!-- Add more testimonials as needed -->
+
+        <div class="testimonial-nav">
+            <button class="testimonial-nav-btn previous">Previous</button>
+            <span class="testimonial-counter">1 / 2</span>
+            <button class="testimonial-nav-btn next">Next</button>
+        </div>
+    </div>
+</div>
+
+    <!-- How It Works -->
+    <div class="how-it-works">
+        <h3>How It Works</h3>
+        <ol>
+            <li>Sign up for a EasyMarket account.</li>
+            <li>Browse and discover a variety of items listed by fellow students.</li>
+            <li>List your own items for sale or purchase what you need.</li>
+            <li>Connect with other students, negotiate, and make transactions securely.</li>
+            <li>Enjoy a more affordable and sustainable student life!</li>
+        </ol>
+    </div>
+
+    <!-- Social Media Links -->
+    <div class="social-media">
+        <h3>Connect with Us</h3>
+        <p>Follow us on social media for updates and community discussions:</p>
+        <ul>
+            <li><a href="#" target="_blank">Facebook</a></li>
+            <li><a href="#" target="_blank">Twitter</a></li>
+            <li><a href="#" target="_blank">Instagram</a></li>
+        </ul>
+    </div>
+
+    <!-- Call-to-Action -->
+    <div class="cta">
+        <h3>Join EasyMarket Today!</h3>
+        <p>Start buying and selling with fellow students. Join our community and make student life more affordable!</p>
+        <a href="{% url 'register' %}" class="cta-button">Sign Up Now</a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    <footer class="site-footer">
+    <div class="footer-container">
+        <!-- <div class="footer-section about">
+            <h2>About EasyMarket</h2>
+            <p>EasyMarket is your go-to marketplace for buying and selling a wide range of products.</p>
+        </div> -->
+
+        <div class="footer-section quick-links">
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'categories' %}">Categories</a></li>
+                <li><a href="{% url 'products' %}">My Products</a></li>
+                <li><a href="{% url 'orders' %}">My Orders</a></li>
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact">
+            <h2>Contact Information</h2>
+            <ul>
+                <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
+                <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com">info@easymarket.com</a></li>
+                <li><i class="fas fa-phone"></i> +254-725-796-722</li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact-form">
+            <h2>Contact Us</h2>
+            <form action="#" method="post">
+                <textarea name="message" rows="4" placeholder="Type your message here..."></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 EasyMarket. All rights reserved.</p>
+    </div>
+</footer>
 {% endblock %}

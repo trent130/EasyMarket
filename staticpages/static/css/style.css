@@ -19,10 +19,20 @@ header {
 }
 
 /* Style the logo */
-.logo {
-    color: #ecf0f1;
-    font-size: .7em;
+.logo a {
     text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.logo a:hover {
+    text-decoration: none;
+    color: #3498db;
+}
+.logo h1 {
+    margin: 0;
+    font-size: 1.5em;
 }
 
 /* Style the search form */
@@ -225,17 +235,6 @@ header {
     margin-bottom: 20px;
 }
 
-.testimonials {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.testimonial {
-    background-color: #ecf0f1;
-    padding: 30px;
-    border-radius: 15px;
-    margin: 0 20px;
-}
 
 .about-us {
     margin-bottom: 40px;
@@ -254,4 +253,318 @@ header {
 
 .cta-button:hover {
     background-color: #2980b9;
+}
+
+/* style the login page */
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.login-button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.signup-link {
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* chat styles */
+        .chat-container {
+            display: flex;
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .chat-sidebar {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .chat-main {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .message-content {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .message-time {
+            font-size: 0.8em;
+            color: #777;
+            margin-left: 10px;
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+        }
+
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        #message-form button {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #message-form button:hover {
+            background-color: #2980b9;
+        }
+
+        #typing-indicator {
+            font-style: italic;
+            color: #777;
+        }
+    /* about section styles */
+
+    .about-section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.about-section h2 {
+    color: #3498db;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.mission-values,
+.how-it-works,
+.social-media,
+.cta {
+    margin-bottom: 30px;
+}
+
+.mission-values h3,
+.how-it-works h3,
+.social-media h3,
+.cta h3 {
+    color: #3498db;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.mission-values ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mission-values li {
+    margin-bottom: 10px;
+}
+
+.how-it-works ol,
+.social-media ul {
+    list-style: none;
+    padding: 0;
+}
+
+.how-it-works li,
+.social-media li {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.social-media a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.social-media a:hover {
+    color: #2980b9;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #3498db;
+    color: #fff;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 1.5em;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #2980b9;
+}
+
+/* testimonials styles */
+
+/* Add these styles to your existing CSS or adjust as needed */
+
+.testimonial-carousel {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+.testimonial {
+    flex: 0 0 100%;
+    transition: transform 0.5s ease;
+}
+
+.testimonial-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.testimonial-nav-btn {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.testimonial-nav-btn:hover {
+    background-color: #2980b9;
+}
+
+.testimonial-counter {
+    font-size: 1em;
+    margin: 0 10px;
+}
+
+
+/* signin styles */
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.login-container h1 {
+    text-align: center;
+    color: #333;
+}
+
+.login-container p {
+    text-align: center;
+    color: #666;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form input {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 10px;
 }
