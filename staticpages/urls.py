@@ -17,6 +17,7 @@ urlpatterns = [
     path('products/', views.products, name='products'),
     path('orders/', views.orders, name='orders'),
     path('user_login/', views.user_Login, name='user_login'),
+    path('account/profile/', views.user_profile, name='user_profile'),
     # path('user_register/', views.user_register, name='user_register'),
     # path('user_logout/', views.user_logout, name='user_logout'),
     # path('user_profile/', views.user_profile, name='user_profile'),
