@@ -14,7 +14,7 @@ header {
     background-color: #3498db;
     display: flex;
     justify-content: space-between;
-    padding: 15px 30px;
+    padding: 10px 20px;
     align-items: center;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -27,7 +27,7 @@ header {
 }
 
 .logo a:hover {
-    text-decoration: none;
+    text-decoration: underline;
     color: #ffffff;
 }
 
@@ -36,26 +36,44 @@ header {
     font-size: 1.8em;
 }
 
-.user a {
-    text-decoration: none;
-    color: #fff;
+.menu {
+    background-color: #f8f9fa;
+    padding: 10px;
     display: flex;
     align-items: center;
+    border-radius: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    justify-content: center;
 }
 
-.user a:hover {
-    text-decoration: none;
-    color: #ffffff;
-}
-
-.user i {
+.menu .user {
     font-size: 1.2em;
-    margin-right: 5px;
+    color: #333;
 }
 
-.user p {
-    margin: 0;
-    margin-left: 5px;
+.menu .user a {
+    text-decoration: none;
+    color: #333;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 10px 0;
+}
+
+.menu ul li a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.menu ul li a:hover {
+    color: #007bff;
 }
 
 .search input[type="text"] {
@@ -74,6 +92,11 @@ header {
     color: white;
     border-radius: 20px;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.search button:hover {
+    background-color: #1c6ea4;
 }
 
 .dashboard ul,
@@ -82,21 +105,19 @@ header {
     padding: 0;
 }
 
-.dashboard ul li,
-.menu ul li {
+.dashboard ul li {
     display: inline;
     margin-right: 15px;
 }
 
-.dashboard ul li a,
-.menu ul li a {
+.dashboard ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+    transition: text-decoration 0.3s ease-in-out;
 }
 
-.dashboard ul li a:hover,
-.menu ul li a:hover {
+.dashboard ul li a:hover {
     text-decoration: underline;
 }
 
@@ -108,18 +129,18 @@ header {
 }
 
 .cart a:hover {
-    text-decoration: none;
+    text-decoration: underline;
     color: #ffffff;
 }
 
 .cart i {
     font-size: 1.2em;
     margin-right: 5px;
+    transition: transform 0.3s ease-in-out;
 }
 
-.cart p {
-    margin: 0;
-    margin-left: 5px;
+.cart a:hover i {
+    transform: scale(1.2);
 }
 
 /* Responsive Design */
@@ -156,7 +177,6 @@ header {
         margin: 5px 0;
     }
 }
-
 
 /* Style the footer */
 .site-footer {
@@ -238,7 +258,7 @@ header {
     background-color: #3498db;
     color: #ecf0f1;
     border: none;
-    width: 100% ;
+    width: 100%;
     padding: 15px;
     border-radius: 5px;
     cursor: pointer;
@@ -336,10 +356,12 @@ header {
 /* style the login page */
 
 .login-container {
+    margin-top: 20px;
     width: 100%;
-    max-width: 400px;
+    max-width: 550px;
     margin: 0 auto;
     padding: 20px;
+    justify-content: space-between;
 }
 
 .login-form {
@@ -352,6 +374,12 @@ header {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+}
+
+.login-form label {
+    text-decoration: none;
+    text-align: left;
+
 }
 
 .login-button {
@@ -369,100 +397,101 @@ header {
 }
 
 /* chat styles */
-        .chat-container {
-            display: flex;
-            max-width: 800px;
-            margin: 20px auto;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+.chat-container {
+    display: flex;
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+}
 
-        .chat-sidebar {
-            flex: 1;
-            padding: 20px;
-            border-right: 1px solid #ccc;
-        }
+.chat-sidebar {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
 
-        .chat-main {
-            flex: 3;
-            display: flex;
-            flex-direction: column;
-        }
+.chat-main {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
 
-        .chat-header {
-            background-color: #3498db;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
+.chat-header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
 
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
 
-        .message {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: flex-start;
-        }
+.message {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+}
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
 
-        .message-content {
-            background-color: #ecf0f1;
-            padding: 10px;
-            border-radius: 10px;
-        }
+.message-content {
+    background-color: #ecf0f1;
+    padding: 10px;
+    border-radius: 10px;
+}
 
-        .message-time {
-            font-size: 0.8em;
-            color: #777;
-            margin-left: 10px;
-        }
+.message-time {
+    font-size: 0.8em;
+    color: #777;
+    margin-left: 10px;
+}
 
-        .chat-input {
-            padding: 20px;
-            border-top: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-        }
+.chat-input {
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+}
 
-        #message-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
+#message-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
 
-        #message-form button {
-            padding: 10px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+#message-form button {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        #message-form button:hover {
-            background-color: #2980b9;
-        }
+#message-form button:hover {
+    background-color: #2980b9;
+}
 
-        #typing-indicator {
-            font-style: italic;
-            color: #777;
-        }
-    /* about section styles */
+#typing-indicator {
+    font-style: italic;
+    color: #777;
+}
 
-    .about-section {
+/* about section styles */
+
+.about-section {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;

@@ -81,7 +81,7 @@ def user_Login(request):
     return render(request, 'staticpages/account/login.html', {'form': form})  
 def password_reset(request):
     context = {'title': 'password_reset'}
-    return render(request, 'staticpages/account/password_reset.html')
+    return render(request, 'staticpages/registration/password_change_form.html')
 
 def user_profile(request):
     context = {'title': 'user_profile'}
