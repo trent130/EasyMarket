@@ -8,59 +8,58 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-GLhlTQ8i7uZuR7S1ZfGgFotZstYT5u9KGWY4YO5Fm49Mehb+6YpBmSJoNxmI1TwP" crossorigin="anonymous">
 </head>
 <body>
-        <header>
-            <div class="logo">
-                <a href="{% url 'home' %}">
-                    <!-- <img src="{% static 'images/logo.png' %}" alt="Logo"> -->
-                    <h1>Easymarket</h1>
-                </a>
-            </div>
-           
-            {% if Request.user.is_authenticated %}
+    <header>
+    <div class="logo">
+        <a href="{% url 'home' %}">
+            <!-- <img src="{% static 'images/logo.png' %}" alt="Logo"> -->
+            <h1>Easymarket</h1>
+        </a>
+    </div>
+
+    <div class="search">
+        <form action="{% url 'search' %}" method="GET">
+            <input type="text" name="q" placeholder="Search...">
+            <button type="submit">search <!-- <i class="fas fa-search"></i> --> </button>  
+        </form>
+    </div>
+
+    <div class="dashboard">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'chat' %}">Chat</a></li>
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="{% url 'help' %}">Help</a></li>
+        </ul>
+    </div>
+
+    <div class="cart">
+        <a href="{% url 'cart' %}">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Cart</p>
+        </a>
+    </div>
+
+
+    <div class="menu">
+        {% if request.user.is_authenticated %}
             <div class="user">
-                <a href="{% url 'profile' %}">
+                <a href="{% url 'user_profile' %}">
                     <i class="fas fa-user"></i>
-                    <p>{{ request.user.username }}</p>
+                    <p> hello, {{ request.user.username }} welcome</p>
                 </a>
             </div>  
+        {% endif %}
+        <ul>
+            {% if request.user.is_authenticated %}
+            <li><a href="{% url 'signout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'signin' %}">Login</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
             {% endif %}
-            <div class="dashboard">
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'chat' %}">Chat</a></li>
-                    <li><a href="{% url 'about' %}">About Us</a></li>
-                    <li><a href="{% url 'help' %}">Help</a></li>
-                </ul>
-            </div>
+        </ul>
+    </div>
 
-            <div class="search">
-                <form action="{% url 'search' %}" method="GET">
-                    <input type="text" name="q" placeholder="Search...">
-                    <button type="submit"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-
-            <div class="menu">
-                <ul>
-                    {% if Request.user.is_authenticated %}
-                    <li><a href="{% url 'signout' %}">Logout</a></li>
-                    {% else %}
-                    <li><a href="{% url 'signin' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-
-            <div class="cart">
-                <a href="{% url 'cart' %}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p>Cart</p>
-                </a>
-
-            </div>
-           
-        </header>
-
+    </header>
     <main>
         {% block content %}
         <!-- Default content for child templates -->
@@ -72,4 +71,3 @@
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
-
