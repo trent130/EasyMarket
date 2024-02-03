@@ -1,0 +1,13 @@
+{% extends 'staticpages/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/logout.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>You have been logged out</h1>
+    <p>Thank you for visiting. You have been successfully logged out.</p>
+    <a href="{% url 'signin' %}">Click here to log in again</a>
+{% endblock %}

@@ -5,13 +5,20 @@
 {% endblock %}
 
 {% block content %}
-    <!-- <h1>Welcome to the Student Marketplace!</h1>
-    <p>Find and connect with students for various services and opportunities.</p> -->
+
+
     <div class="main-section">
+        <div class="hero-section">
+            <h1>Welcome to Student Marketplace!</h1>
+            <p>Buy and sell textbooks, find roommates, and more. All within your campus community.</p>
+            <a href="/shop" class="cta-button">Shop Now</a>
+            <a href="/signup" class="cta-button secondary">Sign Up</a>
+        </div>
+
         <h1>Welcome to the Student Marketplace</h1>
         <p>Discover a platform designed for students to buy and sell textbooks, notes, and other academic resources. Simplify your student life with our marketplace.</p>
         <p>Join now and explore the world of student-to-student transactions!</p>
-    
+
         <div class="features">
             <div class="feature">
                 <i class="fas fa-credit-card"></i>
@@ -29,7 +36,7 @@
                 <p>Your personal information is kept private and secure.</p>
             </div>
         </div>
-    
+
         <div class="testimonials">
             <h2>What Our Users Say</h2>
             <div class="testimonial">
@@ -39,54 +46,58 @@
                 <p>"I love the wide variety of materials available." - User B</p>
             </div>
         </div>
-    
+
         <div class="about-us">
             <h2>About Us</h2>
             <p>We are a team of students who understand the need for a simple, secure platform for buying and selling academic resources. We created the Student Marketplace with this in mind.</p>
         </div>
-    
-        <a href="#signup" class="cta-button">Sign Up Now</a>
-    </div>
 
+        <a href="#signup" class="cta-button">Get Started Now</a>
+    </div>
 
     <footer class="site-footer">
-    <div class="footer-container">
-        <!-- <div class="footer-section about">
-            <h2>About EasyMarket</h2>
-            <p>EasyMarket is your go-to marketplace for buying and selling a wide range of products.</p>
-        </div> -->
+        <div class="footer-container">
+            <div class="footer-section quick-links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'categories' %}">Categories</a></li>
+                    <li><a href="{% url 'products' %}">My Products</a></li>
+                    <li><a href="{% url 'orders' %}">My Orders</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
 
-        <div class="footer-section quick-links">
-            <h2>Quick Links</h2>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'categories' %}">Categories</a></li>
-                <li><a href="{% url 'products' %}">My Products</a></li>
-                <li><a href="{% url 'orders' %}">My Orders</a></li>
-                <li><a href="{% url 'contact' %}">Contact Us</a></li>
-            </ul>
+            <div class="footer-section contact">
+                <h2>Contact Information</h2>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com">info@easymarket.com</a></li>
+                    <li><i class="fas fa-phone"></i> +254-725-796-722</li>
+                </ul>
+            </div>
+
+            <div class="footer-section contact-form">
+                <h2>Contact Us</h2>
+                <form action="#" method="post">
+                    <textarea name="message" rows="4" placeholder="Type your message here..."></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+
+            <div class="footer-section social-media">
+                <h2>Connect With Us</h2>
+                <ul>
+                    <li><a href="#" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section contact">
-            <h2>Contact Information</h2>
-            <ul>
-                <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
-                <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com">info@easymarket.com</a></li>
-                <li><i class="fas fa-phone"></i> +254-725-796-722</li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EasyMarket. All rights reserved.</p>
         </div>
-
-        <div class="footer-section contact-form">
-            <h2>Contact Us</h2>
-            <form action="#" method="post">
-                <textarea name="message" rows="4" placeholder="Type your message here..."></textarea>
-                <button type="submit">Send Message</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2024 EasyMarket. All rights reserved.</p>
-    </div>
-</footer>
+    </footer>
 {% endblock %}
+
