@@ -1,47 +1,26 @@
-from django.shortcuts import render
-
-# # Create your views here.
-# def adminapp_list(request):
-#     return render(request, 'adminapp/adminapp_list.html', {})
-
-# # def adminapp_detail(request):
-# #     return render(request, 'adminapp/adminapp_detail.html', {})
-
-# # def adminapp_create(request):
-# #     return render(request, 'adminapp/adminapp_create.html', {})
-
-# # def adminapp_update(request):
-# #     return render(request, 'adminapp/adminapp_update.html', {})
-
-# # def adminapp_delete(request):
-# #     return render(request, 'adminapp/adminapp_delete.html', {})
-
-
-# def admin_home(request):
-#     return render(request, 'adminapp/admin_home.html')
-
-# adminapp/views.py
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.admin.models import LogEntry
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic import ListView, DetailView, DeleteView
+from django.urls import reverse_lazy
 from .forms import UserRoleForm
 
 @login_required
-def user_list(request):
-    users = User.objects.all()
-    return render(request, 'adminapp/user_list.html', {'users': users})
+class UserList(ListView):
+    model = User
+    template_name = 'adminapp/user_list.html'
 
 @login_required
-def user_detail(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    return render(request, 'adminapp/user_detail.html', {'user': user})
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'adminapp/user_detail.html'
 
 @login_required
-def user_delete(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    user.delete()
-    return redirect('user_list')
+class UserDeleteView(DeleteView):
+    model = User
+    template_name = 'adminapp/user_delete.html'
+    success_url = reverse_lazy('user_list')
 
 @login_required
 def assign_role(request, user_id):
@@ -59,20 +38,20 @@ def assign_role(request, user_id):
     return render(request, 'adminapp/assign_role.html', {'form': form})
 
 @login_required
-def group_list(request):
-    groups = Group.objects.all()
-    return render(request, 'adminapp/group_list.html', {'groups': groups})
+class GroupListView(ListView):
+    model = Group
+    template_name = 'adminapp/group_list.html'
 
 @login_required
-def group_detail(request, group_id):
-    group = get_object_or_404(Group, id=group_id)
-    return render(request, 'adminapp/group_detail.html', {'group': group})
+class GroupDetailView(DetailView):
+    model = Group
+    template_name = 'adminapp/group_detail.html'
 
 @login_required
-def group_delete(request, group_id):
-    group = get_object_or_404(Group, id=group_id)
-    group.delete()
-    return redirect('group_list')
+class GroupDeleteView(DeleteView):
+    model = Group
+    template_name = 'adminapp/group_delete.html'
+    success_url = reverse_lazy('group_list')
 
 @login_required
 def user_activity_logs(request):
@@ -90,3 +69,7 @@ def group_permissions(request, group_id):
     group = get_object_or_404(Group, id=group_id)
     permissions = Permission.objects.filter(group=group)
     return render(request, 'adminapp/group_permissions.html', {'group': group, 'permissions': permissions})
+
+@login_required
+def admin_home(request):
+    return render(request, 'admin_home.html')

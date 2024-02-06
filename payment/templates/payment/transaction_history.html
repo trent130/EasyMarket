@@ -1,0 +1,48 @@
+<!-- payment/templates/payment/transaction_history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+</head>
+<body>
+    <h1>Transaction History</h1>
+    <table>
+        <tr>
+            <th>Amount</th>
+            <th>Payment Method</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.payment_method }}</td>
+                <td>{{ transaction.status }}</td>
+                <td>{{ transaction.timestamp }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if transactions.has_other_pages %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if transactions.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ transactions.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ transactions.number }} of {{ transactions.paginator.num_pages }}.
+                </span>
+
+                {% if transactions.has_next %}
+                    <a href="?page={{ transactions.next_page_number }}">next</a>
+                    <a href="?page={{ transactions.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+</body>
+</html>
+
