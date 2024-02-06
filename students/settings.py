@@ -46,6 +46,8 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'signin'
 LOGOUT_URL = 'signout'
+EMAIL_BACKEND = 'djangp.core.mail.backends.console.EmailBackend'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
