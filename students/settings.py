@@ -1,5 +1,17 @@
 import os
 
+PAYMENT_HOST = 'http://localhost:8000'  # Base URL of your website
+PAYMENT_MODEL = 'students.Payment'  # Custom payment model
+PAYMENT_VARIANTS = {
+    'default': ('payments.dummy.DummyProvider', {
+        'url': '/payment/process/',
+    }),
+    # 'stripe': ('payments.stripe.StripeProvider', {
+    #     'secret_key': 'your-stripe-secret-key',
+    #     'publishable_key': 'your-stripe-publishable-key',
+    # }),
+    # Add more payment variants for different gateways
+}
 
 
 TIME_ZONE = 'UTC'
@@ -34,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'students',
     'marketplace.apps.MarketplaceConfig',
     'products.apps.ProductsConfig',
     'orders.apps.OrdersConfig',

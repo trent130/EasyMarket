@@ -88,3 +88,7 @@ def signout(request):
     logout(request)
     context = {'title': 'signout'}
     return render(request, 'staticpages/account/logout.html', context)
+
+def dashboard(request):
+    context = {'title' : 'dashboard'}
+    return render(request, 'staticpages/dashboard.html', context )
