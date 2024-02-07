@@ -1,0 +1,26 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Search Transactions</h1>
+  <form method="GET" action="{% url 'search_transactions' %}">
+    <input type="text" name="q" placeholder="Search transactions" value="{{ query }}">
+    <input type="submit" value="Search">
+  </form>
+
+  {% if transactions %}
+    <ul>
+    {% for transaction in transactions %}
+      <li>
+        <a href="{% url 'transaction_detail' transaction.id %}">{{ transaction.id }}</a>
+        <ul>
+          <li>Amount: {{ transaction.amount }}</li>
+          <li>Status: {{ transaction.status }}</li>
+          <!-- Add more transaction details here -->
+        </ul>
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>No transactions found.</p>
+  {% endif %}
+{% endblock %}

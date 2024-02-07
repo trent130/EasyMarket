@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from payments import get_payment_model
 from .models import Transaction
 from .forms import PaymentForm
+
+Payment = get_payment_model()
 
 @login_required
 def payment_list(request):
@@ -41,9 +45,22 @@ def make_payment(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
         if form.is_valid():
-            # Process the payment using Django-Pay
+            # Process the payment using django-payments
+            payment = Payment.objects.create(
+                variant='default',
+                description='Payment description',
+                total=10.00,
+                currency='USD',
+                billing_first_name='John',
+                billing_last_name='Doe',
+                billing_address_1='123 Main St',
+                billing_city='Anytown',
+                billing_postcode='12345',
+                billing_country_code='Kenya',
+                # Add more fields as needed
+            )
             # Update transaction status accordingly
-            return redirect('payment_list')
+            return redirect(reverse('payment_process', kwargs={'token': payment.token}))
         else:
             # Handle the case where the form is not valid
             pass
