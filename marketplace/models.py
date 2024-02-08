@@ -13,15 +13,29 @@ class Student(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='avatars/')
+
+    def __str__(self):
+        return f'{self.user.username}'
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+    reactions = models.ManyToManyField('Reaction', blank=True)
 
     def __str__(self):
         return f'{self.user.username} - {self.timestamp}'
 
+class Reaction(models.Model):
+    emoji = models.CharField(max_length=2)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.emoji} by {self.user.username}'
 
 class Review(models.Model):
     product = models.ForeignKey('products.Product', on_delete = models.CASCADE, related_name = 'reviews')
