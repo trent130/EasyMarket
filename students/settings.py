@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 PAYMENT_HOST = 'http://localhost:8000'  # Base URL of your website
 PAYMENT_MODEL = 'students.Payment'  # Custom payment model
@@ -13,18 +14,11 @@ PAYMENT_VARIANTS = {
     # Add more payment variants for different gateways
 }
 
-
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
-from pathlib import Path
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-uy^84u)s*nglr+n^&h7(#mje+gm#(564z)=92sfe@7yjy)uu)c'
@@ -34,12 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTHENTIFICATION_BACKENDS = [
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
-# Application definition
-
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'students',
+    'channels',
     'marketplace.apps.MarketplaceConfig',
     'products.apps.ProductsConfig',
     'orders.apps.OrdersConfig',
@@ -57,12 +49,12 @@ INSTALLED_APPS = [
     'staticpages.apps.StaticpagesConfig',
 ]
 
+ASGI_APPLICATION = 'marketplace.routing.application'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'signin'
 LOGOUT_URL = 'signout'
-EMAIL_BACKEND = 'djangp.core.mail.backends.console.EmailBackend'
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,7 +67,8 @@ MIDDLEWARE = [
 ]
 
 STATIC_URL = '/static/'
-STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -84,7 +77,7 @@ ROOT_URLCONF = 'students.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ os.path.join(BASE_DIR, 'templates') ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -99,20 +92,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'students.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -129,25 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
