@@ -1,103 +1,153 @@
 {% extends 'staticpages/base.html' %}
 
 {% block title %}
-    Home Page
+Home Page
 {% endblock %}
 
 {% block content %}
 
 
-    <div class="main-section">
-        <div class="hero-section">
-            <h1>Welcome to Student Marketplace!</h1>
-            <p>Buy and sell textbooks, find roommates, and more. All within your campus community.</p>
-            <a href="/shop" class="cta-button">Shop Now</a>
-            <a href="/register" class="cta-button secondary">Sign Up</a>
-        </div>
-
-        <h1>Welcome to the Student Marketplace</h1>
-        <p>Discover a platform designed for students to buy and sell textbooks, notes, and other academic resources. Simplify your student life with our marketplace.</p>
-        <p>Join now and explore the world of student-to-student transactions!</p>
-
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-credit-card"></i>
-                <h2>Secure Transactions</h2>
-                <p>Experience secure and hassle-free transactions on our platform.</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-book"></i>
-                <h2>Wide Variety of Materials</h2>
-                <p>Access a diverse range of textbooks, notes, and study materials.</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-lock"></i>
-                <h2>Privacy Protection</h2>
-                <p>Your personal information is kept private and secure.</p>
-            </div>
-        </div>
-
-        <div class="testimonials">
-            <h2>What Our Users Say</h2>
-            <div class="testimonial">
-                <p>"This platform has made buying and selling textbooks so much easier!" - User A</p>
-            </div>
-            <div class="testimonial">
-                <p>"I love the wide variety of materials available." - User B</p>
-            </div>
-        </div>
-
-        <div class="about-us">
-            <h2>About Us</h2>
-            <p>We are a team of students who understand the need for a simple, secure platform for buying and selling academic resources. We created the Student Marketplace with this in mind.</p>
-        </div>
-
-        <a href="#signup" class="cta-button">Get Started Now</a>
+<div class="main-section">
+    <div class="hero-section">
+        <h1>Welcome to Student Marketplace!</h1>
+        <p>Buy and sell textbooks, find roommates, and more. All within your campus community.</p>
+        <a href="/shop" class="cta-button">Shop Now</a>
+        <a href="/register" class="cta-button secondary">Sign Up</a>
     </div>
 
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-section quick-links">
-                <h2>Quick Links</h2>
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'categories' %}">Categories</a></li>
-                    <li><a href="{% url 'products' %}">My Products</a></li>
-                    <li><a href="{% url 'orders' %}">My Orders</a></li>
-                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                </ul>
-            </div>
+    <h1>Welcome to the Student Marketplace</h1>
+    <p>Discover a platform designed for students to buy and sell textbooks, notes, and other academic resources.
+        Simplify your student life with our marketplace.</p>
+    <p>Join now and explore the world of student-to-student transactions!</p>
 
-            <div class="footer-section contact">
-                <h2>Contact Information</h2>
-                <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
-                    <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com">info@easymarket.com</a></li>
-                    <li><i class="fas fa-phone"></i> +254-725-796-722</li>
-                </ul>
-            </div>
+    <div class="features">
+        <div class="feature">
+            <i class="fas fa-credit-card"></i>
+            <h2>Secure Transactions</h2>
+            <p>Experience secure and hassle-free transactions on our platform.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-book"></i>
+            <h2>Wide Variety of Materials</h2>
+            <p>Access a diverse range of textbooks, notes, and study materials.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-lock"></i>
+            <h2>Privacy Protection</h2>
+            <p>Your personal information is kept private and secure.</p>
+        </div>
+    </div>
 
-            <div class="footer-section contact-form">
-                <h2>Contact Us</h2>
-                <form action="#" method="post">
-                    <textarea name="message" rows="4" placeholder="Type your message here..."></textarea>
-                    <button type="submit">Send Message</button>
-                </form>
-            </div>
-
-            <div class="footer-section social-media">
-                <h2>Connect With Us</h2>
-                <ul>
-                    <li><a href="#" target="_blank"><i class="fab fa-facebook"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                </ul>
+    <div class="testimonials">
+        <!-- CARD 1 START-->
+        <div class="card">
+            <div class="layer"></div>
+            <div class="content">
+                <p>John Doe is a Computer Science student who has found great deals on textbooks and study materials
+                    through our marketplace.</p>
+                <div class="image">
+                    <img src="https://example.com/path-to-your-image/student1.jpg" alt="John Doe">
+                </div>
+                <div class="details">
+                    <h2>
+                        John Doe <br>
+                        <span>Computer Science Student</span>
+                    </h2>
+                </div>
             </div>
         </div>
+        <!-- CARD 1 end-->
 
-        <div class="footer-bottom">
-            <p>&copy; 2024 EasyMarket. All rights reserved.</p>
+        <!-- CARD 2 START-->
+        <div class="card">
+            <div class="layer"></div>
+            <div class="content">
+                <p>Jane Smith, a Business student, sold her old textbooks on our marketplace and made enough money to
+                    buy her new ones.</p>
+                <div class="image">
+                    <img src="https://example.com/path-to-your-image/student2.jpg" alt="Jane Smith">
+                </div>
+                <div class="details">
+                    <h2>
+                        Jane Smith <br>
+                        <span>Business Student</span>
+                    </h2>
+                </div>
+            </div>
         </div>
-    </footer>
+        <!-- CARD 2 end-->
+
+        <!-- CARD 3 START-->
+        <div class="card">
+            <div class="layer"></div>
+            <div class="content">
+                <p>Mike Johnson, an Engineering student, found a rare lab equipment at a fraction of the cost on our
+                    marketplace.</p>
+                <div class="image">
+                    <img src="https://example.com/path-to-your-image/student3.jpg" alt="Mike Johnson">
+                </div>
+                <div class="details">
+                    <h2>
+                        Mike Johnson <br>
+                        <span>Engineering Student</span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <!-- CARD 3 end-->
+    </div>
+
+    <div class="about-us">
+        <h2>About Us</h2>
+        <p>We are a team of students who understand the need for a simple, secure platform for buying and selling
+            academic resources. We created the Student Marketplace with this in mind.</p>
+    </div>
+
+    <a href="#signup" class="cta-button">Get Started Now</a>
+</div>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-section quick-links">
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'categories' %}">Categories</a></li>
+                <li><a href="{% url 'products' %}">My Products</a></li>
+                <li><a href="{% url 'orders' %}">My Orders</a></li>
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact">
+            <h2>Contact Information</h2>
+            <ul>
+                <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
+                <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com">info@easymarket.com</a></li>
+                <li><i class="fas fa-phone"></i> +254-725-796-722</li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact-form">
+            <h2>Contact Us</h2>
+            <form action="#" method="post">
+                <textarea name="message" rows="4" placeholder="Type your message here..."></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
+        <div class="footer-section social-media">
+            <h2>Connect With Us</h2>
+            <ul>
+                <li><a href="#" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 EasyMarket. All rights reserved.</p>
+    </div>
+</footer>
 {% endblock %}
-

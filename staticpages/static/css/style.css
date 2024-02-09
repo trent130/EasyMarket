@@ -160,7 +160,7 @@ header {
 
 .hero-section::before {
     content: "";
-    background-image: url('/static/images/hero.jpg');
+    background-image: url('../images/hero.jpg');
     background-size: cover;
     background-position: center;
     position: absolute;
@@ -547,6 +547,16 @@ header {
 .testimonial {
     flex: 0 0 100%;
     transition: transform 0.5s ease;
+    display: flex;
+     border: 1px solid #000;
+    justify-content: center; /* Aligns items horizontally in the center */
+    align-items: center; /* Aligns items vertically in the center */
+    flex-direction: column; /* Stacks items vertically */
+}
+
+.testimonial:hover {
+    transform: scale(1.05); /* Scales the card up to 105% of its original size */
+    transition: transform 0.5s ease; /* Smooth transition effect */
 }
 
 .testimonial-nav {
