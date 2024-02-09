@@ -2,65 +2,79 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-GLhlTQ8i7uZuR7S1ZfGgFotZstYT5u9KGWY4YO5Fm49Mehb+6YpBmSJoNxmI1TwP" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha384-GLhlTQ8i7uZuR7S1ZfGgFotZstYT5u9KGWY4YO5Fm49Mehb+6YpBmSJoNxmI1TwP" crossorigin="anonymous">
 </head>
+
 <body>
-<header>
-    <div class="logo">
-        <a href="{% url 'home' %}">
-            <h1>Easymarket</h1>
-        </a>
-    </div>
-
-    <div class="search">
-        <form action="{% url 'search' %}" method="GET">
-            <input type="text" name="q" placeholder="Search...">
-            <button type="submit">search</button>
-        </form>
-    </div>
-
-    <div class="dashboard">
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'chat' %}">Chat</a></li>
-            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-            <li><a href="{% url 'about' %}">About Us</a></li>
-            <li><a href="{% url 'help' %}">Help</a></li>
-        </ul>
-    </div>
-
-    <div class="cart">
-        <a href="{% url 'cart' %}">
-            <i class="fas fa-shopping-cart"></i>
-            <p>Cart</p>
-        </a>
-    </div>
-    <div class="menu">
-    {% if request.user.is_authenticated %}
-        <div class="user">
-            <a href="{% url 'user_profile' %}">
-                <i class="fas fa-user"></i>
-                <div class="user-info">
-                    <p>Hello, {{ request.user.username }}</p>
-                    <form action="{% url 'signout' %}" method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" style="background-color: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Logout</button>
-                    </form>
-                </div>
+    <header>
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                <h1>Easymarket</h1>
             </a>
-        </div>  
-    {% else %}
-        <ul>
-            <li><a href="{% url 'signin' %}">Login</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
-        </ul>
-    {% endif %}
-    </div>
+        </div>
 
-</header>
+        <div class="search">
+            <form action="{% url 'search' %}" method="GET">
+                <input type="text" name="q" placeholder="Search...">
+                <button type="submit">
+                    <svg width="15" height="15" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#555555"
+                            d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <div class="dashboard">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'chat' %}">Chat</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+                <li><a href="{% url 'help' %}">Help</a></li>
+            </ul>
+        </div>
+
+        <div class="cart">
+            <a href="{% url 'cart' %}">
+                <i class="fas fa-shopping-cart"></i>
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill ="black" d = "M19 10h-4V6h-2v4H5v2h8v4h2v-4h4v-2z"></path>
+                        <path fill="none" d = "MO Oh24v24HOz"></path>
+                    </svg>
+                </p>
+            </a>
+        </div>
+        <div class="menu">
+            {% if request.user.is_authenticated %}
+            <div class="user">
+                <a href="{% url 'user_profile' %}">
+                    <i class="fas fa-user"></i>
+                    <div class="user-info">
+                        <p>Hello, {{ request.user.username }}</p>
+                        <form action="{% url 'signout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit"
+                                style="background-color: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Logout</button>
+                        </form>
+                    </div>
+                </a>
+            </div>
+            {% else %}
+            <ul>
+                <li><a href="{% url 'signin' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            </ul>
+            {% endif %}
+        </div>
+
+    </header>
 
 
     <main>
@@ -73,4 +87,5 @@
 
     <script src="{% static 'js/script.js' %}"></script>
 </body>
+
 </html>
