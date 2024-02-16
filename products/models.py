@@ -1,9 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 from marketplace.models import Student  
-from .models import Category
 
 # Create your models here.
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique = True)
+    description = models.TextField(blank = True)
+    
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     title = models.CharField(max_length = 100)
     description = models.TextField()
@@ -17,19 +23,10 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=50, unique = True)
-    description = models.TextField(blank = True)
-    
-    def __str__(self):
-        return self.name
-
 class Image(models.Model):
     product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = "images")
-    image = models.ImageField( upload_to = 'product_images/')
+    image = models.ImageField(upload_to = 'product_images/')
     description = models.TextField(blank =True)
 
     def __str__(self):
-        return f'image for {self.product .title  } '
-
+        return f'image for {self.product.title}'
