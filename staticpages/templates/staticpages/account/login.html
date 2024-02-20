@@ -2,19 +2,28 @@
 {% load static %}
 
 {% block title %}
-    Login page
+Login page
 {% endblock %}
 
 {% block content %}
-    <div class="login-container">
-        <h1>Login</h1>
-        <p>Please, use the following to login</p>
-        <form method="post" class="login-form">
-            {{ form.as_p }}
-            {% csrf_token %}  
-            <!-- <a href="{% url 'password_reset' %}">Forgot password?</a>    -->
-            <button type="submit" class="login-button">Login</button>
-        </form>
-        <p class="signup-link">Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
-    </div>
+<div class="login-container">
+    <h1>Login</h1>
+    <p>Please, use the following to login</p>
+
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="login-button">Login</button>
+    </form>
+
+    <p>
+        <a href="{% url 'password_reset' %}" class="forgot-password-link">Forgot your password?</a>
+    </p>
+</div>
+
+<script>
+    // Add animation class to login container
+    document.querySelector('.login-container').classList.add('animate');
+</script>
 {% endblock %}
