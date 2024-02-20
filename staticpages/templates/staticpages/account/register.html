@@ -2,16 +2,36 @@
 {% load static %}
 
 {% block title %}
-    Register
+Registration page
 {% endblock %}
 
 {% block content %}
-    <h1>Register</h1>
-    <p>Find and connect with students for various services and opportunities.</p>
-    <!-- Add your marketplace content here -->
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+<div class="registration-container">
+  <h1>Register</h1>
+  <p>Please fill out the following form to register</p>
+
+  <form method="post" class="registration-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <label for="role">Register As:</label>
+    <div class="select-container">
+        <select name="role" id="role" class="role-select">
+        <option value="buyer">buyer</option>
+        <option value="seller">seller</option>
+        <option value="both">both</option>
+    </select>
+    <span class="select-arrow">&#9660;</span>
+    </div>
+    <br>
+    <button type="submit" class="registration-button">Register</button>
+  </form>
+
+  <p class="login-link">Already have an account? <a href="{% url 'signin' %}" class="login-link">Login</a></p>
+</div>
+
+<script>
+  // Add animation class to registration container
+  document.querySelector('.registration-container').classList.add('animate');
+</script>
 {% endblock %}

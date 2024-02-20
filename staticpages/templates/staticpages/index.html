@@ -9,36 +9,61 @@ Home Page
 
 <div class="main-section">
     <div class="hero-section">
-        <h1>Welcome to Student Marketplace!</h1>
-        <p>Buy and sell stuff <!-- find roommates,--> and more. All within your campus community.</p>
-        <a href="/shop" class="cta-button">Shop Now</a>
-        <a href="/register" class="cta-button secondary">Sign Up</a>
+        <h1>Welcome to Student Marketplace</h1>
+        <p>Buy and sell stuff <!-- find roommates,--> and more. All within your campus community.</p>    
+            {% if request.user.is_authenticated %}
+                 <!-- <a href="/shop" class="cta-button">Shop Now</a> -->
+                 <a href="#" class="cta-button">Buy Now</a>
+                 <a href="#" class="cta-button">Sell Now</a>
+            {% else %}
+                 <a href="/shop" class="cta-button">Shop Now</a>
+                <a href="/register" class="cta-button secondary">Sign Up</a>
+            {% endif %}
+        </div>
     </div>
 
-    <p>Discover a platform designed for students to buy and sell stuff and other academic resources.
-        Simplify your student life with our marketplace.</p>
-    <p>Join now and explore the world of student-to-student transactions!</p>
+    <div class="p-section">
+        <p>Discover a platform designed for students to buy and sell stuff and other academic resources.
+            Simplify your student life with our marketplace.</p>
+        <p>Join now and explore the world of student-to-student transactions!</p>
+    </div>
 
     <div class="features">
         <div class="feature">
-            <i class="fas fa-credit-card"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
             <h2>Secure Transactions</h2>
             <p>Experience secure and hassle-free transactions on our platform.</p>
         </div>
         <div class="feature">
-            <i class="fas fa-book"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H9"></path>
+                <path d="M9 17a2.5 2.5 0 0 1 2.5-2.5h.5a2.5 2.5 0 0 1 2.5 2.5v4.5"></path>
+                <path d="M15 17h2.5a2.5 2.5 0 0 1 2.5 2.5V22"></path>
+                <path d="M9 17V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10"></path>
+                <path d="M2 12h20"></path>
+                <path d="M2 12a10 10 0 0 0 20 0"></path>
+            </svg>
             <h2>Wide Variety of Materials</h2>
             <p>Access a diverse range of textbooks, notes, and study materials.</p>
         </div>
         <div class="feature">
-            <i class="fas fa-lock"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
             <h2>Privacy Protection</h2>
             <p>Your personal information is kept private and secure.</p>
         </div>
     </div>
 
+    <h2 class="testimonials-header">User Experience</h2>
     <div class="testimonials">
-        <h2>What our esteemed users are saying</h2>
         <!-- CARD 1 START-->
         <div class="card">
             <div class="layer"></div>
@@ -46,7 +71,7 @@ Home Page
                 <p>John Doe is a Computer Science student who has found great deals on textbooks and study materials
                     through our marketplace.</p>
                 <div class="image">
-                    <img src="https://example.com/path-to-your-image/student1.jpg" alt="John Doe">
+                    <img src='/static/images/background_.jpg?{% now "u"}' alt="John Doe">
                 </div>
                 <div class="details">
                     <h2>
@@ -65,7 +90,7 @@ Home Page
                 <p>Jane Smith, a Business student, sold her old textbooks on our marketplace and made enough money to
                     buy her new ones.</p>
                 <div class="image">
-                    <img src="https://example.com/path-to-your-image/student2.jpg" alt="Jane Smith">
+                    <img src='/static/images/background_1.jpg?{% now "u"}' alt="Jane Smith">
                 </div>
                 <div class="details">
                     <h2>
@@ -82,9 +107,9 @@ Home Page
             <div class="layer"></div>
             <div class="content">
                 <p>Mike Johnson, an Engineering student, found a rare lab equipment at a fraction of the cost on our
-                    marketplace.</p>
+                    marketplace. He love dit. </p>
                 <div class="image">
-                    <img src="https://example.com/path-to-your-image/student3.jpg" alt="Mike Johnson">
+                    <img src='/static/images/background_2.jpg?{% now "u"}' alt="Mike Johnson">
                 </div>
                 <div class="details">
                     <h2>
@@ -101,9 +126,10 @@ Home Page
         <h2>About Us</h2>
         <p>We are a team of students who understand the need for a simple, secure platform for buying and selling
             academic resources. We created the Student Marketplace with this in mind.</p>
+        <a href="#signup" class="cta-button">Get Started Now</a>
     </div>
 
-    <a href="#signup" class="cta-button">Get Started Now</a>
+
 </div>
 
 <footer class="site-footer">
@@ -138,26 +164,34 @@ Home Page
 
         <div class="footer-section social-media">
             <h2>Connect With Us</h2>
-            <ul>
+            <ul id="social-media">
                 <li>
                     <a href="#" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24h11.494v-9.294H9.692v-3.622h3.127V7.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0"></path>
+                            <path fill="currentColor"
+                                d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24h11.494v-9.294H9.692v-3.622h3.127V7.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0">
+                            </path>
                         </svg>
                     </a>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"></path>
+                            <path fill="currentColor"
+                                d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z">
+                            </path>
                         </svg>
                     </a>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.42.336 3.295.706 1.02.434 1.76 1.174 2.195 2.195.37.875.644 1.93.706 3.295.058 1.267.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.42-.706 3.295-.434 1.02-1.174 1.76-2.195 2.195-.875.37-1.93.644-3.295.706-1.267.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.42-.336-3.295-.706-1.02-.434-1.76-1.174-2.195-2.195-.37-.875-.644-1.93-.706-3.295-.058-1.267-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.336-2.42.706-3.295.434-1.02 1.174-1.76 2.195-2.195.875-.37 1.93-.644 3.295-.706 1.266-.058 1.646-.07 4.85-.07m0-2.163c-3.259 0-3.667.014-4.947.072-1.275.059-2.163.27-2.92.568-.97.382-1.704.887-2.438 1.722-.756.756-1.34 1.468-1.722 2.438-.298.756-.509 1.645-.568 2.92-.058 1.28-.072 1.688-.072 4.947 0 3.259.014 3.667.072 4.947.059 1.275.27 2.163.568 2.92.382.97.887 1.704 1.722 2.438.756.756 1.468 1.34 2.438 1.722.756.298 1.645.509 2.92.568 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.275-.059 2.163-.27 2.92-.568.97-.382 1.704-.887 2.438-1.722.756-.756 1.34-1.468 1.722-2.438.298-.756.509-1.645.568-2.92.058-1.28.072-1.688.072-4.947 0-3.259-.014-3.667-.072-4.947-.059-1.275-.27-2.163-.568-2.92-.382-.97-.887-1.704-1.722-2.438-.756-.756-1.468-1.34-2.438-1.722-.756-.298-1.645-.509-2.92-.568-1.28-.059-1.689-.072-4.947-.072z"></path>
-                            <path fill="currentColor" d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"></path>
+                            <path fill="currentColor"
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.42.336 3.295.706 1.02.434 1.76 1.174 2.195 2.195.37.875.644 1.93.706 3.295.058 1.267.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.42-.706 3.295-.434 1.02-1.174 1.76-2.195 2.195-.875.37-1.93.644-3.295.706-1.267.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.42-.336-3.295-.706-1.02-.434-1.76-1.174-2.195-2.195-.37-.875-.644-1.93-.706-3.295-.058-1.267-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.336-2.42.706-3.295.434-1.02 1.174-1.76 2.195-2.195.875-.37 1.93-.644 3.295-.706 1.266-.058 1.646-.07 4.85-.07m0-2.163c-3.259 0-3.667.014-4.947.072-1.275.059-2.163.27-2.92.568-.97.382-1.704.887-2.438 1.722-.756.756-1.34 1.468-1.722 2.438-.298.756-.509 1.645-.568 2.92-.058 1.28-.072 1.688-.072 4.947 0 3.259.014 3.667.072 4.947.059 1.275.27 2.163.568 2.92.382.97.887 1.704 1.722 2.438.756.756 1.468 1.34 2.438 1.722.756.298 1.645.509 2.92.568 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.275-.059 2.163-.27 2.92-.568.97-.382 1.704-.887 2.438-1.722.756-.756 1.34-1.468 1.722-2.438.298-.756.509-1.645.568-2.92.058-1.28.072-1.688.072-4.947 0-3.259-.014-3.667-.072-4.947-.059-1.275-.27-2.163-.568-2.92-.382-.97-.887-1.704-1.722-2.438-.756-.756-1.468-1.34-2.438-1.722-.756-.298-1.645-.509-2.92-.568-1.28-.059-1.689-.072-4.947-.072z">
+                            </path>
+                            <path fill="currentColor"
+                                d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8z">
+                            </path>
                             <circle cx="18.406" cy="5.594" r="1.44" fill="currentColor"></circle>
                         </svg>
                     </a>
