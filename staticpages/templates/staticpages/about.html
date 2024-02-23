@@ -128,11 +128,21 @@ About Us
     </div>
 
     <!-- Call-to-Action -->
+    {% if request.user.is_authenticated %}
+    <div class="user-greeting">
+        <h3>Hello, {{ request.user.username }}!</h3>
+        <p>Welcome back to EasyMarket. Start exploring the marketplace!</p>
+        <!-- Add more content specific to authenticated users here -->
+    </div>
+    {% else %}
     <div class="promit">
         <h3>Join EasyMarket Today!</h3>
         <p>Start buying and selling with fellow students. Join our community and make student life more affordable!</p>
         <a href="{% url 'register' %}" class="cta-button">Sign Up Now</a>
     </div>
+    {% endif %}
+
+
 </div>
 
 
