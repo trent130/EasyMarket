@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm
+from .forms import LoginForm, SignUpForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
+
 
 def index(request):
     context = {'title': 'home'}
@@ -46,9 +47,20 @@ def signin(request):
     return render(request, 'staticpages/account/login.html', context)
 
 def register(request):
-    context = {'title': 'register'}
-    return render(request, 'staticpages/account/register.html', context)
-
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = User.objects.create_user(
+                cd['username'],
+                cd['email'],
+                cd['password1']
+            )
+            user.first_name = cd['first_name']
+            user.last_name = cd['last_name']
+            user.save()
+            return HttpResponse('User Created Successfully')
+        
 def search(request):
     context = {'title': 'search'}
     return render(request, 'marketplace/search.html', context)
@@ -75,6 +87,7 @@ def password_reset(request):
     context = {'title': 'password_reset'}
     return render(request, 'staticpages/registration/password_change_form.html', context)
 
+@login_required
 def user_profile(request):
     context = {'title': 'user_profile'}
     return render(request, 'staticpages/account/profile.html', context)
@@ -89,6 +102,7 @@ def signout(request):
     context = {'title': 'signout'}
     return render(request, 'staticpages/account/logout.html', context)
 
+@login_required
 def dashboard(request):
     context = {'title' : 'dashboard'}
     return render(request, 'staticpages/dashboard.html', context )

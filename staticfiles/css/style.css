@@ -9,7 +9,8 @@ body {
 
 /* Header Styles */
 header {
-    background-color: #3498db;
+    background-color: #1c2380f5; 
+    background-blend-mode: darken;
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
@@ -71,7 +72,7 @@ header {
 .menu ul li a,
 .dashboard ul li a,
 .cart a {
-    color: #333;
+    color: #f1efef;
     text-decoration: none;
     transition: color 0.3s ease-in-out;
 }
@@ -91,6 +92,7 @@ header {
 
 .user-info p {
     margin: 0;
+    color: #fff;
 }
 
 .search input[type="text"] {
@@ -105,9 +107,9 @@ header {
 .search button {
     padding: 12px 20px;
     border: none;
-    background-color: #2980b9;
+    background-color: #34495e;
     color: white;
-    border-radius: 20px;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
 }
@@ -152,15 +154,16 @@ header {
 /* hero section */
 .hero-section {
     position: relative;
+    background-image: url("../images/background_3.jpg");
     color: #fff;
     text-align: center;
-    padding: 100px 20px; /* Increased padding */
-    border-radius: 1px;
+    padding: 165px 20px; 
+    backdrop-filter: blur(20px);
 }
 
 .hero-section::before {
     content: "";
-    background-image: url("{% static 'images/background_5.jpg' %}");
+    /* background-image: url("{% static 'images/background_5.jpg' %}"); */
     background-size: cover;
     background-position: center;
     position: absolute;
@@ -174,9 +177,9 @@ header {
 }
 
 .hero-section h1 {
-    font-size: 3em; /* Increased font size */
+    font-size: 3em; 
     margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Added text shadow */
+    text-shadow: 2px 2px 4px rgba(0, 1.5, 0, 0.5); /* Added text shadow */
 }
 
 .hero-section p {
@@ -233,14 +236,14 @@ header {
 /* Main Section Styles */
 .main-section {
     max-width: 1500px;
-    margin: 0 auto;
-    padding: 10px;
+    margin: 0;
+    padding: 0;
     background-color: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .main-section h1 {
-    color: #333;
+    color: #fafafc;
     text-align: center;
     font-size: 3em;
     margin-bottom: 20px;
@@ -250,7 +253,6 @@ header {
     font-size: 1.6em;
     /* line-height: 1.8; */
     margin-bottom: 20px;
-    margin-left: 10px;
 }
 .features {
     display: flex;
@@ -267,10 +269,12 @@ header {
     border-radius: 15px;
     margin: 0 20px;
     transition: transform 0.3s ease;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .feature:hover {
     transform: scale(1.05);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .feature svg {
@@ -296,7 +300,7 @@ header {
 
 .about-us {
     padding: 50px;
-    width: 85%;
+    width: 89%;
     margin: 0 auto;
     background-position: center;
     text-align: center;
@@ -304,6 +308,10 @@ header {
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); 
 }
 
+.p-section{
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
 .about-us h2 {
     font-size: 2.5em;
     color: #000133; /* Adjust as needed */
@@ -386,59 +394,65 @@ header {
     color: #2980b9;
 }
 
+/* body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    line-height: 1.6;
+} */
 
-/* Help Center Styles */
+.help-main {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
 .help-title {
-    color: #444;
-    font-size: 2.5em;
+    color: #333;
+    font-size: 2em;
+}
+
+.help-section {
     margin-bottom: 20px;
-    transition: color 0.5s ease;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
 }
 
-.help-title:hover {
-    color: #888;
-}
-
-.help-title--troubleshooting,
-.help-title--advanced {
-    color: #f00;
-    animation: flash 1s infinite;
-}
-
-@keyframes flash {
-    0% { color: #f00; }
-    50% { color: #ff0; }
-    100% { color: #f00; }
-}
-
-.help-subtitle,
-.help-text,
-.help-link {
+.help-text {
+    font-size: 1em;
     color: #666;
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    transition: color 0.5s ease;
-}
-
-.help-link:hover {
-    color: #f00;
 }
 
 .help-list {
-    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.help-link {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.help-link:hover {
+    color: #0056b3;
 }
 
 .help-definition {
     margin-bottom: 10px;
 }
 
-.help-section {
-    margin-bottom: 40px;
-    transition: background-color 0.5s ease;
+.help-title--troubleshooting, .help-title--advanced {
+    color: #f00;
 }
 
-.help-section:hover {
-    background-color: #f5f5f5;
+.help-subtitle {
+    font-size: 1.2em;
+    color: #555;
+}
+
+@media (max-width: 600px) {
+    main {
+        width: 100%;
+    }
 }
 
 /* testimonial styles */
@@ -465,7 +479,7 @@ header {
 
 .card {
     position: relative;
-    padding: 20px;
+    padding: 22px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
     border-radius: 14px;
     text-align: center;
