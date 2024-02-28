@@ -13,16 +13,6 @@ Registration page
   <form method="post" class="registration-form">
     {% csrf_token %}
     {{ form.as_p }}
-    
-        <label for="role">Register As:</label>
-    <div class="select-container">
-        <select name="role" id="role" class="role-select">
-        <option value="buyer">buyer</option>
-        <option value="seller">seller</option>
-        <option value="both">both</option>
-    </select>
-    <span class="select-arrow">&#9660;</span>
-    </div>
     <br>
     <button type="submit" class="registration-button">Register</button>
   </form>

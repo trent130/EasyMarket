@@ -5,6 +5,17 @@ body {
     box-sizing: border-box;
     background-color: #f9f9f9;
     color: #333;
+    background-image: url("../images/background_3.jpg");
+    background-size: cover;
+    content: "";
+    background-position: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    z-index: -1;
+    backdrop-filter: blur(15px);
 }
 
 /* Header Styles */
@@ -85,8 +96,11 @@ header {
 
 .user-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+}
+
+.user-info form{
     margin-left: 10px;
 }
 
@@ -154,17 +168,13 @@ header {
 /* hero section */
 .hero-section {
     position: relative;
-    background-image: url("../images/background_3.jpg");
     color: #fff;
     text-align: center;
     padding: 165px 20px; 
-    backdrop-filter: blur(20px);
 }
 
 .hero-section::before {
     content: "";
-    /* background-image: url("{% static 'images/background_5.jpg' %}"); */
-    background-size: cover;
     background-position: center;
     position: absolute;
     top: 0;
@@ -173,7 +183,6 @@ header {
     height: 100%;
     opacity: 0.7; /* Increased opacity */
     z-index: -1;
-    backdrop-filter: blur(15px);
 }
 
 .hero-section h1 {
@@ -536,8 +545,10 @@ header {
 }
 
 /* login and register link */
+/* Common styles for containers */
 .login-container,
-.registration-container {
+.registration-container,
+.register-container {
   width: 300px;
   margin: auto;
   margin-top: 15px;
@@ -550,13 +561,17 @@ header {
   transition: transform 0.3s ease-in-out;
 }
 
+/* Form styles */
 .login-form,
-.registration-form {
+.registration-form,
+.register-container form {
   margin-top: 20px;
 }
 
+/* Button styles */
 .login-button,
-.registration-button {
+.registration-button,
+.register-container form button {
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
@@ -566,56 +581,60 @@ header {
   transition: background-color 0.3s;
 }
 
+/* Button hover effect */
 .login-button:hover,
-.registration-button:hover {
+.registration-button:hover,
+.register-container form button:hover {
   background-color: #0056b3;
 }
 
+/* Link styles */
 .forgot-password-link,
-.login-link {
+.login-link,
+.register-container .login {
   color: #007bff;
   text-decoration: none;
 }
 
+/* Link hover effect */
 .forgot-password-link:hover,
-.login-link:hover {
+.login-link:hover,
+.register-container .login:hover {
   text-decoration: underline;
 }
-.select-container{
-    display: inline-block ;
-    position: relative;
-    margin-bottom: 5px;
-    margin-right: 15%;
-}
-.role-select{
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding: 10px 30px 10px 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #ffff;
-    width: 100%;
-    cursor: pointer;
+
+/* Select container */
+.select-container {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+  margin-right: 15%;
 }
 
-.select-arrow{
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateX(-50%);
-    pointer-events: none;
-    cursor: pointer;
+/* Hide help texts initially */
+.helptext {
+  display: none;
 }
 
-input[type='checkbox'] {
-  margin-right: 10px;
+/* Container hover effect */
+.register-container {
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px #000;
+  transition: box-shadow 0.3s ease;
+}
+
+.register-container:hover {
+  box-shadow: 0px 0px 15px 5px #000;
 }
 
 /* Responsive styles */
-@media only screen and (max-width: 767px) {
+@media (max-width: 767px) {
   .login-container,
-  .registration-container {
+  .registration-container,
+  .register-container {
     width: 90%;
     padding: 20px;
   }
@@ -623,26 +642,30 @@ input[type='checkbox'] {
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .login-container,
-  .registration-container {
+  .registration-container,
+  .register-container {
     width: 60%;
   }
 }
 
 @media only screen and (min-width: 992px) {
   .login-container,
-  .registration-container {
+  .registration-container,
+  .register-container {
     width: 50%;
   }
 }
 
 /* Animation */
 .login-container,
-.registration-container {
+.registration-container,
+.register-container {
   transform: scale(0);
 }
 
 .login-container.animate,
-.registration-container.animate {
+.registration-container.animate,
+.register-container.animate {
   transform: scale(1);
 }
 

@@ -46,20 +46,20 @@ def signin(request):
     context = {'title': 'login', 'form': form}
     return render(request, 'staticpages/account/login.html', context)
 
+
 def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            cd = form.cleaned_data
-            user = User.objects.create_user(
-                cd['username'],
-                cd['email'],
-                cd['password1']
-            )
-            user.first_name = cd['first_name']
-            user.last_name = cd['last_name']
-            user.save()
-            return HttpResponse('User Created Successfully')
+            form.save()
+            return HttpResponse('Registration Successful')
+        else:
+            return HttpResponse('Invalid Registration')
+    else:
+        form = SignUpForm()
+    context = {'title': 'register', 'form': form}
+    return render(request, 'staticpages/account/register.html', context)
+
         
 def search(request):
     context = {'title': 'search'}
