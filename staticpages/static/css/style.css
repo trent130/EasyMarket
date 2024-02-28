@@ -5,7 +5,7 @@ body {
     box-sizing: border-box;
     background-color: #f9f9f9;
     color: #333;
-    background-image: url("../images/background_3.jpg");
+    /* background-image: url("../images/background_3.jpg"); */
     background-size: cover;
     content: "";
     background-position: center;

@@ -6,6 +6,60 @@
 {% endblock %}
 
 {% block content %}
+    <style>
+        .cart-container {
+            width: 80%;
+            margin: auto;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .cart-item {
+            flex: 0 0 calc(50% - 20px);
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .cart-item-image {
+            width: 100%;
+        }
+
+        .cart-item-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .cart-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .cart-buttons a {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+        }
+
+        .cart-buttons a:hover {
+            background-color: #0056b3;
+        }
+
+        .cart-container h1 {
+            text-align: center;
+            color: #343434;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+        }
+    </style>
     <div class="cart-container">
         <h1>Cart</h1>
         <p>Here are the items in your cart</p>
