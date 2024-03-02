@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-from marketplace.models import Student  
+from marketplace.models import Student 
+from django.utils import timezone 
+
+def default_category():
+    category, created = Category.objects.get_or_create(name='Default')
+    return category.id
 
 # Create your models here.
 class Category(models.Model):
@@ -15,8 +20,8 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits = 5, decimal_places = 2)
     student = models.ForeignKey(Student, on_delete = models.CASCADE, related_name = 'products')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name = 'products')
-    created_at = models.DateTimeField(auto_now_add = True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=default_category)
+    created_at = models.DateTimeField(default = timezone.now)
     updated_at = models.DateTimeField(auto_now = True)
     is_active = models.BooleanField(default = True)
 
