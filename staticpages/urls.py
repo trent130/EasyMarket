@@ -15,7 +15,6 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('chat/', views.chat, name='chat'),
     path('categories/', views.categories, name='categories'),
-    path('products/', views.products, name='products'),
     path('orders/', views.orders, name='orders'),
     path('account/profile/', views.user_profile, name='user_profile'),
     path('password-change/', auth_views.PasswordResetView.as_view(template_name='staticpages/registration/password_change_form.html'), name='password_reset'),
