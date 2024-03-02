@@ -1,0 +1,15 @@
+{% extends "staticpages/base.html" %}
+{% load static %}
+{% block title %}Product Detail{% endblock %}
+{% block content %}
+    <h1>{{ product.title }}</h1>
+    {% for image in product.images.all %}
+        <img src="{{ image.image.url }}" alt="{{ product.title }}">
+    {% endfor %}
+    <p>${{ product.price }}</p>
+    <p>{{ product.description }}</p>
+    <p>Category: {{ product.category.name }}</p>
+    <p>Student: {{ product.student.user.username }}</p>
+    <p>Created at: {{ product.created_at }}</p>
+    <p>Updated at: {{ product.updated_at }}</p>
+{% endblock %}

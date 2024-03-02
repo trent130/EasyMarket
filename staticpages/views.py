@@ -74,9 +74,6 @@ def categories(request):
     context = {'title': 'categories'}
     return render(request, 'marketplace/categories.html', context)
 
-def products(request):
-    context = {'title': 'products'}
-    return render(request, 'products/product.html', context)
 
 @login_required
 def orders(request):
