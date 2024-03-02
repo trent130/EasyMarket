@@ -68,7 +68,7 @@ def search(request):
 @login_required
 def chat(request):
     context = {'title': 'chat'}
-    return render(request, 'marketplace/chat_room.html', context)
+    return render(request, 'staticpages/chat.html', context)
 
 def categories(request):
     context = {'title': 'categories'}

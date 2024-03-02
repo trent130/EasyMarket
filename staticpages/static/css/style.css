@@ -18,6 +18,16 @@ body {
     backdrop-filter: blur(15px);
 }
 
+.coming-soon{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+    text-shadow: 2px 2px 4px rgba(0, 1.5, 0, 0.5);
+    font-size: larger;
+    /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); */
+    display: flexbox;
+}
 /* Header Styles */
 header {
     background-color: #1c2380f5; 
@@ -168,7 +178,7 @@ header {
 /* hero section */
 .hero-section {
     position: relative;
-    color: #fff;
+    color: #ffffff;
     text-align: center;
     padding: 165px 20px; 
 }
@@ -188,7 +198,7 @@ header {
 .hero-section h1 {
     font-size: 3em; 
     margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 1.5, 0, 0.5); /* Added text shadow */
+    text-shadow: 2px 2px 4px rgba(0, 1.5, 0, 0.5);
 }
 
 .hero-section p {

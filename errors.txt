@@ -1,0 +1,52 @@
+gaierror at /password-reset/
+
+[Errno -2] Name or service not known
+
+Request Method: 	POST
+Request URL: 	http://127.0.0.1:8000/password-reset/
+Django Version: 	5.0.2
+Exception Type: 	gaierror
+Exception Value: 	
+
+[Errno -2] Name or service not known
+
+Exception Location: 	/usr/lib/python3.10/socket.py, line 955, in getaddrinfo
+Raised during: 	django.contrib.auth.views.PasswordResetView
+Python Executable: 	/home/trent22/Documents/sudplace/env/my_site/bin/python
+Python Version: 	3.10.12
+Python Path: 	
+
+['/home/trent22/Documents/sudplace/students',
+ '/usr/lib/python310.zip',
+ '/usr/lib/python3.10',
+ '/usr/lib/python3.10/lib-dynload',
+ '/home/trent22/Documents/sudplace/env/my_site/lib/python3.10/site-packages']
+
+Server time: 	Wed, 28 Feb 2024 20:36:25 +0000
+
+
+OperationalError at /admin/products/category/add/
+
+table products_product has no column named category_id
+
+Request Method: 	POST
+Request URL: 	http://127.0.0.1:8000/admin/products/category/add/?_to_field=id&_popup=1
+Django Version: 	5.0.2
+Exception Type: 	OperationalError
+Exception Value: 	
+
+table products_product has no column named category_id
+
+Exception Location: 	/home/trent22/Documents/sudplace/env/my_site/lib/python3.10/site-packages/django/db/backends/sqlite3/base.py, line 329, in execute
+Raised during: 	django.contrib.admin.options.add_view
+Python Executable: 	/home/trent22/Documents/sudplace/env/my_site/bin/python
+Python Version: 	3.10.12
+Python Path: 	
+
+['/home/trent22/Documents/sudplace/students',
+ '/usr/lib/python310.zip',
+ '/usr/lib/python3.10',
+ '/usr/lib/python3.10/lib-dynload',
+ '/home/trent22/Documents/sudplace/env/my_site/lib/python3.10/site-packages']
+
+Server time: 	Wed, 28 Feb 2024 22:05:51 +0000
