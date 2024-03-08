@@ -72,4 +72,4 @@ def group_permissions(request, group_id):
 
 @login_required
 def admin_home(request):
-    return render(request, 'admin_home.html')
+    return render(request, 'adminapp/admin_home.html')
