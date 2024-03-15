@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from .models import Product
-from .forms import ProductForm
+from .forms import ProductForm, ImageForm
 from django.urls import reverse
 
 
@@ -12,7 +12,7 @@ def product(request, id, slug):
 
 def product_list(request):
     product_list = Product.objects.filter(is_active=True)
-    paginator = Paginator(product_list, 7)  # Show 7 products per page.
+    paginator = Paginator(product_list, 5)  # Show 5 products per page.
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -27,12 +27,15 @@ def product_detail(request, id, slug):
 
 def add_product(request):
     if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
+        product_form = ProductForm(request.POST)
+        image_form = ImageForm(request.POST, request.FILES)  # handle uploaded files
+        if product_form.is_valid() and image_form.is_valid():
+            product = product_form.save()
+            image = image_form.save(commit=False)
+            image.product = product
+            image.save()
             return redirect('product_list')
     else:
-        form = ProductForm()
-    return render(request, 'products/add_product.html', {'form': form})
-# Path: products/views.py
-# Compare this snippet from staticpages/urls.py:
+        product_form = ProductForm()
+        image_form = ImageForm()
+    return render(request, 'products/add_product.html', {'product_form': product_form, 'image_form': image_form})

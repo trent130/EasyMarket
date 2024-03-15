@@ -3,91 +3,91 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Contact Us
+Contact Us
 {% endblock %}
 
 {% block content %}
-    
+<div class="sidebar">
+    <h2>Menu</h2>
+    <ul>
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'categories' %}">Categories</a></li>
+        <li><a href="{% url 'add_product' %}">Sell</a>
+            <a href="{% url 'product_list' %}">Buy</a>
+        <li><a href="{% url 'orders' %}">My Orders</a></li>
+        <li><a href="{% url 'product_list' %}">My Products</a>
+        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+        <li><a href="{% url 'home' %}">Site Home</a>
+    </ul>
+    <div class="logout-btn">
+        <form action="{% url 'signout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="submit-btn">Log out</button>
+        </form>
+    </div>
+</div>
+<div class="mainbar">
 
-<h1>Contact Us</h1>
-<p>Please fill out the form below and we will get back to you as soon as possible.</p>
+    <h1>Contact Us</h1>
+    <p>Please fill out the form below and we will get back to you as soon as possible.</p>
 
-{% if messages %}
+    {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
     </ul>
-{% endif %}
-
-
-
-<form method="post">
-    {% csrf_token %}
-    {% crispy form %}
-    {% if form.errors %}
-        <p>Your form has errors, please check the fields below:</p>
     {% endif %}
-    <button type="submit">Submit</button>
-</form>
+    <form method="post">
+        {% csrf_token %}
+        {{ ContactForm.as_p }}
+        {% if form.errors %}
+        <p>Your form has errors, please check the fields below:</p>
+        {% endif %}
+        <button type="submit">Submit</button>
+    </form>
 
-<h2>Our Location</h2>
-<p>123 Main Street, Anytown, USA</p>
+    <h2>Our Location</h2>
+    <p>123 Main Street, Anytown, USA</p>
 
-<!-- You can embed a Google Maps iframe here -->
-<div id="map"></div>
+    <!-- You can embed a Google Maps iframe here -->
+    <div id="map"></div>
 
-<h2>Phone</h2>
-<p>(123) 456-7890</p>
+    <h2>Phone</h2>
+    <p>(123) 456-7890</p>
 
-<h2>Email</h2>
-<p>info@example.com</p>
+    <h2>Email</h2>
+    <p>info@example.com</p>
 
-<h2>Follow Us</h2>
-<p>
-    <a href="#">Facebook</a> |
-    <a href="#">Twitter</a> |
-    <a href="#">Instagram</a>
-</p>
-
-
-
-
-
-<script>
-$(document).ready(function(){
-    $("form").submit(function(event){
-        var isValid = true;
-        $(".requiredField").each(function() {
-            if ($(this).val() === '') {
-                isValid = false;
-                $(this).css({"border": "1px solid red"});
-            }
-            else {
-                $(this).css({"border": ""});
-            }
+    <h2>Follow Us</h2>
+    <p>
+        <a href="#">Facebook</a> |
+        <a href="#">Twitter</a> |
+        <a href="#">Instagram</a>
+    </p>
+    <script>
+        $(document).ready(function () {
+            $("form").submit(function (event) {
+                var isValid = true;
+                $(".requiredField").each(function () {
+                    if ($(this).val() === '') {
+                        isValid = false;
+                        $(this).css({ "border": "1px solid red" });
+                    }
+                    else {
+                        $(this).css({ "border": "" });
+                    }
+                });
+                if (!isValid) {
+                    event.preventDefault(); // prevent form submission
+                    alert('Please fill all required fields');
+                }
+            });
         });
-        if (!isValid) {
-            event.preventDefault(); // prevent form submission
-            alert('Please fill all required fields');
-        }
-    });
-});
-</script>
+    </script>
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-    <footer class="site-footer">
+<footer class="site-footer">
     <div class="footer-container">
         <div class="footer-section quick-links">
             <h2>Quick Links</h2>

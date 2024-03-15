@@ -6,54 +6,68 @@ Dashboard
 {% endblock %}
 
 {% block content %}
+
 <div class="sidebar">
     <h2>Menu</h2>
     <ul>
-        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'dashboard' %}" >Dashboard</a></li>
         <li><a href="{% url 'categories' %}">Categories</a></li>
-        <li><a href="{% url 'product_list' %}">My Products</a></li>
+        <li><a href="{% url 'add_product' %}">Sell</a>
+        <a href="{% url 'product_list' %}">Buy</a>
         <li><a href="{% url 'orders' %}">My Orders</a></li>
+        <li><a href="{% url 'product_list' %}">My Products</a>
         <li><a href="{% url 'contact' %}">Contact Us</a></li>
+        <li><a href="{% url 'home' %}">Site Home</a>
     </ul>
-</div>
-<h1>Welcome, {{ user.username }}</h1>
-
-<h2>Your Products</h2>
-<div class="product-grid">
-    {% for product in user.products.all %}
-    <div class="product">
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.description }}</p>
-        <!-- Add more product details here -->
+    <div class="logout-btn">
+         <form action="{% url 'signout' %}" method="post" >
+                            {% csrf_token %}
+                            <button type="submit" id="submit-btn">Log out</button>
+                        </form>
     </div>
-    {% empty %}
-    <p>You have no products listed.</p>
-    {% endfor %}
+</div>
+<div class="mainbar">
+    <!-- Add more content here -->
+    <h1>Welcome, {{ user.username }}</h1>
+
+    <h2>Your Products</h2>
+    <div class="product-grid">
+        {% for product in user.products.all %}
+        <div class="product">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <!-- Add more product details here -->
+        </div>
+        {% empty %}
+        <p>You have no products listed.</p>
+        {% endfor %}
+    </div>
+
+    <h2>Recent Orders</h2>
+    <div class="order-list">
+        {% for order in user.orders.all %}
+        <div class="order">
+            <p>Order ID: {{ order.id }}</p>
+            <p>Total Amount: {{ order.total_price }}</p>
+            <!-- Add more order details here -->
+        </div>
+        {% empty %}
+        <p>No recent orders found.</p>
+        {% endfor %}
+    </div>
+
+    <h2>Messages</h2>
+    <div class="message-list">
+        <!-- Display messages or notifications here -->
+        {% for message in user.messages.all %}
+        <div class="message">
+            <p>{{ message.content }}</p>
+            <!-- Add more message details here -->
+        </div>
+        {% empty %}
+        <p>No messages found.</p>
+        {% endfor %}
+    </div>
 </div>
 
-<h2>Recent Orders</h2>
-<div class="order-list">
-    {% for order in user.orders.all %}
-    <div class="order">
-        <p>Order ID: {{ order.id }}</p>
-        <p>Total Amount: {{ order.total_price }}</p>
-        <!-- Add more order details here -->
-    </div>
-    {% empty %}
-    <p>No recent orders found.</p>
-    {% endfor %}
-</div>
-
-<h2>Messages</h2>
-<div class="message-list">
-    <!-- Display messages or notifications here -->
-    {% for message in user.messages.all %}
-    <div class="message">
-        <p>{{ message.content }}</p>
-        <!-- Add more message details here -->
-    </div>
-    {% empty %}
-    <p>No messages found.</p>
-    {% endfor %}
-</div>
 {% endblock %}

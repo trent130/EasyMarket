@@ -2,6 +2,26 @@
 {% load static %}
 {% block title %}Product List{% endblock %}
 {% block content %}
+<div class="sidebar">
+    <h2>Menu</h2>
+    <ul>
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'categories' %}">Categories</a></li>
+        <li><a href="{% url 'add_product' %}">Sell</a>
+        <a href="{% url 'product_list' %}">Buy</a>
+        <li><a href="{% url 'orders' %}">My Orders</a></li>
+        <li><a href="{% url 'product_list' %}">My Products</a>
+        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+        <li><a href="{% url 'home' %}">Site Home</a>
+    </ul>
+    <div class="logout-btn">
+         <form action="{% url 'signout' %}" method="post" >
+                            {% csrf_token %}
+                            <button type="submit" id="submit-btn">Log out</button>
+                        </form>
+    </div>
+</div>
+<div class="mainbar">  
     <h1>Product List</h1>
     {% for product in page_obj %}
         <div>
@@ -30,4 +50,5 @@
             {% endif %}
         </span>
     </div>
+</div>
 {% endblock %}
