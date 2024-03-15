@@ -9,14 +9,14 @@ Home Page
 
 <div class="main-section">
     <div class="hero-section">
-        <h1>Welcome to Student Marketplace</h1>
+        <h1>Welcome to EasyMarket</h1>
         <p>Buy and sell stuff <!-- find roommates,--> and more. All within your campus community.</p>    
             {% if request.user.is_authenticated %}
                  <!-- <a href="/shop" class="cta-button">Shop Now</a> -->
-                 <a href="#" class="cta-button">Buy Now</a>
-                 <a href="#" class="cta-button">Sell Now</a>
+                 <a href="{% url 'product_list' %} " class="cta-button">Buy Now</a>
+                 <a href="{% url 'add_product' %} " class="cta-button">Sell Now</a>
             {% else %}
-                 <a href="/shop" class="cta-button">Shop Now</a>
+                 <a href="/signin" class="cta-button">Sign In</a>
                 <a href="/register" class="cta-button secondary">Sign Up</a>
             {% endif %}
         </div>
@@ -127,7 +127,7 @@ Home Page
         <p>We are a team of students who understand the need for a simple, secure platform for buying and selling
             academic resources. We created the Student Marketplace with this in mind.</p>
         {% if request.user.is_authenticated %}
-            <a href="#" class="cta-button" >Go home</a>
+            <a href="#home" class="cta-button" >Go home</a>
         {% else %}
             <a href="#signup" class="cta-button">Get Started Now</a>
         {% endif %}
