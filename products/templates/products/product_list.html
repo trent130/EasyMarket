@@ -8,36 +8,48 @@
         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
         <li><a href="{% url 'categories' %}">Categories</a></li>
         <li><a href="{% url 'add_product' %}">Sell</a>
-        <a href="{% url 'product_list' %}">Buy</a>
+            <a href="{% url 'product_list' %}">Buy</a>
         <li><a href="{% url 'orders' %}">My Orders</a></li>
         <li><a href="{% url 'product_list' %}">My Products</a>
         <li><a href="{% url 'contact' %}">Contact Us</a></li>
         <li><a href="{% url 'home' %}">Site Home</a>
     </ul>
     <div class="logout-btn">
-         <form action="{% url 'signout' %}" method="post" >
-                            {% csrf_token %}
-                            <button type="submit" id="submit-btn">Log out</button>
-                        </form>
+        <form action="{% url 'signout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="submit-btn">Log out</button>
+        </form>
     </div>
 </div>
-<div class="mainbar">  
+<div class="mainbar">
     <h1>Product List</h1>
     {% for product in page_obj %}
-        <div>
+    <!-- <div>
             <h2><a href="{% url 'product_detail' id=product.id slug=product.slug %}">{{ product.title }}</a></h2>
             <p>${{ product.price }}</p>
             <p>{{ product.description }}</p>
+        </div> -->
+    <div class="card" style="width: 18rem;">
+        {% if product.images.first %}
+            <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.images.first.description }}">
+        {% else %}
+            <img src="#" class="card-img-top" alt="No Image">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <a href="#" class="btn btn-primary">ksh {{ product.price }}</a>
         </div>
+    </div>
     {% empty %}
-        <p>No products available.</p>
+    <p>No products available.</p>
     {% endfor %}
 
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
             {% endif %}
 
             <span class="current">
@@ -45,8 +57,8 @@
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo; last</a>
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">&raquo; last</a>
             {% endif %}
         </span>
     </div>

@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
+from django.contrib import messages
 
 
 def index(request):
@@ -88,6 +89,19 @@ def password_reset(request):
 def user_profile(request):
     context = {'title': 'user_profile'}
     return render(request, 'staticpages/account/profile.html', context)
+
+@login_required
+def user_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('staticpages/account/profile')
+    else:
+        form = ProfileForm(instance=request.user)
+
+    return render(request, 'staticpages/account/profile.html', {'form': form})
 
 def cart(request):
     context = {'title': 'cart'}

@@ -177,6 +177,91 @@ header {
     }
 }
 
+/* User Dropdown Styles */
+.user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.user-link {
+    text-decoration: none;
+    color: #333;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-greeting {
+    margin: 0;
+    font-size: 16px;
+}
+.dropdown {
+    position: relative;
+}
+
+.dropdown-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.dropdown-button:hover {
+    color: #666;
+}
+
+.dropdown-button:focus {
+    outline: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(-10px);
+    opacity: 0;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+.dropdown-content[aria-expanded="true"] {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+}
+
 /* hero section */
 .hero-section {
     position: relative;
@@ -824,18 +909,14 @@ header {
 
 /* Sidebar */
 .sidebar {
-    /* margin-top: 10px;
-    border-radius: 5px;
-    margin-left: 5px;
-    margin-right: 5px; */
     float: left;
-    width: 20%;
-    height: 90vh;
+    width: 25%;
+    height: 105vh;
     background-color: #007bff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: #fff;
-    position: relative; /* Set position to relative */
+    position: static; /* Set position to relative */
 }
 
 .sidebar h2 {
@@ -870,11 +951,11 @@ header {
 
 /* Mainbar */
 .mainbar {
-    margin-left: 20%; 
-    width: 80%;
+    margin-left: 30%; 
+    width: 70%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-     height: 90vh;/* this is wrong though adjusting in a few */
+    height: 90vh;
 }
 
 /* Dropdown Menu */

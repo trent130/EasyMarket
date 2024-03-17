@@ -7,7 +7,9 @@ from django.urls import reverse
 
 
 def product(request, id, slug):
-    context = {'title': 'product'}
+    product = Product.objects.get(id=id)
+    images = product.images.all()
+    context = {'title': 'product', 'product': product, 'images': images}
     return render(request, 'products/product.html', context)
 
 def product_list(request):
