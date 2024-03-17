@@ -21,3 +21,8 @@ class SignUpForm(UserCreationForm):
 
 class ContactForm(forms.Form):
     username = forms.CharField()
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
