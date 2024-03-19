@@ -3,53 +3,68 @@
 {% block title %}Product List{% endblock %}
 {% block content %}
 <div class="sidebar">
-    <h2>Menu</h2>
-    <ul>
-        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'categories' %}">Categories</a></li>
-        <li><a href="{% url 'add_product' %}">Sell</a>
-            <a href="{% url 'product_list' %}">Buy</a>
-        <li><a href="{% url 'orders' %}">My Orders</a></li>
-        <li><a href="{% url 'product_list' %}">My Products</a>
-        <li><a href="{% url 'contact' %}">Contact Us</a></li>
-        <li><a href="{% url 'home' %}">Site Home</a>
+    <div class="profile mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="me-2">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path
+                d="M12 1c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 16c-2.33 0-7 1.17-7 3.5V22h14v-1.5c0-2.33-4.67-3.5-7-3.5zM6.5 20c1.38-1.29 4.99-2.5 5.5-2.5s4.12 1.21 5.5 2.5H6.5z" />
+        </svg>
+        <span>{{ user.username }}</span>
+    </div>
+    <h2 class="mb-3">Menu</h2>
+    <ul class="list-unstyled mb-4">
+        <li><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
+        <li><a href="{% url 'categories' %}" class="text-decoration-none">Categories</a></li>
+        <li><a href="{% url 'add_product' %}" class="text-decoration-none">Sell</a></li>
+        <li><a href="{% url 'product_list' %}" class="text-decoration-none">Buy</a></li>
+        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
+        <li><a href="{% url 'user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a>
+        </li>
+        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
+        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
     </ul>
     <div class="logout-btn">
         <form action="{% url 'signout' %}" method="post">
             {% csrf_token %}
-            <button type="submit" id="submit-btn">Log out</button>
+            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
         </form>
     </div>
 </div>
+<style>
+    .mainbar {
+        overflow-y: auto; /* Add overflow-y property */
+    }
+</style>
+
 <div class="mainbar">
     <h1>Product List</h1>
-    {% for product in page_obj %}
-    <!-- <div>
-            <h2><a href="{% url 'product_detail' id=product.id slug=product.slug %}">{{ product.title }}</a></h2>
-            <p>${{ product.price }}</p>
-            <p>{{ product.description }}</p>
-        </div> -->
-    <div class="card" style="width: 18rem;">
-        {% if product.images.first %}
-            <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.images.first.description }}">
-        {% else %}
-            <img src="#" class="card-img-top" alt="No Image">
-        {% endif %}
-        <div class="card-body">
-            <h5 class="card-title">{{ product.title }}</h5>
-            <p class="card-text">{{ product.description }}</p>
-            <a href="#" class="btn btn-primary">ksh {{ product.price }}</a>
+    <div class="row">
+        {% for product in page_obj %}
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                {% if product.images.first %}
+                <img src="{{ product.images.first.image.url }}" class="card-img-top"
+                    alt="{{ product.images.first.description }}">
+                {% else %}
+                <img src="#" class="card-img-top" alt="No Image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <a href="#" class="btn btn-primary">$ {{ product.price }}</a>
+                </div>
+            </div>
         </div>
+        {% empty %}
+        <p>No products available.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p>No products available.</p>
-    {% endfor %}
 
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?page=1" class="btn btn-outline-primary">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary">Previous</a>
             {% endif %}
 
             <span class="current">
@@ -57,10 +72,11 @@
             </span>
 
             {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">&raquo; last</a>
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-primary">&raquo; Last</a>
             {% endif %}
         </span>
     </div>
 </div>
+
 {% endblock %}

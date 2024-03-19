@@ -5,110 +5,75 @@
 
 <head>
     <title>{% block title %}{{ title }}{% endblock %}</title>
-    <!-- <link rel="stylesheet" type="text/css" href='{% static "css/style.css" %}?{% now "U" %}'> -->
+    <!-- Your custom stylesheet -->
     <link rel="stylesheet" type="text/css" href='/static/css/style.css?{% now "u" %}'>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         integrity="sha384-GLhlTQ8i7uZuR7S1ZfGgFotZstYT5u9KGWY4YO5Fm49Mehb+6YpBmSJoNxmI1TwP" crossorigin="anonymous">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
+
+
 <body>
-    <header>
-        <div class="logo">
-            <a href="{% url 'home' %}">
-                <h1>Easymarket</h1>
+    <header class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <h1 class="navbar-brand">Easymarket</h1>
             </a>
-        </div>
 
-        <div class="search">
-            <form action="{% url 'search' %}" method="GET">
-                <input type="text" name="q" placeholder="Search...">
-                <button type="submit">
-                    <svg width="15" height="15" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#fff"
-                            d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z" />
-                    </svg>
-                </button>
-                </input>
-            </form>
-        </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'search' %}" method="GET">
+                    <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search...">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        <svg width="15" height="15" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Your SVG content -->
+                        </svg>
+                    </button>
+                </form>
 
-        <div class="dashboard">
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'chat' %}" aria-disabled="true">Chat</a></li>
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'about' %}">About Us</a></li>
-                <li><a href="{% url 'help' %}">Help</a></li>
-            </ul>
-        </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="{% url 'chat' %}"
+                            aria-disabled="true">Chat</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'help' %}">Help</a></li>
+                </ul>
 
-        <div class="cart">
-            <a href="{% url 'cart' %}">
-                <i class="fas fa-shopping-cart"></i>
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-                        width="24" height="24" viewBox="0 0 256 256" xml:space="preserve">
+                <a class="nav-link" href="{% url 'cart' %}">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
 
-                        <defs>
-                        </defs>
-                        <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
-                            transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
-                            <path
-                                d="M 72.975 58.994 H 31.855 c -1.539 0 -2.897 -1.005 -3.347 -2.477 L 15.199 13.006 H 3.5 c -1.933 0 -3.5 -1.567 -3.5 -3.5 s 1.567 -3.5 3.5 -3.5 h 14.289 c 1.539 0 2.897 1.005 3.347 2.476 l 13.309 43.512 h 36.204 l 10.585 -25.191 h -6.021 c -1.933 0 -3.5 -1.567 -3.5 -3.5 s 1.567 -3.5 3.5 -3.5 H 86.5 c 1.172 0 2.267 0.587 2.915 1.563 s 0.766 2.212 0.312 3.293 L 76.201 56.85 C 75.655 58.149 74.384 58.994 72.975 58.994 z"
-                                style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                                transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                            <circle cx="28.88" cy="74.33" r="6.16"
-                                style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                                transform="  matrix(1 0 0 1 0 0) " />
-                            <circle cx="74.59" cy="74.33" r="6.16"
-                                style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                                transform="  matrix(1 0 0 1 0 0) " />
-                            <path
-                                d="M 62.278 19.546 H 52.237 V 9.506 c 0 -1.933 -1.567 -3.5 -3.5 -3.5 s -3.5 1.567 -3.5 3.5 v 10.04 h -10.04 c -1.933 0 -3.5 1.567 -3.5 3.5 s 1.567 3.5 3.5 3.5 h 10.04 v 10.04 c 0 1.933 1.567 3.5 3.5 3.5 s 3.5 -1.567 3.5 -3.5 v -10.04 h 10.041 c 1.933 0 3.5 -1.567 3.5 -3.5 S 64.211 19.546 62.278 19.546 z"
-                                style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
-                                transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        </g>
-                    </svg>
-                </p>
-            </a>
-        </div>
-        <div class="menu">
-            {% if request.user.is_authenticated %}
-            <div class="user">
-                <div class="avatar">
-                    <a href="{% url 'user_profile' %}" class="user-link">
-                        <img src="{{ request.user.profile.avatar.url }}" alt="Avatar">
+                {% if request.user.is_authenticated %}
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ request.user.profile.avatar.url }}" alt="Avatar" class="avatar">
+                        Hello, {{ request.user.username }}
                     </a>
-                </div>
-                <div class="user-info">
-                    <p class="user-greeting">Hello, {{ request.user.username }}</p>
-                    <div class="dropdown">
-                        <button class="dropdown-button" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-caret-down"></i>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-content" aria-label="User Menu" role="menu">
-                            <a href="{% url 'dashboard' %}" role="menuitem">Dashboard</a>
-                            <a href="{% url 'user_profile' %}" role="menuitem">Profile</a>
-                            <form action="{% url 'signout' %}" method="post" class="logout-form">
-                                {% csrf_token %}
-                                <button type="submit" class="logout-button" role="menuitem">Logout</button>
-                            </form>
-                        </div>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+                        <a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a>
+                        <form class="dropdown-item" action="{% url 'signout' %}" method="post" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link">Logout</button>
+                        </form>
                     </div>
                 </div>
+                {% else %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                </ul>
+                {% endif %}
             </div>
         </div>
-        
-            {% else %}
-            <ul>
-                <li><a href="{% url 'signin' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-            </ul>
-            {% endif %}
-        </div>
-
     </header>
+
 
 
     <main>
@@ -118,8 +83,39 @@
     </main>
 
 
+    <script>
+        // Initialize the carousel
+        var myCarousel = new bootstrap.Carousel(document.querySelector('#carouselExampleCaptions'), {
+            interval: 5000, // Set the interval between slides in milliseconds (e.g., 5000 = 5 seconds)
+            wrap: true // Enable continuous looping of the carousel
+        });
+    </script>
 
+    <!-- Bootstrap 4 CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Your custom stylesheet -->
+    <link rel="stylesheet" type="text/css" href='/static/css/style.css?{% now "u" %}'>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha384-GLhlTQ8i7uZuR7S1ZfGgFotZstYT5u9KGWY4YO5Fm49Mehb+6YpBmSJoNxmI1TwP" crossorigin="anonymous">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bootstrap 4 JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap 5 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Your custom JavaScript -->
     <script src="{% static 'js/script.js' %}"></script>
+
+
 </body>
 
 </html>

@@ -21,9 +21,15 @@
         </form>
     </div>
 </div>
+
 <div class="mainbar">
-    <h1>{{ product.name }}</h1>
-    <p>${{ product.price }}</p>
-    <p>{{ product.description }}</p>
+    <div class="card" style="width: 18rem;">
+        <img src="{{ user_product.image.url }}" class="card-img-top" alt="Product Image">
+        <div class="card-body">
+            <h5 class="card-title">{{ user_product_list.name }}</h5>
+            <p class="card-text">${{ user_product_list.price }}</p>
+            <p class="card-text">{{ user_product_list.description }}</p>
+        </div>
+    </div>
 </div>
 {% endblock %}

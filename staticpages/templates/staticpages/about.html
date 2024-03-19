@@ -6,8 +6,8 @@ About Us
 {% endblock %}
 
 {% block content %}
-<div class="about-section">
-    <h2>About EasyMarket</h2>
+<div class="about-section p-4 bg-white rounded shadow">
+    <h2 class="mb-4">About EasyMarket</h2>
     <p>EasyMarket is a dedicated marketplace for students across the globe. Our mission is to provide a platform where
         students can buy and sell academic materials, electronics, dorm essentials, and more.</p>
     <p>Whether you're looking to sell your old textbooks, find a used laptop, or buy furniture for your dorm room,
@@ -16,9 +16,9 @@ About Us
     <p>Join us today and become part of our growing community!</p>
 
     <!-- Mission and Values -->
-    <div class="mission-values">
+    <div class="mission-values mb-4">
         <h3>Our Mission and Values</h3>
-        <p>We are committed to...</p>
+        <p class="mb-3">We are committed to...</p>
         <ul>
             <li>Providing an affordable marketplace for students.</li>
             <li>Promoting sustainability through the reuse of academic materials and essentials.</li>
@@ -26,86 +26,8 @@ About Us
         </ul>
     </div>
 
-    <!-- Testimonials -->
-    <!-- <div class="testimonials">
-    <h3>What Our Users Say</h3>
-    <div class="testimonial-carousel">
-        <div class="testimonial">
-            <img src="userA.jpg" alt="User A" class="user-photo">
-            <p>"EasyMarket made it easy for me to find affordable textbooks. Highly recommended!" - User A</p>
-            <div class="star-rating">
-                <span>★★★★★</span>
-            </div>
-        </div>
-        <div class="testimonial">
-            <img src="userB.jpg" alt="User B" class="user-photo">
-            <p>"I sold my old laptop on EasyMarket and had a great experience. Quick and secure transactions!" - User B</p>
-            <div class="star-rating">
-                <span>★★★★☆</span>
-            </div>
-        </div>
-        
-
-        <div class="testimonial-nav">
-            <button class="testimonial-nav-btn previous">Previous</button>
-            <span class="testimonial-counter">1 / 2</span>
-            <button class="testimonial-nav-btn next">Next</button>
-        </div>
-    </div>
-   
-.testimonial-carousel {
-    display: flex;
-    overflow: hidden;
-    position: relative;
-}
-
-.testimonial {
-    flex: 0 0 100%;
-    transition: transform 0.5s ease;
-    display: flex;
-     border: 1px solid #000;
-    justify-content: center; 
-    align-items: center; 
-    flex-direction: column; 
-}
-
-.testimonial:hover {
-    transform: scale(1.05); 
-    transition: transform 0.5s ease; 
-}
-
-.testimonial-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.testimonial-nav-btn {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.testimonial-nav-btn:hover {
-    background-color: #2980b9;
-}
-
-.testimonial-counter {
-    font-size: 1em;
-    margin: 0 10px;
-} */
-
-
-</div>
- -->
-
     <!-- How It Works -->
-    <div class="how-it-works">
+    <div class="how-it-works mb-4">
         <h3>How It Works</h3>
         <ol>
             <li>Sign up for a EasyMarket account.</li>
@@ -117,7 +39,7 @@ About Us
     </div>
 
     <!-- Social Media Links -->
-    <div class="social-media">
+    <div class="social-media mb-4">
         <h3>Connect with Us</h3>
         <p>Follow us on social media platforms for updates and community discussions:</p>
         <ul>
@@ -138,11 +60,9 @@ About Us
     <div class="promit">
         <h3>Join EasyMarket Today!</h3>
         <p>Start buying and selling with fellow students. Join our community and make student life more affordable!</p>
-        <a href="{% url 'register' %}" class="cta-button">Sign Up Now</a>
+        <a href="{% url 'register' %}" class="btn btn-primary">Sign Up Now</a>
     </div>
     {% endif %}
-
-
 </div>
 
 

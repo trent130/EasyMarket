@@ -6,76 +6,99 @@ Dashboard
 {% endblock %}
 
 {% block content %}
-
 <div class="sidebar">
-    <div class="profile">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <div class="profile mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="me-2">
             <path d="M0 0h24v24H0z" fill="none"/>
             <path d="M12 1c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 16c-2.33 0-7 1.17-7 3.5V22h14v-1.5c0-2.33-4.67-3.5-7-3.5zM6.5 20c1.38-1.29 4.99-2.5 5.5-2.5s4.12 1.21 5.5 2.5H6.5z"/>
         </svg>
         <span>{{ user.username }}</span>
     </div>
-    <h2>Menu</h2>
-    <ul>
-        <li><a href="{% url 'dashboard' %}" >Dashboard</a></li>
-        <li><a href="{% url 'categories' %}">Categories</a></li>
-        <li><a href="{% url 'add_product' %}">Sell</a>
-        <a href="{% url 'product_list' %}">Buy</a>
-        <li><a href="{% url 'orders' %}">My Orders</a></li>
-        <li><a href="{% url 'product_list' %}">My Products</a>
-        <li><a href="{% url 'contact' %}">Contact Us</a></li>
-        <li><a href="{% url 'home' %}">Site Home</a>
+    <h2 class="mb-3">Menu</h2>
+    <ul class="list-unstyled mb-4">
+        <li><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
+        <li><a href="{% url 'categories' %}" class="text-decoration-none">Categories</a></li>
+        <li><a href="{% url 'add_product' %}" class="text-decoration-none">Sell</a></li>
+        <li><a href="{% url 'product_list' %}" class="text-decoration-none">Buy</a></li>
+        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
+        <li><a href="{% url 'user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a></li>
+        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
+        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
     </ul>
     <div class="logout-btn">
-         <form action="{% url 'signout' %}" method="post" >
+        <form action="{% url 'signout' %}" method="post">
             {% csrf_token %}
-            <button type="submit" id="submit-btn">Log out</button>
+            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
         </form>
     </div>
 </div>
+
 
 <div class="mainbar">
     <!-- Add more content here -->
     <h1>Welcome, {{ user.username }}</h1>
 
     <h2>Your Products</h2>
-    <div class="product-grid">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for product in user.products.all %}
-        <div class="product">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description }}</p>
-            <!-- Add more product details here -->
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">{{ product.name }}</h3>
+                    <p class="card-text">{{ product.description }}</p>
+                    <!-- Add more product details here -->
+                </div>
+            </div>
         </div>
         {% empty %}
-        <p>You have no products listed.</p>
+        <div class="col">
+            <p class="text-muted">You have no products listed.</p>
+        </div>
         {% endfor %}
     </div>
 
     <h2>Recent Orders</h2>
     <div class="order-list">
-        {% for order in user.orders.all %}
-        <div class="order">
-            <p>Order ID: {{ order.id }}</p>
-            <p>Total Amount: {{ order.total_price }}</p>
-            <!-- Add more order details here -->
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for order in user.orders.all %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">Order ID: {{ order.id }}</p>
+                        <p class="card-text">Total Amount: {{ order.total_price }}</p>
+                        <!-- Add more order details here -->
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col">
+                <p class="text-muted">No recent orders found.</p>
+            </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <p>No recent orders found.</p>
-        {% endfor %}
     </div>
 
     <h2>Messages</h2>
     <div class="message-list">
-        <!-- Display messages or notifications here -->
-        {% for message in user.messages.all %}
-        <div class="message">
-            <p>{{ message.content }}</p>
-            <!-- Add more message details here -->
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <!-- Display messages or notifications here -->
+            {% for message in user.messages.all %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">{{ message.content }}</p>
+                        <!-- Add more message details here -->
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col">
+                <p class="text-muted">No messages found.</p>
+            </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <p>No messages found.</p>
-        {% endfor %}
     </div>
 </div>
+
 
 {% endblock %}

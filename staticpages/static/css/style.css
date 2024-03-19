@@ -17,17 +17,57 @@ body {
     backdrop-filter: blur(15px);
 }
 
-.coming-soon{
+.container {
+    display: flex;
+    align-items: stretch; /* Make the children stretch to fill the container vertically */
+}
+
+.sidebar {
+    flex: 1; /* Take up only the necessary space */
+}
+
+.mainbar {
+    flex: 2; /* Take up the remaining space */
+}
+
+.help-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.help-section {
+    width: 100%;
+    max-width: 800px;
+}
+
+
+/* .coming-soon{
     text-align: center;
     justify-content: center;
     align-items: center;
     margin-top: 20%;
     text-shadow: 2px 2px 4px rgba(0, 1.5, 0, 0.5);
     font-size: larger;
-    /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     display: flexbox;
-}
+} */
 /* Header Styles */
+/* 
+header {
+    background-color: #1c2380f5; 
+    background-blend-mode: darken;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px 20px;
+    align-items: center;
+    overflow: hidden;
+    margin-right: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 header {
     background-color: #1c2380f5; 
     background-blend-mode: darken;
@@ -142,9 +182,10 @@ header {
 
 .search button:hover {
     background-color: #1c6ea4;
-}
+} */
 
 /* Responsive Design */
+/* 
 @media only screen and (max-width: 768px) {
     header {
         flex-direction: column;
@@ -175,9 +216,9 @@ header {
         display: block;
         margin: 5px 0;
     }
-}
-
-/* User Dropdown Styles */
+} */
+/* 
+/* User Dropdown Styles 
 .user {
     position: relative;
     display: flex;
@@ -260,13 +301,14 @@ header {
     display: block;
     transform: translateY(0);
     opacity: 1;
-}
+} */
 
 /* hero section */
+/* 
 .hero-section {
     position: relative;
     color: #ffffff;
-    background-image: url("../images/background_3.jpg");
+    
     text-align: center;
     padding: 165px 20px; 
 }
@@ -279,7 +321,8 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.7; /* Increased opacity */
+    opacity: 0.7; /* Increased opacity 
+    background-size: cover;
     z-index: -1;
 }
 
@@ -290,7 +333,7 @@ header {
 }
 
 .hero-section p {
-    font-size: 1.5em; /* Increased font size */
+    font-size: 1.5em; 
     margin-bottom: 30px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1.5); 
 }
@@ -337,10 +380,11 @@ header {
         font-size: 1em;
         padding: 12px 25px;
     }
-}
+} */
 
 
 /* Main Section Styles */
+/* 
 .main-section {
     max-width: 1500px;
     margin: 0;
@@ -358,7 +402,7 @@ header {
 
 .main-section p {
     font-size: 1.6em;
-    /* line-height: 1.8; */
+    /* line-height: 1.8; 
     margin-bottom: 20px;
 }
 .features {
@@ -372,7 +416,7 @@ header {
     flex: 1;
     text-align: center;
     padding: 30px;
-    background-color: #f5f5f5; /* Adjusted color */
+    background-color: #f5f5f5; /* Adjusted color 
     border-radius: 15px;
     margin: 0 20px;
     transition: transform 0.3s ease;
@@ -396,9 +440,9 @@ header {
 .feature:hover svg {
     fill: transparent; 
     transform: scale(1.99); 
-}
+} */
 
-/* Media query for screens larger than 768px */
+/* Media query for screens larger than 768px 
 @media (min-width: 768px) {
     .features {
         flex-direction: row;
@@ -421,17 +465,17 @@ header {
 }
 .about-us h2 {
     font-size: 2.5em;
-    color: #000133; /* Adjust as needed */
+    color: #000133; /* Adjust as needed 
     margin-bottom: 20px;
 }
 
 .about-us p {
     font-size: 1.5em;
-    color: #666; /* Adjust as needed */
+    color: #666; /* Adjust as needed 
     line-height: 1.6;
 }
 
-/* About Section Styles */
+/* About Section Styles 
 .about-section {
     max-width: 800px;
     margin: 20px auto;
@@ -505,7 +549,7 @@ header {
     font-family: 'Roboto', sans-serif;
     background-color: #f0f0f0;
     line-height: 1.6;
-} */
+} 
 
 .help-main {
     width: 80%;
@@ -563,7 +607,7 @@ header {
     }
 }
 
-/* testimonial styles */
+/* testimonial styles 
 .testimonials-header{
     text-align: center;
 }
@@ -643,8 +687,8 @@ header {
     color: gray;
 }
 
-/* login and register link */
-/* Common styles for containers */
+/* login and register link 
+/* Common styles for containers 
 .login-container,
 .registration-container,
 .register-container {
@@ -660,14 +704,14 @@ header {
   transition: transform 0.3s ease-in-out;
 }
 
-/* Form styles */
+/* Form styles 
 .login-form,
 .registration-form,
 .register-container form {
   margin-top: 20px;
 }
 
-/* Button styles */
+/* Button styles 
 .login-button,
 .registration-button,
 .register-container form button {
@@ -680,14 +724,14 @@ header {
   transition: background-color 0.3s;
 }
 
-/* Button hover effect */
+/* Button hover effect 
 .login-button:hover,
 .registration-button:hover,
 .register-container form button:hover {
   background-color: #0056b3;
 }
 
-/* Link styles */
+/* Link styles 
 .forgot-password-link,
 .login-link,
 .register-container .login {
@@ -695,14 +739,14 @@ header {
   text-decoration: none;
 }
 
-/* Link hover effect */
+/* Link hover effect 
 .forgot-password-link:hover,
 .login-link:hover,
 .register-container .login:hover {
   text-decoration: underline;
 }
 
-/* Select container */
+/* Select container 
 .select-container {
   display: inline-block;
   position: relative;
@@ -710,12 +754,12 @@ header {
   margin-right: 15%;
 }
 
-/* Hide help texts initially */
+/* Hide help texts initially 
 .helptext {
   display: none;
 }
 
-/* Container hover effect */
+/* Container hover effect 
 .register-container {
   background-color: #fff;
   padding: 20px;
@@ -729,7 +773,7 @@ header {
   box-shadow: 0px 0px 15px 5px #000;
 }
 
-/* Responsive styles */
+/* Responsive styles 
 @media (max-width: 767px) {
   .login-container,
   .registration-container,
@@ -755,7 +799,7 @@ header {
   }
 }
 
-/* Animation */
+/* Animation 
 .login-container,
 .registration-container,
 .register-container {
