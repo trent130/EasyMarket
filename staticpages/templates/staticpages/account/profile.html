@@ -6,13 +6,33 @@
 {% endblock %}
 
 {% block content %}
-    <div class="profile-container">
-        <h1>Profile</h1>
-        <p>Update your profile</p>
-        <form method="post" class="profile-form">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <button type="submit" class="profile-button">Update</button>
-        </form>
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Profile</h1>
+                        <p class="card-text text-center">Update your profile</p>
+
+                        <form method="post" class="profile-form needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="mb-3 position-relative">
+                                {{ form.first_name.label_tag }}
+                                {{ form.first_name }}
+                            </div>
+                            <div class="mb-3 position-relative">
+                                {{ form.last_name.label_tag }}
+                                {{ form.last_name }}
+                            </div>
+                            <div class="mb-3 position-relative">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
