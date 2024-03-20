@@ -23,7 +23,7 @@ Contact Us
                 <li><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
                <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
                 <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
-                <li><a href="{% url 'product_list' %}" class="text-decoration-none">Buy</a></li>
+               <a href="{% url 'products:product_list' %}">Product List</a>
                 <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
                 <li><a href="{% url 'user_product_list' user_id=request.user.id %}" class="text-decoration-none">My
                         Listings</a></li>
@@ -106,8 +106,8 @@ Contact Us
             <h2>Quick Links</h2>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'categories' %}">Categories</a></li>
-                <li><a href="{% url 'product_list' %}">My Products</a></li>
+                <li><a href="{% url 'products : categories' %}">Categories</a></li>
+                <li><a href="{% url 'products : product_list' %}">My Products</a></li>
                 <li><a href="{% url 'orders' %}">My Orders</a></li>
                 <li><a href="{% url 'contact' %}">Contact Us</a></li>
             </ul>

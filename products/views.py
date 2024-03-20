@@ -19,6 +19,7 @@ def product_list(request):
     product_list = Product.objects.filter(is_active=True)
     paginator = Paginator(product_list, 12)  # Show 12 products per page.
 
+    url = reverse('products:product_list')
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -28,6 +29,8 @@ def product_list(request):
 def product_detail(request, id, slug):
     context = {'title': 'product detail'}
     product = Product.objects.get(id=id)  
+    
+    url = reverse('products:product_detail', args=[product.id, product.slug])
     product_detail_url = reverse('product_detail', args=[product.id, product.slug])
     return render(request, 'products/product_detail.html', context)
 @login_required
@@ -54,12 +57,14 @@ def add_product(request):
 
 @login_required
 def user_products(request, user_id):
+    
+    
     try:
         student = Student.objects.get(user=request.user)
         products = Product.objects.filter(student=student)
     except Student.DoesNotExist:
         # Handle the case where the user is not associated with a Student instance
-        products = Product.objects.none()  # Returns an empty QuerySet
+        products = Product.objects.none()
 
     return render(request, 'products/product.html', {'products': products})
 
