@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from products.views import add_category
 
 app_name = 'marketplace'
 
