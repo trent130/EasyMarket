@@ -1,7 +1,7 @@
 from django.urls import path, reverse
 from . import views
 
-
+app_name = 'products'
 urlpatterns = [
     path('product/<int:id>/<slug:slug>/', views.product, name='product'),
     path('product-list/', views.product_list, name='product_list'),

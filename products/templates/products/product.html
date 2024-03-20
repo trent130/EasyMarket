@@ -6,11 +6,11 @@
     <h2>Menu</h2>
     <ul>
         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'categories' %}">Categories</a></li>
+        <li><a href="{% url 'products : categories' %}">Categories</a></li>
         <li><a href="{% url 'products:add_product' %}">Sell</a>
-            <a href="{% url 'product_list' %}">Buy</a>
+            <a href="{% url 'products : product_list' %}">Buy</a>
         <li><a href="{% url 'orders' %}">My Orders</a></li>
-        <li><a href="{% url 'product_list' %}">My Products</a>
+        <li><a href="{% url 'products : product_list' %}">My Products</a>
         <li><a href="{% url 'contact' %}">Contact Us</a></li>
         <li><a href="{% url 'home' %}">Site Home</a>
     </ul>
