@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 
 
+
 def index(request):
     context = {'title': 'home'}
     return render(request, 'staticpages/index.html', context)
@@ -71,11 +72,6 @@ def chat(request):
     context = {'title': 'chat'}
     return render(request, 'staticpages/chat.html', context)
 
-def categories(request):
-    context = {'title': 'categories'}
-    return render(request, 'marketplace/categories.html', context)
-
-
 @login_required
 def orders(request):
     context = {'title': 'orders'}
@@ -85,10 +81,6 @@ def password_reset(request):
     context = {'title': 'password_reset'}
     return render(request, 'staticpages/registration/password_change_form.html', context)
 
-@login_required
-def user_profile(request):
-    context = {'title': 'user_profile'}
-    return render(request, 'staticpages/account/profile.html', context)
 
 @login_required
 def user_profile(request):
@@ -103,6 +95,7 @@ def user_profile(request):
 
     return render(request, 'staticpages/account/profile.html', {'form': form})
 
+@login_required
 def cart(request):
     context = {'title': 'cart'}
     return render(request, 'marketplace/cart.html', context)

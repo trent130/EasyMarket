@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from .models import Product
-from .forms import ProductForm, ImageForm
+from .forms import ProductForm, ImageForm, CategoryForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from students.models import Student
+from django.http import HttpResponseRedirect
 
 
 def product(request, id, slug):
@@ -29,15 +30,22 @@ def product_detail(request, id, slug):
     product = Product.objects.get(id=id)  
     product_detail_url = reverse('product_detail', args=[product.id, product.slug])
     return render(request, 'products/product_detail.html', context)
-
 @login_required
 def add_product(request):
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
         image_form = ImageForm(request.POST, request.FILES)
         if product_form.is_valid() and image_form.is_valid():
-            # save the forms...
-            pass
+            product = product_form.save(commit=False)
+            product.user = request.user
+            product.save()
+
+            image = image_form.save(commit=False)
+            image.product = product
+            image.save()
+
+            return HttpResponseRedirect(reverse('products:add_product'))
+
     else:
         product_form = ProductForm()
         image_form = ImageForm()
@@ -54,3 +62,14 @@ def user_products(request, user_id):
         products = Product.objects.none()  # Returns an empty QuerySet
 
     return render(request, 'products/product.html', {'products': products})
+
+@login_required
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save
+            return redirect('categories')
+        else:
+            form = CategoryForm()
+        return render(request, 'staticpages/categories.html')
