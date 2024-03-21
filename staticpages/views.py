@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 from django.contrib import messages
-
+from .forms import CategoryForm
 
 
 def index(request):
@@ -110,3 +110,13 @@ def signout(request):
 def dashboard(request):
     context = {'title' : 'dashboard'}
     return render(request, 'staticpages/dashboard.html', context )
+
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+    else:
+        form = CategoryForm()
+    return render(request, 'add_category.html', {'form': form})
