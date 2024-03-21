@@ -3,25 +3,29 @@
 {% block title %}product{% endblock %}
 {% block content %}
 <div class="sidebar">
-    <h2>Menu</h2>
-    <ul>
-        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'products : categories' %}">Categories</a></li>
-        <li><a href="{% url 'products:add_product' %}">Sell</a>
-            <a href="{% url 'products : product_list' %}">Buy</a>
-        <li><a href="{% url 'orders' %}">My Orders</a></li>
-        <li><a href="{% url 'products : product_list' %}">My Products</a>
-        <li><a href="{% url 'contact' %}">Contact Us</a></li>
-        <li><a href="{% url 'home' %}">Site Home</a>
+    <h2 class="mb-3">Menu</h2>
+    <ul class="list-unstyled mb-4">
+        <li><a href="{% url 'dashboard' %}" class="class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+       <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
+        <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
+        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
+        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
+        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a></li>
+        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
+        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
     </ul>
     <div class="logout-btn">
         <form action="{% url 'signout' %}" method="post">
             {% csrf_token %}
-            <button type="submit" id="submit-btn">Log out</button>
+            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
         </form>
     </div>
 </div>
-
+<style>
+    .mainbar {
+        overflow-y: auto; /* Add overflow-y property */
+    }
+</style>
 <div class="mainbar">
     <div class="card" style="width: 18rem;">
         <img src="{{ user_product.image.url }}" class="card-img-top" alt="Product Image">

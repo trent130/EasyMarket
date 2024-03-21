@@ -10,7 +10,9 @@ def create_student_profile(sender, instance, created, **kwargs):
     if created:
         Student.objects.create(user=instance)
 
+
 class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     email = models.EmailField(max_length = 50, unique = True)
