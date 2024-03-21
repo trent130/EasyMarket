@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from products.models import Category
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", max_length=150, required=True)
@@ -40,3 +41,8 @@ class ProfileForm(forms.ModelForm):
             'last_name': 'Last Name',
             'email': 'Email',
         }
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
