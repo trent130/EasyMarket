@@ -6,22 +6,16 @@ Categories
 {% endblock %}
 
 {% block content %}
+
 <div class="sidebar">
-    <div class="profile mb-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="me-2">
-            <path d="M0 0h24v24H0z" fill="none"/>
-            <path d="M12 1c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 16c-2.33 0-7 1.17-7 3.5V22h14v-1.5c0-2.33-4.67-3.5-7-3.5zM6.5 20c1.38-1.29 4.99-2.5 5.5-2.5s4.12 1.21 5.5 2.5H6.5z"/>
-        </svg>
-        <span>{{ user.username }}</span>
-    </div>
     <h2 class="mb-3">Menu</h2>
     <ul class="list-unstyled mb-4">
-        <li><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
-        <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
+        <li><a href="{% url 'dashboard' %}" class="class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+       <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
         <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
-       <a href="{% url 'products:product_list' %}">Product List</a>
+        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
         <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
-        <li><a href="{% url 'products:user_products' %}"  class="text-decoration-none">My Listings</a></li>
+        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a></li>
         <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
         <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
     </ul>
@@ -55,3 +49,5 @@ Categories
         {% endfor %}
     </div>
 </div>
+    
+{% endblock %}

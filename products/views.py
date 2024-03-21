@@ -57,7 +57,7 @@ def add_product(request):
 
 @login_required
 def user_products(request, user_id):
-    
+    url = reverse('products:user_product_list', args=[user_id])
     
     try:
         student = Student.objects.get(user=request.user)
@@ -73,8 +73,9 @@ def add_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
-            form.save
+            form.save()  # Add parentheses to call the method
             return redirect('categories')
-        else:
-            form = CategoryForm()
-        return render(request, 'staticpages/categories.html')
+    else:
+        form = CategoryForm()
+
+    return render(request, 'staticpages/categories.html', {'form': form})  # Pass the form to the template

@@ -25,7 +25,7 @@ Home Page
                         <h1>Welcome to EasyMarket</h1>
                         <p>Buy and sell stuff and more. All within your campus community.</p>
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'products : product_list' %}" class="btn btn-primary">Buy Now</a>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Buy Now</a>
                         <a href="{% url 'products:add_product' %}" class="btn btn-secondary">Sell Now</a>
                         {% else %}
                         <a href="/signin" class="btn btn-primary">Sign In</a>
@@ -40,7 +40,7 @@ Home Page
                         <p>Discover a platform designed for students to buy and sell stuff and other academic resources.
                         </p>
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'products : product_list' %}" class="btn btn-primary">Buy Now</a>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Buy Now</a>
                         <a href="{% url 'products:add_product' %}" class="btn btn-secondary">Sell Now</a>
                         {% else %}
                         <a href="/signin" class="btn btn-primary">Sign In</a>
@@ -54,7 +54,7 @@ Home Page
                         <h1>Life as a student simplified here</h1>
                         <p>Join now and explore the world of student-to-student transactions!</p>
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'products : product_list' %}" class="btn btn-primary">Buy Now</a>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Buy Now</a>
                         <a href="{% url 'products:add_product' %}" class="btn btn-secondary">Sell Now</a>
                         {% else %}
                         <a href="/signin" class="btn btn-primary">Sign In</a>
