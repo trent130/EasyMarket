@@ -23,7 +23,7 @@ class Student(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars/')
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.jpg')
 
     def __str__(self):
         return f'{self.user.username}'

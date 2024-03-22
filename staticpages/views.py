@@ -116,7 +116,7 @@ def add_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('categories')
+            return redirect('products:categories')
     else:
         form = CategoryForm()
-    return render(request, 'add_category.html', {'form': form})
+    return render(request, 'staticpages/add_category.html', {'form': form})
