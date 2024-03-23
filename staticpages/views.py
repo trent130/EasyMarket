@@ -53,16 +53,21 @@ def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponse('Registration Successful')
+            email = form.cleaned_data.get('email')
+            if User.objects.filter(email=email).exists():
+                return HttpResponse('A user with this email already exists.')
+            user = form.save()  # Save the user instance
+            # Log in the user after successful registration
+            login(request, user)
+            # Redirect to the home page after successful registration
+            return redirect('home')
         else:
             return HttpResponse('Invalid Registration')
     else:
         form = SignUpForm()
     context = {'title': 'register', 'form': form}
     return render(request, 'staticpages/account/register.html', context)
-
-        
+            
 def search(request):
     context = {'title': 'search'}
     return render(request, 'marketplace/search.html', context)
@@ -111,6 +116,7 @@ def dashboard(request):
     context = {'title' : 'dashboard'}
     return render(request, 'staticpages/dashboard.html', context )
 
+@login_required
 def add_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -120,3 +126,15 @@ def add_category(request):
     else:
         form = CategoryForm()
     return render(request, 'staticpages/add_category.html', {'form': form})
+
+@login_required
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()  # Add parentheses to call the method
+            return redirect('categories')
+    else:
+        form = CategoryForm()
+
+    return render(request, 'staticpages/categories.html', {'form': form})  # Pass the form to the template
