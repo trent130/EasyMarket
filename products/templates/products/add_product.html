@@ -5,7 +5,8 @@
 <div class="sidebar">
     <h2 class="mb-3">Menu</h2>
     <ul class="list-unstyled mb-4">
-        <li><a href="{% url 'dashboard' %}" class="class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+        <li><a href="{% url 'dashboard' %}" class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+
         <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
         <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
         <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>

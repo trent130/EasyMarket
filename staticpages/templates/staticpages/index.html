@@ -5,27 +5,20 @@ Home Page
 {% endblock %}
 
 {% block content %}
-
-
 <div class="main-section">
+    <!-- Hero Section -->
     <div class="hero-section">
+        <!-- Carousel -->
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-            </div>
             <div class="carousel-inner">
+                <!-- Slide 1 -->
                 <div class="carousel-item active">
                     <img src="../../static/images/background_1.jpg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h1>Welcome to EasyMarket</h1>
                         <p>Buy and sell stuff and more. All within your campus community.</p>
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Buy Now</a>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Shop Now</a>
                         <a href="{% url 'products:add_product' %}" class="btn btn-secondary">Sell Now</a>
                         {% else %}
                         <a href="/signin" class="btn btn-primary">Sign In</a>
@@ -33,14 +26,14 @@ Home Page
                         {% endif %}
                     </div>
                 </div>
+                <!-- Slide 2 -->
                 <div class="carousel-item">
                     <img src="../../static/images/background_2.jpg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                        <h1>Simplify your student life with our marketplace.</h1>
-                        <p>Discover a platform designed for students to buy and sell stuff and other academic resources.
-                        </p>
+                        <h1>Discover Exciting Deals</h1>
+                        <p>Find amazing discounts on textbooks, gadgets, and more.</p>
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Buy Now</a>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Explore Now</a>
                         <a href="{% url 'products:add_product' %}" class="btn btn-secondary">Sell Now</a>
                         {% else %}
                         <a href="/signin" class="btn btn-primary">Sign In</a>
@@ -48,13 +41,14 @@ Home Page
                         {% endif %}
                     </div>
                 </div>
+                <!-- Slide 3 -->
                 <div class="carousel-item">
                     <img src="../../static/images/background_3.jpg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                        <h1>Life as a student simplified here</h1>
-                        <p>Join now and explore the world of student-to-student transactions!</p>
+                        <h1>Shop with Confidence</h1>
+                        <p>Secure transactions and buyer protection guaranteed.</p>
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Buy Now</a>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">Start Shopping</a>
                         <a href="{% url 'products:add_product' %}" class="btn btn-secondary">Sell Now</a>
                         {% else %}
                         <a href="/signin" class="btn btn-primary">Sign In</a>
@@ -62,7 +56,6 @@ Home Page
                         {% endif %}
                     </div>
                 </div>
-                <!-- Add more carousel-items here -->
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
                 data-bs-slide="prev">
@@ -77,137 +70,122 @@ Home Page
         </div>
     </div>
 
-
-
-   <div class="container">
-  <div class="row">
-    <div class="col-sm-12 col-md-4">
-      <div class="feature text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-3 feature-icon">
-          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-          <line x1="1" y1="10" x2="23" y2="10"></line>
-        </svg>
-        <h2>Secure Transactions</h2>
-        <p>Experience secure and hassle-free transactions on our platform.</p>
-      </div>
-    </div>
-    <div class="col-sm-12 col-md-4">
-      <div class="feature text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-3 feature-icon">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H9"></path>
-          <path d="M9 17a2.5 2.5 0 0 1 2.5-2.5h.5a2.5 2.5 0 0 1 2.5 2.5v4.5"></path>
-          <path d="M15 17h2.5a2.5 2.5 0 0 1 2.5 2.5V22"></path>
-          <path d="M9 17V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10"></path>
-          <path d="M2 12h20"></path>
-          <path d="M2 12a10 10 0 0 0 20 0"></path>
-        </svg>
-        <h2>Wide Variety of Materials</h2>
-        <p>Access a diverse range of textbooks, notes, and study materials.</p>
-      </div>
-    </div>
-    <div class="col-sm-12 col-md-4">
-      <div class="feature text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-3 feature-icon">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
-        <h2>Privacy Protection</h2>
-        <p>Your personal information is kept private and secure.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-    <div class="container">
-        <div id="testimonialCarousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <!-- CARD 1 START-->
-                <div class="carousel-item active">
-                    <div class="card border-0 shadow">
-                        <div class="card-body">
-                            <p class="card-text text-center">"John Doe is a Computer Science student who has found great deals on textbooks and study materials through our marketplace."</p>
-                            <div class="text-center">
-                                <img class="rounded-circle" src='/static/images/background_.jpg?{% now "u"}' alt="John Doe" width="100" height="100">
-                                <h5 class="card-title mt-3">
-                                    John Doe
-                                    <br>
-                                    <small class="text-muted">Computer Science Student</small>
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Features Section -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Feature 1 -->
+            <div class="col-sm-12 col-md-4">
+                <div class="feature text-center">
+                    <i class="fas fa-lock feature-icon"></i>
+                    <h2>Secure Transactions</h2>
+                    <p>Shop with confidence knowing your transactions are secure.</p>
                 </div>
-                <!-- CARD 1 end-->
-
-                <!-- CARD 2 START-->
-                <div class="carousel-item">
-                    <div class="card border-0 shadow">
-                        <div class="card-body">
-                            <p class="card-text text-center">"Jane Smith, a Business student, sold her old textbooks on our marketplace and made enough money to buy her new ones."</p>
-                            <div class="text-center">
-                                <img class="rounded-circle" src='/static/images/background_1.jpg?{% now "u"}' alt="Jane Smith" width="100" height="100">
-                                <h5 class="card-title mt-3">
-                                    Jane Smith
-                                    <br>
-                                    <small class="text-muted">Business Student</small>
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- CARD 2 end-->
-
-                <!-- CARD 3 START-->
-                <div class="carousel-item">
-                    <div class="card border-0 shadow">
-                        <div class="card-body">
-                            <p class="card-text text-center">"Mike Johnson, an Engineering student, found a rare lab equipment at a fraction of the cost on our marketplace. He loved it."</p>
-                            <div class="text-center">
-                                <img class="rounded-circle" src='/static/images/background_2.jpg?{% now "u"}' alt="Mike Johnson" width="100" height="100">
-                                <h5 class="card-title mt-3">
-                                    Mike Johnson
-                                    <br>
-                                    <small class="text-muted">Engineering Student</small>
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- CARD 3 end-->
             </div>
-            <a class="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+            <!-- Feature 2 -->
+            <div class="col-sm-12 col-md-4">
+                <div class="feature text-center">
+                    <i class="fas fa-box-open feature-icon"></i>
+                    <h2>Wide Variety of Products</h2>
+                    <p>Explore a wide range of products from textbooks to gadgets.</p>
+                </div>
+            </div>
+            <!-- Feature 3 -->
+            <div class="col-sm-12 col-md-4">
+                <div class="feature text-center">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h2>Buyer Protection</h2>
+                    <p>Your purchases are protected with our buyer guarantee.</p>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Testimonials Section -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div id="testimonialCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <!-- Testimonial 1 -->
+                        <div class="carousel-item active">
+                            <div class="card border-0 shadow">
+                                <div class="card-body">
+                                    <p class="card-text text-center">"John Doe is a Computer Science student who has
+                                        found great deals on textbooks and study materials through our marketplace."</p>
+                                    <div class="text-center">
+                                        <img class="rounded-circle" src='/static/images/background_.jpg?{% now "u"}'
+                                            alt="John Doe" width="100" height="100">
+                                        <h5 class="card-title mt-3">
+                                            John Doe
+                                            <br>
+                                            <small class="text-muted">Computer Science Student</small>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 2 -->
+                        <div class="carousel-item">
+                            <div class="card border-0 shadow">
+                                <div class="card-body">
+                                    <p class="card-text text-center">"Jane Smith, a Business student, sold her old
+                                        textbooks on our marketplace and made enough money to buy her new ones."</p>
+                                    <div class="text-center">
+                                        <img class="rounded-circle" src='/static/images/background_1.jpg?{% now "u"}'
+                                            alt="Jane Smith" width="100" height="100">
+                                        <h5 class="card-title mt-3">
+                                            Jane Smith
+                                            <br>
+                                            <small class="text-muted">Business Student</small>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial 3 -->
+                        <div class="carousel-item">
+                            <div class="card border-0 shadow">
+                                <div class="card-body">
+                                    <p class="card-text text-center">"Mike Johnson, an Engineering student, found a rare
+                                        lab equipment at a fraction of the cost on our marketplace. He loved it."</p>
+                                    <div class="text-center">
+                                        <img class="rounded-circle" src='/static/images/background_2.jpg?{% now "u"}'
+                                            alt="Mike Johnson" width="100" height="100">
+                                        <h5 class="card-title mt-3">
+                                            Mike Johnson
+                                            <br>
+                                            <small class="text-muted">Engineering Student</small>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#testimonialCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#testimonialCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About Us Section -->
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card border-0 shadow">
                     <div class="card-body">
-                        <h2 class="card-title text-center">About Us</h2>
-                        <p class="card-text text-center">We are a team of students who understand the need for a simple, secure platform for buying and selling academic resources. We created the Student Marketplace with this in mind.</p>
-                        {% if request.user.is_authenticated %}
-                        <div class="text-center mt-3">
-                            <a href="#home" class="btn btn-primary">
-                                <i class="fas fa-home"></i>
-                            </a>
+                        <h2 class="card-title text-center">About EasyMarket</h2>
+                        <p class="card-text text-center">EasyMarket is your go-to platform for buying and selling
+                            academic resources. Our mission is to provide students with a secure and convenient
+                            marketplace where they can find everything they need at affordable prices.</p>
+                        <div class="text-center mt-4">
+                            <a href="{% url 'products:product_list' %}" class="btn btn-primary">Start Shopping</a>
                         </div>
-                        {% else %}
-                        <div class="text-center mt-3">
-                            <a href="#signup" class="btn btn-primary">Get Started Now</a>
-                        </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -215,78 +193,80 @@ Home Page
     </div>
 
 
-</div>
 
-<footer class="site-footer">
-    <div class="footer-container">
-        <div class="footer-section quick-links">
-            <h2>Quick Links</h2>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'products:categories' %}">Categories</a></li>
-                <li><a href="{% url 'products:product_list' %}">My Products</a></li>
-                <li><a href="{% url 'orders' %}">My Orders</a></li>
-                <li><a href="{% url 'contact' %}">Contact Us</a></li>
-            </ul>
+
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-section quick-links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'products:categories' %}">Categories</a></li>
+                    <li><a href="{% url 'products:product_list' %}">My Products</a></li>
+                    <li><a href="{% url 'orders' %}">My Orders</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section contact">
+                <h2>Contact Information</h2>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com">info@easymarket.com</a>
+                    </li>
+                    <li><i class="fas fa-phone"></i> +254-725-796-722</li>
+                </ul>
+            </div>
+
+            <div class="footer-section contact-form">
+                <h2>Contact Us</h2>
+                <form action="#" method="post">
+                    <textarea name="message" rows="4" placeholder="Type your message here..."></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+
+            <div class="footer-section social-media">
+                <h2>Connect With Us</h2>
+                <ul id="social-media">
+                    <li>
+                        <a href="#" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24h11.494v-9.294H9.692v-3.622h3.127V7.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.42.336 3.295.706 1.02.434 1.76 1.174 2.195 2.195.37.875.644 1.93.706 3.295.058 1.267.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.42-.706 3.295-.434 1.02-1.174 1.76-2.195 2.195-.875.37-1.93.644-3.295.706-1.267.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.42-.336-3.295-.706-1.02-.434-1.76-1.174-2.195-2.195-.37-.875-.644-1.93-.706-3.295-.058-1.267-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.336-2.42.706-3.295.434-1.02 1.174-1.76 2.195-2.195.875-.37 1.93-.644 3.295-.706 1.266-.058 1.646-.07 4.85-.07m0-2.163c-3.259 0-3.667.014-4.947.072-1.275.059-2.163.27-2.92.568-.97.382-1.704.887-2.438 1.722-.756.756-1.34 1.468-1.722 2.438-.298.756-.509 1.645-.568 2.92-.058 1.28-.072 1.688-.072 4.947 0 3.259.014 3.667.072 4.947.059 1.275.27 2.163.568 2.92.382.97.887 1.704 1.722 2.438.756.756 1.468 1.34 2.438 1.722.756.298 1.645.509 2.92.568 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.275-.059 2.163-.27 2.92-.568.97-.382 1.704-.887 2.438-1.722.756-.756 1.34-1.468 1.722-2.438.298-.756.509-1.645.568-2.92.058-1.28.072-1.688.072-4.947 0-3.259-.014-3.667-.072-4.947-.059-1.275-.27-2.163-.568-2.92-.382-.97-.887-1.704-1.722-2.438-.756-.756-1.468-1.34-2.438-1.722-.756-.298-1.645-.509-2.92-.568-1.28-.059-1.689-.072-4.947-.072z">
+                                </path>
+                                <path fill="currentColor"
+                                    d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8z">
+                                </path>
+                                <circle cx="18.406" cy="5.594" r="1.44" fill="currentColor"></circle>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section contact">
-            <h2>Contact Information</h2>
-            <ul>
-                <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
-                <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com">info@easymarket.com</a></li>
-                <li><i class="fas fa-phone"></i> +254-725-796-722</li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EasyMarket. All rights reserved.</p>
         </div>
-
-        <div class="footer-section contact-form">
-            <h2>Contact Us</h2>
-            <form action="#" method="post">
-                <textarea name="message" rows="4" placeholder="Type your message here..."></textarea>
-                <button type="submit">Send Message</button>
-            </form>
-        </div>
-
-        <div class="footer-section social-media">
-            <h2>Connect With Us</h2>
-            <ul id="social-media">
-                <li>
-                    <a href="#" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24h11.494v-9.294H9.692v-3.622h3.127V7.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0">
-                            </path>
-                        </svg>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z">
-                            </path>
-                        </svg>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.42.336 3.295.706 1.02.434 1.76 1.174 2.195 2.195.37.875.644 1.93.706 3.295.058 1.267.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.42-.706 3.295-.434 1.02-1.174 1.76-2.195 2.195-.875.37-1.93.644-3.295.706-1.267.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.42-.336-3.295-.706-1.02-.434-1.76-1.174-2.195-2.195-.37-.875-.644-1.93-.706-3.295-.058-1.267-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.336-2.42.706-3.295.434-1.02 1.174-1.76 2.195-2.195.875-.37 1.93-.644 3.295-.706 1.266-.058 1.646-.07 4.85-.07m0-2.163c-3.259 0-3.667.014-4.947.072-1.275.059-2.163.27-2.92.568-.97.382-1.704.887-2.438 1.722-.756.756-1.34 1.468-1.722 2.438-.298.756-.509 1.645-.568 2.92-.058 1.28-.072 1.688-.072 4.947 0 3.259.014 3.667.072 4.947.059 1.275.27 2.163.568 2.92.382.97.887 1.704 1.722 2.438.756.756 1.468 1.34 2.438 1.722.756.298 1.645.509 2.92.568 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.275-.059 2.163-.27 2.92-.568.97-.382 1.704-.887 2.438-1.722.756-.756 1.34-1.468 1.722-2.438.298-.756.509-1.645.568-2.92.058-1.28.072-1.688.072-4.947 0-3.259-.014-3.667-.072-4.947-.059-1.275-.27-2.163-.568-2.92-.382-.97-.887-1.704-1.722-2.438-.756-.756-1.468-1.34-2.438-1.722-.756-.298-1.645-.509-2.92-.568-1.28-.059-1.689-.072-4.947-.072z">
-                            </path>
-                            <path fill="currentColor"
-                                d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8z">
-                            </path>
-                            <circle cx="18.406" cy="5.594" r="1.44" fill="currentColor"></circle>
-                        </svg>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2024 EasyMarket. All rights reserved.</p>
-    </div>
-</footer>
-{% endblock %}
+    </footer>
+    {% endblock %}
