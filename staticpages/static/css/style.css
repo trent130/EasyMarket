@@ -43,6 +43,21 @@ body {
 }
 
 
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-image: none;
+    border: 0;
+    margin: 0;
+}
+
+
 /* .coming-soon{
     text-align: center;
     justify-content: center;

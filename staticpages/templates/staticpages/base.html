@@ -19,13 +19,13 @@
 
 
 <body>
-    <header class="navbar navbar-expand-lg navbar-light bg-light">
+    <header class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <h1 class="navbar-brand">Easymarket</h1>
             </a>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
                 <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'search' %}" method="GET">
                     <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search...">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
@@ -59,41 +59,40 @@
                 </a>
 
                 {% if request.user.is_authenticated %}
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% if request.user.userprofile.avatar and request.user.userprofile.avatar.url !=
-                        'avatars/default.jpg' %}
+                    <span class="ml-2">Hello, {{ request.user.username }}</span>
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" id="navbarDropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if request.user.userprofile.avatar and request.user.userprofile.avatar.url != 'avatars/default.jpg' %}
                                 <img src="{{ request.user.userprofile.avatar.url }}" alt="Avatar" class="avatar">
-                        {% else %}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                            <path fill-rule="evenodd"
-                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                        </svg>
-                        {% endif %}
-                        Hello, {{ request.user.username }}
-                    </a>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
-                        <a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a>
-                        <form class="dropdown-item" action="{% url 'signout' %}" method="post" class="logout-form">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-link">Logout</button>
-                        </form>
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                    <path fill-rule="evenodd"
+                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                </svg>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+                            <a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a>
+                            <form class="dropdown-item" action="{% url 'signout' %}" method="post" class="logout-form">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link">Logout</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 {% else %}
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-                </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                    </ul>
                 {% endif %}
             </div>
         </div>
     </header>
+
 
 
 
@@ -102,15 +101,6 @@
         <!-- Default content for child templates -->
         {% endblock %}
     </main>
-
-
-    <script>
-        // Initialize the carousel
-        var myCarousel = new bootstrap.Carousel(document.querySelector('#carouselExampleCaptions'), {
-            interval: 5000, // Set the interval between slides in milliseconds (e.g., 5000 = 5 seconds)
-            wrap: true // Enable continuous looping of the carousel
-        });
-    </script>
 
     <!-- Bootstrap 4 CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
