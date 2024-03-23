@@ -5,12 +5,16 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
+
 @receiver(post_save, sender=User)
 def create_student_profile(sender, instance, created, **kwargs):
     if created:
-        Student.objects.create(user=instance)
-
-
+        if not Student.objects.filter(email=instance.email).exists():
+            Student.objects.create(user=instance, email=instance.email)
+        else:
+            print(f"Student with email {instance.email} already exists.")
+            
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     first_name = models.CharField(max_length = 50)

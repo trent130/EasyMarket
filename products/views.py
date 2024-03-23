@@ -68,14 +68,6 @@ def user_products(request, user_id):
 
     return render(request, 'products/product.html', {'products': products})
 
-@login_required
-def add_category(request):
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()  # Add parentheses to call the method
-            return redirect('categories')
-    else:
-        form = CategoryForm()
-
-    return render(request, 'staticpages/categories.html', {'form': form})  # Pass the form to the template
+def category(request):
+    categories = category.objects.all()
+    return render(request, 'staticpages/categories.html', {'categories' : categories})
