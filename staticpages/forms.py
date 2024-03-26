@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from products.models import Category
+from marketplace.models import UserProfile
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", max_length=150, required=True)
@@ -32,19 +33,23 @@ class ContactForm(forms.Form):
     subject = forms.CharField(label="Subject", max_length=100, required=True)
     message = forms.CharField(label="Message", widget=forms.Textarea, required=True)
 
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar']
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['username','first_name', 'last_name', 'email']
         labels = {
+            'username':'Username',
             'first_name': 'First Name',
             'last_name': 'Last Name',
             'email': 'Email',
         }
-        
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name', 'description']
-       

@@ -5,14 +5,15 @@
 <div class="sidebar">
     <h2 class="mb-3">Menu</h2>
     <ul class="list-unstyled mb-4">
-        <li><a href="{% url 'dashboard' %}" class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
-
+        <li><a href="{% url 'dashboard' %}"
+                class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
         <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
         <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
         <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
         <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
         <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
-        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a></li>
+        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My
+                Listings</a></li>
         <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
         <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
     </ul>
@@ -25,32 +26,32 @@
 </div>
 
 <div class="mainbar">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="name" class="form-label">Product Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input type="number" class="form-control" id="price" name="price" required>
-        </div>
-        <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select class="form-select" id="category" name="category" required>
-                <option value="" selected disabled>Select a category</option>
-                {% for category in categories %}
-                <option value="{{ category.id }}">{{ category.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Product Image</label>
-            <input class="form-control" type="file" id="image" name="image" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Product</button>
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="name" class="form-label">Product Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
     </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" class="form-control" id="price" name="price" required>
+    </div>
+    <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select class="form-select" id="category" name="category" required>
+            <option value="" selected disabled>Select a category</option>
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="image" class="form-label">Product Image</label>
+        <input class="form-control" type="file" id="image" name="image" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Product</button>
+</div>
 {% endblock %}

@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 from django.contrib import messages
-from .forms import CategoryForm
-
+from .forms import CategoryForm, ContactForm, UserProfileForm
+from django.core.mail import send_mail
 
 def index(request):
     context = {'title': 'home'}
@@ -17,9 +17,45 @@ def about(request):
     context = {'title' : 'about'}
     return render(request, 'staticpages/about.html', context)
 
+from django.shortcuts import render
+from .forms import ContactForm
+
+
 def contact(request):
-    context = {'title': 'contact'}
-    return render(request, 'staticpages/contact.html', context)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            send_mail(
+                'Contact Form Submission from {}'.format(name),
+                message,
+                email,
+                ['warsamegift@gmail.com'],  # Replace with your email
+            )
+            return redirect('marketplace:contact_success')
+        else:
+            # Form is not valid, so render the form with errors
+            return render(request, 'staticpages/contact.html', {'form': form})
+    else:
+        form = ContactForm()
+    return render(request, 'staticpages/contact.html', {'form': form})
+
+def contact_success(request):   
+    return render(request, 'staticpages/contact_success.html')
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'staticpages/contact_success.html', {'form':form})
+    else:
+        form = ContactForm()
+
+    return render(request, 'staticpages/contact.html', {'form':form})
 
 def help(request):
     context = {'title': 'help'}
@@ -90,15 +126,18 @@ def password_reset(request):
 @login_required
 def user_profile(request):
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
+        user_form = ProfileForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
             messages.success(request, 'Your profile has been updated!')
             return redirect('staticpages/account/profile')
     else:
-        form = ProfileForm(instance=request.user)
-
-    return render(request, 'staticpages/account/profile.html', {'form': form})
+        user_form = ProfileForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user)
+        
+    return render(request, 'staticpages/account/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 @login_required
 def cart(request):
@@ -127,14 +166,3 @@ def add_category(request):
         form = CategoryForm()
     return render(request, 'staticpages/add_category.html', {'form': form})
 
-@login_required
-def add_category(request):
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()  # Add parentheses to call the method
-            return redirect('categories')
-    else:
-        form = CategoryForm()
-
-    return render(request, 'staticpages/categories.html', {'form': form})  # Pass the form to the template
