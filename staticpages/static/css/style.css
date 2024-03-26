@@ -28,6 +28,7 @@ body {
 
 .mainbar {
     flex: 2; /* Take up the remaining space */
+    overflow-y: auto;
 }
 
 .help-main {
@@ -56,6 +57,9 @@ body {
     border: 0;
     margin: 0;
 }
+
+
+
 
 
 /* .coming-soon{
@@ -462,11 +466,12 @@ header {
     .features {
         flex-direction: row;
     }
-}
+} */
 
 .about-us {
     padding: 50px;
     width: 89%;
+    background-image: url();
     margin: 0 auto;
     background-position: center;
     text-align: center;
@@ -480,24 +485,28 @@ header {
 }
 .about-us h2 {
     font-size: 2.5em;
-    color: #000133; /* Adjust as needed 
+    /* color: #000133;  Adjust as needed  */
     margin-bottom: 20px;
 }
 
 .about-us p {
     font-size: 1.5em;
-    color: #666; /* Adjust as needed 
+    /* color: #666;  Adjust as needed  */
     line-height: 1.6;
 }
 
-/* About Section Styles 
+ About Section Styles 
 .about-section {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); */
+    /* border-radius: 10px; */
+}
+.aboutform{
+margin-left: 15%;
+margin-right: 15%;
 }
 
 .about-section h2 {
@@ -531,8 +540,8 @@ header {
     color: #3498db;
     font-size: 1.5em;
     margin-bottom: 15px;
-    text-align: center;
 }
+/*
 
 .mission-values ul,
 .how-it-works ol,

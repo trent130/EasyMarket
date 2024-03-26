@@ -6,8 +6,8 @@ from orders.models import Order
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.core.mail import send_mail
-from .forms import ContactForm
+from .forms import searchForm
+from products.views import product
 
 @login_required
 def checkout(request):
@@ -51,30 +51,14 @@ def cart_cleared(request):
     return render(request, 'marketplace/cart_cleared.html')
 
 
-
-
-def contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
+def search(request):
+    if request.method == "GET":
+        form = searchForm(request.GET)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            message = form.cleaned_data['message']
-
-            send_mail(
-                'Contact Form Submission from {}'.format(name),
-                message,
-                email,
-                ['your-email@example.com'],  # Replace with your email
-            )
-            return redirect('marketplace:contact_success')
+            query = form.cleaned_data['query']
+            results = product.objects.filter(name__icontains = query)
+            return render(request, 'marketplace/search_results.html', {'query': query, 'results': results})
         else:
-            # Form is not valid, so render the form with errors
-            return render(request, 'staticpages/contact.html', {'form': form})
-    else:
-        form = ContactForm()
-    return render(request, 'staticpages/contact.html', {'form': form})
-
-def contact_success(request):   
-    return render(request, 'staticpages/contact_success.html')
+            form = searchForm
+        return render(request, 'marketplace/search.html', {'form': form })
 
