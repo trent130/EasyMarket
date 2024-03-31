@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from .forms import CategoryForm, ContactForm, UserProfileForm
 from django.core.mail import send_mail
+from marketplace.models import UserProfile
 
 def index(request):
     context = {'title': 'home'}
@@ -122,23 +123,23 @@ def password_reset(request):
     context = {'title': 'password_reset'}
     return render(request, 'staticpages/registration/password_change_form.html', context)
 
-
 @login_required
 def user_profile(request):
     if request.method == 'POST':
         user_form = ProfileForm(request.POST, instance=request.user)
-        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        profile, created = UserProfile.objects.get_or_create(user=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile has been updated!')
-            return redirect('staticpages/account/profile')
+            return redirect('profile')
     else:
         user_form = ProfileForm(instance=request.user)
-        profile_form = UserProfileForm(instance=request.user)
+        profile, created = UserProfile.objects.get_or_create(user=request.user)
+        profile_form = UserProfileForm(instance=profile)
         
     return render(request, 'staticpages/account/profile.html', {'user_form': user_form, 'profile_form': profile_form})
-
 @login_required
 def cart(request):
     context = {'title': 'cart'}

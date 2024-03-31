@@ -7,7 +7,7 @@ from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect
 from django.shortcuts import render
 from .forms import searchForm
-from products.views import product
+from products.models import Product
 
 @login_required
 def checkout(request):
@@ -50,15 +50,11 @@ def cart(request):
 def cart_cleared(request):
     return render(request, 'marketplace/cart_cleared.html')
 
-
 def search(request):
-    if request.method == "GET":
-        form = searchForm(request.GET)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            results = product.objects.filter(name__icontains = query)
-            return render(request, 'marketplace/search_results.html', {'query': query, 'results': results})
-        else:
-            form = searchForm
-        return render(request, 'marketplace/search.html', {'form': form })
+    if request.method != 'GET':
+        return HttpResponseNotAllowed['GET']
+    
+    query = request.GET.get('q', '')
+    results = Product.objects.filter(title__icontains=query)
+    return render(request, 'marketplace/search_results.html', {'query': query, 'results': results})
 

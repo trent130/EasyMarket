@@ -974,8 +974,8 @@ margin-right: 15%;
 }
 
 /* dashboard styles */
-
-/* Sidebar */
+/* 
+Sidebar
 .sidebar {
     float: left;
     width: 25%;
@@ -983,13 +983,13 @@ margin-right: 15%;
     background-color: #007bff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    /* color: #fff; */
-    position: static; /* Set position to relative */
+    color: #fff;
+    position: static; Set position to relative
 }
 
 .sidebar h2 {
     margin-bottom: 20px;
-    color: #fff;
+    color: #000;
 }
 
 .sidebar ul {
@@ -1005,11 +1005,11 @@ margin-right: 15%;
 .sidebar ul li a {
     display: block;
     text-decoration: none;
-    color: #f0f0f0;
+    color: #000;
     padding: 10px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    position: relative; /* Set position to relative */
+    position: relative; Set position to relative
     z-index: 1;
 }
 
@@ -1017,14 +1017,14 @@ margin-right: 15%;
     background-color: #0056b3;
 }
 
-/* Mainbar */
+Mainbar
 .mainbar {
     margin-left: 30%; 
     width: 70%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     height: 90vh;
-}
+} */
 
 /* Dropdown Menu */
 /* .dropdown {
