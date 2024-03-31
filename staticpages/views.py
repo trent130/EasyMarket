@@ -9,7 +9,7 @@ from django.contrib import messages
 from .forms import CategoryForm, ContactForm, UserProfileForm
 from django.core.mail import send_mail
 from marketplace.models import UserProfile
-
+from products.models import Category, Product
 def index(request):
     context = {'title': 'home'}
     return render(request, 'staticpages/index.html', context)
@@ -47,16 +47,6 @@ def contact(request):
 def contact_success(request):   
     return render(request, 'staticpages/contact_success.html')
 
-def contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(request, 'staticpages/contact_success.html', {'form':form})
-    else:
-        form = ContactForm()
-
-    return render(request, 'staticpages/contact.html', {'form':form})
 
 def help(request):
     context = {'title': 'help'}
@@ -167,3 +157,7 @@ def add_category(request):
         form = CategoryForm()
     return render(request, 'staticpages/add_category.html', {'form': form})
 
+def category_products(request, category_id):
+    category = Category.objects.get(id=category_id)
+    products = Product.objects.filter(category=category)
+    return render(request, 'staticpages/category_product.html', {'category': category, 'products': products})

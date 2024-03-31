@@ -980,8 +980,8 @@ margin-right: 15%;
 /* Sidebar */
 .sidebar {
     float: left;
-    width: 30%;
-    height: 105vh;
+    width: 25%;
+    margin-right: 20px;
     /* background-color: #007bff; */
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -1019,13 +1019,16 @@ margin-right: 15%;
     background-color: #0056b3;
 }
 
-Mainbar
+.sidebar, .mainbar{
+    height: 105vh;
+    overflow: auto;
+}
+
 .mainbar {
     margin-left: 30%; 
     width: 70%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    height: 90vh;
 } 
 
 /* Dropdown Menu */

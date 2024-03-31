@@ -13,7 +13,7 @@ def create_student_profile(sender, instance, created, **kwargs):
             Student.objects.create(user=instance, email=instance.email)
         else:
             print(f"Student with email {instance.email} already exists.")
-            
+           
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     first_name = models.CharField(max_length = 50)

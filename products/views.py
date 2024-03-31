@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from students.models import Student
 from django.http import HttpResponseRedirect
-
+from .models import Category
 
 def product(request, id, slug):
     product = Product.objects.get(id=id)
@@ -69,5 +69,6 @@ def user_products(request, user_id):
     return render(request, 'products/product.html', {'products': products})
 
 def category(request):
-    categories = category.objects.all()
+    categories = Category.objects.all()
     return render(request, 'staticpages/categories.html', {'categories' : categories})
+
