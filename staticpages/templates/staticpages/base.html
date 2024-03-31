@@ -19,23 +19,30 @@
 
 
 <body>
-    <header class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <h1 class="navbar-brand">Easymarket</h1>
-            </a>
 
-            <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'marketplace:search' %}" method="GET">
+
+<header class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <h1 class="navbar-brand">Easymarket</h1>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+              <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'marketplace:search' %}" method="GET">
                     <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search...">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
-                            class="bi bi-search" viewBox="0 0 16 16">
+                            class="bi bi-search d-none d-sm-inline-block" viewBox="0 0 16 16">
                             <path
                                 d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
                             <path fill-rule="evenodd"
                                 d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z" />
                         </svg>
+                        <span class="d-sm-none">Search</span>
                     </button>
                 </form>
 
@@ -89,11 +96,9 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
                     </ul>
                 {% endif %}
-            </div>
         </div>
-    </header>
-
-
+    </div>
+</header>
 
 
     <main>
