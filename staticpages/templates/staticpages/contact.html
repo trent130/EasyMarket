@@ -43,7 +43,7 @@ Contact Us
     {% endif %}
     <form method="post">
         {% csrf_token %}
-        {{ ContactForm.as_p }}
+        {{ form.as_p }}
         {% if form.errors %}
         <p>Your form has errors, please check the fields below:</p>
         {% endif %}
@@ -51,16 +51,16 @@ Contact Us
     </form>
 
     <h2 class="mt-5">Our Location</h2>
-    <p>123 Main Street, Anytown, USA</p>
+    <p>123 Main Street, Vegas, Kenya</p>
 
     <!-- You can embed a Google Maps iframe here -->
     <div id="map" class="mb-4"></div>
 
     <h2>Phone</h2>
-    <p>(123) 456-7890</p>
+    <p>(+254) 725-797-622</p>
 
     <h2>Email</h2>
-    <p>info@example.com</p>
+    <p>info@Easymarket.com</p>
 
     <h2>Follow Us</h2>
     <p>
