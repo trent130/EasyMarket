@@ -10,6 +10,8 @@ from .forms import CategoryForm, ContactForm, UserProfileForm
 from django.core.mail import send_mail
 from marketplace.models import UserProfile
 from products.models import Category, Product
+from django.contrib.auth.decorators import user_passes_test
+
 def index(request):
     context = {'title': 'home'}
     return render(request, 'staticpages/index.html', context)
@@ -146,6 +148,7 @@ def dashboard(request):
     context = {'title' : 'dashboard'}
     return render(request, 'staticpages/dashboard.html', context )
 
+@user_passes_test(lambda u: u.is_superuser)
 @login_required
 def add_category(request):
     if request.method == 'POST':

@@ -5,9 +5,9 @@ from .models import Product
 from .forms import ProductForm, ImageForm, CategoryForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from students.models import Student
 from django.http import HttpResponseRedirect
 from .models import Category
+from marketplace.models import Student
 
 def product(request, id, slug):
     product = Product.objects.get(id=id)
@@ -33,6 +33,7 @@ def product_detail(request, id, slug):
     url = reverse('products:product_detail', args=[product.id, product.slug])
     product_detail_url = reverse('product_detail', args=[product.id, product.slug])
     return render(request, 'products/product_detail.html', context)
+
 @login_required
 def add_product(request):
     if request.method == 'POST':
@@ -47,14 +48,15 @@ def add_product(request):
             image.product = product
             image.save()
 
-            return HttpResponseRedirect(reverse('products:add_product'))
+            return HttpResponseRedirect(reverse('products:product_list'))
 
     else:
         product_form = ProductForm()
         image_form = ImageForm()
 
-    return render(request, 'products/add_product.html', {'product_form': product_form, 'image_form': image_form})
+    categories = Category.objects.all()  # Query for all categories
 
+    return render(request, 'products/add_product.html', {'product_form': product_form, 'image_form': image_form, 'categories': categories})
 @login_required
 def user_products(request, user_id):
     url = reverse('products:user_product_list', args=[user_id])
