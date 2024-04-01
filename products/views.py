@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .models import Category
 from marketplace.models import Student
+from django.forms import modelformset_factory
+from .models import Image
 
 def product(request, id, slug):
     product = Product.objects.get(id=id)
@@ -34,29 +36,38 @@ def product_detail(request, id, slug):
     product_detail_url = reverse('product_detail', args=[product.id, product.slug])
     return render(request, 'products/product_detail.html', context)
 
+
+    
+
 @login_required
 def add_product(request):
+    ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=1)
+
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
-        image_form = ImageForm(request.POST, request.FILES)
-        if product_form.is_valid() and image_form.is_valid():
+        formset = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
+
+        if product_form.is_valid() and formset.is_valid():
             product = product_form.save(commit=False)
             product.user = request.user
             product.save()
 
-            image = image_form.save(commit=False)
-            image.product = product
-            image.save()
+            for form in formset.cleaned_data:
+                if form:
+                    image = form['image']
+                    description = form['description']
+                    Image.objects.create(product=product, image=image, description=description)
 
             return HttpResponseRedirect(reverse('products:product_list'))
 
     else:
         product_form = ProductForm()
-        image_form = ImageForm()
+        formset = ImageFormSet(queryset=Image.objects.none())
 
     categories = Category.objects.all()  # Query for all categories
 
-    return render(request, 'products/add_product.html', {'product_form': product_form, 'image_form': image_form, 'categories': categories})
+    return render(request, 'products/add_product.html', {'product_form': product_form, 'formset': formset, 'categories': categories})
+
 @login_required
 def user_products(request, user_id):
     url = reverse('products:user_product_list', args=[user_id])

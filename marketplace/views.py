@@ -1,12 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import redirect
 from orders.models import Order
 from django.http import HttpResponseNotAllowed
-from django.shortcuts import redirect
-from django.shortcuts import render
-from .forms import searchForm
+from .forms import searchForm, AddToCartForm
 from products.models import Product
 
 @login_required
@@ -58,3 +55,24 @@ def search(request):
     results = Product.objects.filter(title__icontains=query)
     return render(request, 'marketplace/search_results.html', {'query': query, 'results': results})
 
+
+def add_to_cart(request):
+    if request.method == 'POST':
+        form = AddToCartForm(request.POST)  # Create form instance and populate it with data from the request
+        if form.is_valid():
+            product_id = form.cleaned_data['product_id']
+            quantity = form.cleaned_data['quantity']
+            product = get_object_or_404(Product, id=product_id)
+            user = request.user
+            user.cart.add(product, through_defaults={'quantity': quantity})
+            messages.success(request, f"{product.title} added to cart")
+            
+            return redirect('cart')
+        else:
+            # Form is not valid, handle invalid form submission
+            return redirect('home')  # Redirect to home page or any other appropriate page
+    else:
+        product_id = request.GET.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+        form = AddToCartForm(initial={'product_id': product_id})  # Initialize form with product_id
+        return render(request, 'add_to_cart.html', {'product': product, 'form': form})

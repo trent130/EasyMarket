@@ -38,12 +38,31 @@ Contact Us
     <ul class="messages">
         {% for message in messages %}
         <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-        {% endfor %}
+            {% endfor %}
     </ul>
     {% endif %}
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Please enter your username" required>
+            <div class="invalid-feedback">Please enter your username.</div>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="Email" placeholder="Please enter your email" required>
+            <div class="invalid-feedback">Please enter yor email.</div>
+        </div>
+        <div class="mb-3">
+            <label for="subject" class="form-label">subject</label>
+            <input type="text" class="form-control" name="subject" placeholder="Please enter your subject" required>
+            <div class="invalid-feedback">Please enter your subject.</div>
+        </div>
+        <div class="mb-3" >
+            <label for="message" class="form-label">message</label>
+            <input type="text" class="form-control" name="message"  style="height: 150px;" required>
+            <div class="invalid-feedback">Please enter your message.</div>
+        </div>
         {% if form.errors %}
         <p>Your form has errors, please check the fields below:</p>
         {% endif %}
