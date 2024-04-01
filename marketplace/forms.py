@@ -7,3 +7,7 @@ class ContactForm(forms.Form):
 
 class searchForm(forms.Form):
     query = forms.CharField(label= 'search', max_length= 50)
+
+class AddToCartForm(forms.Form):
+    product_id = forms.IntegerField(widget=forms.HiddenInput())
+    quantity = forms.IntegerField(label='Quantity', min_value=1, max_value=100)

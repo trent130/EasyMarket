@@ -20,9 +20,6 @@ def about(request):
     context = {'title' : 'about'}
     return render(request, 'staticpages/about.html', context)
 
-from django.shortcuts import render
-from .forms import ContactForm
-
 
 def contact(request):
     if request.method == 'POST':
@@ -148,9 +145,14 @@ def dashboard(request):
     context = {'title' : 'dashboard'}
     return render(request, 'staticpages/dashboard.html', context )
 
-@user_passes_test(lambda u: u.is_superuser)
+
+@user_passes_test(lambda u: u.is_superuser, login_url='/larrymax/')
 @login_required
 def add_category(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Only superusers can add categories.')
+        return redirect('home')  # or wherever you want to redirect
+
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
@@ -164,3 +166,4 @@ def category_products(request, category_id):
     category = Category.objects.get(id=category_id)
     products = Product.objects.filter(category=category)
     return render(request, 'staticpages/category_product.html', {'category': category, 'products': products})
+
