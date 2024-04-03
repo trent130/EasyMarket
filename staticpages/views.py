@@ -167,3 +167,6 @@ def category_products(request, category_id):
     products = Product.objects.filter(category=category)
     return render(request, 'staticpages/category_product.html', {'category': category, 'products': products})
 
+def larrymax(request):
+    context = {'title': 'larrymax'}
+    return render(request, 'staticpages/larrymax.html', context)
