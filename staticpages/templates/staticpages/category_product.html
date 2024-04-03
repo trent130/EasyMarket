@@ -5,14 +5,16 @@
 <div class="sidebar">
     <h2 class="mb-3">Menu</h2>
     <ul class="list-unstyled mb-4">
-        <li><a href="{% url 'dashboard' %}" class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+        <li><a href="{% url 'dashboard' %}"
+                class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
 
-       <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
+        <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
         <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
-       <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
+        <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
         <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
         <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
-        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a></li>
+        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My
+                Listings</a></li>
         <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
         <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
     </ul>
@@ -25,28 +27,30 @@
 </div>
 
 <div class="mainbar mt-2">
-     <h1>{{ category.name }}</h1>
+    <h1>{{ category.name }}</h1>
     <p>{{ category.description }}</p>
 
     <h2>Products</h2>
     <div class="product-grid">
         {% for product in products %}
-            <div class="product-card">
-                <h3>{{ product.name }}</h3>
-                <img src="{{ product.image_url }}" alt="{{ product.name }}">
-                <p>{{ product.description }}</p>
-                <p>Price: {{ product.price }}</p>
-                <a href="{% url 'product_detail' product.id %}">View Details</a>
+        <div class="product-card">
+            <h3>{{ product.name }}</h3>
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            <p>{{ product.description }}</p>
+            <p>Price: {{ product.price }}</p>
+            <a href="{% url 'products:product_detail' product.id product.slug %}">Product Detail</a>
 
-                <form method="post" action="{% url 'add_to_cart' product.id %}">
-                    {% csrf_token %}
-                    <input type="submit" value="Add to Cart">
-                </form>
-            </div>
+
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+                <input type="submit" value="Add to Cart">
+            </form>
+
+        </div>
         {% empty %}
-            <p>No products in this category.</p>
+        <p>No products in this category.</p>
         {% endfor %}
     </div>
 </div>
-   
+
 {% endblock %}
