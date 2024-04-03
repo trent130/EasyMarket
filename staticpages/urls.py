@@ -27,6 +27,7 @@ urlpatterns = [
     path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(), name = 'password_reset_completee'), path('add_category/', views.add_category, name='add_category'),
     path('account/profile', views.user_profile, name= 'profile'),
     path('category/<int:category_id>/products/', views.category_products, name='category_products'),  
+    path('larrymax/', views.larrymax, name='larrymax'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
