@@ -6,10 +6,9 @@ from .forms import ProductForm, ImageForm, CategoryForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from .models import Category
+from .models import Category,Image
 from marketplace.models import Student
 from django.forms import modelformset_factory
-from .models import Image
 
 def product(request, id, slug):
     product = Product.objects.get(id=id)
@@ -37,7 +36,9 @@ def product_detail(request, id, slug):
     return render(request, 'products/product_detail.html', context)
 
 
-    
+import logging
+
+logger = logging.getLogger(__name__)
 
 @login_required
 def add_product(request):
@@ -59,7 +60,10 @@ def add_product(request):
                     Image.objects.create(product=product, image=image, description=description)
 
             return HttpResponseRedirect(reverse('products:product_list'))
-
+        else:
+            logger.error("Product form or formset is invalid")
+            logger.error(product_form.errors)
+            logger.error(formset.errors)
     else:
         product_form = ProductForm()
         formset = ImageFormSet(queryset=Image.objects.none())
@@ -67,6 +71,7 @@ def add_product(request):
     categories = Category.objects.all()  # Query for all categories
 
     return render(request, 'products/add_product.html', {'product_form': product_form, 'formset': formset, 'categories': categories})
+
 
 @login_required
 def user_products(request, user_id):

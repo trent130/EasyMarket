@@ -58,7 +58,7 @@ def search(request):
 
 def add_to_cart(request):
     if request.method == 'POST':
-        form = AddToCartForm(request.POST)  # Create form instance and populate it with data from the request
+        form = AddToCartForm(request.POST)
         if form.is_valid():
             product_id = form.cleaned_data['product_id']
             quantity = form.cleaned_data['quantity']
@@ -66,13 +66,13 @@ def add_to_cart(request):
             user = request.user
             user.cart.add(product, through_defaults={'quantity': quantity})
             messages.success(request, f"{product.title} added to cart")
-            
-            return redirect('cart')
+            return redirect('cart')  # Redirect to the cart view
         else:
-            # Form is not valid, handle invalid form submission
-            return redirect('home')  # Redirect to home page or any other appropriate page
+            # Handle invalid form submission
+            messages.error(request, "Invalid form submission")
+            return redirect('home')  # Redirect to home page
     else:
         product_id = request.GET.get('product_id')
         product = get_object_or_404(Product, id=product_id)
-        form = AddToCartForm(initial={'product_id': product_id})  # Initialize form with product_id
-        return render(request, 'add_to_cart.html', {'product': product, 'form': form})
+        form = AddToCartForm(initial={'product_id': product_id})
+        return render(request, 'marketplace/add_to_cart.html', {'product': product, 'form': form})
