@@ -60,6 +60,54 @@ body {
     margin: 0;
 }
 
+.product-list-container {
+    
+    overflow-y: auto; /* Add vertical scrollbar if content exceeds height */
+}
+
+.card {
+    margin-bottom: 20px; /* Adjust spacing between cards */
+}
+
+.add-to-cart-form {
+    margin-right: 10px; /* Adjust the margin between the form and the "View Details" button */
+}
+
+/* Custom styling for the input-group */
+.input-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Style for the quantity input */
+.input-group input[type="number"] {
+    flex: 1; /* Take up remaining space */
+    margin-right: 10px; /* Add spacing between the input and the button */
+}
+
+/* Style for the Add to Cart button */
+.input-group button {
+    width: 100px; /* Set a fixed width */
+}
+/* Custom styling for the input-group */
+.input-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Style for the quantity input */
+.input-group input[type="number"] {
+    flex: 1; /* Take up remaining space */
+    margin-right: 20px; /* Add spacing between the input and the button */
+}
+
+/* Style for the Add to Cart button */
+.input-group button {
+    width: 120px; /* Set a fixed width */
+    border-top-right-radius: 5px;
+}
 
 
 

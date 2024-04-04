@@ -56,7 +56,7 @@ def search(request):
     return render(request, 'marketplace/search_results.html', {'query': query, 'results': results})
 
 
-def add_to_cart(request):
+def add_to_cart(request, product_id):
     if request.method == 'POST':
         form = AddToCartForm(request.POST)
         if form.is_valid():

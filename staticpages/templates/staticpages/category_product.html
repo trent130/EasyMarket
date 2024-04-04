@@ -41,7 +41,7 @@
             <a href="{% url 'products:product_detail' product.id product.slug %}">Product Detail</a>
 
 
-            <form method="post" action="{% url 'add_to_cart' product.id %}">
+            <form method="post" action="{% url 'marketplace:add_to_cart' product.id %}">
                 {% csrf_token %}
                 <input type="submit" value="Add to Cart">
             </form>

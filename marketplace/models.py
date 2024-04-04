@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from products.models import Product
 
 @receiver(post_save, sender=User)
 def create_student_profile(sender, instance, created, **kwargs):
@@ -70,3 +70,30 @@ class Review(models.Model):
     class Meta:
         unique_together = (('product', 'reviewer'),)
         index_together = (('product', 'reviewer'),)
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(Product, through='CartItem')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Cart for {self.user.username}"
+
+    def total_items(self):
+        return sum(item.quantity for item in self.cartitem_set.all())
+
+    def total_price(self):
+        return sum(item.total_price() for item in self.cartitem_set.all())
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product} in cart"
+
+    def total_price(self):
+        return self.product.price * self.quantity
+
