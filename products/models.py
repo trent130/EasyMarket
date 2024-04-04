@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from marketplace.models import Student 
 from django.utils import timezone 
 from django.utils.text import slugify
+from marketplace.models import Student
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
