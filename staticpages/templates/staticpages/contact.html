@@ -1,0 +1,93 @@
+{% extends 'staticpages/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Contact Us
+{% endblock %}
+
+{% block content %}
+<div class="sidebar">
+    <h2 class="mb-3">Menu</h2>
+    <ul class="list-unstyled mb-4">
+        <li><a href="{% url 'dashboard' %}"
+                class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+        <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
+        <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
+        <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
+        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
+        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
+        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My
+                Listings</a></li>
+        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
+        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
+    </ul>
+    <div class="logout-btn">
+        <form action="{% url 'signout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
+        </form>
+    </div>
+</div>
+
+<div class="mainbar">
+    <h1 class="mb-4">Contact Us</h1>
+    <p>Please fill out the form below and we will get back to you as soon as possible.</p>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Please enter your username" required>
+            <div class="invalid-feedback">Please enter your username.</div>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="Email" placeholder="Please enter your email" required>
+            <div class="invalid-feedback">Please enter yor email.</div>
+        </div>
+        <div class="mb-3">
+            <label for="subject" class="form-label">subject</label>
+            <input type="text" class="form-control" name="subject" placeholder="Please enter your subject" required>
+            <div class="invalid-feedback">Please enter your subject.</div>
+        </div>
+        <div class="mb-3" >
+            <label for="message" class="form-label">message</label>
+            <input type="text" class="form-control" name="message"  style="height: 150px;" required>
+            <div class="invalid-feedback">Please enter your message.</div>
+        </div>
+        {% if form.errors %}
+        <p>Your form has errors, please check the fields below:</p>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h2 class="mt-5">Our Location</h2>
+    <p>123 Main Street, Vegas, Kenya</p>
+
+    <!-- You can embed a Google Maps iframe here -->
+    <div id="map" class="mb-4"></div>
+
+    <h2>Phone</h2>
+    <p>(+254) 725-797-622</p>
+
+    <h2>Email</h2>
+    <p>info@Easymarket.com</p>
+
+    <h2>Follow Us</h2>
+    <p>
+        <a href="#" class="text-decoration-none">Facebook</a> |
+        <a href="#" class="text-decoration-none">Twitter</a> |
+        <a href="#" class="text-decoration-none">Instagram</a>
+    </p>
+</div>
+
+
+{% endblock %}

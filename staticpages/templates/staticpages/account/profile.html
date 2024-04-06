@@ -1,0 +1,51 @@
+{% extends 'staticpages/base.html' %}
+{% load static %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Profile</h1>
+                    <p class="card-text text-center">Update your profile</p>
+
+                    <form method="post" class="profile-form needs-validation" novalidate enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Username</label>
+                            {{ user_form.username }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_first_name" class="form-label">First Name</label>
+                            {{ user_form.first_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_last_name" class="form-label">Last Name</label>
+                            {{ user_form.last_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            {{ user_form.email }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_avatar" class="form-label">Avatar</label>
+                            <input class="form-control" type="file" id="id_avatar" name="avatar">
+                            {% if profile_form.instance.avatar %}
+                            <img src="{{ profile_form.instance.avatar.url }}" alt="Avatar" class="img-fluid">
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

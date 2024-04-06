@@ -1,0 +1,25 @@
+{% extends 'staticpages/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/logout.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Logged Out</h1>
+                        <p class="card-text text-center">Thank you for visiting. You have been successfully logged out.</p>
+                        <div class="mt-3 text-center">
+                            <a href="{% url 'signin' %}" class="btn btn-primary">Click here to log in again</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'staticpages/base.html' %}
+{% load static %}
+
+{% block title %}
+Registration page
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Register</h1>
+                    <p class="card-text text-center">Please fill out the following form to register</p>
+
+                    <form method="post" class="registration-form needs-validation" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3 position-relative">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                            <div class="invalid-feedback">Please enter your username.</div>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                            <div class="invalid-feedback">Please enter a valid email.</div>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="password1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password1" name="password1" placeholder="Enter your password" required>
+                            <div class="invalid-feedback">Please enter your password.</div>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="password2" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm your password" required>
+                            <div class="invalid-feedback">Please confirm your password.</div>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="" selected disabled>Select your role</option>
+                                <option value="buyer">Buyer</option>
+                                <option value="seller">Seller</option>
+                                <option value="both">Both</option>
+                            </select>
+                            <div class="invalid-feedback">Please select your role.</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <p>Already have an account? <a href="{% url 'signin' %}">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
