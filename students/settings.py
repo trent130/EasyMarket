@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'payment.apps.PaymentConfig',
     'adminapp.apps.AdminappConfig',
     'staticpages.apps.StaticpagesConfig',
+    'mpesa',
 ]
 
 ASGI_APPLICATION = 'marketplace.routing.application'

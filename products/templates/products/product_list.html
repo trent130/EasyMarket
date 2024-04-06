@@ -46,7 +46,7 @@
                     <p class="card-text">{{ product.description | truncatechars:50 }} <a
                             href="{% url 'products:product_detail' id=product.id slug=product.slug %}">more details</a>
                     </p>
-                    <p class="card-text text-muted"><strong>Price:</strong> $ {{ product.price }}</p>
+                    <p class="card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
                             {% csrf_token %}

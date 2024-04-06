@@ -1,4 +1,3 @@
-# payment/forms.py
 from django import forms
 
 class PaymentForm(forms.Form):

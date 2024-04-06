@@ -24,7 +24,7 @@
     </div>
 </div>
 <div class="mainbar">
-    <h1 class="mb-3"><a href="{% url 'product_detail' id=product.id slug=product.slug %}" class="text-decoration-none">{{ product.title }}</a></h1>
+    <h1 class="mb-3"><a href="{% url 'products:product_detail' id=product.id slug=product.slug %}" class="text-decoration-none">{{ product.title }}</a></h1>
     <div class="row mb-3">
         {% for image in product.images.all %}
         <div class="col-md-4">
@@ -32,12 +32,13 @@
         </div>
         {% endfor %}
     </div>
-    <p class="mb-2"><strong>Price:</strong> ${{ product.price }}</p>
+    <p class="mb-2"><strong>Price:</strong> Ksh {{ product.price }}</p>
     <p class="mb-2"><strong>Description:</strong> {{ product.description }}</p>
     <p class="mb-2"><strong>Category:</strong> {{ product.category.name }}</p>
     <p class="mb-2"><strong>Student:</strong> {{ product.student.user.username }}</p>
     <p class="mb-2"><strong>Created at:</strong> {{ product.created_at }}</p>
     <p class="mb-2"><strong>Updated at:</strong> {{ product.updated_at }}</p>
 </div>
+
 
 {% endblock %}

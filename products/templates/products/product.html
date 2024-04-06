@@ -25,13 +25,16 @@
 </div>
 
 <div class="mainbar">
-    <div class="card" style="width: 18rem;">
-        <img src="{{ user_product.image.url }}" class="card-img-top" alt="Product Image">
+    {% for product in products %}
+    <div class="card">
+        <img src="{{ product.image.url }}" class="card-img-top" alt="Product Image">
         <div class="card-body">
-            <h5 class="card-title">{{ user_product_list.name }}</h5>
-            <p class="card-text">${{ user_product_list.price }}</p>
-            <p class="card-text">{{ user_product_list.description }}</p>
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">Ksh {{ product.price }}</p>
+            <p class="card-text">{{ product.description }}</p>
         </div>
     </div>
+    {% endfor %}
 </div>
+
 {% endblock %}
