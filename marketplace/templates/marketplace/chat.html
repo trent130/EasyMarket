@@ -1,0 +1,79 @@
+chat_room.html
+{% extends 'staticpages/base.html' %}
+{% load static %}
+
+<header>
+    {% block title %}
+        Chat Room
+    {% endblock %}
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="{% static 'js/encryption.js' %}"></script>
+</header>
+{% block content %}
+    <div class="chat-room">
+        <h1>Chat Room</h1>
+        <div id="chat-room">
+        {% for room in rooms %}
+            <a href="{% url 'chat_room' room.id %}">{{ room.title }}</a>
+        {% endfor %}
+        </div>
+        <h2>{{ room.title }}</h2>
+        <div id="chat-messages">
+        {% for message in messages %}
+            <div class="message">
+            <strong>{{ message.user.username }}</strong> - {{ message.timestamp }}: {{ message.content }}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+
+<script>
+  var typingTimer;
+  var isTyping = false;
+  var typingTimeout = 1000;  // Time in milliseconds to wait before indicating user has stopped typing
+
+  $('#message-input').on('input', function() {
+    clearTimeout(typingTimer);
+    if ($('#message-input').val()) {
+      if (!isTyping) {
+        isTyping = true;
+        // Send typing status to server
+        sendTypingStatus(true);
+      }
+      typingTimer = setTimeout(function() {
+        isTyping = false;
+        // Send typing status to server
+        sendTypingStatus(false);
+      }, typingTimeout);
+    } else {
+      isTyping = false;
+      // Send typing status to server
+      sendTypingStatus(false);
+    }
+  });
+
+  function sendTypingStatus(typing) {
+    $.ajax({
+      type: 'POST',
+      url: '{% url "typing_status" %}',
+      data: {
+        typing: typing ? 'true' : 'false',
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function(data) {
+        // Handle success
+      },
+      error: function(xhr, status, error) {
+        // Handle error
+      }
+    });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "staticpages/base.html" %}
+{% load static %}
+{% block title %}Product Detail{% endblock %}
+{% block content %}
+  <div class="sidebar">
+    <h2 class="mb-3">Menu</h2>
+    <ul class="list-unstyled mb-4">
+        <li><a href="{% url 'dashboard' %}" class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+
+       <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
+        <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
+       <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
+        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
+        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
+        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a></li>
+        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
+        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
+    </ul>
+    <div class="logout-btn">
+        <form action="{% url 'signout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
+        </form>
+    </div>
+</div>
+<div class="mainbar">
+    <h1 class="mb-3"><a href="{% url 'products:product_detail' id=product.id slug=product.slug %}" class="text-decoration-none">{{ product.title }}</a></h1>
+    <div class="row mb-3">
+        {% for image in product.images.all %}
+        <div class="col-md-4">
+            <img src="{{ image.image.url }}" alt="{{ product.title }}" class="img-fluid">
+        </div>
+        {% endfor %}
+    </div>
+    <p class="mb-2"><strong>Price:</strong> Ksh {{ product.price }}</p>
+    <p class="mb-2"><strong>Description:</strong> {{ product.description }}</p>
+    <p class="mb-2"><strong>Category:</strong> {{ product.category.name }}</p>
+    <p class="mb-2"><strong>Student:</strong> {{ product.student.user.username }}</p>
+    <p class="mb-2"><strong>Created at:</strong> {{ product.created_at }}</p>
+    <p class="mb-2"><strong>Updated at:</strong> {{ product.updated_at }}</p>
+</div>
+
+
+{% endblock %}

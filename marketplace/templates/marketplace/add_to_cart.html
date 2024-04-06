@@ -1,0 +1,14 @@
+{% extends "staticpages/base.html" %}
+
+{% block content %}
+  <h2>Add to Cart</h2>
+  <form method="post" class="form-inline">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <div class="form-group">
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" class="form-control" min="1" max="100" value="1">
+    </div>
+    <button type="submit" class="btn btn-primary">Add to Cart</button>
+  </form>
+{% endblock %}
