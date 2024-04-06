@@ -15,8 +15,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-- Node.js
-- MongoDB
+- python django
+- sql
 
 ### Installation
 
@@ -26,13 +26,11 @@ These instructions will get you a copy of the project up and running on your loc
    ```
 2. Install NPM packages
    ```
-   npm install
-   ```
-3. Enter your MongoDB URI in `config.js`
+   pip install django
 
 ## Usage
 
-After setting up, you can run `npm start` to start the application. Open your browser and visit `http://localhost:3000`.
+After setting up, you can run `python manage.py runserver` to start the application. Open your browser and visit `http://localhost:3000`.
 
 ## Contributing
 
@@ -50,7 +48,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-trent130 - warsamegift@gmail.com - email
+trent130 - lawrencewafula408@gmail.com - email
 
 Project Link: [https://github.com/trent130/Easymarket.git](https://github.com/trent130/Easymarket.git)
 

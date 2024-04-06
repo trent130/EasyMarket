@@ -1,11 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from django.shortcuts import render
 from .models import Product
-from .forms import ProductForm, ImageForm, CategoryForm
+from .forms import ProductForm, ImageForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect
 from .models import Category,Image
 from marketplace.models import Student
 from django.forms import modelformset_factory
@@ -26,14 +25,17 @@ def product_list(request):
 
     return render(request, 'products/product_list.html', {'page_obj': page_obj})
 
+
+
 @login_required
 def product_detail(request, id, slug):
-    context = {'title': 'product detail'}
-    product = Product.objects.get(id=id)  
-    
-    url = reverse('products:product_detail', args=[product.id, product.slug])
-    product_detail_url = reverse('product_detail', args=[product.id, product.slug])
-    return render(request, 'products/product_detail.html', context)
+    try:
+        product = get_object_or_404(Product, id=id, slug=slug)
+        context = {'title': 'Product Detail', 'product': product}
+        return render(request, 'products/product_detail.html', context)
+    except Product.DoesNotExist:
+        # Handle the case where the product doesn't exist
+        return HttpResponse("Product not found", status=404)
 
 
 import logging
@@ -64,6 +66,11 @@ def add_product(request):
             logger.error("Product form or formset is invalid")
             logger.error(product_form.errors)
             logger.error(formset.errors)
+            
+            # Retrieve the form data with errors and populate the form again
+            product_form = ProductForm(request.POST)
+            formset = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
+
     else:
         product_form = ProductForm()
         formset = ImageFormSet(queryset=Image.objects.none())
@@ -72,11 +79,8 @@ def add_product(request):
 
     return render(request, 'products/add_product.html', {'product_form': product_form, 'formset': formset, 'categories': categories})
 
-
 @login_required
-def user_products(request, user_id):
-    url = reverse('products:user_product_list', args=[user_id])
-    
+def user_products(request):
     try:
         student = Student.objects.get(user=request.user)
         products = Product.objects.filter(student=student)
