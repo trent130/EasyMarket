@@ -1,0 +1,55 @@
+{% extends 'staticpages/base.html' %}
+{% load static %}
+
+{% block title %}
+Categories
+{% endblock %}
+
+{% block content %}
+
+<div class="sidebar">
+    <h2 class="mb-3">Menu</h2>
+    <ul class="list-unstyled mb-4">
+        <li><a href="{% url 'dashboard' %}" class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+
+       <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
+        <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
+       <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
+        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
+        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
+        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a></li>
+        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
+        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
+    </ul>
+    <div class="logout-btn">
+        <form action="{% url 'signout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
+        </form>
+    </div>
+</div>
+
+<div class="mainbar mt-2">
+    <h1 class="mb-4">Categories</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for category in categories %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text">{{ category.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'category_products' category_id=category.id %}" class="btn btn-primary">View Products</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col">
+            <p class="text-muted">No categories found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+    
+{% endblock %}

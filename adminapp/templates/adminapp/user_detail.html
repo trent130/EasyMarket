@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Detail</title>
+</head>
+<body>
+    <h1>User Detail</h1>
+    <p>Username: {{ user.username }}</p>
+    <!-- Add more user details here -->
+    <a href="{% url 'assign_role' user.id %}">Assign Role</a>
+    <form action="{% url 'user_delete' user.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete User">
+    </form>
+</body>
+</html>

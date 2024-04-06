@@ -1,0 +1,61 @@
+{% extends "staticpages/base.html" %}
+
+  <div id="messaging-container">
+    <div id="users-section">
+      <div id="users-header">
+        <h2>Users</h2>
+        <input type="text" id="search" placeholder="Search">
+        <div id="users-menu">
+          <img src="assets/images/icons/menu.png" alt="Menu Icon">
+        </div>
+      </div>
+      <div id="user-profiles">
+        <div class="user-profile">
+          <img src="assets/images/user_profile_1.jpg" alt="User 1 Profile">
+          <span>User 1</span>
+        </div>
+        <div class="user-profile">
+          <img src="assets/images/user_profile_2.jpg" alt="User 2 Profile">
+          <span>User 2</span>
+        </div>
+        <!-- Add more user profiles here -->
+      </div>
+    </div>
+    <div id="chat-section">
+      <div id="chat-header">
+        <div id="secondary-user-profile">
+          <img src="secondary-user-profile.jpg" alt="Secondary User Profile">
+          <span>Secondary User</span>
+          
+        </div>
+        <div id="chat-menu">
+          <img src="assets/images/icons/telephone.png" alt="phone Icon" class="icon">
+          <img src="assets/images/icons/video.png" alt="video Icon" class="icon">
+          <img src="assets/images/icons/menu.png" alt="Menu Icon">
+        </div>
+      </div>
+      <div id="message-display">
+        <!-- This is where your chat messages will be displayed -->
+      </div>
+      <div id="message-input">
+        <button id="emoji-button">
+          <img src="assets/images/icons/good-mood-emoticon.png" alt="Emoji Icon">
+      </button>
+      
+        <input type="text" id="message" placeholder="Type your message...">
+        <button id="send-files-button">
+          <label for="file-input">
+              <img src="assets/images/icons/attach-file.png" alt="Attach Files Icon">
+          </label>
+          <input type="file" id="file-input" style="display: none;">
+      </button>
+        <button id="voice-input-button">
+            <img src="assets/images/icons/settings_voice_FILL0_wght400_GRAD0_opsz24.png" alt="Voice Input Icon">
+        </button>
+        
+        <button id="send-button">Send</button>
+    </div>
+    
+   
+    </div>
+  </div>
