@@ -11,7 +11,7 @@ class PaymentAppViewTest(TestCase):
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
-        self.transaction = Transaction.objects.create(user=self.user, amount=10.00, description='Test transaction')
+        self.transaction = Transaction.objects.create(user=self.user, amount=10.00)
 
     def test_payment_list_view(self):
         response = self.client.get(reverse('payment_list'))
@@ -20,10 +20,10 @@ class PaymentAppViewTest(TestCase):
 
     def test_make_payment_form_valid(self):
         form_data = {
-            'phone_number': '0725797622',
+            'phone_number': '+254725797622',
             'amount': 1500.00,
             'account_reference': 'reference',
-            'transaction_desc': 'description',
+            'transaction_desc': 'description',  # This should match the form field name
         }
         form = PaymentForm(data=form_data)
         self.assertTrue(form.is_valid())

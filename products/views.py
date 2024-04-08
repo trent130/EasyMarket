@@ -16,7 +16,7 @@ def product(request, id, slug):
     return render(request, 'products/product.html', context)
 
 def product_list(request):
-    product_list = Product.objects.filter(is_active=True)
+    product_list = Product.objects.order_by('id')
     paginator = Paginator(product_list, 12)  # Show 12 products per page.
 
     url = reverse('products:product_list')
@@ -80,7 +80,7 @@ def add_product(request):
     return render(request, 'products/add_product.html', {'product_form': product_form, 'formset': formset, 'categories': categories})
 
 @login_required
-def user_products(request):
+def user_products(request, user_id):
     try:
         student = Student.objects.get(user=request.user)
         products = Product.objects.filter(student=student)
