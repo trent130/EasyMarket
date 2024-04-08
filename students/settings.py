@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'payment.apps.PaymentConfig',
     'adminapp.apps.AdminappConfig',
     'staticpages.apps.StaticpagesConfig',
-    'django-daraja',
+    'django_daraja',
 ]
 
 ASGI_APPLICATION = 'marketplace.routing.application'
