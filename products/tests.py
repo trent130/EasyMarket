@@ -9,7 +9,7 @@ class ProductViewTest(TestCase):
         self.user = User.objects.create_user(username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
         self.category = Category.objects.create(name='Test Category')
-        self.user_id = 1 
+        self.user_id = 1
         self.product = Product.objects.create(title='Test Product', description='Test Description', price=10.00, category=self.category)
         self.image = Image.objects.create(product=self.product, image='test_image.jpg', description='Test Image')
 
@@ -47,6 +47,8 @@ class ProductViewTest(TestCase):
             # Include form data for image upload if applicable
         }
         response = self.client.post(reverse('products:add_product'), form_data)
+        print(response.status_code)
+        print(response.content)
         self.assertEqual(response.status_code, 302)  # Should redirect after successful form submission
         self.assertTrue(Product.objects.filter(title='New Product').exists())
 

@@ -29,7 +29,6 @@
     <!-- Main Content -->
     <main>
         <div class="container">
-            
 
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
@@ -63,11 +62,12 @@
                                     {% endfor %}
                                 </select>
                             </div>
+
+                            <!-- Hidden student field -->
+                            <input type="hidden" name="student" value="{{ request.user.student.id }}">
                         </fieldset>
 
-
                         <!-- Add more form fields as needed -->
-
 
                         <fieldset class="module">
                             <h2>Images</h2>
@@ -89,15 +89,10 @@
                                             <textarea name="images-0-description" cols="40" rows="3"
                                                 class="form-control"></textarea>
                                         </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger delete-image">Delete</button>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </fieldset>
-
-
                     </div>
 
                     <div class="submit-row">
@@ -109,21 +104,6 @@
         </div>
     </main>
 </div>
-
-
-<script>
-    $(document).ready(function() {
-    $('.delete-btn').click(function() {
-        // Find the parent row of the delete button
-        var row = $(this).closest('tr');
-        
-        // Remove the row from the table
-        row.remove();
-    });
-});
-
-</script>
-
 
 
 
