@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from .models import Product
 from .forms import ProductForm, ImageForm
@@ -36,48 +36,34 @@ def product_detail(request, id, slug):
     except Product.DoesNotExist:
         # Handle the case where the product doesn't exist
         return HttpResponse("Product not found", status=404)
-
-
-import logging
-
-logger = logging.getLogger(__name__)
+    
 
 @login_required
 def add_product(request):
-    ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=1)
-
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
-        formset = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
-
-        if product_form.is_valid() and formset.is_valid():
+        image_form = ImageForm(request.POST, request.FILES)  
+        if product_form.is_valid() and image_form.is_valid():  
             product = product_form.save(commit=False)
+            product.student = request.user.student 
             product.user = request.user
-            product.save()
-
-            for form in formset.cleaned_data:
-                if form:
-                    image = form['image']
-                    description = form['description']
-                    Image.objects.create(product=product, image=image, description=description)
-
-            return HttpResponseRedirect(reverse('products:product_list'))
-        else:
-            logger.error("Product form or formset is invalid")
-            logger.error(product_form.errors)
-            logger.error(formset.errors)
             
-            # Retrieve the form data with errors and populate the form again
-            product_form = ProductForm(request.POST)
-            formset = ImageFormSet(request.POST, request.FILES, queryset=Image.objects.none())
-
+            category_id = request.POST.get('category')
+            product.category_id = category_id
+            
+            product.save()
+            print("product saved successfully")
+            image = image_form.save(commit=False) 
+            image.product = product  
+            image.save()
+            
+            return redirect('products:product_list') 
     else:
         product_form = ProductForm()
-        formset = ImageFormSet(queryset=Image.objects.none())
-
-    categories = Category.objects.all()  # Query for all categories
-
-    return render(request, 'products/add_product.html', {'product_form': product_form, 'formset': formset, 'categories': categories})
+        image_form = ImageForm()
+        
+    categories = Category.objects.all()  
+    return render(request, 'products/add_product.html', {'product_form': product_form, 'image_form': image_form, 'categories': categories})
 
 @login_required
 def user_products(request, user_id):
