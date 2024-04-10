@@ -11,8 +11,8 @@ from django.forms import modelformset_factory
 
 def product(request, id, slug):
     product = Product.objects.get(id=id)
-    images = product.images.all()
-    context = {'title': 'product', 'product': product, 'images': images}
+    image = product.image.all()
+    context = {'title': 'product', 'product': product, 'image': image}
     return render(request, 'products/product.html', context)
 
 def product_list(request):
@@ -54,7 +54,7 @@ def add_product(request):
             product.save()
             print("product saved successfully")
             image = image_form.save(commit=False) 
-            image.product = product  
+            image.product = product
             image.save()
             
             return redirect('products:product_list') 

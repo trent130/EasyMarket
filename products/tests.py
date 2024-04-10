@@ -44,6 +44,7 @@ class ProductViewTest(TestCase):
             'description': 'New Description',
             'price': 20.00,
             'category': self.category.id,
+            'image': 'image.png'
             # Include form data for image upload if applicable
         }
         response = self.client.post(reverse('products:add_product'), form_data)
