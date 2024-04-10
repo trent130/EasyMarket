@@ -1,90 +1,127 @@
-{% extends 'staticpages/base.html' %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    {% extends 'staticpages/base.html' %}
+   <style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
 
-{% block title %}
-    Cart
-{% endblock %}
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
 
+  table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #007bff;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  form {
+    display: inline;
+  }
+
+  input[type="number"] {
+    width: 50px;
+  }
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+.action-buttons a {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+.action-buttons a:hover {
+    background-color: #0056b3;
+  }
+
+.cartContainer {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+</head>
+<body>
 {% block content %}
-    <style>
-        .cart-container {
-            width: 80%;
-            margin: auto;
-        }
-
-        .cart-items {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .cart-item {
-            flex: 0 0 calc(50% - 20px);
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        .cart-item-image {
-            width: 100%;
-        }
-
-        .cart-item-image img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .cart-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .cart-buttons a {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-        }
-
-        .cart-buttons a:hover {
-            background-color: #0056b3;
-        }
-
-        .cart-container h1 {
-            text-align: center;
-            color: #343434;
-        }
-
-        .cart-total {
-            margin-top: 20px;
-        }
-    </style>
-    <div class="cart-container">
-        <h1>Cart</h1>
-        <p>Here are the items in your cart</p>
-        <div class="cart-items">
-            {% for item in cart_items %}
-                <div class="cart-item">
-                    <div class="cart-item-image">
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-                    </div>
-                    <div class="cart-item-info">
-                        <h3>{{ item.product.name }}</h3>
-                        <p>{{ item.product.description }}</p>
-                        <p>Price: {{ item.product.price }}</p>
-                        <p>Quantity: {{ item.quantity }}</p>
-                        <p>Total: {{ item.total }}</p>
-                    </div>
-                </div>
-            {% endfor %}
+<div class="cartContainer">
+    <h1>Cart</h1>
+    {% if cart_items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>ksh {{ item.product.price }}</td>
+                        <td>
+                            <form method="post" action="{% url 'marketplace:update_cart' item.product.id %}">
+                                {% csrf_token %}
+                                {{ item.quantity }}
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                        <td>ksh {{ item.total }}</td>
+                        <td>
+                            <form method="post" action="{% url 'marketplace:remove_from_cart' item.product.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Total Price: Ksh {{ cart_total }}</p>
+        <div class="action-buttons">
+            <a href="{% url 'marketplace:checkout' %}">Proceed to Checkout</a>
+            <a href="#">Clear Cart</a>
         </div>
-        <div class="cart-total">
-            <p>Total: {{ cart_total }}</p>
-        </div>
-        <div class="cart-buttons">
-            <a href="{% url 'marketplace:checkout' %}">Checkout</a>
-            <a href="{% url 'marketplace:clear_cart' %}">Clear cart</a>
-        </div>
-    </div>
-{% endblock %}
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+    
+</div>
+{% endblock %}   
+</body>
+</html>

@@ -39,7 +39,7 @@ class Product(models.Model):
         return self.title
 
 class Image(models.Model):
-    product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = "images")
+    product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = "image")
     image = models.ImageField(upload_to = 'product_images/', blank = True)
     description = models.TextField(blank =True)
 

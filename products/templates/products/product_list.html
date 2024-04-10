@@ -33,7 +33,7 @@
         <div class="col">
             <div class="card shadow-sm">
                 {% if product.image %}
-                <img src="{{ product.image.url }}" class="card-img-top" alt="#" style="height: 200px;">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="" style="height: 200px;">
                 {% else %}
                 <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 200px;">
                     <span>No Image Available</span>
@@ -42,7 +42,7 @@
 
                 <div class="card-body">
                     <h5 class="card-title">{{ product.title }}</h5>
-                    <p class="card-text">{{ product.description | truncatechars:50 }} <a
+                    <p class="card-text">{{ product.description | truncatewords:10 }} <a
                             href="{% url 'products:product_detail' id=product.id slug=product.slug %}">more details</a>
                     </p>
                     <p class="card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>
