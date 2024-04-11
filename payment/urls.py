@@ -8,4 +8,5 @@ urlpatterns = [
     path('transaction/<int:transaction_id>/', views.transaction_detail, name='transaction_detail'),
     path('export/', views.export_transactions, name='export_transactions'),
     path('search/', views.search_transactions, name='search_transactions'),
+    path('mpesa-callback/', views.mpesa_callback, name='mpesa_callback'),
 ]

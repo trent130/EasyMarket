@@ -31,7 +31,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for product in page_obj %}
         <div class="col">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" style="height:450px ;">
                 {% if product.image %}
                 <img src="{{ product.image.url }}" class="card-img-top" alt="" style="height: 200px;">
                 {% else %}
@@ -42,7 +42,7 @@
 
                 <div class="card-body">
                     <h5 class="card-title">{{ product.title }}</h5>
-                    <p class="card-text">{{ product.description | truncatewords:10 }} <a
+                    <p class="card-text">{{ product.description | truncatewords:8 }} <a
                             href="{% url 'products:product_detail' id=product.id slug=product.slug %}">more details</a>
                     </p>
                     <p class="card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>

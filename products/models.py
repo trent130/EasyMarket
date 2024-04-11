@@ -26,7 +26,6 @@ class Product(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-
     slug = models.SlugField(max_length=200, unique=True, null=True)
 
     def save(self, *args, **kwargs):
