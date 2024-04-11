@@ -33,14 +33,14 @@ def checkout(request):
         # If the request method is not POST, redirect to the cart page
         return redirect('marketplace:cart')
 
-# def clear_cart(request): 
-#     if request.method == 'POST':
-#         user = request.user
-#         user.cart.clear()
-#         user.save()
-#         return redirect('marketplace:cart_cleared')
-#     else:
-#         return HttpResponseNotAllowed(['POST'])
+def clear_cart(request): 
+    if request.method == 'POST':
+        user = request.user
+        user.cart.clear()
+        user.save()
+        return redirect('marketplace:cart_cleared')
+    else:
+        return HttpResponseNotAllowed(['POST'])
 
 
 
@@ -53,6 +53,7 @@ def search(request):
     
     query = request.GET.get('q', '')
     results = Product.objects.filter(title__icontains=query)
+ 
     return render(request, 'marketplace/search_results.html', {'query': query, 'results': results})
 
 def add_to_cart(request, product_id):
@@ -62,13 +63,19 @@ def add_to_cart(request, product_id):
         if form.is_valid():
             quantity = form.cleaned_data['quantity']
             cart = request.session.get('cart', {})
-            cart[product_id] = cart.get(product_id, 0) + quantity
+            if product_id in cart:
+                # If the product is already in the cart, update its quantity
+                cart[product_id] += quantity
+            else:
+                # If the product is not in the cart, add it
+                cart[product_id] = quantity
             request.session['cart'] = cart
             messages.success(request, f"{product.title} added to cart")
             return redirect('marketplace:cart')
     else:
         form = AddToCartForm(initial={'product_id': product_id})
     return render(request, 'marketplace/add_to_cart.html', {'product': product, 'form': form})
+
 
 def cart(request):
     cart_items = []
@@ -94,14 +101,16 @@ def update_cart(request, product_id):
             del cart[product_id]
             request.session['cart'] = cart
             messages.success(request, f"{product.title} removed from cart")
-    return redirect('cart')
+    return redirect('marketplace:cart')  # <-- Corrected the redirect here
+
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
-    form = RemoveFromCartForm(request.POST)
-    if form.is_valid():
+    if request.method == 'POST':
         cart = request.session.get('cart', {})
-        del cart[product_id]
-        request.session['cart'] = cart
-        messages.success(request, f"{product.title} removed from cart")
-    return redirect('cart')
+        if product_id in cart:
+            del cart[product_id]
+            request.session['cart'] = cart
+            messages.success(request, f"{product.title} removed from cart")
+    return redirect('marketplace:cart')
+
