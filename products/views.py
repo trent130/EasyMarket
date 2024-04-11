@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from .models import Product
-from .forms import ProductForm, ImageForm
+from products.forms import ProductForm, ImageForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse
 from .models import Category,Image
 from marketplace.models import Student
-from django.forms import modelformset_factory
+
 
 def product(request, id, slug):
     product = Product.objects.get(id=id)
@@ -15,8 +15,9 @@ def product(request, id, slug):
     context = {'title': 'product', 'product': product, 'image': image}
     return render(request, 'products/product.html', context)
 
+
 def product_list(request):
-    product_list = Product.objects.order_by('id')
+    product_list = Product.objects.prefetch_related('image').order_by('id')
     paginator = Paginator(product_list, 12)  # Show 12 products per page.
 
     url = reverse('products:product_list')
@@ -24,8 +25,6 @@ def product_list(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'products/product_list.html', {'page_obj': page_obj})
-
-
 
 @login_required
 def product_detail(request, id, slug):
@@ -47,7 +46,7 @@ def add_product(request):
             product = product_form.save(commit=False)
             product.student = request.user.student 
             product.user = request.user
-            
+           
             category_id = request.POST.get('category')
             product.category_id = category_id
             
@@ -79,4 +78,3 @@ def user_products(request, user_id):
 def category(request):
     categories = Category.objects.all()
     return render(request, 'staticpages/categories.html', {'categories' : categories})
-

@@ -21,8 +21,8 @@ PAYMENT_VARIANTS = {
 MPESA_ENVIRONMENT = 'sandbox'
 MPESA_CONSUMER_KEY = os.getenv('MPESA_CONSUMER_KEY')
 MPESA_CONSUMER_SECRET = os.getenv('MPESA_CONSUMER_SECRET')
-MPESA_SHORTCODE = 'N/A'
-MPESA_EXPRESS_SHORTCODE = 'N/a'
+MPESA_SHORTCODE = '174379'
+MPESA_EXPRESS_SHORTCODE = '174379'
 MPESA_SHORTCODE_TYPE = 'paybill'
 MPESA_PASSKEY = os.getenv('MPESA_PASSKEY')
 MPESA_INITIATOR_USERNAME = os.getenv('MPESA_INITIATOR_USERNAME')
@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'adminapp.apps.AdminappConfig',
     'staticpages.apps.StaticpagesConfig',
     'django_daraja',
+    'widget_tweaks',
 ]
 
 ASGI_APPLICATION = 'marketplace.routing.application'
