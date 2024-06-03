@@ -30,7 +30,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Usage
 
-After setting up, you can run `python manage.py runserver` to start the application. Open your browser and visit `http://localhost:3000`.
+After setting up, you can run `python manage.py runserver` to start the application. Open your browser and visit `http://localhost:8000/
 
 ## Contributing
 

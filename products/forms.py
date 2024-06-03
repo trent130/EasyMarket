@@ -14,6 +14,10 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['title', 'description', 'price', 'category']
+        widgets = {
+            'description': forms.Textarea(attrs={'class':'form-control'}),
+        }
+
 
     def clean_price(self):
         price = self.cleaned_data.get('price')

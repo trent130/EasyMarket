@@ -11,9 +11,12 @@ from django.core.mail import send_mail
 from marketplace.models import UserProfile
 from products.models import Category, Product
 from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Count
 
 def index(request):
-    context = {'title': 'home'}
+    featured_users = UserProfile.objects.order_by('?')[:6]
+    featured_products = Product.objects.annotate(num_images=Count('image')).order_by('-num_images')[:9]
+    context = {'title': 'home', 'featured_products': featured_products, 'featured_users': featured_users}
     return render(request, 'staticpages/index.html', context)
 
 def about(request):

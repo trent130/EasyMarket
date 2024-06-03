@@ -6,41 +6,45 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h1 class="mt-5">Make Payment</h1>
-            <form method="post" class="mt-3">
-                {% csrf_token %}
-                <div class="form-group">
-                    {{ form.phone_number.label_tag }}
-                    {{ form.phone_number|add_class:"form-control" }}
-                    {% if form.phone_number.errors %}
-                        <small class="text-danger">{{ form.phone_number.errors }}</small>
-                    {% endif %}
+    <div class="column mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Make Payment</h1>
+                    <form method="post" class="mt-3">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.phone_number.label_tag }}
+                            {{ form.phone_number|add_class:"form-control" }}
+                            {% if form.phone_number.errors %}
+                                <small class="text-danger">{{ form.phone_number.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.amount.label_tag }}
+                            {{ form.amount|add_class:"form-control" }}
+                            {% if form.amount.errors %}
+                                <small class="text-danger">{{ form.amount.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.account_reference.label_tag }}
+                            {{ form.account_reference|add_class:"form-control" }}
+                            {% if form.account_reference.errors %}
+                                <small class="text-danger">{{ form.account_reference.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.transaction_desc.label_tag }}
+                            {{ form.transaction_desc|add_class:"form-control" }}
+                            {% if form.transaction_desc.errors %}
+                                <small class="text-danger">{{ form.transaction_desc.errors }}</small>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Submit Payment</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    {{ form.amount.label_tag }}
-                    {{ form.amount|add_class:"form-control" }}
-                    {% if form.amount.errors %}
-                        <small class="text-danger">{{ form.amount.errors }}</small>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.account_reference.label_tag }}
-                    {{ form.account_reference|add_class:"form-control" }}
-                    {% if form.account_reference.errors %}
-                        <small class="text-danger">{{ form.account_reference.errors }}</small>
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.transaction_desc.label_tag }}
-                    {{ form.transaction_desc|add_class:"form-control" }}
-                    {% if form.transaction_desc.errors %}
-                        <small class="text-danger">{{ form.transaction_desc.errors }}</small>
-                    {% endif %}
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Payment</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
