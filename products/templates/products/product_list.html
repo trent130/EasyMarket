@@ -27,13 +27,13 @@
 </div>
 
 <div class="mainbar">
-    <h1>Product List</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <h1 class="text-center">Product List</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for product in page_obj %}
         <div class="col">
             <div class="card shadow-sm" style="height:450px ;">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" class="card-img-top" alt="" style="height: 200px;">
+                {% if image in product.image.all %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}" style="height: 200px;">
                 {% else %}
                 <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 200px;">
                     <span>No Image Available</span>
@@ -42,7 +42,7 @@
 
                 <div class="card-body">
                     <h5 class="card-title">{{ product.title }}</h5>
-                    <p class="card-text">{{ product.description | truncatewords:8 }} <a
+                    <p class="card-text">{{ product.description | truncatewords:8 | truncatechars:40 }} <a
                             href="{% url 'products:product_detail' id=product.id slug=product.slug %}">more details</a>
                     </p>
                     <p class="card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>

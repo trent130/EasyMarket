@@ -6,11 +6,11 @@
 <head>
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <!-- Your custom stylesheet -->
-    <link rel="stylesheet" type="text/css" href='/static/css/style.css?{% now "u" %}'>
-    <link rel="stylesheet" type="text/css" href='/static/css/bootstrap-5.3.3-dist/css/bootstrap.min.css?{% now "u" %}'>
+    <link rel="stylesheet" type="text/css" href='{% static "css/style.css"%}?{% now "u" %}'>
+    <link rel="stylesheet" type="text/css" href='{% static "css/bootstrap.min.css"%}?{% now "u" %}'>
   
     <!-- CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
 
 
 </head>
@@ -21,87 +21,87 @@
 
 
     <header class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <h1 class="navbar-brand">Easymarket</h1>
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <h1 class="navbar-brand">Easymarket</h1>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="d-flex ms-auto" action="{% url 'marketplace:search' %}" method="GET">
+                <input class="form-control me-2" type="text" name="q" placeholder="Search...">
+                <button class="btn btn-outline-success" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                        class="bi bi-search d-none d-sm-inline-block" viewBox="0 0 16 16">
+                        <path
+                            d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                        <path fill-rule="evenodd"
+                            d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z" />
+                    </svg>
+                    <span class="d-sm-none">Search</span>
+                </button>
+            </form>
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link disabled" href="{% url 'chat' %}"
+                        aria-disabled="true">Chat</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'help' %}">Help</a></li>
+            </ul>
+
+            <a class="nav-link" href="{% url 'marketplace:cart' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-bag-plus" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5" />
+                    <path
+                        d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                </svg>
             </a>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                <form class="form-inline my-2 my-lg-0 ml-auto" action="{% url 'marketplace:search' %}" method="GET">
-                    <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search...">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
-                            class="bi bi-search d-none d-sm-inline-block" viewBox="0 0 16 16">
-                            <path
-                                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                            <path fill-rule="evenodd"
-                                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z" />
-                        </svg>
-                        <span class="d-sm-none">Search</span>
-                    </button>
-                </form>
-
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" href="{% url 'chat' %}"
-                            aria-disabled="true">Chat</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'help' %}">Help</a></li>
-                </ul>
-
-                <a class="nav-link" href="{% url 'marketplace:cart' %}">
+            {% if request.user.is_authenticated %}
+            <span class="ms-2">Hello, {{ request.user.username }}</span>
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
+                    id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if request.user.userprofile.avatar %}
+                    <img src="{{ request.user.userprofile.avatar.url }}" class="avatar-img rounded-circle" alt="Avatar"
+                        style="width: 40px; height: 40px;">
+                    {% else %}
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-bag-plus" viewBox="0 0 16 16">
+                        class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                         <path fill-rule="evenodd"
-                            d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5" />
-                        <path
-                            d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                     </svg>
+                    {% endif %}
                 </a>
 
-                {% if request.user.is_authenticated %}
-                <span class="ml-2">Hello, {{ request.user.username }}</span>
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
-                        id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% if request.user.userprofile.avatar %}
-                        <img src="{{ request.user.userprofile.avatar.url }}" class="avatar-img rounded-circle"
-                            alt="Avatar" style="width: 40px; height: 40px;">
-                        {% else %}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                            <path fill-rule="evenodd"
-                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                        </svg>
-                        {% endif %}
-                    </a>
-
-
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
-                        <a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a>
-                        <form class="dropdown-item" action="{% url 'signout' %}" method="post" class="logout-form">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-link">Logout</button>
-                        </form>
-                    </div>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+                    <a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a>
+                    <form class="dropdown-item" action="{% url 'signout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link">Logout</button>
+                    </form>
                 </div>
-                {% else %}
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-                </ul>
-                {% endif %}
             </div>
+            {% else %}
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+            </ul>
+            {% endif %}
         </div>
-    </header>
+    </div>
+</header>
+
 
 
     <main>
@@ -110,21 +110,14 @@
         {% endblock %}
     </main>
 
-    <!-- Bootstrap 4 CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Your custom stylesheet -->
-    <link rel="stylesheet" type="text/css" href='/static/css/style.css?{% now "u" %}'>
-
-    
-
     <!-- Bootstrap 4 JavaScript -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Bootstrap 5 JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src='{% static "js/bootstrap.bundle.min.js" %}?{% now "U" %}'></script> <!-- Use this for Bootstrap 5 -->
+    <script src="{% static 'js/bootstrap.min.js' %}?{% now  'U' %}"></script> <!-- Use this for Bootstrap 4 -->
 
     <!-- Your custom JavaScript -->
     <script src="{% static 'js/script.js' %}"></script>
