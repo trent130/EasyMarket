@@ -69,20 +69,17 @@ def payment_list(request):
 
     return render(request, 'payment/payment_list.html', {'transactions': transactions})
 
+
 @login_required
 def make_payment(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
         if form.is_valid():
             try:
-                # Initialize Mpesa client with API credentials and environment
-                cl = MpesaClient(api_key=settings.MPESA_CONSUMER_KEY,
-                                 api_secret=settings.MPESA_CONSUMER_SECRET,
-                                 shortcode=settings.MPESA_SHORTCODE,
-                                 environment=settings.MPESA_ENVIRONMENT)
+                cl = MpesaClient()  
 
                 phone_number = form.cleaned_data['phone_number']
-                amount = calculate_cart_total(request)
+                amount = int(calculate_cart_total(request))
 
                 # Ensure amount is positive
                 if amount <= 0:
@@ -95,18 +92,16 @@ def make_payment(request):
                 # Make the Mpesa API call
                 response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
 
-                # Create a Payment object
-                payment = Payment.objects.create(
+                # Create a new Transaction object
+                transaction = Transaction.objects.create(
+                    user=request.user,  # Assuming the logged-in user is associated with this transaction
                     amount=amount,
-                    status='Pending',
+                    status='pending',  # Set status to 'pending'
                     # Add other fields as needed
                 )
 
-                # Update transaction status based on response
-                # ... (add logic based on Mpesa API response)
-
-                # Redirect to payment process page
-                return redirect(reverse('payment_process', kwargs={'token': payment.token}))
+                # Redirect to payment process page with token as URL parameter
+                return redirect('payment_process', token=transaction.pk)
             except Exception as e:
                 error_message = "An error occurred while processing your transaction: {}".format(str(e))
                 form.add_error(None, error_message)
@@ -169,3 +164,8 @@ def search_transactions(request):
     query = request.GET.get('q')
     user_transactions = Transaction.objects.filter(user=request.user, id__icontains=query)
     return render(request, 'payment/search_transactions.html', {'transactions': user_transactions, 'query': query})
+
+@login_required
+def payment_process(request, token):
+    transaction = get_object_or_404(Transaction, pk=token)
+    return render(request, 'payment/payment_process.html', {'transaction': transaction})

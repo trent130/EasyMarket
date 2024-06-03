@@ -23,8 +23,8 @@ def product_list(request):
     url = reverse('products:product_list')
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-    return render(request, 'products/product_list.html', {'page_obj': page_obj})
+    context = {'page_obj': page_obj, 'url':url}
+    return render(request, 'products/product_list.html', context )
 
 @login_required
 def product_detail(request, id, slug):
@@ -49,31 +49,39 @@ def add_product(request):
            
             category_id = request.POST.get('category')
             product.category_id = category_id
-            
-            product.save()
+        
             print("product saved successfully")
             image = image_form.save(commit=False) 
             image.product = product
-            image.save()
+            product.save()
             
             return redirect('products:product_list') 
     else:
         product_form = ProductForm()
         image_form = ImageForm()
         
-    categories = Category.objects.all()  
-    return render(request, 'products/add_product.html', {'product_form': product_form, 'image_form': image_form, 'categories': categories})
+    categories = Category.objects.all() 
+    context =  {'product_form': product_form, 'image_form': image_form, 'categories': categories}
+    return render(request, 'products/add_product.html', context)
 
 @login_required
 def user_products(request, user_id):
     try:
         student = Student.objects.get(user=request.user)
         products = Product.objects.filter(student=student)
+        
+        paginator = Paginator(products, 12)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
+        context = {'page_obj':page_obj, 'products': products}
+        return render(request, 'products/product.html', context)
+    
     except Student.DoesNotExist:
         # Handle the case where the user is not associated with a Student instance
         products = Product.objects.none()
 
-    return render(request, 'products/product.html', {'products': products})
+   
 
 def category(request):
     categories = Category.objects.all()

@@ -1,4 +1,5 @@
 {% extends 'staticpages/base.html' %}
+{% load static %}
 
 {% block title %}
 Home Page
@@ -13,7 +14,7 @@ Home Page
             <div class="carousel-inner">
                 <!-- Slide 1 -->
                 <div class="carousel-item active">
-                    <img src="../../static/images/bg_main.jpg" class="d-block w-100" alt="..." style="height: 560px;">
+                    <img src="{% static 'images/bg_main.jpg' %}?{% now 'U' %}" class="d-block w-100 justify-content-center align-items-center" alt="..." style="height: 600px;">
                     <div class="carousel-caption d-none d-md-block">
                         <h1>Welcome to EasyMarket</h1>
                         <p>Buy and sell stuff and more. All within your campus community.</p>
@@ -28,7 +29,7 @@ Home Page
                 </div>
                 <!-- Slide 2 -->
                 <div class="carousel-item">
-                    <img src="../../static/images/bg_main1.jpg" class="d-block w-100" alt="..." style="height: 560px;">
+                    <img src="{% static 'images/bg_main1.jpg' %}?{% now 'U' %}" class="d-block w-100" alt="..." style="height: 600px;">
                     <div class="carousel-caption d-none d-md-block">
                         <h1>Discover Exciting Deals</h1>
                         <p>Find amazing discounts on textbooks, gadgets, and more.</p>
@@ -43,7 +44,7 @@ Home Page
                 </div>
                 <!-- Slide 3 -->
                 <div class="carousel-item">
-                    <img src="../../static/images/bg_main2.jpg" class="d-block w-100" alt="..." style="height: 560px;">
+                    <img src="{% static 'images/bg_main2.jpg' %}?{% now 'U' %}" class="d-block w-100" alt="..." style="height: 600px;">
                     <div class="carousel-caption d-none d-md-block">
                         <h1>Shop with Confidence</h1>
                         <p>Secure transactions and buyer protection guaranteed.</p>
@@ -76,15 +77,15 @@ Home Page
             <!-- Feature 1 -->
             <div class="col-sm-12 col-md-4">
                 <div class="feature text-center">
-                    <i class="fas fa-lock feature-icon"></i>
-                    <h2>Secure Transactions</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="150px" width="150px" viewBox="0 0 448 512"><path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/></svg>
+                    <h2>Secure Transactions on the platform</h2>
                     <p>Shop with confidence knowing your transactions are secure.</p>
                 </div>
             </div>
             <!-- Feature 2 -->
             <div class="col-sm-12 col-md-4">
                 <div class="feature text-center">
-                    <i class="fas fa-box-open feature-icon"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="150px" width="150px" viewBox="0 0 640 512"><path d="M58.9 42.1c3-6.1 9.6-9.6 16.3-8.7L320 64 564.8 33.4c6.7-.8 13.3 2.7 16.3 8.7l41.7 83.4c9 17.9-.6 39.6-19.8 45.1L439.6 217.3c-13.9 4-28.8-1.9-36.2-14.3L320 64 236.6 203c-7.4 12.4-22.3 18.3-36.2 14.3L37.1 170.6c-19.3-5.5-28.8-27.2-19.8-45.1L58.9 42.1zM321.1 128l54.9 91.4c14.9 24.8 44.6 36.6 72.5 28.6L576 211.6v167c0 22-15 41.2-36.4 46.6l-204.1 51c-10.2 2.6-20.9 2.6-31 0l-204.1-51C79 419.7 64 400.5 64 378.5v-167L191.6 248c27.8 8 57.6-3.8 72.5-28.6L318.9 128h2.2z"/></svg>
                     <h2>Wide Variety of Products</h2>
                     <p>Explore a wide range of products from textbooks to gadgets.</p>
                 </div>
@@ -92,18 +93,79 @@ Home Page
             <!-- Feature 3 -->
             <div class="col-sm-12 col-md-4">
                 <div class="feature text-center">
-                    <i class="fas fa-shield-alt feature-icon"></i>
-                    <h2>Buyer Protection</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="150px" width="150px" viewBox="0 0 640 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c1.8 0 3.5-.2 5.3-.5c-76.3-55.1-99.8-141-103.1-200.2c-16.1-4.8-33.1-7.3-50.7-7.3H178.3zm308.8-78.3l-120 48C358 277.4 352 286.2 352 296c0 63.3 25.9 168.8 134.8 214.2c5.9 2.5 12.6 2.5 18.5 0C614.1 464.8 640 359.3 640 296c0-9.8-6-18.6-15.1-22.3l-120-48c-5.7-2.3-12.1-2.3-17.8 0zM591.4 312c-3.9 50.7-27.2 116.7-95.4 149.7V273.8L591.4 312z"/></svg>
+                    <h2>Buyer Protection across the platform</h2>
                     <p>Your purchases are protected with our buyer guarantee.</p>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- featured selections -->
+    <div class="container mt-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for product in featured_products %}
+            <div class="col">
+                <div class="card position-relative shadow-sm" style="height:450px ;">
+                    <div>
+                        {% if image in product.image.all %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}"
+                            style="height: 200px;">
+                        {% else %}
+                        <div class="card-img-top d-flex justify-content-center align-items-center"
+                            style="height: 200px;">
+                            <span>No Image Available</span>
+                        </div>
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.title }}</h5>
+                            <p class="card-text">{{ product.description | truncatewords:8 | truncatechars:40 }} <a
+                                    href="{% url 'products:product_detail' id=product.id slug=product.slug %}">more
+                                    details</a>
+                            </p>
+                            <p class="card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <div class="input-group">
+                                        <input type="number" name="quantity" class="form-control" min="1" value="1">
+                                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor%}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 ">
+            {% for user in featured_users %}
+            <div class="col">
+              <div class="card  position-relative text-center ms-4 me-4" style="width: 300px;">
+                    <img src="{{ user.profile_picture.url }}" width="160px" height="160px"
+                        class=" bi bi-person-circle mx-auto d-block" alt="{{ user.user.username }}">
+                    <div class="card-body">
+                        <h3 class="card-text">{{ user.user.username }}</h3>
+                        <p class="card-text">{{ user.bio }}</p>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 
     <!-- Testimonials Section -->
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div >
                 <div id="testimonialCarousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <!-- Testimonial 1 -->
@@ -113,7 +175,7 @@ Home Page
                                     <p class="card-text text-center">"John Doe is a Computer Science student who has
                                         found great deals on textbooks and study materials through our marketplace."</p>
                                     <div class="text-center">
-                                        <img class="rounded-circle" src='/static/images/background_.jpg?{% now "u"}'
+                                        <img class="rounded-circle" src='{% static "images/background_.jpg" %}?{% now "u"}'
                                             alt="John Doe" width="100" height="100">
                                         <h5 class="card-title mt-3">
                                             John Doe
@@ -131,7 +193,7 @@ Home Page
                                     <p class="card-text text-center">"Jane Smith, a Business student, sold her old
                                         textbooks on our marketplace and made enough money to buy her new ones."</p>
                                     <div class="text-center">
-                                        <img class="rounded-circle" src='/static/images/background_1.jpg?{% now "u"}'
+                                        <img class="rounded-circle" src='{% static "images/background_1.jpg" %}?{% now "u"}'
                                             alt="Jane Smith" width="100" height="100">
                                         <h5 class="card-title mt-3">
                                             Jane Smith
@@ -149,7 +211,7 @@ Home Page
                                     <p class="card-text text-center">"Mike Johnson, an Engineering student, found a rare
                                         lab equipment at a fraction of the cost on our marketplace. He loved it."</p>
                                     <div class="text-center">
-                                        <img class="rounded-circle" src='/static/images/background_2.jpg?{% now "u"}'
+                                        <img class="rounded-circle" src='{% static "images/background_2.jpg" %}?{% now "u"}'
                                             alt="Mike Johnson" width="100" height="100">
                                         <h5 class="card-title mt-3">
                                             Mike Johnson
@@ -213,20 +275,25 @@ Home Page
                     <h5 class="mb-4">Contact Information</h5>
                     <ul class="list-unstyled">
                         <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, Vegas, Kenya</li>
-                        <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com" class="text-light">info@easymarket.com</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:info@easymarket.com"
+                                class="text-light">info@easymarket.com</a></li>
                         <li><i class="fas fa-phone"></i> +254-725-796-722</li>
                     </ul>
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <h5 class="mb-4">Connect With Us</h5>
                     <form action="#" method="post" class="mb-3">
-                        <textarea name="message" rows="4" placeholder="Type your message here..." class="form-control"></textarea>
+                        <textarea name="message" rows="4" placeholder="Type your message here..."
+                            class="form-control"></textarea>
                         <button type="submit" class="btn btn-primary mt-2">Send Message</button>
                     </form>
                     <ul class="list-inline">
-                        <li class="list-inline-item"><a href="#" class="text-light"><i class="fab fa-facebook-f"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="text-light"><i class="fab fa-twitter"></i></a></li>
-                        <li class="list-inline-item"><a href="#" class="text-light"><i class="fab fa-instagram"></i></a></li>
+                        <li class="list-inline-item"><a href="#" class="text-light"><i
+                                    class="fab fa-facebook-f"></i></a></li>
+                        <li class="list-inline-item"><a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li class="list-inline-item"><a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
+                        </li>
                     </ul>
                 </div>
             </div>
