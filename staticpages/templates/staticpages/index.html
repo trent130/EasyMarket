@@ -101,7 +101,9 @@ Home Page
         </div>
     </div>
     <!-- featured selections -->
+    <h2 class="text-center">Featured Selections</h2>
     <div class="container mt-4">
+        
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for product in featured_products %}
             <div class="col">
@@ -144,8 +146,10 @@ Home Page
         </div>
     </div>
 
+    <h2 class="text-center">Featured Users</h2>
     <div class="container">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 ">
+            
             {% for user in featured_users %}
             <div class="col">
               <div class="card  position-relative text-center ms-4 me-4" style="width: 300px;">
@@ -172,8 +176,7 @@ Home Page
                         <div class="carousel-item active">
                             <div class="card border-0 shadow">
                                 <div class="card-body">
-                                    <p class="card-text text-center">"John Doe is a Computer Science student who has
-                                        found great deals on textbooks and study materials through our marketplace."</p>
+                                    
                                     <div class="text-center">
                                         <img class="rounded-circle" src='{% static "images/background_.jpg" %}?{% now "u"}'
                                             alt="John Doe" width="100" height="100">
@@ -183,6 +186,8 @@ Home Page
                                             <small class="text-muted">Computer Science Student</small>
                                         </h5>
                                     </div>
+                                    <p class="card-text text-center">"John Doe is a Computer Science student who has
+                                        found great deals on textbooks and study materials through our marketplace."</p>
                                 </div>
                             </div>
                         </div>
@@ -190,8 +195,7 @@ Home Page
                         <div class="carousel-item">
                             <div class="card border-0 shadow">
                                 <div class="card-body">
-                                    <p class="card-text text-center">"Jane Smith, a Business student, sold her old
-                                        textbooks on our marketplace and made enough money to buy her new ones."</p>
+                                    
                                     <div class="text-center">
                                         <img class="rounded-circle" src='{% static "images/background_1.jpg" %}?{% now "u"}'
                                             alt="Jane Smith" width="100" height="100">
@@ -201,6 +205,8 @@ Home Page
                                             <small class="text-muted">Business Student</small>
                                         </h5>
                                     </div>
+                                    <p class="card-text text-center">"Jane Smith, a Business student, sold her old
+                                        textbooks on our marketplace and made enough money to buy her new ones."</p>
                                 </div>
                             </div>
                         </div>
@@ -208,8 +214,7 @@ Home Page
                         <div class="carousel-item">
                             <div class="card border-0 shadow">
                                 <div class="card-body">
-                                    <p class="card-text text-center">"Mike Johnson, an Engineering student, found a rare
-                                        lab equipment at a fraction of the cost on our marketplace. He loved it."</p>
+                                   
                                     <div class="text-center">
                                         <img class="rounded-circle" src='{% static "images/background_2.jpg" %}?{% now "u"}'
                                             alt="Mike Johnson" width="100" height="100">
@@ -218,6 +223,8 @@ Home Page
                                             <br>
                                             <small class="text-muted">Engineering Student</small>
                                         </h5>
+                                        <p class="card-text text-center">"Mike Johnson, an Engineering student, found a rare
+                                        lab equipment at a fraction of the cost on our marketplace. He loved it."</p>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +245,7 @@ Home Page
     <!-- About Us Section -->
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="">
                 <div class="card border-0 shadow">
                     <div class="card-body">
                         <h2 class="card-title text-center">About EasyMarket</h2>

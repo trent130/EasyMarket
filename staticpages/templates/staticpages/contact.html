@@ -31,7 +31,7 @@ Contact Us
 </div>
 
 <div class="mainbar">
-    <h1 class="mb-4">Contact Us</h1>
+    <h1 class="mb-4 text-center">Contact Us</h1>
     <p>Please fill out the form below and we will get back to you as soon as possible.</p>
 
     {% if messages %}
@@ -58,35 +58,49 @@ Contact Us
             <input type="text" class="form-control" name="subject" placeholder="Please enter your subject" required>
             <div class="invalid-feedback">Please enter your subject.</div>
         </div>
-        <div class="mb-3" >
+        <div class="mb-3">
             <label for="message" class="form-label">message</label>
-            <input type="text" class="form-control" name="message"  style="height: 150px;" required>
+            <textarea placeholder="Enter your message here.." class="form-control" name="message" required></textarea>
             <div class="invalid-feedback">Please enter your message.</div>
         </div>
         {% if form.errors %}
         <p>Your form has errors, please check the fields below:</p>
         {% endif %}
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="d-flex allign-items-center justify-content-center">
+            <button type="submit" class="btn btn-primary w-25">Submit</button>
+        </div>
     </form>
 
-    <h2 class="mt-5">Our Location</h2>
-    <p>123 Main Street, Vegas, Kenya</p>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="">
+            <div class="card shadow-sm" style="width: 800px ;">
+                <div class="card-body">
+                    <h2 class="mt-4 mb-3 text-center">Our Location</h2>
+                    <p class="text-center">123 Main Street, Vegas, Kenya</p>
+                    <!-- Embed Google Maps iframe here -->
+                    <div id="map" class="mb-4" style="height: 300px;">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.7357695733623!2d-122.08424968469104!3d37.42206577982624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb5bba7568f0d%3A0xd94c70e1577b8350!2sGoogleplex!5e0!3m2!1sen!2s!4v1609895684977!5m2!1sen!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
 
-    <!-- You can embed a Google Maps iframe here -->
-    <div id="map" class="mb-4"></div>
+                    <h2 class="mt-4 mb-3 text-center">Phone</h2>
+                    <p class="text-center">+254 725-797-622</p>
 
-    <h2>Phone</h2>
-    <p>(+254) 725-797-622</p>
+                    <h2 class="mt-4 mb-3 text-center">Email</h2>
+                    <p class="text-center">info@Easymarket.com</p>
 
-    <h2>Email</h2>
-    <p>info@Easymarket.com</p>
+                    <h2 class="mt-4 mb-3 text-center">Follow Us</h2>
+                    <p class="text-center">
+                        <a href="#" class="text-decoration-none">Facebook</a> |
+                        <a href="#" class="text-decoration-none">Twitter</a> |
+                        <a href="#" class="text-decoration-none">Instagram</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <h2>Follow Us</h2>
-    <p>
-        <a href="#" class="text-decoration-none">Facebook</a> |
-        <a href="#" class="text-decoration-none">Twitter</a> |
-        <a href="#" class="text-decoration-none">Instagram</a>
-    </p>
 </div>
 
 
