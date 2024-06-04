@@ -1,4 +1,4 @@
-no# EasyMarket
+# EasyMarket
 
 EasyMarket is a student marketplace where students can buy and sell items within their school community.
 
