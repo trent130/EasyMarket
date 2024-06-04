@@ -1,4 +1,4 @@
-# EasyMarket
+no# EasyMarket
 
 EasyMarket is a student marketplace where students can buy and sell items within their school community.
 
@@ -24,13 +24,13 @@ These instructions will get you a copy of the project up and running on your loc
    ```
    git clone https://github.com/trent130/Easymarket.git
    ```
-2. Install NPM packages
+2. Install django packages
    ```
    pip install django
 
 ## Usage
 
-After setting up, you can run `python manage.py runserver` to start the application. Open your browser and visit `http://localhost:3000`.
+After setting up, you can run `python manage.py runserver` to start the application. Open your browser and visit `http://localhost:8000`.
 
 ## Contributing
 
