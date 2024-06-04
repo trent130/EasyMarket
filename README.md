@@ -24,7 +24,7 @@ These instructions will get you a copy of the project up and running on your loc
    ```
    git clone https://github.com/trent130/Easymarket.git
    ```
-2. Install NPM packages
+2. Install django packages
    ```
    pip install django
 
