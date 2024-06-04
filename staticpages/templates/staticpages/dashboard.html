@@ -31,24 +31,51 @@ Dashboard
 
 <div class="mainbar">
     <!-- Add more content here -->
-    <h1>Welcome, {{ user.username }}</h1>
+    <!-- <h1>Welcome, {{ user.username }}</h1> -->
+    <h2 class="text-center">My Dashboard</h2>
 
     <h2>Your Products</h2>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        {% for product in user.products.all %}
+ <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for product in products %}
         <div class="col">
-            <div class="card">
+            <div class="card shadow-sm" style="height:450px ;">
+                {% if image in product.image.all %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}"
+                    style="height: 200px;">
+                {% else %}
+                <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 200px;">
+                    <span>No Image Available</span>
+                </div>
+                {% endif %}
+
                 <div class="card-body">
-                    <h3 class="card-title">{{ product.name }}</h3>
-                    <p class="card-text">{{ product.description }}</p>
-                    <!-- Add more product details here -->
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">{{ product.description | truncatewords:8 | truncatechars:40 }} <a
+                            href="{% url 'products:product_detail' id=product.id slug=product.slug %}">more details</a>
+                    </p>
+                    <p class="card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <div class="input-group">
+                                <input type="number" name="quantity" class="form-control" min="1" value="1">
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </div>
+                        </form>
+                    </div>
+
+
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col">
-            <p class="text-muted">You have no products listed.</p>
+            <div class="alert alert-info" role="alert">
+                You have no products listed.
+            </div>
         </div>
+
         {% endfor %}
     </div>
 
@@ -66,7 +93,7 @@ Dashboard
                 </div>
             </div>
             {% empty %}
-            <div class="col">
+            <div class="col alert alert-info" role="alert">
                 <p class="text-muted">No recent orders found.</p>
             </div>
             {% endfor %}
@@ -87,7 +114,7 @@ Dashboard
                 </div>
             </div>
             {% empty %}
-            <div class="col">
+            <div class="col alert alert-info" role="alert">
                 <p class="text-muted">No messages found.</p>
             </div>
             {% endfor %}
