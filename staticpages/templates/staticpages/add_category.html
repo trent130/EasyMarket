@@ -27,18 +27,20 @@ Add Category
     </div>
 </div>
     <div class="mainbar mt-2">
-        <h2>Add Category</h2>
+        <h2 class="text-center">Add Category</h2>
         <form method="post">
             {% csrf_token %}
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="id_name">Name</label>
                 {{ form.name }}
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="id_description">Description</label>
                 {{ form.description }}
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+           <div class="d-flex justify-content-center allign-items-center mb-3">
+                <button type="submit" class="btn btn-primary w-25">Submit</button>
+           </div>
         </form>
     </div>
 {% endblock %}
