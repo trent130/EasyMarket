@@ -27,7 +27,8 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     slug = models.SlugField(max_length=200, unique=True, null=True)
-
+    stock = models.PositiveIntegerField(default=0)
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -36,6 +37,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def is_in_stock(self):
+        return self.stock > 0
 
 class Image(models.Model):
     product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = "image")
