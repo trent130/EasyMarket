@@ -11,6 +11,7 @@ class searchForm(forms.Form):
 class AddToCartForm(forms.Form):
     product_id = forms.IntegerField(widget=forms.HiddenInput())
     quantity = forms.IntegerField(label='Quantity', min_value=1, max_value=100)
+    
 
 class UpdateCartForm(forms.Form):
     quantity = forms.IntegerField(label='Quantity', min_value=1)

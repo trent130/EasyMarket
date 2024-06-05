@@ -15,7 +15,7 @@ class ImageInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ImageInline]
-    list_display = ('title', 'price', 'student')
+    list_display = ('title', 'price', 'student', 'stock')
     list_filter = ['student']
     search_fields = ['title', 'description']
 
