@@ -13,9 +13,10 @@ class ImageForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['title', 'description', 'price', 'category']
+        fields = ['title', 'description', 'price', 'category', 'stock']
         widgets = {
             'description': forms.Textarea(attrs={'class':'form-control'}),
+            'stock': forms.TextInput(attrs={'class':'form-control'})
         }
 
 
@@ -24,6 +25,13 @@ class ProductForm(forms.ModelForm):
         if price <= 0:
             raise forms.ValidationError("Price must be greater than zero.")
         return price
+    
+    def clean_stock(self):
+        stock = self.cleaned_data.get('stock')
+        if stock <= 0:
+            raise forms.ValidationError("stock is required")
+        return stock
+            
 
 
 class CategoryForm(forms.ModelForm):
