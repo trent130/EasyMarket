@@ -6,104 +6,98 @@ Dashboard
 {% endblock %}
 
 {% block content %}
-<div class="sidebar">
-    <h2 class="mb-3">Menu</h2>
-    <ul class="list-unstyled mb-4">
-        <li><a href="{% url 'dashboard' %}" class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
-
-       <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
-        <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
-       <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
-        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
-        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
-        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My Listings</a></li>
-        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
-        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
-    </ul>
-    <div class="logout-btn">
-        <form action="{% url 'signout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
-        </form>
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar bg-dark text-light p-3" style="width: 250px; height:100vh;">
+        <h2 class="mb-3">Menu</h2>
+        <ul class="list-unstyled mb-4">
+            <li class="mb-4"><a href="{% url 'dashboard' %}" class="text-decoration-none text-light {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+            <li class="mb-4"><a href="{% url 'add_category' %}" class="text-decoration-none text-light">Add Category</a></li>
+            <li class="mb-4"><a href="{% url 'products:categories' %}" class="text-decoration-none text-light">Categories</a></li>
+            <li class="mb-4"><a href="{% url 'products:add_product' %}" class="text-decoration-none text-light">Sell</a></li>
+            <li class="mb-4"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-light">Buy</a></li>
+            <li class="mb-4"><a href="{% url 'orders' %}" class="text-decoration-none text-light">My Orders</a></li>
+            <li class="mb-4"><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none text-light">My Listings</a></li>
+            <li class="mb-4"><a href="{% url 'contact' %}" class="text-decoration-none text-light">Contact Us</a></li>
+            <li class="mb-4"><a href="{% url 'home' %}" class="text-decoration-none text-light">Site Home</a></li>
+        </ul>
+        <div class="logout-btn">
+            <form action="{% url 'signout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-100">Log out</button>
+            </form>
+        </div>
     </div>
-</div>
 
+    <!-- Main Content -->
+    <div class="mainbar p-3 flex-grow-1 overfow-auto" style=" height:100vh;" >
+        <!-- Dashboard Header -->
+        <h2 class="text-center mb-4">My Dashboard</h2>
 
-<div class="mainbar">
-    <!-- Add more content here -->
-    <!-- <h1>Welcome, {{ user.username }}</h1> -->
-    <h2 class="text-center">My Dashboard</h2>
-
-    <h2>Your Products</h2>
- <div class="row row-cols-1 row-cols-md-2 g-4">
-        {% for product in products %}
-        <div class="col">
-            <div class="card shadow-sm" style="height:450px ;">
-                {% if image in product.image.all %}
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}"
-                    style="height: 200px;">
-                {% else %}
-                <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 200px;">
-                    <span>No Image Available</span>
-                </div>
-                {% endif %}
-
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.title }}</h5>
-                    <p class="card-text">{{ product.description | truncatewords:8 | truncatechars:40 }} <a
-                            href="{% url 'products:product_detail' id=product.id slug=product.slug %}">more details</a>
-                    </p>
-                    <p class="card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="product_id" value="{{ product.id }}">
-                            <div class="input-group">
-                                <input type="number" name="quantity" class="form-control" min="1" value="1">
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
-                            </div>
-                        </form>
+        <!-- Your Products Section -->
+        <h3>Your Products</h3>
+        <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+            {% for product in products %}
+            <div class="col">
+                <div class="card shadow-sm" style="height: 450px;">
+                    {% if product.image.all %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 200px; background-color: #f8f9fa;">
+                        <span>No Image Available</span>
                     </div>
-
-
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <p class="card-text">{{ product.description | truncatewords:8 | truncatechars:40 }} <a href="{% url 'products:product_detail' id=product.id slug=product.slug %}">more details</a></p>
+                        <p class="card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <div class="input-group">
+                                    <input type="number" name="quantity" class="form-control" min="1" value="1">
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% empty %}
-        <div class="col">
-            <div class="alert alert-info" role="alert">
-                You have no products listed.
+            {% empty %}
+            <div class="col">
+                <div class="alert alert-info" role="alert">
+                    You have no products listed.
+                </div>
             </div>
+            {% endfor %}
         </div>
 
-        {% endfor %}
-    </div>
-
-    <h2>Recent Orders</h2>
-    <div class="order-list">
-        <div class="row row-cols-1 row-cols-md-2 g-4">
+        <!-- Recent Orders Section -->
+        <h3>Recent Orders</h3>
+        <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
             {% for order in user.orders.all %}
             <div class="col">
                 <div class="card">
                     <div class="card-body">
                         <p class="card-text">Order ID: {{ order.id }}</p>
-                        <p class="card-text">Total Amount: {{ order.total_price }}</p>
+                        <p class="card-text">Total Amount: Ksh {{ order.total_price }}</p>
                         <!-- Add more order details here -->
                     </div>
                 </div>
             </div>
             {% empty %}
-            <div class="col alert alert-info" role="alert">
-                <p class="text-muted">No recent orders found.</p>
+            <div class="col">
+                <div class="alert alert-info" role="alert">
+                    No recent orders found.
+                </div>
             </div>
             {% endfor %}
         </div>
-    </div>
 
-    <h2>Messages</h2>
-    <div class="message-list">
+        <!-- Messages Section -->
+        <h3>Messages</h3>
         <div class="row row-cols-1 row-cols-md-2 g-4">
-            <!-- Display messages or notifications here -->
             {% for message in user.messages.all %}
             <div class="col">
                 <div class="card">
@@ -114,13 +108,14 @@ Dashboard
                 </div>
             </div>
             {% empty %}
-            <div class="col alert alert-info" role="alert">
-                <p class="text-muted">No messages found.</p>
+            <div class="col">
+                <div class="alert alert-info" role="alert">
+                    No messages found.
+                </div>
             </div>
             {% endfor %}
         </div>
     </div>
 </div>
-
 
 {% endblock %}
