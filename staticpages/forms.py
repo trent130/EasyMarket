@@ -38,17 +38,21 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ['avatar']
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['username','first_name', 'last_name', 'email']
-        labels = {
-            'username':'Username',
-            'first_name': 'First Name',
-            'last_name': 'Last Name',
-            'email': 'Email',
-        }
-
+class ProfileForm(forms.ModelForm): 
+	class Meta: 
+		model = User 
+		fields = ['username','first_name', 'last_name', 'email'] 
+		labels = { 
+			'username':'Username', 
+			'first_name': 'First Name', 
+			'last_name': 'Last Name', 
+			'email': 'Email', } 
+		widgets = { 
+			'username': forms.TextInput(attrs={'class':'form-control'}), 
+			'first_name': forms.TextInput(attrs={'class':'form-control'}), 
+			'last_name':forms.TextInput(attrs={'class':'form-control'}), 
+			'email': forms.TextInput(attrs={'class':'form-control'}), }
+			
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category

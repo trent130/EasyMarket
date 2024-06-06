@@ -16,7 +16,8 @@ class ProductForm(forms.ModelForm):
         fields = ['title', 'description', 'price', 'category', 'stock']
         widgets = {
             'description': forms.Textarea(attrs={'class':'form-control'}),
-            'stock': forms.TextInput(attrs={'class':'form-control'})
+            'stock': forms.NumberInput(attrs={'class':'form-control'}),
+
         }
 
 
@@ -29,7 +30,7 @@ class ProductForm(forms.ModelForm):
     def clean_stock(self):
         stock = self.cleaned_data.get('stock')
         if stock <= 0:
-            raise forms.ValidationError("stock is required")
+            raise forms.ValidationError("stock is must be greater than zero.")
         return stock
             
 

@@ -2,109 +2,101 @@
 {% load static %}
 {% block title %}Add Product{% endblock %}
 {% block content %}
-<div class="sidebar">
-    <h2 class="mb-3">Menu</h2>
-    <ul class="list-unstyled mb-4">
-        <li><a href="{% url 'dashboard' %}"
-                class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
-        <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
-        <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
-        <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
-        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
-        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
-        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My
-                Listings</a></li>
-        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
-        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
-    </ul>
-    <div class="logout-btn">
-        <form action="{% url 'signout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
-        </form>
-    </div>
-</div>
-
-<div class="mainbar">
-    <!-- Main Content -->
-    <main>
-        <div class="container">
-
-            <form enctype="multipart/form-data" method="post">
+<div class="d-flex vh-100">
+    <!-- Sidebar -->
+    <div class="sidebar bg-dark text-light p-3" style="width: 250px; height: 100vh; ">
+        <h2 class="mb-3">Menu</h2>
+        <ul class="list-unstyled mb-4">
+            <li class="mb-4"><a href="{% url 'dashboard' %}" class="text-decoration-none text-light {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+            <li class="mb-4"><a href="{% url 'add_category' %}" class="text-decoration-none text-light">Add Category</a></li>
+            <li class="mb-4"><a href="{% url 'products:categories' %}" class="text-decoration-none text-light">Categories</a></li>
+            <li class="mb-4"><a href="{% url 'products:add_product' %}" class="text-decoration-none text-light">Sell</a></li>
+            <li class="mb-4"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-light">Buy</a></li>
+            <li class="mb-4"><a href="{% url 'orders' %}" class="text-decoration-none text-light">My Orders</a></li>
+            <li class="mb-4"><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none text-light">My Listings</a></li>
+            <li class="mb-4"><a href="{% url 'contact' %}" class="text-decoration-none text-light">Contact Us</a></li>
+            <li class="mb-4"><a href="{% url 'home' %}" class="text-decoration-none text-light">Site Home</a></li>
+        </ul>
+        <div class="logout-btn">
+            <form action="{% url 'signout' %}" method="post">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6">
-                        <h1>Add Product</h1>
-                        <fieldset class="module">
-                            <div class="form-group">
-                                <label class="required" for="id_title">Title:</label>
-                                <input type="text" name="title" class="form-control" maxlength="100" required
-                                    id="id_title">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="required" for="id_description" >Description:</label>
-                                <textarea name="description" cols="40" rows="10" class="form-control" minlength="10" required
-                                    id="id_description"></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="required" for="id_price">Price:</label>
-                                <input type="number" name="price" step="0.01" required id="id_price"
-                                    class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="required" for="id_category">Category:</label>
-                                <select name="category" required id="id_category" class="form-control">
-                                    {% for category in categories %}
-                                    <option value="{{ category.id }}">{{ category.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <!-- Hidden student field -->
-                            <input type="hidden" name="student" value="{{ request.user.student.id }}">
-                        </fieldset>
-
-                        <!-- Add more form fields as needed -->
-
-                        <fieldset class="module">
-                            <h2>Images</h2>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Description</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="form-row" id="images-0">
-                                        <td>
-                                            <input type="file" name="images-0-image" accept="image/*"
-                                                class="form-control-file">
-                                        </td>
-                                        <td>
-                                            <textarea name="images-0-description" cols="40" rows="3"
-                                                class="form-control"></textarea>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </fieldset>
-                    </div>
-
-                    <div class="submit-row">
-                        <input type="submit" value="Save" class="btn btn-primary" name="_save">
-                        <input type="submit" value="Save and add another" class="btn btn-primary" name="_addanother">
-                        <input type="submit" value="Save and continue editing" class="btn btn-primary" name="_continue">
-                    </div>
+                <button type="submit" class="btn btn-danger w-100">Log out</button>
             </form>
         </div>
-    </main>
-</div>
+    </div>
 
+    <!-- Main Content -->
+    <div class="mainbar overflow-auto p-3 flex-grow-1" style="height: 100vh;">
+        <main>
+            <div class="container">
+                <form enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1>Add Product</h1>
+                            <fieldset class="module">
+                                <div class="form-group">
+                                    <label class="required" for="id_title">Title:</label>
+                                    <input type="text" name="title" class="form-control" maxlength="100" required id="id_title">
+                                </div>
+                                <div class="form-group">
+                                    <label class="required" for="id_description">Description:</label>
+                                    <textarea name="description" cols="40" rows="10" class="form-control" minlength="10" required id="id_description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required" for="id_price">Price:</label>
+                                    <input type="number" name="price" step="0.01" required id="id_price" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_stock" class="required">Available stock</label>
+                                    <input type="number" name="stock" required id="id_stock" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="required" for="id_category">Category:</label>
+                                    <select name="category" required id="id_category" class="form-control">
+                                        {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <!-- Hidden student field -->
+                                <input type="hidden" name="student" value="{{ request.user.student.id }}">
+                            </fieldset>
+                            <!-- Add more form fields as needed -->
+                            <fieldset class="module">
+                                <h2>Images</h2>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Description</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="form-row" id="images-0">
+                                            <td>
+                                                <input type="file" name="images-0-image" accept="image/*" class="form-control-file">
+                                            </td>
+                                            <td>
+                                                <textarea name="images-0-description" cols="40" rows="3" class="form-control"></textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                        <div class="submit-row">
+                            <input type="submit" value="Save" class="btn btn-primary" name="_save">
+                            <input type="submit" value="Save and add another" class="btn btn-primary" name="_addanother">
+                            <input type="submit" value="Save and continue editing" class="btn btn-primary" name="_continue">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
 
 
 
