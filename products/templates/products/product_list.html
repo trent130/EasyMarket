@@ -2,33 +2,32 @@
 {% load static %}
 {% block title %}Product List{% endblock %}
 {% block content %}
-<div class="sidebar">
-    <h2 class="mb-3">Menu</h2>
-    <ul class="list-unstyled mb-4">
-        <li><a href="{% url 'dashboard' %}"
-                class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
-
-        <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
-        <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
-        <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
-        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
-        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
-        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My
-                Listings</a></li>
-        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
-        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
-    </ul>
-    <div class="logout-btn">
-        <form action="{% url 'signout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
-        </form>
+<div class="d-flex vh-100">
+	    <!-- Sidebar -->
+    <div class="sidebar bg-dark text-light p-3" style="width: 250px; height:100vh;">
+        <h2 class="mb-3">Menu</h2>
+        <ul class="list-unstyled mb-4">
+            <li class="mb-4"><a href="{% url 'dashboard' %}" class="text-decoration-none text-light {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+            <li class="mb-4"><a href="{% url 'add_category' %}" class="text-decoration-none text-light">Add Category</a></li>
+            <li class="mb-4"><a href="{% url 'products:categories' %}" class="text-decoration-none text-light">Categories</a></li>
+            <li class="mb-4"><a href="{% url 'products:add_product' %}" class="text-decoration-none text-light">Sell</a></li>
+            <li class="mb-4"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-light">Buy</a></li>
+            <li class="mb-4"><a href="{% url 'orders' %}" class="text-decoration-none text-light">My Orders</a></li>
+            <li class="mb-4"><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none text-light">My Listings</a></li>
+            <li class="mb-4"><a href="{% url 'contact' %}" class="text-decoration-none text-light">Contact Us</a></li>
+            <li class="mb-4"><a href="{% url 'home' %}" class="text-decoration-none text-light">Site Home</a></li>
+        </ul>
+        <div class="logout-btn">
+            <form action="{% url 'signout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-100">Log out</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<div class="mainbar">
+<div class="mainbar p-3 flex-grow-1 overflow-auto" style=" height:100vh;">
     <h1 class="text-center">Product List</h1>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for product in page_obj %}
         <div class="col">
             <div class="card shadow-sm" style="height:450px ;">
@@ -70,7 +69,7 @@
         {% endfor %}
     </div>
 
-    <div class="pagination justify-content-center">
+    <div class="pagination justify-content-center mt-2">
         <span class="step-links">
             {% if page_obj.has_previous %}
             <a href="?page=1" class="btn btn-outline-primary">&laquo; First</a>
@@ -88,6 +87,6 @@
         </span>
     </div>
 </div>
-
+</div>
 
 {% endblock %}
