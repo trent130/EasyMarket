@@ -1,5 +1,5 @@
 from django.contrib import admin
-from marketplace.models import Student, Cart, CartItem,Message,Reaction,Review
+from marketplace.models import Student, Cart, CartItem, Message, Reaction, Review
 from django.contrib.admin.exceptions import NotRegistered
 
 # Register your models here.
@@ -14,7 +14,7 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ['product', 'reviewer']
     ordering = ['-timestamp']
 
-class CartAItemAdmin(admin.ModelAdmin):
+class CartItemAdmin(admin.ModelAdmin):
     list_display = ('cart', 'product', 'quantity', 'added_at')
     search_fields = ('cart__user__username', 'product__title')
     list_filter = ['added_at']
@@ -30,7 +30,7 @@ class CartAdmin(admin.ModelAdmin):
     inlines = [CartItemInline]
 
 admin.site.register(Cart, CartAdmin)
-admin.site.register(CartItem, CartAItemAdmin)
+admin.site.register(CartItem, CartItemAdmin)
 try:
     admin.site.unregister(Student)
 except NotRegistered:

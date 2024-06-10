@@ -30,9 +30,9 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for product in page_obj %}
         <div class="col">
-            <div class="card shadow-sm" style="height:450px ;">
-                {% if image in product.image.all %}
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}" style="height: 200px;">
+            <div class="card shadow-sm" style="height:400px ;">
+                {% if product.image.all %}
+                <img src="{{ product.image }}" class="card-img-top" alt="{{ product.title }}" style="height: 200px;">
                 {% else %}
                 <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 200px;">
                     <span>No Image Available</span>

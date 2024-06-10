@@ -6,6 +6,7 @@ Add Category
 {% endblock %}
 
 {% block content %}
+<div class="d-flex vh-100">
  <!-- Sidebar -->
     <div class="sidebar bg-dark text-light p-3 " style="width: 250px; height:100vh;">
         <h2 class="mb-3">Menu</h2>
@@ -27,7 +28,6 @@ Add Category
             </form>
         </div>
     </div>
-</div>
     <div class="mainbar p-3 flex-grow-1 overflow-auto" style="height:100vh;">
         <h2 class="text-center">Add Category</h2>
         <form method="post">
@@ -45,4 +45,5 @@ Add Category
            </div>
         </form>
     </div>
+   </div>
 {% endblock %}

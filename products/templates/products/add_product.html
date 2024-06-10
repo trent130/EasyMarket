@@ -59,10 +59,8 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <!-- Hidden student field -->
                                 <input type="hidden" name="student" value="{{ request.user.student.id }}">
                             </fieldset>
-                            <!-- Add more form fields as needed -->
                             <fieldset class="module">
                                 <h2>Images</h2>
                                 <table class="table">
@@ -70,23 +68,22 @@
                                         <tr>
                                             <th>Image</th>
                                             <th>Description</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="form-row" id="images-0">
                                             <td>
-                                                <input type="file" name="images-0-image" accept="image/*" class="form-control-file">
+                                                <input type="file" name="image" accept="image/*" class="form-control-file">
                                             </td>
                                             <td>
-                                                <textarea name="images-0-description" cols="40" rows="3" class="form-control"></textarea>
+                                                <textarea name="description" cols="40" rows="3" class="form-control"></textarea>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </fieldset>
                         </div>
-                        <div class="submit-row">
+                        <div class="submit-row mt-3">
                             <input type="submit" value="Save" class="btn btn-primary" name="_save">
                             <input type="submit" value="Save and add another" class="btn btn-primary" name="_addanother">
                             <input type="submit" value="Save and continue editing" class="btn btn-primary" name="_continue">
