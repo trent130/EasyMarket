@@ -48,14 +48,15 @@ def add_product(request):
            
             category_id = request.POST.get('category')
             product.category_id = category_id
-        
+
+            product.save()
             messages.success(request, "product saved successfully")
             return redirect('products:product_list') 
     else:
         product_form = ProductForm()
         
     categories = Category.objects.all() 
-    context =  {'product_form': product_form, 'image_form': image_form, 'categories': categories}
+    context =  {'product_form': product_form, 'categories': categories}
     return render(request, 'products/add_product.html', context)
 
 @login_required
