@@ -15,7 +15,7 @@ from django.db.models import Count
 
 def index(request):
     featured_users = UserProfile.objects.order_by('?')[:6]
-    featured_products = Product.objects.annotate(num_images=Count('image')).order_by('-num_images')[:9]
+    featured_products = Product.objects.annotate(num_products=Count('image')).order_by('-num_products')[:9]
     context = {'title': 'home', 'featured_products': featured_products, 'featured_users': featured_users}
     return render(request, 'staticpages/index.html', context)
 

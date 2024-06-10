@@ -14,7 +14,7 @@ Home Page
             <div class="carousel-inner">
                 <!-- Slide 1 -->
                 <div class="carousel-item active">
-                    <img src="{% static 'images/bg_main.jpg' %}?{% now 'U' %}" class="d-block w-100 justify-content-center align-items-center" alt="..." style="height: 600px;">
+                    <img src="{% static 'images/bg_main.jpg' %}?{% now 'U' %}" class="d-block w-100 justify-content-center align-items-center" alt="..." style="height: 100vh;">
                     <div class="carousel-caption d-none d-md-block">
                         <h1>Welcome to EasyMarket</h1>
                         <p>Buy and sell stuff and more. All within your campus community.</p>
@@ -29,7 +29,7 @@ Home Page
                 </div>
                 <!-- Slide 2 -->
                 <div class="carousel-item">
-                    <img src="{% static 'images/bg_main1.jpg' %}?{% now 'U' %}" class="d-block w-100" alt="..." style="height: 600px;">
+                    <img src="{% static 'images/bg_main1.jpg' %}?{% now 'U' %}" class="d-block w-100" alt="..." style="height: 100vh;">
                     <div class="carousel-caption d-none d-md-block">
                         <h1>Discover Exciting Deals</h1>
                         <p>Find amazing discounts on textbooks, gadgets, and more.</p>
@@ -44,7 +44,7 @@ Home Page
                 </div>
                 <!-- Slide 3 -->
                 <div class="carousel-item">
-                    <img src="{% static 'images/bg_main2.jpg' %}?{% now 'U' %}" class="d-block w-100" alt="..." style="height: 600px;">
+                    <img src="{% static 'images/bg_main2.jpg' %}?{% now 'U' %}" class="d-block w-100" alt="..." style="height: 100vh;">
                     <div class="carousel-caption d-none d-md-block">
                         <h1>Shop with Confidence</h1>
                         <p>Secure transactions and buyer protection guaranteed.</p>
@@ -107,14 +107,12 @@ Home Page
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for product in featured_products %}
             <div class="col">
-                <div class="card position-relative shadow-sm" style="height:450px ;">
+                <div class="card position-relative shadow-sm" style="height:450px;">
                     <div>
-                        {% if image in product.image.all %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}"
-                            style="height: 200px;">
+                        {% if product.image.all %}
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.image.title }}" style="height: 200px;">
                         {% else %}
-                        <div class="card-img-top d-flex justify-content-center align-items-center"
-                            style="height: 200px;">
+                        <div class="card-img-top d-flex justify-content-center align-items-center" style="height: 200px;">
                             <span>No Image Available</span>
                         </div>
                         {% endif %}
@@ -130,9 +128,9 @@ Home Page
                                 <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="product_id" value="{{ product.id }}">
-                                    <div class="input-group">
-                                        <input type="number" name="quantity" class="form-control" min="1" value="1">
-                                        <button type="submit" class="btn btn-primary w-25">Add to Cart</button>
+                                    <div class="input-group d-flex align-items-center justify-content-center">
+                                        <input type="number" name="quantity" class="form-control ms-4" style="width:95px;" min="1" value="1">
+                                        <button type="submit" class="btn btn-primary me-4">Add to Cart</button>
                                     </div>
                                 </form>
                             </div>
@@ -271,7 +269,7 @@ Home Page
             <!-- Quick Links Section -->
             <div class="col-md-6 col-lg mb-4">
                 <h5 class="mb-4">Quick Links</h5>
-                <ul class="list-unstyled">
+                <ul class="list-unstyled" >
                     <li class="mb-2"><a href="{% url 'home' %}" class="text-light">Home</a></li>
                     <li class="mb-2"><a href="{% url 'products:categories' %}" class="text-light">Categories</a></li>
                     <li class="mb-2"><a href="{% url 'products:product_list' %}" class="text-light">My Products</a></li>
@@ -291,9 +289,11 @@ Home Page
             <!-- Connect With Us Section -->
             <div class="col-md-6 col-lg mb-4">
                 <h5 class="mb-4">Connect With Us</h5>
-                <form action="#" method="post" class="mb-3">
+                <form action="#" method="post" class="mb-3" style="overflow: hidden;">
                     <textarea name="message" rows="4" placeholder="Type your message here..." class="form-control"></textarea>
-                    <button type="submit" class="btn btn-primary mt-2">Send Message</button>
+                    <div class="d-flex align-items-center justify-content-center">
+						<button type="submit" class="btn btn-primary mt-2">Send Message</button>
+                    </div>
                 </form>
                 
             </div>

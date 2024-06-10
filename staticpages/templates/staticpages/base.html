@@ -17,7 +17,7 @@
 
 <body>
 
-    <header class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <h1 class="navbar-brand">Easymarket</h1>
@@ -43,7 +43,7 @@
                     </button>
                 </form>
 
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto" style="color:white;">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="{% url 'chat' %}"
                             aria-disabled="true">Chat</a></li>
@@ -53,23 +53,17 @@
                 </ul>
 
                 <a class="nav-link" href="{% url 'marketplace:cart' %}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-bag-plus" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5" />
-                        <path
-                            d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="16px" height="16px" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
                 </a>
 
                 {% if request.user.is_authenticated %}
-                <span class="ms-2">Hello, {{ request.user.username }}</span>
+                <span class="ms-2 text-light">Hello, {{ request.user.username }}</span>
                 <div class="dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link text-light dropdown-toggle d-flex align-items-center" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% if request.user.userprofile.avatar %}
                         <img src="{{ request.user.userprofile.avatar.url }}" class="avatar-img rounded-circle" alt="Avatar" style="width: 40px; height: 40px;">
                         {% else %}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                         </svg>
@@ -119,7 +113,7 @@
 
     <!-- Bootstrap 5 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}?{% now 'U' %}"></script>
 
     <!-- Your custom JavaScript -->
     <script src="{% static 'js/script.js' %}"></script>

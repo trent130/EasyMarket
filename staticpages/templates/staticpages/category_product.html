@@ -2,55 +2,98 @@
 
 {% block content %}
 
-<div class="sidebar">
-    <h2 class="mb-3">Menu</h2>
-    <ul class="list-unstyled mb-4">
-        <li><a href="{% url 'dashboard' %}"
-                class="text-decoration-none {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
 
-        <li><a href="{% url 'add_category' %}" class="text-decoration-none">Add Category</a></li>
-        <li><a href="{% url 'products:categories' %}" class="text-decoration-none">Categories</a></li>
-        <li><a href="{% url 'products:add_product' %}" class="text-decoration-none">Sell</a></li>
-        <li><a href="{% url 'products:product_list' %}" class="text-decoration-none">Buy</a></li>
-        <li><a href="{% url 'orders' %}" class="text-decoration-none">My Orders</a></li>
-        <li><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none">My
-                Listings</a></li>
-        <li><a href="{% url 'contact' %}" class="text-decoration-none">Contact Us</a></li>
-        <li><a href="{% url 'home' %}" class="text-decoration-none">Site Home</a></li>
-    </ul>
-    <div class="logout-btn">
-        <form action="{% url 'signout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" id="submit-btn" class="btn btn-danger">Log out</button>
-        </form>
-    </div>
-</div>
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-<div class="mainbar mt-2">
-    <h1>{{ category.name }}</h1>
-    <p>{{ category.description }}</p>
+        .product-card img {
+            max-height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
 
-    <h2>Products</h2>
-    <div class="product-grid">
-        {% for product in products %}
-        <div class="product-card">
-            <h3>{{ product.name }}</h3>
-            <img src="{{ product.image_url }}" alt="{{ product.name }}">
-            <p>{{ product.description }}</p>
-            <p>Price: {{ product.price }}</p>
-            <a href="{% url 'products:product_detail' product.id product.slug %}">Product Detail</a>
+        .product-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
 
+        .product-card p {
+            margin-bottom: 10px;
+        }
 
-            <form method="post" action="{% url 'marketplace:add_to_cart' product.id %}">
+        .product-card a {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .product-card form {
+            margin-bottom: 0;
+        }
+    </style>
+
+<div class="d-flex vh-100">
+ <!-- Sidebar -->
+    <div class="sidebar bg-dark text-light p-3 " style="width: 250px; height:100vh;">
+        <h2 class="mb-3">Menu</h2>
+        <ul class="list-unstyled mb-4">
+            <li class="mb-4"><a href="{% url 'dashboard' %}" class="text-decoration-none text-light {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+            <li class="mb-4"><a href="{% url 'add_category' %}" class="text-decoration-none text-light">Add Category</a></li>
+            <li class="mb-4"><a href="{% url 'products:categories' %}" class="text-decoration-none text-light">Categories</a></li>
+            <li class="mb-4"><a href="{% url 'products:add_product' %}" class="text-decoration-none text-light">Sell</a></li>
+            <li class="mb-4"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-light">Buy</a></li>
+            <li class="mb-4"><a href="{% url 'orders' %}" class="text-decoration-none text-light">My Orders</a></li>
+            <li class="mb-4"><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none text-light">My Listings</a></li>
+            <li class="mb-4"><a href="{% url 'contact' %}" class="text-decoration-none text-light">Contact Us</a></li>
+            <li class="mb-4"><a href="{% url 'home' %}" class="text-decoration-none text-light">Site Home</a></li>
+        </ul>
+        <div class="logout-btn">
+            <form action="{% url 'signout' %}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="Add to Cart">
+                <button type="submit" class="btn btn-danger w-100">Log out</button>
             </form>
-
         </div>
-        {% empty %}
-        <p>No products in this category.</p>
-        {% endfor %}
     </div>
-</div>
+
+<div class="mainbar p-3 autoscroll-auto flex-grow-1" sstyle="height: 100vh;>
+       <div class="container mt-5">
+        <h1>{{ category.name }}</h1>
+        <p>{{ category.description }}</p>
+
+        <h2>Products</h2>
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <h3>{{ product.name }}</h3>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+                <p >{{ product.description | truncatewords:8 | truncatechars:50 }}</p>
+                <p><strong>Price:</strong> {{ product.price }}</p>
+                
+					<a href="{% url 'products:product_detail' product.id product.slug %}" class="btn btn-primary">Product Detail</a>
+
+					<form method="post" action="{% url 'marketplace:add_to_cart' product.id %}">
+						{% csrf_token %}
+						<input type="submit" value="Add to Cart" class="btn btn-success">
+					</form>
+                
+            </div>
+            {% empty %}
+            <p class="col-12">No products in this category.</p>
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}

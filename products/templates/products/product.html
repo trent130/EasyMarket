@@ -7,15 +7,15 @@
     <div class="sidebar bg-dark text-light p-3" style="width: 250px; height:100vh;">
         <h2 class="mb-3">Menu</h2>
         <ul class="list-unstyled mb-4">
-            <li class="mb-2"><a href="{% url 'dashboard' %}" class="text-decoration-none text-light {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
-            <li class="mb-2"><a href="{% url 'add_category' %}" class="text-decoration-none text-light">Add Category</a></li>
-            <li class="mb-2"><a href="{% url 'products:categories' %}" class="text-decoration-none text-light">Categories</a></li>
-            <li class="mb-2"><a href="{% url 'products:add_product' %}" class="text-decoration-none text-light">Sell</a></li>
-            <li class="mb-2"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-light">Buy</a></li>
-            <li class="mb-2"><a href="{% url 'orders' %}" class="text-decoration-none text-light">My Orders</a></li>
-            <li class="mb-2"><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none text-light">My Listings</a></li>
-            <li class="mb-2"><a href="{% url 'contact' %}" class="text-decoration-none text-light">Contact Us</a></li>
-            <li class="mb-2"><a href="{% url 'home' %}" class="text-decoration-none text-light">Site Home</a></li>
+            <li class="mb-4"><a href="{% url 'dashboard' %}" class="text-decoration-none text-light {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
+            <li class="mb-4"><a href="{% url 'add_category' %}" class="text-decoration-none text-light">Add Category</a></li>
+            <li class="mb-4"><a href="{% url 'products:categories' %}" class="text-decoration-none text-light">Categories</a></li>
+            <li class="mb-4"><a href="{% url 'products:add_product' %}" class="text-decoration-none text-light">Sell</a></li>
+            <li class="mb-4"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-light">Buy</a></li>
+            <li class="mb-4"><a href="{% url 'orders' %}" class="text-decoration-none text-light">My Orders</a></li>
+            <li class="mb-4"><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none text-light">My Listings</a></li>
+            <li class="mb-4"><a href="{% url 'contact' %}" class="text-decoration-none text-light">Contact Us</a></li>
+            <li class="mb-4"><a href="{% url 'home' %}" class="text-decoration-none text-light">Site Home</a></li>
         </ul>
         <div class="logout-btn">
             <form action="{% url 'signout' %}" method="post">
