@@ -6,7 +6,21 @@ About Us
 {% endblock %}
 
 {% block content %}
+
 <form action="" class="aboutform"> 
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<li>
+						{{ message }}
+					</li>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+                
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="about-section p-4 bg-white rounded shadow"> 
     <h2 class="mb-4">About EasyMarket</h2> 
     <p>EasyMarket is a dedicated marketplace for students across the globe. Our mission is to provide a platform where students can buy and sell academic materials, electronics, dorm essentials, and more.</p> <p>Whether you're looking to sell your old textbooks, find a used laptop, or buy furniture for your dorm room, EasyMarket is the place for you. We believe in making the student life more affordable and sustainable by promoting the reuse of items.</p> <p>Join us today and become part of our growing community!</p>

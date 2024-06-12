@@ -7,6 +7,7 @@ LarryMax
 
 {% block content %}
 <div class="d-flex vh-100">
+
 	    <!-- Sidebar -->
     <div class="sidebar bg-dark text-light p-3" style="width: 250px; height:100vh;">
         <h2 class="mb-3">Menu</h2>
@@ -30,6 +31,19 @@ LarryMax
     </div>
     
 <div class="mainbar p-3 flex-grow-1 overflow-auto" class="height: 100vh;">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<li>
+						{{ message }}
+					</li>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+                
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center min-vh-100">
             <div class="col-lg-6 col-md-8">

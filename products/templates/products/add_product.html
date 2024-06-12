@@ -27,6 +27,19 @@
 
     <!-- Main Content -->
     <div class="mainbar overflow-auto p-3 flex-grow-1" style="height: 100vh;">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<li>
+						{{ message }}
+					</li>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+                
+            {% endfor %}
+        </ul>
+        {% endif %}
         <main>
             <div class="container">
                 <form enctype="multipart/form-data" method="post">

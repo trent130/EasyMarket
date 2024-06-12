@@ -31,6 +31,19 @@ Dashboard
 
     <!-- Main Content -->
     <div class="mainbar p-3 flex-grow-1 overfow-auto" style=" height:100vh;" >
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<li>
+						{{ message }}
+					</li>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+                
+            {% endfor %}
+        </ul>
+        {% endif %}
         <!-- Dashboard Header -->
         <h2 class="text-center mb-4">My Dashboard</h2>
 
