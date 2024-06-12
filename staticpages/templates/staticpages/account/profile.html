@@ -6,18 +6,30 @@ Profile
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid mt-4">
     <div class="row justify-content-center align-items-center min-vh-100">
         <div class="col-lg-6 col-md-8">
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title text-center mb-4">Profile</h1>
-                    <p class="card-text text-center">Update your profile</p>
-                    <div class="d-flex align-items-center justify-content-center">
-						{% if profile_form.instance.avatar %}
-							<img src="{{ profile_form.instance.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle mb-3" style="width: 100px; height: 100px;">
-						{% endif %}
+                    <div class="d-flex justify-content-center align-items-center mt-2">
+                        <div class="avatar-container position-relative">
+                            {% if profile_form.instance.avatar %}
+                            <div class="d-flex justify-content-center align-items-center">
+                                <img src="{{ profile_form.instance.avatar.url }}" alt="Avatar" class="avatar-img round-circle">
+                                <label for="avatarInput" class="avatar-edit-btn position-absolute">
+                                    <i class="fas fa-pen fa-lg"></i>
+                                </label>
+                            </div>
+                            {% else %}
+                                <div class="avatar-placeholder">
+                                    <i class="fas fa-camera fa-2x"></i>
+                                </div>
+                            {% endif %}
+                            <input class="form-control avatar-input" type="file" id="avatarInput" name="avatar">
+                        </div>
                     </div>
+                    
                     
                     <form method="post" class="profile-form needs-validation" novalidate enctype="multipart/form-data">
                         {% csrf_token %}
@@ -37,12 +49,12 @@ Profile
                             <label for="id_email" class="form-label">Email</label>
                             {{ user_form.email }}
                         </div>
-                        <div class="mb-3">
-                            <label for="id_avatar" class="form-label">Avatar</label>
-                            <input class="form-control" type="file" id="id_avatar" name="avatar">
-                        </div>
+                        {% comment %} <div class="mb-3">
+                            <!-- Hidden input for the avatar -->
+                            {{ profile_form.avatar }}
+                        </div> {% endcomment %}
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary w-25">Update</button>
                         </div>
                     </form>
                 </div>
@@ -50,4 +62,6 @@ Profile
         </div>
     </div>
 </div>
+
+
 {% endblock %}

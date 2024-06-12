@@ -29,28 +29,30 @@ Categories
         </div>
     </div>
 
-<div class="mainbar p-3 overflow-auto flex-grow-1" style=" height:100vh;">
-    <h1 class="mb-4 text-center">Categories</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for category in categories %}
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title"> <strong>{{ category.name }}</strong></h5>
-                    <p class="card-text">{{ category.description | truncatewords:6 | truncatechars:100 }}</p>
-                </div>
-                <div class="card-footer d-flex allign-items-center justify-content-center">
-                    <a href="{% url 'category_products' category_id=category.id %}" class="btn btn-primary">View Products</a>
+    <div class="mainbar p-3 overflow-auto flex-grow-1" style="height:100vh;">
+        <h1 class="mb-4 text-center">Categories</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for category in categories %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>{{ category.name }}</strong></h5>
+                        <p class="card-text">{{ category.description | truncatewords:6 | truncatechars:100 }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                        <a href="{% url 'category_products' category_id=category.id %}"
+                            class="btn btn-primary">View Products</a>
+                    </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="col">
+                <p class="text-muted">No categories found.</p>
+            </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <div class="col">
-            <p class="text-muted">No categories found.</p>
-        </div>
-        {% endfor %}
     </div>
-</div>
+    
 </div>
     
 {% endblock %}
