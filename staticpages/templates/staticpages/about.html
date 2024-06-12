@@ -6,66 +6,61 @@ About Us
 {% endblock %}
 
 {% block content %}
-<form action="" class="aboutform">
-    <div class="about-section p-4 bg-white rounded shadow">
-    <h2 class="mb-4">About EasyMarket</h2>
-    <p>EasyMarket is a dedicated marketplace for students across the globe. Our mission is to provide a platform where
-        students can buy and sell academic materials, electronics, dorm essentials, and more.</p>
-    <p>Whether you're looking to sell your old textbooks, find a used laptop, or buy furniture for your dorm room,
-        EasyMarket is the place for you. We believe in making the student life more affordable and sustainable by
-        promoting the reuse of items.</p>
-    <p>Join us today and become part of our growing community!</p>
+<form action="" class="aboutform"> 
+    <div class="about-section p-4 bg-white rounded shadow"> 
+    <h2 class="mb-4">About EasyMarket</h2> 
+    <p>EasyMarket is a dedicated marketplace for students across the globe. Our mission is to provide a platform where students can buy and sell academic materials, electronics, dorm essentials, and more.</p> <p>Whether you're looking to sell your old textbooks, find a used laptop, or buy furniture for your dorm room, EasyMarket is the place for you. We believe in making the student life more affordable and sustainable by promoting the reuse of items.</p> <p>Join us today and become part of our growing community!</p>
 
-    <!-- Mission and Values -->
-    <div class="mission-values mb-4">
-        <h3>Our Mission and Values</h3>
-        <p class="mb-3">We are committed to...</p>
-        <ul>
-            <li>Providing an affordable marketplace for students.</li>
-            <li>Promoting sustainability through the reuse of academic materials and essentials.</li>
-            <li>Fostering a community that values collaboration and support.</li>
-        </ul>
+    
+        <!-- Mission and Values -->
+        <div class="mission-values mb-4">
+            <h3>Our Mission and Values</h3>
+            <p class="mb-3">We are committed to...</p>
+            <ul>
+                <li>Providing an affordable marketplace for students.</li>
+                <li>Promoting sustainability through the reuse of academic materials and essentials.</li>
+                <li>Fostering a community that values collaboration and support.</li>
+            </ul>
+        </div>
+    
+        <!-- How It Works -->
+        <div class="how-it-works mb-4">
+            <h3>How It Works</h3>
+            <ol>
+                <li>Sign up for a EasyMarket account.</li>
+                <li>Browse and discover a variety of items listed by fellow students.</li>
+                <li>List your own items for sale or purchase what you need.</li>
+                <li>Connect with other students, negotiate, and make transactions securely.</li>
+                <li>Enjoy a more affordable and sustainable student life!</li>
+            </ol>
+        </div>
+    
+        <!-- Social Media Links -->
+        <div class="social-media mb-4">
+            <h3>Connect with Us</h3>
+            <p>Follow us on social media platforms for updates and community discussions:</p>
+            <ul class="list-unstyled">
+                <li><a href="#" target="_blank" class="text-decoration-none">Facebook</a></li>
+                <li><a href="#" target="_blank" class="text-decoration-none">Twitter</a></li>
+                <li><a href="#" target="_blank" class="text-decoration-none">Instagram</a></li>
+            </ul>
+        </div>
+    
+        <!-- Call-to-Action -->
+        {% if request.user.is_authenticated %}
+        <div class="user-greeting">
+            <h3>Hello, {{ request.user.username }}!</h3>
+            <p>Welcome back to EasyMarket. Start exploring the marketplace!</p>
+            <!-- Add more content specific to authenticated users here -->
+        </div>
+        {% else %}
+        <div class="promit">
+            <h3>Join EasyMarket Today!</h3>
+            <p>Start buying and selling with fellow students. Join our community and make student life more affordable!</p>
+            <a href="{% url 'register' %}" class="btn btn-primary">Sign Up Now</a>
+        </div>
+        {% endif %}
     </div>
-
-    <!-- How It Works -->
-    <div class="how-it-works mb-4">
-        <h3>How It Works</h3>
-        <ol>
-            <li>Sign up for a EasyMarket account.</li>
-            <li>Browse and discover a variety of items listed by fellow students.</li>
-            <li>List your own items for sale or purchase what you need.</li>
-            <li>Connect with other students, negotiate, and make transactions securely.</li>
-            <li>Enjoy a more affordable and sustainable student life!</li>
-        </ol>
-    </div>
-
-    <!-- Social Media Links -->
-    <div class="social-media mb-4">
-        <h3>Connect with Us</h3>
-        <p>Follow us on social media platforms for updates and community discussions:</p>
-        <ul>
-            <li><a href="#" target="_blank">Facebook</a></li>
-            <li><a href="#" target="_blank">Twitter</a></li>
-            <li><a href="#" target="_blank">Instagram</a></li>
-        </ul>
-    </div>
-
-    <!-- Call-to-Action -->
-    {% if request.user.is_authenticated %}
-    <div class="user-greeting">
-        <h3>Hello, {{ request.user.username }}!</h3>
-        <p>Welcome back to EasyMarket. Start exploring the marketplace!</p>
-        <!-- Add more content specific to authenticated users here -->
-    </div>
-    {% else %}
-    <div class="promit">
-        <h3>Join EasyMarket Today!</h3>
-        <p>Start buying and selling with fellow students. Join our community and make student life more affordable!</p>
-        <a href="{% url 'register' %}" class="btn btn-primary">Sign Up Now</a>
-    </div>
-    {% endif %}
-</div>
-</form>
 
 
 
