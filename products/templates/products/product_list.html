@@ -26,8 +26,21 @@
     </div>
 
 <div class="mainbar p-3 flex-grow-1 overflow-auto" style=" height:100vh;">
-    <h1 class="text-center">Product List</h1>
-    {% comment %} <div class="row row-cols-1 row-cols-md-3 g-4"> {% endcomment %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <li>
+                    {{ message }}
+                </li>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+        {% endfor %}
+    </ul>
+    {% endif %}
+        <h1 class="text-center">Product List</h1>
+        {% comment %} <div class="row row-cols-1 row-cols-md-3 g-4"> {% endcomment %}
         {% for product in page_obj %}
         <div class="col">
             <div class="row-cols-md-3 mb-4">

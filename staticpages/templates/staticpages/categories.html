@@ -30,6 +30,19 @@ Categories
     </div>
 
     <div class="mainbar p-3 overflow-auto flex-grow-1" style="height:100vh;">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<li>
+						{{ message }}
+					</li>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+                
+            {% endfor %}
+        </ul>
+        {% endif %}
         <h1 class="mb-4 text-center">Categories</h1>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for category in categories %}
