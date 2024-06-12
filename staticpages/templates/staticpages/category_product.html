@@ -67,33 +67,46 @@
             </form>
         </div>
     </div>
-
-<div class="mainbar p-3 autoscroll-auto flex-grow-1" sstyle="height: 100vh;>
-       <div class="container mt-5">
-        <h1>{{ category.name }}</h1>
-        <p>{{ category.description }}</p>
-
-        <h2>Products</h2>
-        <div class="product-grid">
-            {% for product in products %}
-            <div class="product-card">
-                <h3>{{ product.name }}</h3>
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
-                <p >{{ product.description | truncatewords:8 | truncatechars:50 }}</p>
-                <p><strong>Price:</strong> {{ product.price }}</p>
-                
-					<a href="{% url 'products:product_detail' product.id product.slug %}" class="btn btn-primary">Product Detail</a>
-
-					<form method="post" action="{% url 'marketplace:add_to_cart' product.id %}">
-						{% csrf_token %}
-						<input type="submit" value="Add to Cart" class="btn btn-success">
-					</form>
-                
+    <div class="mainbar p-3 autoscroll-auto flex-grow-1" style="height: 100vh;">
+        <div class="container my-5">
+            <h1 class="mb-3">{{ category.name }}</h1>
+            <p class="mb-4">{{ category.description }}</p>
+    
+            <h2 class="mb-4">Products</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in products %}
+                <div class="col">
+                    <div class="product-card card h-100">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        {% else %}
+                        <div class="card-img-top bg-secondary text-white text-center p-3">
+                            <span>No Image Available</span>
+                        </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h3 class="card-title">{{ product.name }}</h3>
+                            <p class="card-text">{{ product.description | truncatewords:8 | truncatechars:50 }}</p>
+                            <p class="card-text"><strong>Price:</strong> {{ product.price }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'products:product_detail' product.id product.slug %}"
+                                    class="btn btn-primary">Product Detail</a>
+                                <form method="post" action="{% url 'marketplace:add_to_cart' product.id %}">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Add to Cart" class="btn btn-success">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="alert alert-info">No products in this category.</p>
+                </div>
+                {% endfor %}
             </div>
-            {% empty %}
-            <p class="col-12">No products in this category.</p>
-            {% endfor %}
         </div>
     </div>
+    
 
 {% endblock %}
