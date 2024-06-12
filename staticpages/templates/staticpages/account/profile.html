@@ -6,7 +6,20 @@ Profile
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-4">
+{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<li>
+						{{ message }}
+					</li>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+                
+            {% endfor %}
+        </ul>
+    {% endif %}
+<div class="container-fluid mt-2">
     <div class="row justify-content-center align-items-center min-vh-100">
         <div class="col-lg-6 col-md-8">
             <div class="card">
@@ -22,7 +35,7 @@ Profile
                                 </label>
                             </div>
                             {% else %}
-                                <div class="avatar-placeholder">
+                                <div class="avatar-placeholder d-flex align-items-center justify-content-center">
                                     <i class="fas fa-camera fa-2x"></i>
                                 </div>
                             {% endif %}
