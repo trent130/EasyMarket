@@ -18,39 +18,39 @@ Categories
     </div>
     <nav class="nav flex-column">
         <a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">
-            <i class="fas fa-tachometer-alt me-2"></i>
+            <i class="fas fa-tachometer-alt me-2 mb-4"></i>
             Dashboard
         </a>
         <a href="{% url 'add_category' %}" class="nav-link">
-            <i class="fas fa-plus me-2"></i>
+            <i class="fas fa-plus me-2 mb-4"></i>
             Add Category
         </a>
         <a href="{% url 'products:categories' %}" class="nav-link">
-            <i class="fas fa-list me-2"></i>
+            <i class="fas fa-list me-2 mb-4"></i>
             Categories
         </a>
         <a href="{% url 'products:add_product' %}" class="nav-link">
-            <i class="fas fa-upload me-2"></i>
+            <i class="fas fa-upload me-2 mb-4"></i>
             Sell
         </a>
         <a href="{% url 'products:product_list' %}" class="nav-link">
-            <i class="fas fa-shopping-cart me-2"></i>
+            <i class="fas fa-shopping-cart me-2 mb-4"></i>
             Buy
         </a>
         <a href="{% url 'orders' %}" class="nav-link">
-            <i class="fas fa-box-open me-2"></i>
+            <i class="fas fa-box-open me-2 mb-4"></i>
             My Orders
         </a>
         <a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="nav-link">
-            <i class="fas fa-list-alt me-2"></i>
+            <i class="fas fa-list-alt me-2 mb-4"></i>
             My Listings
         </a>
         <a href="{% url 'contact' %}" class="nav-link">
-            <i class="fas fa-envelope me-2"></i>
+            <i class="fas fa-envelope me-2 mb-4"></i>
             Contact Us
         </a>
         <a href="{% url 'home' %}" class="nav-link">
-            <i class="fas fa-home me-2"></i>
+            <i class="fas fa-home me-2 mb-4"></i>
             Site Home
         </a>
     </nav>

@@ -118,10 +118,10 @@ Home Page
         {% endif %}
     <div class="container mt-4">
         
-        {% comment %} <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> {% endcomment %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for product in featured_products %}
-            {% comment %} <div class="col"> {% endcomment %}
-              <div class="col-md-4 mb-4">
+            <div class="col">
+              <div class=" mb-4">
                 <div class="product-card h-100 position-relative">
                     {% if product.image %}
                     <img src="{{ product.image.url }}" class="product-card-img card-img-top" alt="{{ product.title }}">
