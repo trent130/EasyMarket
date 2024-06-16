@@ -3,7 +3,7 @@
 {% block title %}Product Detail{% endblock %}
 {% block content %}
 <div class="d-flex vh-100">
- <!-- Sidebar -->
+    <!-- Sidebar -->
     <div class="sidebar bg-dark text-light p-3 " style="width: 250px; height:100vh;">
         <h2 class="mb-3">Menu</h2>
         <ul class="list-unstyled mb-4">
@@ -24,34 +24,36 @@
             </form>
         </div>
     </div>
-<div class="mainbar autoscroll-auto flex-grow-1 p-3" style="height: 100vh;">
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<li>
-						{{ message }}
-					</li>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-                
-            {% endfor %}
-        </ul>
+    <div class="mainbar  flex-grow-1 overflow-auto p-3" style="height: 100vh; ">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <li>
+                            {{ message }}
+                        </li>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    
+                {% endfor %}
+            </ul>
         {% endif %}
-    <h1 class="mb-3"><a href="{% url 'products:product_detail' id=product.id slug=product.slug %}" class="text-decoration-none">{{ product.title }}</a></h1>
-    <div class="row mb-3">
-        {% for image in product %}
-        <div class="col-md-4">
-            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="img-fluid">
+        <h1 class="mb-3"><a href="{% url 'products:product_detail' id=product.id slug=product.slug %}" class="text-decoration-none">{{ product.title }}</a></h1>
+        <div class="row mb-3">
+            {% comment %} {% for image in product %} {% endcomment %}
+            <div class="col-md-4">
+                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="img-fluid img-thumbnail rounded shadow">
+            </div>
+            {% comment %} {% endfor %} {% endcomment %}
+            <p class="mb-4"><strong>Price:</strong> Ksh {{ product.price }}</p>
+            <p class="mb-4"><strong>Description:</strong> {{ product.description }}</p>
+            <p class="mb-4"><strong>Category:</strong> {{ product.category.name }}</p>
+            <p class="mb-4"><strong>Student:</strong> {{ product.student.user.username }}</p>
+            <p class="mb-4"><strong>Created at:</strong> {{ product.created_at }}</p>
+            <p class="mb-4"><strong>Updated at:</strong> {{ product.updated_at }}</p>
         </div>
-        {% endfor %}
+        
     </div>
-    <p class="mb-2"><strong>Price:</strong> Ksh {{ product.price }}</p>
-    <p class="mb-2"><strong>Description:</strong> {{ product.description }}</p>
-    <p class="mb-2"><strong>Category:</strong> {{ product.category.name }}</p>
-    <p class="mb-2"><strong>Student:</strong> {{ product.student.user.username }}</p>
-    <p class="mb-2"><strong>Created at:</strong> {{ product.created_at }}</p>
-    <p class="mb-2"><strong>Updated at:</strong> {{ product.updated_at }}</p>
 </div>
 
 

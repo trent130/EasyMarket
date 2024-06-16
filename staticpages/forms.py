@@ -14,6 +14,7 @@ class SignUpForm(UserCreationForm):
         ('buyer', 'Buyer'),
         ('seller', 'Seller'),
         ('both', 'Both'),
+        ('default', 'Default'),
     ]
     role = forms.ChoiceField(label="Role", choices=role_choices)
 
