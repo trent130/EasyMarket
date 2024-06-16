@@ -5,19 +5,56 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <h1 class="mt-5">Processing Payment...</h1>
-            <div class="spinner-border text-primary mt-3" role="status">
-                <span class="sr-only">Loading...</span>
+            <div class="custom-spinner">
+                <div class="spinner spinner-1 bg-primary"></div>
+                <div class="spinner spinner-2 bg-secondary"></div>
+                <div class="spinner spinner-3 bg-success"></div>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-.spinner-border {
-    width: 3rem;
-    height: 3rem;
+.custom-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
     margin-top: 100px; /* Adjust as needed */
 }
+
+.spinner {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0 5px;
+    animation: spin 1s linear infinite;
+}
+
+.spinner-1 {
+    animation-delay: 0s;
+}
+
+.spinner-2 {
+    animation-delay: 0.33s;
+}
+
+.spinner-3 {
+    animation-delay: 0.66s;
+}
+
+@keyframes spin {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 </style>
+
 
 {% endblock %}

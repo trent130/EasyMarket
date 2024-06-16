@@ -169,54 +169,74 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
         .footer-links{
             text-decoration: none;
         }
+
+        :root {
+            --sidebar-bg: #fff;
+            --sidebar-text: #000000;
+        }
+          
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+        }
+          
+        .badge-superscript {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.7rem;
+        }
+        
         
     </style>
 </head>
 
 <body>
 
-    <header class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
-                <h1 class="navbar-brand">Easymarket</h1>
+                <h1 class="navbar-brand mb-0 h1">Easymarket</h1>
             </a>
-
+    
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+    
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <form class="d-flex ms-auto" action="{% url 'marketplace:search' %}" method="GET">
-                    <input class="form-control me-2" type="text" name="q" placeholder="Search...">
-                    <button class="btn btn-outline-success" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
-                            class="bi bi-search d-none d-sm-inline-block" viewBox="0 0 16 16">
-                            <path
-                                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                            <path fill-rule="evenodd"
-                                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z" />
-                        </svg>
-                        <span class="d-sm-none">Search</span>
-                    </button>
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="q" placeholder="Search...">
+                        <button class="btn btn-outline-success" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                                class="bi bi-search d-none d-sm-inline-block" viewBox="0 0 16 16">
+                                <path
+                                    d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                                <path fill-rule="evenodd"
+                                    d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z" />
+                            </svg>
+                            <span class="d-sm-none">Search</span>
+                        </button>
+                    </div>
                 </form>
-
-                <ul class="navbar-nav ms-auto" style="color:white;">
+    
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" href="{% url 'chat' %}"
-                            aria-disabled="true">Chat</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="{% url 'chat' %}" aria-disabled="true">Chat</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'help' %}">Help</a></li>
                 </ul>
-
+    
                 <a class="nav-link" href="{% url 'marketplace:cart' %}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="16px" height="16px" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
+                    <i class="fas fa-shopping-cart text-white"><span class="badge rounded-pill bg-danger barge-superscript">{{ request.session.cart|length }}</span></i>
+                    <span class="visually-hidden">Cart</span>
                 </a>
+                
 
-                {% if request.user.is_authenticated %}
-                <span class="ms-2 text-light">Hello, {{ request.user.username }}</span>
-                <div class="dropdown">
+                <div class="dropdown ms-3 align-items-center justify-content-center d-flex">
+                    {% if request.user.is_authenticated %}
                     <a class="nav-link text-light dropdown-toggle d-flex align-items-center" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% if request.user.userprofile.avatar %}
                         <img src="{{ request.user.userprofile.avatar.url }}" class="avatar-img rounded-circle" alt="Avatar" style="width: 40px; height: 40px;">
@@ -226,29 +246,28 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
                             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                         </svg>
                         {% endif %}
+                        <span class="ms-2 text-light">{{ request.user.username }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
                         <li><a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a></li>
                         <li>
-                            <form class="dropdown-item max" action="{% url 'signout' %}" method="post" style="padding: 0; margin: 0; max:hover: background-color: transparent; ">
+                            <form class="dropdown-item" action="{% url 'signout' %}" method="post">
                                 {% csrf_token %}
-                                <div class="d-flex ms-3">
-									<button type="submit" class="btn btn-danger">Logout</button>
-                                </div>
+                                <button type="submit" class="btn btn-danger btn-sm">Logout</button>
                             </form>
                         </li>
                     </ul>
+                    {% else %}
+                    <a class="nav-link" href="{% url 'signin' %}">Login</a>
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    {% endif %}
                 </div>
-                {% else %}
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-                </ul>
-                {% endif %}
             </div>
         </div>
-    </header>
+    </div>
+</header>
+
 
     <main class="">
         

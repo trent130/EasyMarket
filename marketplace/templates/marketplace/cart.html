@@ -77,6 +77,14 @@
 
 <body>
    {% block content %}
+   {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+   {% endif %}
 <div class="container">
     <div class="cartContainer">
         <h1>Cart</h1>
@@ -94,20 +102,20 @@
             <tbody>
                 {% for item in cart_items %}
                 <tr>
-                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.title }}</td>
                     <td>Ksh {{ item.product.price }}</td>
                     <td>
                         <form method="post" action="{% url 'marketplace:update_cart' item.product.id %}">
                             {% csrf_token %}
                             <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control">
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary mt-2">Update</button>
                         </form>
                     </td>
                     <td>Ksh {{ item.total }}</td>
                     <td>
                         <form method="post" action="{% url 'marketplace:remove_from_cart' item.product.id %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Remove</button>
+                            <button type="submit" class="btn btn-danger ">Remove</button>
                         </form>
                     </td>
                 </tr>
