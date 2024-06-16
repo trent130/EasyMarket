@@ -46,27 +46,62 @@
     </style>
 
 <div class="d-flex vh-100">
- <!-- Sidebar -->
-    <div class="sidebar p-3 " style="width: 250px; height:100vh;">
-        <h2 class="mb-3">Menu</h2>
-        <ul class="list-unstyled mb-4">
-            <li class="mb-4"><a href="{% url 'dashboard' %}" class="text-decoration-none text-light {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
-            <li class="mb-4"><a href="{% url 'add_category' %}" class="text-decoration-none text-light">Add Category</a></li>
-            <li class="mb-4"><a href="{% url 'products:categories' %}" class="text-decoration-none text-light">Categories</a></li>
-            <li class="mb-4"><a href="{% url 'products:add_product' %}" class="text-decoration-none text-light">Sell</a></li>
-            <li class="mb-4"><a href="{% url 'products:product_list' %}" class="text-decoration-none text-light">Buy</a></li>
-            <li class="mb-4"><a href="{% url 'orders' %}" class="text-decoration-none text-light">My Orders</a></li>
-            <li class="mb-4"><a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="text-decoration-none text-light">My Listings</a></li>
-            <li class="mb-4"><a href="{% url 'contact' %}" class="text-decoration-none text-light">Contact Us</a></li>
-            <li class="mb-4"><a href="{% url 'home' %}" class="text-decoration-none text-light">Site Home</a></li>
-        </ul>
-        <div class="logout-btn">
-            <form action="{% url 'signout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger w-100">Log out</button>
-            </form>
-        </div>
-    </div>
+            <!-- Sidebar -->
+            <div class="sidebar  p-3" style="width: 250px; height:100vh;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-0">Menu</h2>
+                    <button class="btn btn-light d-md-none d-block" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                <nav class="nav flex-column">
+                    <a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">
+                        <i class="fas fa-tachometer-alt me-2 mb-4"></i>
+                        Dashboard
+                    </a>
+                    <a href="{% url 'add_category' %}" class="nav-link">
+                        <i class="fas fa-plus me-2 mb-4"></i>
+                        Add Category
+                    </a>
+                    <a href="{% url 'products:categories' %}" class="nav-link">
+                        <i class="fas fa-list me-2 mb-4"></i>
+                        Categories
+                    </a>
+                    <a href="{% url 'products:add_product' %}" class="nav-link">
+                        <i class="fas fa-upload me-2 mb-4"></i>
+                        Sell
+                    </a>
+                    <a href="{% url 'products:product_list' %}" class="nav-link">
+                        <i class="fas fa-shopping-cart me-2 mb-4"></i>
+                        Buy
+                    </a>
+                    <a href="{% url 'orders' %}" class="nav-link">
+                        <i class="fas fa-box-open me-2 mb-4"></i>
+                        My Orders
+                    </a>
+                    <a href="{% url 'products:user_product_list' user_id=request.user.id %}" class="nav-link">
+                        <i class="fas fa-list-alt me-2 mb-4"></i>
+                        My Listings
+                    </a>
+                    <a href="{% url 'contact' %}" class="nav-link">
+                        <i class="fas fa-envelope me-2 mb-4"></i>
+                        Contact Us
+                    </a>
+                    <a href="{% url 'home' %}" class="nav-link">
+                        <i class="fas fa-home me-2 mb-4"></i>
+                        Site Home
+                    </a>
+                </nav>
+                <div class="logout-btn mt-auto">
+                    <form action="{% url 'signout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            Log out
+                        </button>
+                    </form>
+                </div>
+            </div>
     <div class="mainbar p-3 autoscroll-auto flex-grow-1" style="height: 100vh;">
         {% if messages %}
         <ul class="messages">
