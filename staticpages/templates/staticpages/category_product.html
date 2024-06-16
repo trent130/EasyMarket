@@ -47,7 +47,7 @@
 
 <div class="d-flex vh-100">
  <!-- Sidebar -->
-    <div class="sidebar bg-dark text-light p-3 " style="width: 250px; height:100vh;">
+    <div class="sidebar p-3 " style="width: 250px; height:100vh;">
         <h2 class="mb-3">Menu</h2>
         <ul class="list-unstyled mb-4">
             <li class="mb-4"><a href="{% url 'dashboard' %}" class="text-decoration-none text-light {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
@@ -104,9 +104,10 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <a href="{% url 'products:product_detail' product.id product.slug %}"
                                     class="btn btn-primary">Product Detail</a>
-                                <form method="post" action="{% url 'marketplace:add_to_cart' product.id %}">
+                                <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
                                     {% csrf_token %}
-                                    <input type="submit" value="Add to Cart" class="btn btn-success">
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <button type="submit" class="product-button btn btn-primary mb-3">Add to Cart</button>
                                 </form>
                             </div>
                         </div>

@@ -117,6 +117,6 @@ def clear_cart(request):
     if request.method == 'POST':
         request.session['cart'] = {}
         messages.success(request, "Cart has been cleared.")
-        return redirect('marketplace:cart')
+        return render(request, 'marketplace/cart_cleared.html')
     else:
         return HttpResponseNotAllowed(['POST'])
