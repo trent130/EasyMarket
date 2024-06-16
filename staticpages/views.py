@@ -84,8 +84,17 @@ def register(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             if User.objects.filter(email=email).exists():
-                return HttpResponse('A user with this email already exists.')
-            user = form.save()  # Save the user instance
+                messages.success(request,  'A user with this email already exists.')
+                return redirect('register')
+            form.save(commit=False)  
+            
+            role = form.cleaned_date.get('role')
+            if role == 'seller' or role == 'buyer':
+                user.is_student = True
+                user.is_basic = False
+            
+            user = form.save() #save the user instance
+            
             # Log in the user after successful registration
             login(request, user)
             # Redirect to the home page after successful registration

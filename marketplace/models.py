@@ -1,9 +1,10 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser,Permission
 from products.models import Product
 
 @receiver(post_save, sender=User)
@@ -98,3 +99,18 @@ class CartItem(models.Model):
     def total_price(self):
         return self.product.price * self.quantity
 
+class CustomUser(AbstractUser):
+    is_basic = models.BooleanField(default=True)
+    is_legacy = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_students = models.BooleanField(default=False)
+    
+    class Meta:
+        # Define a unique related_name for the groups relationship
+        db_table = 'custom_user'
+
+    # Define a unique related_name for the user_permissions relationship
+    groups = models.ManyToManyField(Group, related_name='custom_users')
+    user_permissions = models.ManyToManyField(Permission, related_name='custom_users')
+
+    

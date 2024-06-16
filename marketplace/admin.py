@@ -1,5 +1,5 @@
 from django.contrib import admin
-from marketplace.models import Student, Cart, CartItem, Message, Reaction, Review
+from marketplace.models import Student, Cart, CartItem, Message, Reaction, Review, CustomUser
 from django.contrib.admin.exceptions import NotRegistered
 
 # Register your models here.
@@ -59,3 +59,5 @@ try:
 except NotRegistered:
     pass
 admin.site.register(Review, ReviewAdmin)
+
+admin.site.register(CustomUser)
