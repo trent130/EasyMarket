@@ -30,7 +30,11 @@ def product_list(request):
 def product_detail(request, id, slug):
     try:
         product = get_object_or_404(Product, id=id, slug=slug)
-        context = {'title': 'Product Detail', 'product': product}
+        reviews = Product.Review.all()
+        reviews_count = reviews.Count()
+        average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+        
+        context = {'title': 'Product Detail', 'product': product, 'reviews_count':reviews_count, 'average_rating':round(average_rating, 1)}
         return render(request, 'products/product_detail.html', context)
     except Product.DoesNotExist:
         # Handle the case where the product doesn't exist
