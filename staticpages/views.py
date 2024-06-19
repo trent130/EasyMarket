@@ -88,10 +88,10 @@ def register(request):
                 return redirect('register')
             form.save(commit=False)  
             
-            role = form.cleaned_date.get('role')
+            role = form.cleaned_data.get('role')
             if role == 'seller' or role == 'buyer':
-                user.is_student = True
-                user.is_basic = False
+                User.is_student = True
+                User.is_basic = False
             
             user = form.save() #save the user instance
             

@@ -71,18 +71,16 @@ Contact Us
     <p>Please fill out the form below and we will get back to you as soon as possible.</p>
 
     {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<li>
-						{{ message }}
-					</li>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-                
-            {% endfor %}
-        </ul>
-        {% endif %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                    
+                {% endfor %}
+            </div>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">

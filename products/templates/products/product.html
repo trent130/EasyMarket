@@ -62,66 +62,74 @@
 
     <div class="mainbar flex-grow-1 overflow-auto p-3" style=" height:100vh;">
         {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<li>
-						{{ message }}
-					</li>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-                
-            {% endfor %}
-        </ul>
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                    
+                {% endfor %}
+            </div>
         {% endif %}
             <h2 class="text-center mb-4">My listings</h2>
             {% comment %} <div class="row row-cols-1 row-cols-md-2 g-4"> {% endcomment %}
             {% for product in products %}
             <div class="col-md-4 mb-4">
-                <div class="product-card h-100 position-relative">
+                <div class="product-card">
+                    {% if product.on_sale %}
+                    <div class="product-badge">Sale</div>
+                    {% endif %}
                     {% if product.image %}
-                    <img src="{{ product.image.url }}" class="product-card-img card-img-top" alt="{{ product.title }}">
+                    <img src="{{ product.image.url }}" alt="{{ product.title }}">
                     {% else %}
                     <div class="card-img-top bg-secondary text-white text-center p-3">
-                        <span>No Image Available</span>
+                      <span>No Image Available</span>
                     </div>
                     {% endif %}
-                    <div class="product-tint d-flex align-items-center justify-content-center">
-                        <div class="product-cta d-flex flex-column align-items-center">
-                            <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="product_id" value="{{ product.id }}">
-                                <button type="submit" class="product-button btn btn-primary mb-3">Add to Cart</button>
-                            </form>
-                            <a href="{% url 'products:product_detail' id=product.id slug=product.slug %}"
-                                class="product-button btn btn-outline-primary">Learn More</a>
-                        </div>
+                    <div class="product-title">{{ product.title }}</div>
+                    <div class="product-info">
+                      <div class="price">Ksh {{ product.price }}</div>
+                      <div class="stock-info">
+                        Stock:
+                        {% if product.stock < 10 %}
+                        <span class="limited-stock">{{ product.stock }} available</span>
+                        {% else %}
+                        {{ product.stock }} available
+                        {% endif %}
+                      </div>
                     </div>
-                    <div class="product-info card-body">
-                        <h5 class="product-title card-title">{{ product.title }}</h5>
-                        <p class="product-price card-text text-muted"><strong>Price:</strong> Ksh {{ product.price }}</p>
-                        <p class="product-description card-text">{{ product.description | truncatewords:8 | truncatechars:40 }}</p>
-                        <div class="product-cta d-flex justify-content-between align-items-center">
-                            <div class="product-rating">
-                                <span class="product-star"><i class="fas fa-star"></i></span>
-                                <span class="product-star"><i class="fas fa-star"></i></span>
-                                <span class="product-star"><i class="fas fa-star"></i></span>
-                                <span class="product-star"><i class="fas fa-star"></i></span>
-                                <span class="product-star"><i class="far fa-star"></i></span>
-                                <span class="ms-1">(123 reviews)</span>
-                            </div>
-                            <div class="product-stock card-text text-muted">
-                                <strong>Stock:</strong> {{ product.stock }}
-                            </div>
-                        </div>
-                        <div class="product-reviews position-absolute bottom-0 start-0 w-100 bg-white p-3 shadow-sm" style="display: none;">
-                            <h6>Product Reviews</h6>
-                            <div class="product-review-list">
-                                <!-- Add your product review content here -->
-                            </div>
-                        </div>
+                    <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
+                      {% csrf_token %}
+                      <div class="product-quantity">
+                        <label for="quantity-{{ product.id }}">Quantity:</label>
+                        <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}">
+                      </div>
+                    </form>
+                    <div class="product-actions">
+                      <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post" style="margin: 0;">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <button type="submit">Add to Cart</button>
+                      </form>
+                      <a class="product-btn" href="{% url 'products:product_detail' id=product.id slug=product.slug %}">Learn More</a>
                     </div>
-                </div>
+                    <div class="product-reviews">
+                      {% load custom_filters %}
+                      {% for i in 5|times %}
+                      {% if i < reviews_count %}
+                      <span class="fas fa-star"></span>
+                      {% else %}
+                      <span class="far fa-star"></span>
+                      {% endif %}
+                      {% endfor%}
+                      <span class="sr-only">({{ reviews_count }} review)</span>
+                    </div>
+                    <div class="product-wishlist">
+                      <a href="#">Add to Wishlist</a>
+                    </div>
+                  </div>
+                  
             </div>
             {% empty %}
             <div class="col">

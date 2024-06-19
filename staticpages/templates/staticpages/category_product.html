@@ -104,17 +104,15 @@
             </div>
     <div class="mainbar p-3 autoscroll-auto flex-grow-1" style="height: 100vh;">
         {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<li>
-						{{ message }}
-					</li>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-                
-            {% endfor %}
-        </ul>
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                    
+                {% endfor %}
+            </div>
         {% endif %}
         <div class="container my-5">
             <h1 class="mb-3">{{ category.name }}</h1>
@@ -124,29 +122,60 @@
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for product in products %}
                 <div class="col">
-                    <div class="product-card card h-100">
+                    <div class="product-card">
+                        {% if product.on_sale %}
+                        <div class="product-badge">Sale</div>
+                        {% endif %}
                         {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
                         {% else %}
                         <div class="card-img-top bg-secondary text-white text-center p-3">
-                            <span>No Image Available</span>
+                          <span>No Image Available</span>
                         </div>
                         {% endif %}
-                        <div class="card-body">
-                            <h3 class="card-title">{{ product.name }}</h3>
-                            <p class="card-text">{{ product.description | truncatewords:8 | truncatechars:50 }}</p>
-                            <p class="card-text"><strong>Price:</strong> {{ product.price }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="{% url 'products:product_detail' product.id product.slug %}"
-                                    class="btn btn-primary">Product Detail</a>
-                                <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="product_id" value="{{ product.id }}">
-                                    <button type="submit" class="product-button btn btn-primary mb-3">Add to Cart</button>
-                                </form>
-                            </div>
+                        <div class="product-title">{{ product.title }}</div>
+                        <div class="product-info">
+                          <div class="price">Ksh {{ product.price }}</div>
+                          <div class="stock-info">
+                            Stock:
+                            {% if product.stock < 10 %}
+                            <span class="limited-stock">{{ product.stock }} available</span>
+                            {% else %}
+                            {{ product.stock }} available
+                            {% endif %}
+                          </div>
                         </div>
-                    </div>
+                        <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
+                          {% csrf_token %}
+                          <div class="product-quantity">
+                            <label for="quantity-{{ product.id }}">Quantity:</label>
+                            <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}">
+                          </div>
+                        </form>
+                        <div class="product-actions">
+                          <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post" style="margin: 0;">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <button type="submit">Add to Cart</button>
+                          </form>
+                          <a class="product-btn" href="{% url 'products:product_detail' id=product.id slug=product.slug %}">Learn More</a>
+                        </div>
+                        <div class="product-reviews">
+                          {% load custom_filters %}
+                          {% for i in 5|times %}
+                          {% if i < reviews_count %}
+                          <span class="fas fa-star"></span>
+                          {% else %}
+                          <span class="far fa-star"></span>
+                          {% endif %}
+                          {% endfor%}
+                          <span class="sr-only">({{ reviews_count }} review)</span>
+                        </div>
+                        <div class="product-wishlist">
+                          <a href="#">Add to Wishlist</a>
+                        </div>
+                      </div>
+                      
                 </div>
                 {% empty %}
                 <div class="col-12">

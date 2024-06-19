@@ -61,17 +61,15 @@
     </div>
     <div class="mainbar  flex-grow-1 overflow-auto p-3" style="height: 100vh; ">
         {% if messages %}
-            <ul class="messages">
+            <div class="messages">
                 {% for message in messages %}
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <li>
-                            {{ message }}
-                        </li>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
                     
                 {% endfor %}
-            </ul>
+            </div>
         {% endif %}
         <h1 class="mb-3"><a href="{% url 'products:product_detail' id=product.id slug=product.slug %}" class="text-decoration-none">{{ product.title }}</a></h1>
         <div class="row mb-3">
