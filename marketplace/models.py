@@ -113,4 +113,8 @@ class CustomUser(AbstractUser):
     groups = models.ManyToManyField(Group, related_name='custom_users')
     user_permissions = models.ManyToManyField(Permission, related_name='custom_users')
 
+class WishList(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    auto_now = models.DateTimeField(auto_now_add=True)
     
