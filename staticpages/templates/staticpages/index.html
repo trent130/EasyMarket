@@ -127,12 +127,12 @@ Home Page
                     {% if product.image %}
                     <img src="{{ product.image.url }}" alt="{{ product.title }}">
                     {% else %}
-                    <div class="card-img-top bg-secondary text-white text-center p-3">
+                    <div class="card-img-top bg-secondary text-white p-3">
                       <span>No Image Available</span>
                     </div>
                     {% endif %}
                     <div class="product-title">{{ product.title }}</div>
-                    <div class="product-info">
+                    <div class="product">
                       <div class="price">Ksh {{ product.price }}</div>
                       <div class="stock-info">
                         Stock:
@@ -158,7 +158,7 @@ Home Page
                       </form>
                       <a class="product-btn" href="{% url 'products:product_detail' id=product.id slug=product.slug %}">Learn More</a>
                     </div>
-                    <div class="product-reviews">
+                    <div class="product-reviews text-center">
                       {% load custom_filters %}
                       {% for i in 5|times %}
                       {% if i < reviews_count %}
@@ -169,8 +169,8 @@ Home Page
                       {% endfor%}
                       <span class="sr-only">({{ reviews_count }} review)</span>
                     </div>
-                    <div class="product-wishlist">
-                      <a href="#">Add to Wishlist</a>
+                    <div class="product-wishlist text-center">
+                      <a href="{% url 'marketplace:add_to_wishlist' product.id %}">Add to Wishlist</a>
                     </div>
                   </div>
                   

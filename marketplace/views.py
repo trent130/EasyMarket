@@ -5,7 +5,7 @@ from orders.models import Order
 from django.http import HttpResponseNotAllowed
 from .forms import searchForm, AddToCartForm, UpdateCartForm, RemoveFromCartForm
 from products.models import Product
-from .models import CartItem, Cart
+from .models import CartItem, Cart, WishList
 
 
 
@@ -120,3 +120,19 @@ def clear_cart(request):
         return render(request, 'marketplace/cart_cleared.html')
     else:
         return HttpResponseNotAllowed(['POST'])
+    
+def add_to_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    WishList.objects.create(user=request.user, product=product)
+    
+    context={'title':'add_to_wishlist'}
+    return redirect('products:product_detail', product_id=product.id)
+
+def wishlist(request):
+    wishlist= WishList.objects.filter(user=request.user)
+    return render(request, 'marketplace/wishlist.html')
+
+def remove_from_wishlist(request, wishlist_item_id):
+    wishlist_item = get_object_or_404(WishList, id=wishlist_item_id)
+    wishlist_item.remove()
+    return redirect('wishlist')
