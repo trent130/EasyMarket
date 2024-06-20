@@ -1,0 +1,39 @@
+{% extends 'staticpages/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+{% if wishlist_item %}
+    <div class="table-resposive">
+        <ul class="table table-striped">
+            <thead>
+                <th>product name</th>
+                <th>price</th>
+                <th>details</th>
+                <th>actions</th>
+            </thead>
+            <tbody>
+                {% for item in wishlist_item %}
+
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.product.description }}</td>
+                    <td>
+                        <form action="{% url 'remove_from_wishlist' item.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="sudmit">remove</button>
+                        </form>
+                    </td>
+
+                {% endfor %}
+            </tbody>
+       
+        </ul>
+    </div>
+{% else %}
+<p class="text-center">Your wishlist is empty</p>
+{% endif %}
+    
+{% endblock content %}
+    
