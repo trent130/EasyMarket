@@ -6,6 +6,7 @@
 <head>
     <title>{% block title %}{{ title }}{% endblock %}</title>
     <!-- Your custom stylesheet -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sidebar.css' %}?{% now 'u' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}?{% now 'u' %}"> 
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}?{% now 'u' %}">
 	<!-- Include Font Awesome if not already included -->
@@ -339,7 +340,7 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
 }
          
 .avatar-edit-btn {
-position: absolute;
+    position: absolute;
     bottom: 10px;
     right: 10px;
     background-color: #333;
@@ -376,12 +377,10 @@ position: absolute;
  
 :root {
     --sidebar-bg: #fff;
-    --sidebar-text: #000000;
 }
            
 .sidebar {
     background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
 }
            
 .badge-superscript {
@@ -398,91 +397,111 @@ position: absolute;
 <body>
 
     <header class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <h1 class="navbar-brand mb-0 h1">Easymarket</h1>
-            </a>
-    
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-    
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="d-flex ms-auto" action="{% url 'marketplace:search' %}" method="GET">
-                    <div class="input-group">
-                        <input class="form-control" type="text" name="q" placeholder="Search...">
-                        <button class="btn btn-outline-success" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
-                                class="bi bi-search d-none d-sm-inline-block" viewBox="0 0 16 16">
-                                <path
-                                    d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                                <path fill-rule="evenodd"
-                                    d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z" />
-                            </svg>
-                            <span class="d-sm-none">Search</span>
-                        </button>
-                    </div>
-                </form>
-    
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" href="{% url 'chat' %}" aria-disabled="true">Chat</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'help' %}">Help</a></li>
-                </ul>
-                <a class="nav-link" href="{% url 'marketplace:wishlist' %}">
-                  <i class="fas fa-bookmark text-white"></i>
-                </a>
-                <a class='nav-link text-white' href="#">
-                  <i class="fas fa-bell text-white"></i>
-                </a>
-                <a class="nav-link" href="{% url 'marketplace:cart' %}">
-                    <div class="position-relative">
-                        <i class="fas fa-shopping-cart text-white">
-                            <span class="badge rounded-pill bg-danger badge-superscript">{{ request.session.cart|length }}</span>
-                        </i>
-                    </div>
+      <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}">
+              <h1 class="navbar-brand mb-0 h1">Easymarket</h1>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="d-flex ms-auto" action="{% url 'marketplace:search' %}" method="GET">
+              <div class="input-group">
+                <input class="form-control" type="text" name="q" placeholder="Search...">
+                <button class="btn btn-outline-success" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                        class="bi bi-search d-none d-sm-inline-block" viewBox="0 0 16 16">
+                        <path
+                            d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                        <path fill-rule="evenodd"
+                            d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z" />
+                    </svg>
+                    <span class="d-sm-none">Search</span>
+                </button>
+            </div>
+            </form>
+
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'home' %}">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link disabled" href="{% url 'chat' %}" aria-disabled="true">Chat</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'help' %}">Help</a>
+                  </li>
+              </ul>
+
+              <div class="ms-3 d-flex align-items-center">
+                  <a class="nav-link me-2" href="{% url 'marketplace:wishlist' %}">
+                      <i class="fas fa-bookmark text-white"></i>
+                      <span class="visually-hidden">Wishlist</span>
+                  </a>
+                  
+                
+                  <a class="nav-link me-2 position-relative" href="{% url 'marketplace:cart' %}">
+                    <i class="fas fa-shopping-cart text-white">
+                        <span class=" rounded-pill bg-danger position-absolute top-0 start-100 translate-middle ">{{ request.session.cart|length }}</span>
+                    </i>
                     <span class="visually-hidden">Cart</span>
                 </a>
-                
-                
 
-                <div class="dropdown ms-3 align-items-center justify-content-center d-flex">
-                    {% if request.user.is_authenticated %}
-                    <a class="nav-link text-light dropdown-toggle d-flex align-items-center" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% if request.user.userprofile.avatar %}
-                        <img src="{{ request.user.userprofile.avatar.url }}" class="avatar-img rounded-circle" alt="" style="width: 40px; height: 40px;">
-                        {% else %}
-                        <img src="{% static 'images/user_avatar.jpeg'%}">
-                        {% endif %}
-                        <span class="ms-2 text-light">{{ request.user.username }}</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
-                        <li><a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a></li>
-                        <li>
-                            <div class="logout-btn mt-auto">
+                {% if request.user.is_authenticated %}
+                    <div class="dropdown">
+                        <span class=" dropdown-toggle" style="color: white;" type="button" id="navbarDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ request.user.username }}
+                        </span>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'dashboard' %}">
+                            <i class="fas fa-tachometer-alt me-2" style="color: black;"></i>
+                            Dashboard</a></li>
+                            <li>
+                              <a class="dropdown-item" href="{% url 'user_profile' %}">
+                                <i class="fas fa-user me-2" style="color: black;"></i>
+                                Profile</a>
+                            </li>
+                            <li><a class='dropdown-item' href="#">
+                              <i class="fas fa-bell me-2" style="color: black;"></i>
+                              <span class="">Notifications</span>
+                            </a></li>
+                            <li><a class="dropdown-item" href="#">
+                              <i class="fas fa-cog me-2" style="color: black;"></i>
+                              Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
                                 <form action="{% url 'signout' %}" method="post">
                                     {% csrf_token %}
-                                    <button type="submit" class="ms-2 btn btn-danger w-75">
+                                    <button type="submit" class="dropdown-item">
                                         <i class="fas fa-sign-out-alt me-2"></i>
                                         Log out
                                     </button>
                                 </form>
-                            </div>
-                        </li>
-                    </ul>
-                    {% else %}
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
                     <a class="nav-link" href="{% url 'signin' %}">Login</a>
                     <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    {% endif %}
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>
-</header>
+  </header>
+
+
 
 
     <main class="">
@@ -498,6 +517,7 @@ position: absolute;
 
     <!-- Your custom JavaScript -->
     <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/sidebar.js' %}"></script>
 </body>
 
 </html>

@@ -126,7 +126,7 @@ def add_to_wishlist(request, product_id):
     WishList.objects.create(user=request.user, product=product)
     
     context={'title':'add_to_wishlist'}
-    return redirect('products:product_detail', product_id=product.id)
+    return redirect('products:product_detail', id=product.id)
 
 def wishlist(request):
     wishlist= WishList.objects.filter(user=request.user)
