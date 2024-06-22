@@ -107,6 +107,7 @@ body {
 .input-group button {
     width: 120px; /* Set a fixed width */
     border-top-right-radius: 5px;
+    color: rgb(40, 144, 179);
 }
 
 
