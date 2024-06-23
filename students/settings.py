@@ -82,6 +82,7 @@ MIDDLEWARE = [
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_URL = "/static/"

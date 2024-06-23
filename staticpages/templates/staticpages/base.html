@@ -316,11 +316,7 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
  }
  
  
- .dropdown-item:hover{
-    background-color: transparent;
-    color: black;
-}
- 
+
 .avatar-container {
     display: flex;
     width: 100px;
@@ -370,10 +366,6 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
 .avatar-input {
     display: none;
 }
-         
-.footer-links{
-    text-decoration: none;
-}
  
 :root {
     --sidebar-bg: #fff;
@@ -412,13 +404,9 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
               <div class="input-group">
                 <input class="form-control" type="text" name="q" placeholder="Search...">
                 <button class="btn btn-outline-success" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
-                        class="bi bi-search d-none d-sm-inline-block" viewBox="0 0 16 16">
-                        <path
-                            d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                        <path fill-rule="evenodd"
-                            d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z" />
-                    </svg>
+                    <div class="bi bi-search d-none d-sm-inline-block">
+                      <i width="15" height="15" fill="currentColor" class="fas fa-search"></i>
+                    </div>
                     <span class="d-sm-none">Search</span>
                 </button>
             </div>
@@ -504,12 +492,10 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
 
 
 
-    <main class="">
-        
+     
         {% block content %}
         <!-- Default content for child templates -->
         {% endblock %}
-    </main>
 
     <!-- Bootstrap 5 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
