@@ -1,25 +1,12 @@
 {% extends 'staticpages/base.html' %}
 {% load static %}
 
-{% block title %}
-FAQ
-{% endblock %}
+{% block title %}Easymarket | FAQ{% endblock %}
 
 {% block content %}
 <main class="help-main container my-5">
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<li>
-						{{ message }}
-					</li>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-                
-            {% endfor %}
-        </ul>
-        {% endif %}
+    {% include 'alert.html' %}
+
     <h1 class="help-title display-4 mb-4">Help Center</h1>
 
     <article class="help-section">
@@ -85,53 +72,6 @@ FAQ
     </article>   
 </main>
 
-    <footer class="site-footer bg-dark text-light py-5">
-    <div class="container">
-        <div class="row">
-            <!-- Quick Links Section -->
-            <div class="col-md-6 col-lg mb-4">
-                <h5 class="mb-4">Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><a href="{% url 'home' %}" class="text-light">Home</a></li>
-                    <li class="mb-2"><a href="{% url 'products:categories' %}" class="text-light">Categories</a></li>
-                    <li class="mb-2"><a href="{% url 'products:product_list' %}" class="text-light">My Products</a></li>
-                    <li class="mb-2"><a href="{% url 'orders' %}" class="text-light">My Orders</a></li>
-                    <li class="mb-2"><a href="{% url 'contact' %}" class="text-light">Contact Us</a></li>
-                </ul>
-            </div>
-            <!-- Contact Information Section -->
-            <div class="col-md-6 col-lg mb-4">
-                <h5 class="mb-4">Contact Information</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 123 Market Street, Vegas, Kenya</li>
-                    <li class="mb-2"><i class="fas fa-envelope me-2"></i> <a href="mailto:info@easymarket.com" class="text-light">info@easymarket.com</a></li>
-                    <li class="mb-2"><i class="fas fa-phone me-2"></i> +254-725-796-722</li>
-                </ul>
-            </div>
-            <!-- Connect With Us Section -->
-            <div class="col-md-6 col-lg mb-4">
-                <h5 class="mb-4">Connect With Us</h5>
-                <form action="#" method="post" class="mb-3">
-                    <textarea name="message" rows="4" placeholder="Type your message here..." class="form-control"></textarea>
-                    <div class="d-flex align-items-center justify-content-center">
-						<button type="submit" class="btn btn-primary mt-2">Send Message</button>
-                    </div>
-                </form>
-                
-            </div>
-            <div class=" col-lg col-md-6 mb-4">
-				<h5>Our Social Media</h5>
-				<ul class="list-inline mt-4 ">
-                    <li class="list-inline-item me-2"><a href="#" class="text-light"><i class="fab fa-facebook-f icon"></i></a></li>
-                    <li class="list-inline-item me-2"><a href="#" class="text-light"><i class="fab fa-twitter icon"></i></a></li>
-                    <li class="list-inline-item me-2"><a href="#" class="text-light"><i class="fab fa-instagram icon"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container text-center mt-4 d-flex align-items-center justify-content-center">
-        <p class="mb-0">&copy; 2024 EasyMarket. All rights reserved.</p>
-    </div>
-</footer>
+    {% include 'footer.html' %}
 
 {% endblock %}
