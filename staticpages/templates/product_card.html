@@ -1,0 +1,54 @@
+{% load static %}
+<div class="product-card">
+    {% if product.on_sale %}
+    <div class="product-badge">Sale</div>
+    {% endif %}
+    {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.title }}">
+    {% else %}
+    <div class="card-img-top bg-secondary text-white p-3">
+      <span>No Image Available</span>
+    </div>
+    {% endif %}
+    <div class="product-title">{{ product.title }}</div>
+    <div class="product">
+      <div class="price">Ksh {{ product.price }}</div>
+      <div class="stock-info">
+        Stock:
+        {% if product.stock < 10 %}
+        <span class="limited-stock">{{ product.stock }} available</span>
+        {% else %}
+        {{ product.stock }} available
+        {% endif %}
+      </div>
+    </div>
+    <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
+      {% csrf_token %}
+      <div class="product-quantity">
+        <label for="quantity-{{ product.id }}">Quantity:</label>
+        <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}">
+      </div>
+    </form>
+    <div class="product-actions">
+      <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post" style="margin: 0;">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <button type="submit">Add to Cart</button>
+      </form>
+      <a class="product-btn" href="{% url 'products:product_detail' id=product.id slug=product.slug %}">Learn More</a>
+    </div>
+    <div class="product-reviews text-center">
+      {% load custom_filters %}
+      {% for i in 5|times %}
+      {% if i < reviews_count %}
+      <span class="fas fa-star"></span>
+      {% else %}
+      <span class="far fa-star"></span>
+      {% endif %}
+      {% endfor%}
+      <span class="sr-only">({{ reviews_count }} review)</span>
+    </div>
+    <div class="product-wishlist text-center">
+      <a href="{% url 'marketplace:add_to_wishlist' product.id %}">Add to Wishlist</a>
+    </div>
+</div>

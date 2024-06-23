@@ -1,9 +1,7 @@
 {% extends 'staticpages/base.html' %}
 {% load static %}
 
-{% block title %}
-Home Page
-{% endblock %}
+{% block title %}EasyMarket{% endblock %}
 
 
 {% block content %}
@@ -103,79 +101,16 @@ Home Page
     </div>
     <!-- featured selections -->
     <h2 class="text-center">Featured Selections</h2>
-    {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                    
-                {% endfor %}
-            </div>
-    {% endif %}
+    {% include 'alert.html' %}
+
     <div class="container mt-4">
         
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for product in featured_products %}
             <div class="col">
               <div class=" mb-4">
-                <div class="product-card">
-                    {% if product.on_sale %}
-                    <div class="product-badge">Sale</div>
-                    {% endif %}
-                    {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                    {% else %}
-                    <div class="card-img-top bg-secondary text-white p-3">
-                      <span>No Image Available</span>
-                    </div>
-                    {% endif %}
-                    <div class="product-title">{{ product.title }}</div>
-                    <div class="product">
-                      <div class="price">Ksh {{ product.price }}</div>
-                      <div class="stock-info">
-                        Stock:
-                        {% if product.stock < 10 %}
-                        <span class="limited-stock">{{ product.stock }} available</span>
-                        {% else %}
-                        {{ product.stock }} available
-                        {% endif %}
-                      </div>
-                    </div>
-                    <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post">
-                      {% csrf_token %}
-                      <div class="product-quantity">
-                        <label for="quantity-{{ product.id }}">Quantity:</label>
-                        <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}">
-                      </div>
-                    </form>
-                    <div class="product-actions">
-                      <form action="{% url 'marketplace:add_to_cart' product.id %}" method="post" style="margin: 0;">
-                        {% csrf_token %}
-                        <input type="hidden" name="product_id" value="{{ product.id }}">
-                        <button type="submit">Add to Cart</button>
-                      </form>
-                      <a class="product-btn" href="{% url 'products:product_detail' id=product.id slug=product.slug %}">Learn More</a>
-                    </div>
-                    <div class="product-reviews text-center">
-                      {% load custom_filters %}
-                      {% for i in 5|times %}
-                      {% if i < reviews_count %}
-                      <span class="fas fa-star"></span>
-                      {% else %}
-                      <span class="far fa-star"></span>
-                      {% endif %}
-                      {% endfor%}
-                      <span class="sr-only">({{ reviews_count }} review)</span>
-                    </div>
-                    <div class="product-wishlist text-center">
-                      <a href="{% url 'marketplace:add_to_wishlist' product.id %}">Add to Wishlist</a>
-                    </div>
-                  </div>
-                  
-                
-            </div>
+                {% include 'product_card.html' %}
+              </div>
             </div>
             {% endfor%}
         </div>
@@ -262,54 +197,7 @@ Home Page
 
 
 
-    <footer class="site-footer bg-dark text-light py-5">
-    <div class="container">
-        <div class="row">
-            <!-- Quick Links Section -->
-            <div class="col-md-6 col-lg mb-4">
-                <h5 class="mb-4">Quick Links</h5>
-                <ul class="list-unstyled footer-links" >
-                    <li class="mb-2"><a href="{% url 'home' %}" class="text-light">Home</a></li>
-                    <li class="mb-2"><a href="{% url 'products:categories' %}" class="text-light">Categories</a></li>
-                    <li class="mb-2"><a href="{% url 'products:product_list' %}" class="text-light">My Products</a></li>
-                    <li class="mb-2"><a href="{% url 'orders' %}" class="text-light">My Orders</a></li>
-                    <li class="mb-2"><a href="{% url 'contact' %}" class="text-light">Contact Us</a></li>
-                </ul>
-            </div>
-            <!-- Contact Information Section -->
-            <div class="col-md-6 col-lg mb-4">
-                <h5 class="mb-4">Contact Information</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 123 Market Street, Vegas, Kenya</li>
-                    <li class="mb-2"><i class="fas fa-envelope me-2"></i> <a href="mailto:info@easymarket.com" class="text-light">info@easymarket.com</a></li>
-                    <li class="mb-2"><i class="fas fa-phone me-2"></i> +254-725-796-722</li>
-                </ul>
-            </div>
-            <!-- Connect With Us Section -->
-            <div class="col-md-6 col-lg mb-4">
-                <h5 class="mb-4">Connect With Us</h5>
-                <form action="#" method="post" class="mb-3" style="overflow: hidden;">
-                    <textarea name="message" rows="4" placeholder="Type your message here..." class="form-control"></textarea>
-                    <div class="d-flex align-items-center justify-content-center">
-						<button type="submit" class="btn btn-primary mt-2">Send Message</button>
-                    </div>
-                </form>
-                
-            </div>
-            <div class=" col-lg col-md-6 mb-4">
-				<h5>Our Social Media</h5>
-				<ul class="list-inline mt-4 ">
-                    <li class="list-inline-item me-2"><a href="#" class="text-light"><i class="fab fa-facebook-f icon"></i></a></li>
-                    <li class="list-inline-item me-2"><a href="#" class="text-light"><i class="fab fa-twitter icon"></i></a></li>
-                    <li class="list-inline-item me-2"><a href="#" class="text-light"><i class="fab fa-instagram icon"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container text-center mt-4 d-flex align-items-center justify-content-center">
-        <p class="mb-0">&copy; 2024 EasyMarket. All rights reserved.</p>
-    </div>
-</footer>
+    {% include 'footer.html' %}
 
 
     {% endblock %}
