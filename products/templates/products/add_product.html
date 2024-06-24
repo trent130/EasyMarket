@@ -1,16 +1,16 @@
-{% extends "staticpages/base.html" %}
+{% extends "base.html" %}
 {% load static %}
-{% block title %}Add Product{% endblock %}
+{% block title %}EasyMarket | Add Product{% endblock %}
 
 {% block content %}
-<div class="d-flex vh-100">
+<div class="d-flex">
     <!-- Sidebar -->
-    {% include 'dashboard.html' %}
+    {% include 'sidebar.html' %}
 
     <!-- Main Content -->
-    <div class="mainbar overflow-auto p-3 bg-body-tertiary">
+    <div class="mainbar p-3 bg-body-tertiary">
         {% include 'alert.html' %}
-        <main>
+        <main class="overflow-auto">
             <div class="container scrollarea">
                 <form enctype="multipart/form-data" method="post">
                     {% csrf_token %}

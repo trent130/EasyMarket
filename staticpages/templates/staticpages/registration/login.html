@@ -1,4 +1,4 @@
-{% extends 'staticpages/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}EasyMarket | Login page{% endblock %}
@@ -19,7 +19,7 @@
             <button type="submit" class="login-button">Login</button>
         </form>
         <p>
-            <a href="{% url "password_reset"}" > forgotten Your password?</a>
+            <a href="{% url 'password_reset' %}" > forgotten Your password?</a>
         </p>
         <!-- <p class="signup-link">Don't have an account? <a href="{% url 'register' %}">Sign up</a></p> -->
     </div>
