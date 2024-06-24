@@ -1,9 +1,7 @@
-{% extends 'staticpages/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}
-    Orders
-{% endblock %}
+{% block title %}EasyMarket | Orders{% endblock %}
 
 
 {% block content %}
@@ -12,17 +10,7 @@
     {% include 'sidebar.html' %}
 
 <div class="mainbar p-3 flex-grow-1 bg-body-tertiary" style=" height:100vh;">
-    {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                    
-                {% endfor %}
-            </div>
-    {% endif %}
+    {% include 'alert.html' %}
     
     <h1 class="mb-4 text-center">Orders</h1>
     <div class="table-responsive scrollarea">

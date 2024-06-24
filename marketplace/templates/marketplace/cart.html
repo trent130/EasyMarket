@@ -1,11 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
-    {% extends 'staticpages/base.html' %}
+    {% block title %}EasyMarket | Cart{% endblock %}
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -76,15 +79,7 @@
 </head>
 
 <body>
-   {% block content %}
-   {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endfor %}
-   {% endif %}
+   {% include 'alert.html' %}
 <div class="container">
     <div class="cartContainer">
         <h1>Cart</h1>
