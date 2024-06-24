@@ -1,11 +1,11 @@
-{% extends 'staticpages/base.html' %}
+{% extends 'base.html' %}
 
-{% block title %}
-Logged out
-{% endblock %}
+{% block title %}EasyMarket | Logged out{% endblock %}
 
 {% block content %}
 <div class="logged-out-container">
     <h1>Logged out</h1>
     <p>You have been successfully logged out</p>
     you can <a href="{% url 'signin' %}">log-in</a> again
+</div>
+{% endblock %}

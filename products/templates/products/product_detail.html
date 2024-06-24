@@ -1,4 +1,4 @@
-{% extends "staticpages/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block title %}Product Detail{% endblock %}
 
@@ -10,7 +10,7 @@
       
     <div class="mainbar flex-grow-1 overflow-auto p-3 bg-body-tertiary">
         {% include 'alert.html' %}
-        
+
         <h1 class="mb-3"><a href="{% url 'products:product_detail' id=product.id slug=product.slug %}" class="text-decoration-none">{{ product.title }}</a></h1>
         <div class="row mb-3 scrollarea">
             {% comment %} {% for image in product %} {% endcomment %}

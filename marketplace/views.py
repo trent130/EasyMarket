@@ -123,10 +123,12 @@ def clear_cart(request):
     
 def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    WishList.objects.create(user=request.user, product=product)
+    wishlist = WishList.objects.create(user=request.user, product=product)
+    
+    wishlist.save()
     
     context={'title':'add_to_wishlist'}
-    return redirect('products:product_detail', id=product.id)
+    return redirect('marketplace:wishlist')
 
 def wishlist(request):
     wishlist= WishList.objects.filter(user=request.user)
