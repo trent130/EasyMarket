@@ -9,6 +9,7 @@ import requests
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True)
+    image = models.ImageField(null=True, default='category/default.jpg', upload_to='category_images/')
 
     def __str__(self):
         return self.name
