@@ -1,39 +1,36 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
-
-{% if wishlist_item %}
-    <div class="table-resposive">
-        <ul class="table table-striped">
+{% if wishlist.products.all %}
+    <div class="table-responsive">
+        <table class="table table-striped">
             <thead>
-                <th>product name</th>
-                <th>price</th>
-                <th>details</th>
-                <th>actions</th>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Details</th>
+                    <th>Actions</th>
+                </tr>
             </thead>
             <tbody>
-                {% for item in wishlist_item %}
-
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.product.price }}</td>
-                    <td>{{ item.product.description }}</td>
-                    <td>
-                        <form action="{% url 'remove_from_wishlist' item.id %}">
-                            {% csrf_token %}
-                            <button class="btn btn-danger" type="sudmit">remove</button>
-                        </form>
-                    </td>
-
+                {% for product in wishlist.products.all %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>
+                            <form action="{% url 'marketplace:remove_from_wishlist' product.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
-       
-        </ul>
+        </table>
     </div>
 {% else %}
-<p class="text-center">Your wishlist is empty</p>
+    <p class="text-center">Your wishlist is empty</p>
 {% endif %}
-    
-{% endblock content %}
-    
+{% endblock %}

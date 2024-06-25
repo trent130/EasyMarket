@@ -27,4 +27,10 @@ class ProductForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name', 'description']
+        fields = '__all__'
+        
+    widgets = {
+        'image': forms.ClearableFileInput(attrs={'class':'form-control'}),
+        'name': forms.TextInput(attrs={'class':'form-control'}),
+        'description': forms.Textarea(attrs={'class':'form-control'}),
+    }
