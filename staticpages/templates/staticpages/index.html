@@ -117,54 +117,56 @@
     </div>
 
    <!-- Testimonials Section -->
-<div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="row">
-          <!-- Testimonial 1 -->
-          <div class="col-md-4 mb-4">
-            <div class="card border-0 shadow">
-              <div class="card-body">
-                <div class="text-center">
-                  <img class="rounded-circle" src='{% static "images/background_.jpg" %}?{% now "u"}' alt="John Doe" width="100" height="100">
-                  <h5 class="card-title mt-3">
-                    John Doe
-                    <br>
-                    <small class="text-muted">CS Student</small>
-                  </h5>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="row">
+              <!-- Testimonial 1 -->
+              <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <div class="text-center">
+                      <img class="rounded-circle" src='{% static "images/background_.jpg" %}?{% now "u"}' alt="John Doe" width="100" height="100">
+                      <h5 class="card-title mt-3">
+                        John Doe
+                        <br>
+                        <small class="text-muted">CS Student</small>
+                      </h5>
+                    </div>
+                    <p class="card-text text-center">"John Doe is a Computer Science student who has found great deals on textbooks and study materials through our marketplace."</p>
+                  </div>
                 </div>
-                <p class="card-text text-center">"John Doe is a Computer Science student who has found great deals on textbooks and study materials through our marketplace."</p>
               </div>
-            </div>
-          </div>
-          <!-- Testimonial 2 -->
-          <div class="col-md-4 mb-4">
-            <div class="card border-0 shadow">
-              <div class="card-body">
-                <div class="text-center">
-                  <img class="rounded-circle" src='{% static "images/background_1.jpg" %}?{% now "u"}' alt="Jane Smith" width="100" height="100">
-                  <h5 class="card-title mt-3">
-                    Jane Smith
-                    <br>
-                    <small class="text-muted">Business Student</small>
-                  </h5>
+              <!-- Testimonial 2 -->
+              <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <div class="text-center">
+                      <img class="rounded-circle" src='{% static "images/background_1.jpg" %}?{% now "u"}' alt="Jane Smith" width="100" height="100">
+                      <h5 class="card-title mt-3">
+                        Jane Smith
+                        <br>
+                        <small class="text-muted">Business Student</small>
+                      </h5>
+                    </div>
+                    <p class="card-text text-center">"Jane Smith, a Business student, sold her old textbooks on our marketplace and made enough money to buy her new ones."</p>
+                  </div>
                 </div>
-                <p class="card-text text-center">"Jane Smith, a Business student, sold her old textbooks on our marketplace and made enough money to buy her new ones."</p>
               </div>
-            </div>
-          </div>
-          <!-- Testimonial 3 -->
-          <div class="col-md-4 mb-4">
-            <div class="card border-0 shadow">
-              <div class="card-body">
-                <div class="text-center">
-                  <img class="rounded-circle" src='{% static "images/background_2.jpg" %}?{% now "u"}' alt="Mike Johnson" width="100" height="100">
-                  <h5 class="card-title mt-3">
-                    Mike Johnson
-                    <br>
-                    <small class="text-muted">Engineering Student</small>
-                  </h5>
-                  <p class="card-text text-center">"Mike Johnson, an Engineering student, found a rare lab equipment at a fraction of the cost on our marketplace. He loved it."</p>
+              <!-- Testimonial 3 -->
+              <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow">
+                  <div class="card-body">
+                    <div class="text-center">
+                      <img class="rounded-circle" src='{% static "images/background_2.jpg" %}?{% now "u"}' alt="Mike Johnson" width="100" height="100">
+                      <h5 class="card-title mt-3">
+                        Mike Johnson
+                        <br>
+                        <small class="text-muted">Engineering Student</small>
+                      </h5>
+                      <p class="card-text text-center">"Mike Johnson, an Engineering student, found a rare lab equipment at a fraction of the cost on our marketplace. He loved it."</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -172,9 +174,8 @@
         </div>
       </div>
     </div>
-  </div>
-  
-    <!-- About Us Section -->
+    
+      <!-- About Us Section -->
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="">
@@ -193,11 +194,6 @@
         </div>
     </div>
 
+  {% include 'footer.html' %}
 
-
-
-
-    {% include 'footer.html' %}
-
-
-    {% endblock %}
+{% endblock %}

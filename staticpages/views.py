@@ -75,7 +75,7 @@ def signin(request):
     else:
         form = LoginForm()
     context = {'title': 'login', 'form': form}
-    return render(request, 'staticpages/account/login.html', context)
+    return render(request, 'account/login.html', context)
 
 
 def register(request):
@@ -104,7 +104,7 @@ def register(request):
     else:
         form = SignUpForm()
     context = {'title': 'register', 'form': form}
-    return render(request, 'staticpages/account/register.html', context)
+    return render(request, 'account/register.html', context)
             
 def search(request):
     context = {'title': 'search'}
@@ -122,7 +122,7 @@ def orders(request):
 
 def password_reset(request):
     context = {'title': 'password_reset'}
-    return render(request, 'staticpages/registration/password_change_form.html', context)
+    return render(request, 'registration/password_change_form.html', context)
 
 @login_required
 def user_profile(request):
@@ -140,7 +140,8 @@ def user_profile(request):
         profile, created = UserProfile.objects.get_or_create(user=request.user)
         profile_form = UserProfileForm(instance=profile)
         
-    return render(request, 'staticpages/account/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    context = {'title': 'profile', 'user_form': user_form, 'profile_form': profile_form}
+    return render(request, 'account/profile.html', context)
 @login_required
 def cart(request):
     context = {'title': 'cart'}
@@ -150,7 +151,7 @@ def cart(request):
 def signout(request):
     logout(request)
     context = {'title': 'signout'}
-    return render(request, 'staticpages/account/logout.html', context)
+    return render(request, 'account/logout.html', context)
 
 @login_required
 def dashboard(request):

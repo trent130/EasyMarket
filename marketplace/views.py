@@ -120,21 +120,22 @@ def clear_cart(request):
         return render(request, 'marketplace/cart_cleared.html')
     else:
         return HttpResponseNotAllowed(['POST'])
-    
+
+@login_required
 def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    wishlist = WishList.objects.create(user=request.user, product=product)
-    
-    wishlist.save()
-    
-    context={'title':'add_to_wishlist'}
-    return redirect('marketplace:wishlist')
+    wishlist, created = WishList.objects.get_or_create(user=request.user)
+    wishlist.products.add(product)
+    return redirect('marketplace:wishlist_view')
 
-def wishlist(request):
-    wishlist= WishList.objects.filter(user=request.user)
-    return render(request, 'marketplace/wishlist.html')
+@login_required
+def wishlist_view(request):
+    wishlist, created = WishList.objects.get_or_create(user=request.user)
+    return render(request, 'marketplace/wishlist.html', {'wishlist': wishlist})
 
-def remove_from_wishlist(request, wishlist_item_id):
-    wishlist_item = get_object_or_404(WishList, id=wishlist_item_id)
-    wishlist_item.remove()
-    return redirect('wishlist')
+@login_required
+def remove_from_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    wishlist = get_object_or_404(WishList, user=request.user)
+    wishlist.products.remove(product)
+    return redirect('marketplace:wishlist_view')

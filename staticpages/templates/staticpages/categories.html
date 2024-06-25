@@ -16,6 +16,10 @@
             {% for category in categories %}
             <div class="col">
                 <div class="card h-100">
+                    {% if category.image %}
+                        <img href="{{ request.category.image.url }}" alt="category.name" class="card-img-top h-100 w-100">
+                    {% else %}
+                        <p class=" alert alert-info ">No image available</p> 
                     <div class="card-body">
                         <h5 class="card-title"><strong>{{ category.name }}</strong></h5>
                         <p class="card-text">{{ category.description | truncatewords:6 | truncatechars:100 }}</p>
