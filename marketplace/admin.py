@@ -1,5 +1,5 @@
 from django.contrib import admin
-from marketplace.models import Student, Cart, CartItem, Message, Reaction, Review, CustomUser
+from marketplace.models import Student, Cart, CartItem, Message, Reaction, Review, CustomUser, WishList
 from django.contrib.admin.exceptions import NotRegistered
 
 # Register your models here.
@@ -61,3 +61,4 @@ except NotRegistered:
 admin.site.register(Review, ReviewAdmin)
 
 admin.site.register(CustomUser)
+admin.site.register(WishList)
