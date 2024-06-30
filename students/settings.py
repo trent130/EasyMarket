@@ -4,18 +4,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PAYMENT_HOST = 'http://localhost:8000'  # Base URL of your website
-PAYMENT_MODEL = 'students.Payment'  # Custom payment model
-PAYMENT_VARIANTS = {
-    'default': ('payments.dummy.DummyProvider', {
-        'url': '/payment/process/',
-    }),
-    # 'stripe': ('payments.stripe.StripeProvider', {
-    #     'secret_key': 'your-stripe-secret-key',
-    #     'publishable_key': 'your-stripe-publishable-key',
-    # }),
-    # Add more payment variants for different gateways
-}
+# PAYMENT_HOST = 'http://localhost:8000'  # Base URL of your website
+# PAYMENT_MODEL = 'students.Payment'  # Custom payment model
+# PAYMENT_VARIANTS = {
+#     'default': ('payments.dummy.DummyProvider', {
+#         'url': '/payment/process/',
+#     }),
+#     # 'stripe': ('payments.stripe.StripeProvider', {
+#     #     'secret_key': 'your-stripe-secret-key',
+#     #     'publishable_key': 'your-stripe-publishable-key',
+#     # }),
+#     # Add more payment variants for different gateways
+# }
 
 
 MPESA_ENVIRONMENT = 'sandbox'

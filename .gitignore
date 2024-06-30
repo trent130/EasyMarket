@@ -1,2 +1,11 @@
 db.sqlite3
 .env
+marketplace/__pycache__/
+marketplace/__pycache__/
+adminapp/__pycache__/
+marketplace/migrations/__pycache__/
+orders/migrations/
+payment/__pycache__/
+payment/migrations/__pycache__/
+staticpages/__pycache__/
+students/__pycache__/
