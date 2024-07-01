@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from decimal import Decimal
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+import logging
 
 Payment = get_payment_model()
 
@@ -29,28 +30,26 @@ def calculate_cart_total(request):
 @csrf_exempt
 def mpesa_callback(request):
     if request.method == 'POST':
-        # Extract data from the POST request
-        # Example: Assuming the Mpesa API sends JSON data
-        data = request.POST.get('data', None)
-        
-        if data:
-            # Process payment status
-            # Example: Assuming the data contains payment status information
-            payment_status = data.get('status', None)
-            
-            if payment_status == 'success':
-                # Payment was successful
-                # Perform any necessary actions (e.g., update database)
-                return HttpResponse(status=200)
+        try:
+            data = json.loads(request.body.decode('utf-8'))  # Parse JSON data
+            logger.info("Mpesa Callback Data: %s", data)
+
+            payment_status = data.get('Body', {}).get('stkCallback', {}).get('ResultCode')
+            checkout_request_id = data.get('Body', {}).get('stkCallback', {}).get('CheckoutRequestID')
+
+            transaction = get_object_or_404(Transaction, transaction_id=checkout_request_id)
+
+            if payment_status == 0:  # 0 indicates success
+                transaction.status = 'completed'
             else:
-                # Payment failed or status unknown
-                # Log error or perform appropriate action
-                return HttpResponse(status=400)
-        else:
+                transaction.status = 'failed'
+            transaction.save()
+
+            return HttpResponse(status=200)
+        except Exception as e:
+            logger.error("Error in mpesa_callback: %s", e)
             return HttpResponse(status=400)
-    else:
-        # Only POST requests are allowed
-        return HttpResponse(status=405)
+    return HttpResponse(status=405)
 
 
 @login_required
@@ -70,56 +69,65 @@ def payment_list(request):
     return render(request, 'payment/payment_list.html', {'transactions': transactions})
 
 
+
+# Configure logging
+logger = logging.getLogger(__name__)
+
 @login_required
 def make_payment(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
         if form.is_valid():
             try:
-                cl = MpesaClient()  
+                cl = MpesaClient(
+                    consumer_key=settings.MPESA_CONSUMER_KEY,
+                    consumer_secret=settings.MPESA_CONSUMER_SECRET,
+                    shortcode=settings.MPESA_SHORTCODE,
+                    passkey=settings.MPESA_PASSKEY,
+                    environment='sandbox'  # or 'production' if in production environment
+                )
 
                 phone_number = form.cleaned_data['phone_number']
                 amount = int(calculate_cart_total(request))
 
-                # Ensure amount is positive
                 if amount <= 0:
                     raise ValueError("Cart total must be greater than zero")
 
                 account_reference = form.cleaned_data['account_reference']
                 transaction_desc = form.cleaned_data['transaction_desc']
-                callback_url = 'http://127.0.0.1:8000/mpesa-callback'  # Replace with your public URL if needed
+                callback_url = settings.MPESA_CALLBACK_URL
 
-                # Make the Mpesa API call
-                response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+                stk_response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+                logger.info("STK Push Response: %s", stk_response)
 
-                # Create a new Transaction object
-                transaction = Transaction.objects.create(
-                    user=request.user,  # Assuming the logged-in user is associated with this transaction
-                    amount=amount,
-                    status='pending',  # Set status to 'pending'
-                    # Add other fields as needed
-                )
+                if 'ResponseCode' in stk_response and stk_response['ResponseCode'] == '0':
+                    transaction = Transaction.objects.create(
+                        user=request.user,
+                        amount=amount,
+                        status='pending',
+                        phone_number=phone_number,
+                        account_reference=account_reference,
+                        transaction_desc=transaction_desc,
+                        transaction_id=stk_response.get('CheckoutRequestID', 'N/A')
+                    )
+                    return redirect('payment_process', token=transaction.pk)
+                else:
+                    raise Exception(f"Failed to initiate STK push: {stk_response}")
 
-                # Redirect to payment process page with token as URL parameter
-                return redirect('payment_process', token=transaction.pk)
             except Exception as e:
-                error_message = "An error occurred while processing your transaction: {}".format(str(e))
+                error_message = f"An error occurred while processing your transaction: {str(e)}"
                 form.add_error(None, error_message)
-                # Log the error for debugging
-                print(error_message)
-    else:
-        # Fetch cart total and store in session
-        cart_total = calculate_cart_total(request)
+                logger.error(error_message)
 
-        # Ensure cart total is positive
+    else:
+        cart_total = calculate_cart_total(request)
         if cart_total <= 0:
             return HttpResponse("Cannot proceed with zero cart total")
 
         request.session['cart_total'] = cart_total
-
-        # Instantiate the form with initial data
         initial = {'amount': cart_total}
         form = PaymentForm(initial=initial)
+
     return render(request, 'payment/make_payment.html', {'form': form})
 
 @login_required
