@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone 
 from django.utils.text import slugify
 from django.apps import apps
-import requests
+# import requests
 
 
 class Category(models.Model):
@@ -22,7 +22,7 @@ class Product(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    student = models.ForeignKey('marketplace.Student', on_delete=models.CASCADE, related_name='products', null=True)
+    student = models.ForeignKey('marketplace.Student', on_delete=models.CASCADE, related_name='products')
     category = models.ForeignKey('products.Category', on_delete=models.CASCADE, default=default_category, related_name='products')
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
