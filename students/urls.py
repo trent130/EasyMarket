@@ -6,7 +6,7 @@ from django.views.static import serve
 
 urlpatterns = [
     re_path(r"^static/(?P<path>.*)", serve, {'document_root': settings.STATIC_ROOT}),
-    re_path(r'^media/(?<path>.*)', serve,  {'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^media/(?P<path>.*)', serve,  {'document_root': settings.MEDIA_ROOT}),
     path('admin/', admin.site.urls),
     path('', include('staticpages.urls')),
     path('marketplace/', include('marketplace.urls')),
