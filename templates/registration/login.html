@@ -47,7 +47,19 @@
         </div>
     </div>
 </div>
+ <script>
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
+fetch('/signin/', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+    },
+    body: JSON.stringify(data),
+});
+
+ </script>
 {% endblock %}
 
 <!--toast-->
