@@ -75,7 +75,7 @@ def signin(request):
     else:
         form = LoginForm()
     context = {'title': 'login', 'form': form}
-    return render(request, 'staticpages/account/login.html', context)
+    return render(request, 'registration/login.html', context)
 
 
 def register(request):
@@ -104,7 +104,7 @@ def register(request):
     else:
         form = SignUpForm()
     context = {'title': 'register', 'form': form}
-    return render(request, 'staticpages/account/register.html', context)
+    return render(request, 'registration/register.html', context)
             
 def search(request):
     context = {'title': 'search'}
