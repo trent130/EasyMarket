@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+# from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from payments import get_payment_model
+# from payments import get_payment_model
 from .models import Transaction
 from products.models import Product
 from .forms import PaymentForm
@@ -13,8 +13,9 @@ from decimal import Decimal
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import logging
+import json
 
-Payment = get_payment_model()
+# Payment = get_payment_model()
 
 @login_required
 

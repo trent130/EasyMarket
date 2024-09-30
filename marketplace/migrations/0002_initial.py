@@ -86,8 +86,4 @@ class Migration(migrations.Migration):
             name='review',
             unique_together={('product', 'reviewer')},
         ),
-        migrations.AlterIndexTogether(
-            name='review',
-            index_together={('product', 'reviewer')},
-        ),
     ]

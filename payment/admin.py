@@ -6,6 +6,7 @@ class TransactionAdmin(admin.ModelAdmin):
     list_display = ('user', 'amount', 'timestamp','status')
     list_filter = ('status', 'timestamp')
     search_fields = ['user__username', 'status']
+    prepopulated_field = {'slug', ('status', 'timestamp')}
 
 admin.site.register(Transaction, TransactionAdmin)
 

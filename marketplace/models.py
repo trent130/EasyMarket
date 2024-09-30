@@ -6,6 +6,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser,Permission
 from products.models import Product
+import string
+import random
+
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -70,13 +73,24 @@ class Review(models.Model):
 
     class Meta:
         unique_together = (('product', 'reviewer'),)
-        index_together = (('product', 'reviewer'),)
+    #    index_together = (('product', 'reviewer'),)
+
+# def unique_slug_field_cart():
+#     length =10
+#     characters = string.ascii_lowercase + string.digits
+
+#     while slug:
+#         if Cart.objects.filter(slug == slug).exists():
+#             pass
+#         slug = ''.join(random.choices(characters), k=length)   
+#     return slug
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(Product, through='CartItem')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField()
 
     def __str__(self):
         return f"Cart for {self.user.username}"

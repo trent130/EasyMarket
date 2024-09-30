@@ -7,10 +7,6 @@ from .forms import searchForm, AddToCartForm, UpdateCartForm, RemoveFromCartForm
 from products.models import Product
 from .models import CartItem, Cart, WishList
 
-
-
-
-
 # def cart_cleared(request):
 #     return render(request, 'marketplace/cart_cleared.html')
 
@@ -30,7 +26,7 @@ def add_to_cart(request, product_id):
         form = AddToCartForm(request.POST)
         if form.is_valid():
             quantity = form.cleaned_data['quantity']
-            cart = request.session.get('cart', {})
+            cart = form.cleaned_data['cart', {}]
             current_quantity = cart.get(product_id, 0)
 
             if current_quantity + quantity > product.stock:
