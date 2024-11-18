@@ -1,0 +1,253 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Make Payment - Ksh {{ cart_total|floatformat:2 }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Payment Form Card -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h2 class="h5 mb-0">Complete Payment</h2>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Order Summary -->
+                    <div class="mb-4">
+                        <h3 class="h6 mb-3">Order Summary</h3>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Total Amount:</span>
+                            <span class="h5 mb-0">Ksh {{ cart_total|floatformat:2 }}</span>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Payment Form -->
+                    <form method="POST" id="paymentForm">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Phone Number Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.phone_number.id_for_label }}" class="form-label">
+                                M-Pesa Phone Number
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">+254</span>
+                                {{ form.phone_number }}
+                            </div>
+                            {% if form.phone_number.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.phone_number.errors|join:", " }}
+                            </div>
+                            {% endif %}
+                            <div class="form-text">
+                                Enter the M-Pesa number you wish to use for payment
+                            </div>
+                        </div>
+
+                        <!-- Hidden Fields -->
+                        {{ form.account_reference }}
+                        {{ form.transaction_desc }}
+
+                        <!-- Terms & Conditions -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" 
+                                       class="form-check-input" 
+                                       id="terms" 
+                                       required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the 
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">
+                                        terms and conditions
+                                    </a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" 
+                                    class="btn btn-primary"
+                                    id="payButton">
+                                <i class="fas fa-lock me-2"></i>
+                                Pay Ksh {{ cart_total|floatformat:2 }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Payment Instructions -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-body">
+                    <h3 class="h6 mb-3">How to Pay:</h3>
+                    <ol class="mb-0">
+                        <li>Enter your M-Pesa phone number</li>
+                        <li>Click "Pay" to receive the payment prompt</li>
+                        <li>Enter your M-Pesa PIN to complete payment</li>
+                        <li>Wait for confirmation message</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Support Information -->
+            <div class="text-center mt-3">
+                <p class="small text-muted">
+                    Need help? Contact our support at 
+                    <a href="tel:{{ support_phone }}">{{ support_phone }}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Terms and Conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Payment Terms</h6>
+                <p>By proceeding with this payment, you agree to the following:</p>
+                <ul>
+                    <li>All payments are processed via M-Pesa</li>
+                    <li>Payment confirmation may take up to 5 minutes</li>
+                    <li>Orders will be processed after payment confirmation</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    I Understand
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Processing Modal -->
+<div class="modal fade" id="processingModal" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary mb-3"></div>
+                <h5 class="mb-2">Processing Payment</h5>
+                <p class="text-muted mb-0">
+                    Please check your phone for the M-Pesa prompt...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('paymentForm');
+    const submitBtn = document.getElementById('payButton');
+    const processingModal = new bootstrap.Modal(document.getElementById('processingModal'));
+    
+    // Phone number formatting
+    const phoneInput = document.querySelector('input[name="phone_number"]');
+    phoneInput.addEventListener('input', function(e) {
+        let value = this.value.replace(/\D/g, '');
+        if (value.startsWith('254')) {
+            value = value.slice(3);
+        } else if (value.startsWith('0')) {
+            value = value.slice(1);
+        }
+        if (value.length > 9) {
+            value = value.slice(0, 9);
+        }
+        this.value = value;
+    });
+
+    // Form submission
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validate phone number
+        const phoneNumber = phoneInput.value;
+        if (phoneNumber.length !== 9) {
+            alert('Please enter a valid phone number');
+            return;
+        }
+
+        // Disable submit button
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+
+        try {
+            const formData = new FormData(this);
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                processingModal.show();
+                pollPaymentStatus(data.transaction_id);
+            } else {
+                alert(data.message || 'Payment failed. Please try again.');
+                resetButton();
+            }
+        } catch (error) {
+            console.error('Payment error:', error);
+            alert('An error occurred. Please try again.');
+            resetButton();
+        }
+    });
+
+    function resetButton() {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i class="fas fa-lock me-2"></i>Pay Ksh {{ cart_total|floatformat:2 }}`;
+    }
+
+    async function pollPaymentStatus(transactionId) {
+        try {
+            const response = await fetch(`/api/payment-status/${transactionId}/`);
+            const data = await response.json();
+
+            if (data.status === 'completed') {
+                window.location.href = data.redirect_url;
+            } else if (data.status === 'failed') {
+                processingModal.hide();
+                alert('Payment failed. Please try again.');
+                resetButton();
+            } else {
+                // Continue polling
+                setTimeout(() => pollPaymentStatus(transactionId), 5000);
+            }
+        } catch (error) {
+            console.error('Polling error:', error);
+            processingModal.hide();
+            alert('Error checking payment status. Please check your messages for confirmation.');
+            resetButton();
+        }
+    }
+});
+</script>
+{% endblock %}
+

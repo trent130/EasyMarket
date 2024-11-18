@@ -1,0 +1,213 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Transaction History{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Transaction History</h1>
+        
+        <!-- Export Button -->
+        <a href="{% url 'export_transactions' %}" class="btn btn-outline-primary">
+            <i class="fas fa-download me-2"></i>
+            Export to CSV
+        </a>
+    </div>
+
+    <!-- Search Form -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3 align-items-center">
+                <div class="col-md-4">
+                    <label class="visually-hidden" for="search">Search</label>
+                    <div class="input-group">
+                        <input type="text" 
+                               class="form-control" 
+                               id="search" 
+                               name="q"
+                               value="{{ search_query }}"
+                               placeholder="Search transactions...">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <select name="status" class="form-select">
+                        <option value="">All Statuses</option>
+                        <option value="pending" {% if status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="completed" {% if status == 'completed' %}selected{% endif %}>Completed</option>
+                        <option value="failed" {% if status == 'failed' %}selected{% endif %}>Failed</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
+                    <select name="date_range" class="form-select">
+                        <option value="">All Time</option>
+                        <option value="today" {% if date_range == 'today' %}selected{% endif %}>Today</option>
+                        <option value="week" {% if date_range == 'week' %}selected{% endif %}>This Week</option>
+                        <option value="month" {% if date_range == 'month' %}selected{% endif %}>This Month</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transactions Table -->
+    {% if transactions %}
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Reference</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tx in transactions %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'transaction_detail' tx.id %}" 
+                               class="text-decoration-none">
+                                {{ tx.transaction_id }}
+                            </a>
+                        </td>
+                        <td>{{ tx.timestamp|date:"j M Y, g:i A" }}</td>
+                        <td>Ksh {{ tx.amount|floatformat:2 }}</td>
+                        <td>
+                            {% if tx.status == 'completed' %}
+                                <span class="badge bg-success">Completed</span>
+                            {% elif tx.status == 'pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% else %}
+                                <span class="badge bg-danger">Failed</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ tx.account_reference }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{% url 'transaction_detail' tx.id %}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                {% if tx.status == 'failed' %}
+                                <a href="{% url 'retry_payment' tx.id %}" 
+                                   class="btn btn-sm btn-outline-success">
+                                    <i class="fas fa-redo"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if transactions.has_other_pages %}
+        <div class="card-footer bg-white">
+            <nav aria-label="Transaction pagination">
+                <ul class="pagination justify-content-center mb-0">
+                    {% if transactions.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ transactions.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in transactions.paginator.page_range %}
+                        {% if transactions.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">
+                                {{ num }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if transactions.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ transactions.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <img src="{% static 'images/no-transactions.svg' %}" 
+             alt="No transactions" 
+             class="mb-4" 
+             style="max-width: 200px;">
+        <h2 class="h4 text-muted">No Transactions Found</h2>
+        <p class="text-muted">
+            You haven't made any transactions yet.
+        </p>
+        <a href="{% url 'marketplace:products' %}" class="btn btn-primary">
+            <i class="fas fa-shopping-bag me-2"></i>
+            Start Shopping
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Transaction Detail Modal -->
+<div class="modal fade" id="transactionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal content will be loaded dynamically -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle transaction detail modal
+    const transactionModal = new bootstrap.Modal(document.getElementById('transactionModal'));
+    
+    document.querySelectorAll('[data-bs-toggle="transaction-modal"]').forEach(button => {
+        button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            const url = this.getAttribute('href');
+            try {
+                const response = await fetch(url);
+                const html = await response.text();
+                
+                document.querySelector('#transactionModal .modal-content').innerHTML = html;
+                transactionModal.show();
+            } catch (error) {
+                console.error('Error loading transaction details:', error);
+            }
+        });
+    });
+    
+    // Handle filters
+    document.querySelectorAll('select[name="status"], select[name="date_range"]').forEach(select => {
+        select.addEventListener('change', function() {
+            this.closest('form').submit();
+        });
+    });
+});
+</script>
+{% endblock %}

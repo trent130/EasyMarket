@@ -13,7 +13,7 @@ from django.db.models import Avg
 def product(request, id, slug):
     product = Product.objects.get(id=id)
     context = {'title': 'product', 'product': product}
-    return render(request, 'products/product.html', context)
+    return render(request, 'pages/products/product.html', context)
 
 
 def product_list(request):
@@ -24,7 +24,7 @@ def product_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'page_obj': page_obj, 'url':url}
-    return render(request, 'products/product_list.html', context )
+    return render(request, 'pages/products/product_list.html', context )
 
 @login_required
 def product_detail(request, id, slug):
@@ -35,7 +35,7 @@ def product_detail(request, id, slug):
         average_rating = review.aggregate(Avg('rating'))['rating__avg'] or 0
         
         context = {'title': 'Product Detail', 'product': product, 'review_count':review_count, 'average_rating':round(average_rating, 1)}
-        return render(request, 'products/product_detail.html', context)
+        return render(request, 'pages/products/product_detail.html', context)
     except Product.DoesNotExist:
         # Handle the case where the product doesn't exist
         return HttpResponse("Product not found", status=404)
@@ -55,13 +55,13 @@ def add_product(request):
 
             product.save()
             messages.success(request, "product saved successfully")
-            return redirect('products:product_list') 
+            return redirect('pages/products:product_list') 
     else:
         product_form = ProductForm()
         
     categories = Category.objects.all() 
     context =  {'product_form': product_form, 'categories': categories}
-    return render(request, 'products/add_product.html', context)
+    return render(request, 'pages/products/add_product.html', context)
 
 @login_required
 def user_products(request, user_id):
@@ -74,7 +74,7 @@ def user_products(request, user_id):
         page_obj = paginator.get_page(page_number)
         
         context = {'page_obj':page_obj, 'products': products}
-        return render(request, 'products/product.html', context)
+        return render(request, 'pages/products/product.html', context)
     
     except Student.DoesNotExist:
         # Handle the case where the user is not associated with a Student instance
@@ -84,4 +84,4 @@ def user_products(request, user_id):
 
 def category(request):
     categories = Category.objects.all()
-    return render(request, 'staticpages/categories.html', {'categories' : categories})
+    return render(request, 'pages/staticpages/categories.html', {'categories' : categories})

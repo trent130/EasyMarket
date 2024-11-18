@@ -1,0 +1,138 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}EasyMarket | Cart{% endblock %}
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            display: inline;
+        }
+
+        input[type="number"] {
+            width: 50px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .action-buttons a {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .action-buttons a:hover {
+            background-color: #0056b3;
+        }
+
+        .cartContainer {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+{% block content %}
+   {% include 'components/alerts.html' %}
+<div class="container">
+    <div class="cartContainer">
+        <h1>Cart</h1>
+        {% if cart_items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.title }}</td>
+                    <td>Ksh {{ item.product.price }}</td>
+                    <td>
+                        <form method="post" action="{% url 'marketplace:update_cart' item.product.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control">
+                            <button type="submit" class="btn btn-primary mt-2">Update</button>
+                        </form>
+                    </td>
+                    <td>Ksh {{ item.total }}</td>
+                    <td>
+                        <form method="post" action="{% url 'marketplace:remove_from_cart' item.product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger ">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Total Price: Ksh {{ cart_total }}</p>
+        <div class="action-buttons">
+            <a href="{% url 'make_payment' %}" class="btn btn-success">Proceed to Checkout</a>
+            <form method="post" action="{% url 'marketplace:clear_cart' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">Clear Cart</button>
+            </form>
+        </div>
+        {% else %}
+        <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+</body>
+
+</html>

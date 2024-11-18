@@ -67,7 +67,7 @@ def payment_list(request):
     except EmptyPage:
         transactions = paginator.page(paginator.num_pages)
 
-    return render(request, 'payment/payment_list.html', {'transactions': transactions})
+    return render(request, 'pages/payment/payment_list.html', {'transactions': transactions})
 
 
 
@@ -129,7 +129,7 @@ def make_payment(request):
         initial = {'amount': cart_total}
         form = PaymentForm(initial=initial)
 
-    return render(request, 'payment/make_payment.html', {'form': form})
+    return render(request, 'pages/payment/make_payment.html', {'form': form})
 
 @login_required
 def transaction_history(request):
@@ -145,12 +145,12 @@ def transaction_history(request):
     except EmptyPage:
         transactions = paginator.page(paginator.num_pages)
 
-    return render(request, 'payment/transaction_history.html', {'transactions': transactions})
+    return render(request, 'pages/payment/transaction_history.html', {'transactions': transactions})
 
 @login_required
 def transaction_detail(request, transaction_id):
     transaction = get_object_or_404(Transaction, id=transaction_id, user=request.user)
-    return render(request, 'payment/transaction_detail.html', {'transaction': transaction})
+    return render(request, 'pages/payment/transaction_detail.html', {'transaction': transaction})
 
 @login_required
 def export_transactions(request):
@@ -172,9 +172,9 @@ def export_transactions(request):
 def search_transactions(request):
     query = request.GET.get('q')
     user_transactions = Transaction.objects.filter(user=request.user, id__icontains=query)
-    return render(request, 'payment/search_transactions.html', {'transactions': user_transactions, 'query': query})
+    return render(request, 'pages/payment/search_transactions.html', {'transactions': user_transactions, 'query': query})
 
 @login_required
 def payment_process(request, token):
     transaction = get_object_or_404(Transaction, pk=token)
-    return render(request, 'payment/payment_process.html', {'transaction': transaction})
+    return render(request, 'pages/payment/payment_process.html', {'transaction': transaction})
