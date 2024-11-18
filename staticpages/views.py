@@ -14,14 +14,76 @@ from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Count
 
 def index(request):
+    hero_slides = [
+        {
+            'image': 'images/bg_main.jpg',
+            'title': 'Welcome to EasyMarket',
+            'description': 'Buy and sell stuff and more. All within your campus community.',
+            'primary_btn': {
+                'text': 'Shop Now',
+                'url': 'products:product_list'
+            },
+            'secondary_btn': {
+                'text': 'Sell Now',
+                'url': 'products:add_product'
+            }
+        },
+        {
+            'image': 'images/bg_main1.jpg',
+            'title': 'Discover Exciting Deals',
+            'description': 'Find amazing discounts on textbooks, gadgets, and more.',
+            'primary_btn': {
+                'text': 'Explore Now',
+                'url': 'products:product_list'
+            },
+            'secondary_btn': {
+                'text': 'Sell Now',
+                'url': 'products:add_product'
+            }
+        },
+        {
+            'image': 'images/bg_main2.jpg',
+            'title': 'Shop with Confidence',
+            'description': 'Secure transactions and buyer protection guaranteed.',
+            'primary_btn': {
+                'text': 'Start Shopping',
+                'url': 'products:product_list'
+            },
+            'secondary_btn': {
+                'text': 'Sell Now',
+                'url': 'products:add_product'
+            }
+        }
+    ]
+
+    testimonials = [
+        {
+            'name': 'John Doe',
+            'role': 'CS Student',
+            'image': 'images/background_.jpg',
+            'quote': 'Found great deals on textbooks and study materials through EasyMarket.'
+        },
+        {
+            'name': 'Jane Smith',
+            'role': 'Business Student',
+            'image': 'images/background_1.jpg',
+            'quote': 'Sold my old textbooks and made enough money to buy new ones.'
+        },
+        {
+            'name': 'Mike Johnson',
+            'role': 'Engineering Student',
+            'image': 'images/background_2.jpg',
+            'quote': 'Found rare lab equipment at a fraction of the cost.'
+        }
+    ]
     featured_users = UserProfile.objects.order_by('?')[:6]
     featured_products = Product.objects.annotate(num_products=Count('image')).order_by('-num_products')[:9]
-    context = {'title': 'home', 'featured_products': featured_products, 'featured_users': featured_users}
-    return render(request, 'staticpages/index.html', context)
+    context = {'title': 'home', 'featured_products': featured_products, 'featured_users': featured_users, 'hero_slides': hero_slides, 'testimonials': testimonials}
+    return render(request, 'pages/staticpages/index.html', context)
 
 def about(request):
     context = {'title' : 'about'}
-    return render(request, 'staticpages/about.html', context)
+    return render(request, 'pages/staticpages/about.html', context)
 
 
 def contact(request):
@@ -44,15 +106,15 @@ def contact(request):
             return render(request, 'staticpages/contact.html', {'form': form})
     else:
         form = ContactForm()
-    return render(request, 'staticpages/contact.html', {'form': form})
+    return render(request, 'pages/staticpages/contact.html', {'form': form})
 
 def contact_success(request):   
-    return render(request, 'staticpages/contact_success.html')
+    return render(request, 'pages/staticpages/contact_success.html')
 
 
 def help(request):
     context = {'title': 'help'}
-    return render(request, 'staticpages/help.html', context)
+    return render(request, 'pages/staticpages/help.html', context)
 
 def signin(request):
     if request.method == 'POST':
@@ -75,7 +137,7 @@ def signin(request):
     else:
         form = LoginForm()
     context = {'title': 'login', 'form': form}
-    return render(request, 'registration/login.html', context)
+    return render(request, 'pages/registration/login.html', context)
 
 
 def register(request):
@@ -104,25 +166,25 @@ def register(request):
     else:
         form = SignUpForm()
     context = {'title': 'register', 'form': form}
-    return render(request, 'registration/register.html', context)
+    return render(request, 'pages/registration/register.html', context)
             
 def search(request):
     context = {'title': 'search'}
-    return render(request, 'marketplace/search.html', context)
+    return render(request, 'pages/marketplace/search.html', context)
 
 @login_required
 def chat(request):
     context = {'title': 'chat'}
-    return render(request, 'staticpages/chat.html', context)
+    return render(request, 'pages/staticpages/chat.html', context)
 
 @login_required
 def orders(request):
     context = {'title': 'orders'}
-    return render(request, 'orders/order.html', context)
+    return render(request, 'pages/orders/order.html', context)
 
 def password_reset(request):
     context = {'title': 'password_reset'}
-    return render(request, 'registration/password_change_form.html', context)
+    return render(request, 'pages/registration/password_change_form.html', context)
 
 @login_required
 def user_profile(request):
@@ -141,22 +203,22 @@ def user_profile(request):
         profile_form = UserProfileForm(instance=profile)
         
     context = {'title': 'profile', 'user_form': user_form, 'profile_form': profile_form}
-    return render(request, 'staticpages/account/profile.html', context)
+    return render(request, 'pages/registration/profile.html', context)
 @login_required
 def cart(request):
     context = {'title': 'cart'}
-    return render(request, 'marketplace/cart.html', context)
+    return render(request, 'pages/marketplace/cart.html', context)
 
 @require_POST
 def signout(request):
     logout(request)
     context = {'title': 'signout'}
-    return render(request, 'staticpages/account/logout.html', context)
+    return render(request, 'pages/staticpages/account/logout.html', context)
 
 @login_required
 def dashboard(request):
     context = {'title' : 'dashboard'}
-    return render(request, 'staticpages/dashboard.html', context )
+    return render(request, 'pages/staticpages/dashboard.html', context )
 
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/larrymax/')
@@ -173,13 +235,13 @@ def add_category(request):
             return redirect('products:categories')
     else:
         form = CategoryForm()
-    return render(request, 'staticpages/add_category.html', {'form': form})
+    return render(request, 'pages/staticpages/add_category.html', {'form': form})
 
 def category_products(request, category_id):
     category = Category.objects.get(id=category_id)
     products = Product.objects.filter(category=category)
-    return render(request, 'staticpages/category_product.html', {'category': category, 'products': products})
+    return render(request, 'pages/staticpages/category_product.html', {'category': category, 'products': products})
 
 def larrymax(request):
     context = {'title': 'larrymax'}
-    return render(request, 'staticpages/larrymax.html', context)
+    return render(request, 'pages/staticpages/larrymax.html', context)

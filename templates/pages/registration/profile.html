@@ -1,0 +1,245 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}EasyMarket | Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-section {
+        padding: 2rem 0;
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 76px); /* Adjust based on your navbar height */
+    }
+
+    .profile-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .avatar-container {
+        margin-bottom: 2rem;
+    }
+
+    .avatar-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .avatar-placeholder {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        color: #6c757d;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .avatar-placeholder:hover {
+        background-color: #dee2e6;
+    }
+
+    .avatar-edit-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #007bff;
+        color: white;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .avatar-edit-btn:hover {
+        background: #0056b3;
+        transform: scale(1.1);
+    }
+
+    .avatar-input {
+        display: none;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #ced4da;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+
+    .btn-primary {
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+    }
+
+    /* Form validation styles */
+    .form-control.is-invalid {
+        border-color: #dc3545;
+        padding-right: calc(1.5em + 0.75rem);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .invalid-feedback {
+        display: none;
+        color: #dc3545;
+        font-size: 80%;
+        margin-top: 0.25rem;
+    }
+
+    .was-validated .form-control:invalid ~ .invalid-feedback {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'components/alerts.html' %}
+
+<section class="profile-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card profile-card">
+                    <div class="card-body p-4">
+                        <h1 class="card-title text-center mb-4">My Profile</h1>
+                        
+                        <!-- Avatar Section -->
+                        <div class="d-flex justify-content-center">
+                            <div class="avatar-container position-relative">
+                                {% if profile_form.instance.avatar %}
+                                <div class="position-relative">
+                                    <img src="{{ profile_form.instance.avatar.url }}" 
+                                         alt="{{ user.get_full_name }}" 
+                                         class="avatar-img">
+                                    <label for="avatarInput" class="avatar-edit-btn">
+                                        <i class="fas fa-camera"></i>
+                                    </label>
+                                </div>
+                                {% else %}
+                                <label for="avatarInput" class="avatar-placeholder">
+                                    <div class="d-flex align-items-center justify-content-center h-100">
+                                        <i class="fas fa-user-circle fa-4x"></i>
+                                    </div>
+                                </label>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Profile Form -->
+                        <form method="post" class="profile-form needs-validation mt-4" novalidate enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" id="avatarInput" name="avatar" class="avatar-input" accept="image/*">
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_username" class="form-label">Username</label>
+                                    {{ user_form.username }}
+                                    <div class="invalid-feedback">
+                                        {{ user_form.username.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_email" class="form-label">Email</label>
+                                    {{ user_form.email }}
+                                    <div class="invalid-feedback">
+                                        {{ user_form.email.errors }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_first_name" class="form-label">First Name</label>
+                                    {{ user_form.first_name }}
+                                    <div class="invalid-feedback">
+                                        {{ user_form.first_name.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_last_name" class="form-label">Last Name</label>
+                                    {{ user_form.last_name }}
+                                    <div class="invalid-feedback">
+                                        {{ user_form.last_name.errors }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary px-5">
+                                    <i class="fas fa-save me-2"></i>Update Profile
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Avatar preview functionality
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarImg = document.querySelector('.avatar-img');
+    const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+
+    avatarInput.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                if (avatarImg) {
+                    avatarImg.src = e.target.result;
+                } else {
+                    // Create new image if doesn't exist
+                    const newImg = document.createElement('img');
+                    newImg.src = e.target.result;
+                    newImg.classList.add('avatar-img');
+                    avatarPlaceholder.parentNode.replaceChild(newImg, avatarPlaceholder);
+                }
+            }
+            
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    // Form validation
+    const form = document.querySelector('.profile-form');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+});
+</script>
+{% endblock %}

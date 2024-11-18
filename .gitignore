@@ -9,3 +9,4 @@ payment/__pycache__/
 payment/migrations/__pycache__/
 staticpages/__pycache__/
 students/__pycache__/
+orders/__pycache__/

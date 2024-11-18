@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}EasyMarket | Add Product{% endblock %}
+
+{% block content %}
+<div class="d-flex">
+    <!-- Sidebar -->
+    {% include 'shared/sidebar.html' %}
+
+    <!-- Main Content -->
+    <div class="mainbar p-3 bg-body-tertiary">
+        {% include 'components/alerts.html' %}
+        <main class="overflow-auto">
+            <div class="container scrollarea">
+                <form enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1>Add Product</h1>
+                            <fieldset class="">
+                                <div class="form-group">
+                                    <label class="required" for="id_title">Title:</label>
+                                    <input type="text" name="title" class="form-control" maxlength="100" required id="id_title">
+                                </div>
+                                <div class="form-group">
+                                    <label class="required" for="id_description">Description:</label>
+                                    <textarea name="description" cols="40" rows="10" class="form-control" minlength="10" required id="id_description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required" for="id_price">Price:</label>
+                                    <input type="number" name="price" step="0.01" required id="id_price" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_stock" class="required">Available stock</label>
+                                    <input type="number" name="stock" required id="id_stock" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="required" for="id_category">Category:</label>
+                                    <select name="category" required id="id_category" class="form-control">
+                                        {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <input type="hidden" name="student" value="{{ request.user.student.id }}">
+                            </fieldset>
+                            <fieldset class="module">
+                                <h2>Images</h2>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="form-row" id="images-0">
+                                            <td>
+                                                <input type="file" name="image" accept="image/*" class="form-control-file">
+                                            </td>
+                                            <td>
+                                                <textarea name="description" cols="40" rows="3" class="form-control"></textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                        <div class="submit-row mt-3">
+                            <input type="submit" value="Save" class="btn btn-primary" name="_save">
+                            <input type="submit" value="Save and add another" class="btn btn-primary" name="_addanother">
+                            <input type="submit" value="Save and continue editing" class="btn btn-primary" name="_continue">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

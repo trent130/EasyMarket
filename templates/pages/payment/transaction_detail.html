@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="mt-5">Transaction Detail</h1>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Transaction ID: {{ transaction.id }}</h5>
+                    <!-- Add more details about the transaction here -->
+                    <p class="card-text">Amount: {{ transaction.amount }}</p>
+                    <p class="card-text">Status: {{ transaction.status }}</p>
+                    <!-- Add more transaction details here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

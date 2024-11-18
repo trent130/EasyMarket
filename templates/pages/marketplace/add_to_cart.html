@@ -1,0 +1,12 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block content %}
+  {% include 'components/alerts.html' %}
+  <h2>Add to Cart</h2>
+  <form method="post" class="form-inline" action="{% url 'marketplace:add_to_cart' product_id=product.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add to Cart</button>
+  </form>
+{% endblock %}
