@@ -1,0 +1,184 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}EasyMarket | Chat{% endblock %}
+
+{% block content %}
+<!-- <h1>Chat</h1>
+<p>Find and connect with students for various services and opportunities.</p> -->
+<!-- Add your marketplace content here -->
+<!-- <div class="chat-container">
+    <div class="chat-sidebar">
+        <h2>Users</h2>
+        <ul id="users">
+            <!-- User list will be added here dynamically 
+            <li>User 1</li>
+            <li>User 2</li>
+            <li>User 3</li>
+        </ul>
+    </div>
+    <div class="chat-main">
+        <div class="chat-header">
+            <h2>Chat Room</h2>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Chat messages will be added here dynamically 
+            <div class="message">
+                <img src="user1-avatar.jpg" alt="User 1 Avatar" class="user-avatar">
+                <div class="message-content">
+                    <p>This is a sample message from User 1.</p>
+                    <span class="message-time">12:30 PM</span>
+                </div>
+            </div>
+            <div class="message">
+                <img src="user2-avatar.jpg" alt="User 2 Avatar" class="user-avatar">
+                <div class="message-content">
+                    <p>This is a sample message from User 2.</p>
+                    <span class="message-time">12:35 PM</span>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <form id="message-form">
+                <input type="text" id="message-input" placeholder="Type a message...">
+                <!-- <input type="file" id="file-input">
+                <button type="button" id="emoji-button">😀</button> 
+                <button type="submit">Send</button>
+            </form>
+            <div id="emoji-picker" style="display: none;">
+                <!-- Emojis will be added here dynamically 
+            </div>
+            <div id="typing-indicator"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('#emoji-button').addEventListener('click', function() {
+    var emojiPicker = document.querySelector('#emoji-picker');
+    if (emojiPicker.style.display === 'none') {
+        emojiPicker.style.display = 'block';
+    } else {
+        emojiPicker.style.display = 'none';
+    }
+});
+
+document.querySelector('#emoji-picker').addEventListener('click', function(event) {
+    if (event.target.tagName === 'SPAN') {
+        document.querySelector('#message-input').value += event.target.textContent;
+    }
+});
+</script>
+
+
+
+/* Chat Styles */
+.chat-container {
+    display: flex;
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.chat-sidebar {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.chat-main {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.message {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message-content {
+    background-color: #ecf0f1;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.message-time {
+    font-size: 0.8em;
+    color: #777;
+    margin-left: 10px;
+}
+
+.chat-input {
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+}
+
+#message-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+#message-input:hover {
+    border-color: #3498db;
+}
+
+#message-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+#message-form button {
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#message-form button:hover {
+    background-color: #2980b9;
+}
+
+#typing-indicator {
+    font-style: italic;
+    color: #777;
+}
+
+-->
+<div class="coming-soon">
+    <h2>The feature is not yet available!! coming soon</h2>
+</div>
+{% endblock %}
