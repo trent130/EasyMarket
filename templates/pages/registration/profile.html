@@ -4,6 +4,11 @@
 {% block title %}EasyMarket | Profile{% endblock %}
 
 {% block extra_css %}
+
+{% endblock %}
+
+{% block content %}
+{% include 'components/alerts.html' %}
 <style>
     .profile-section {
         padding: 2rem 0;
@@ -29,6 +34,12 @@
         border: 3px solid #fff;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
+    }
+
+    .avatar-img img {
+        object-fit: contain; /* or cover */
+        width: 100%;
+        height: 100%;
     }
 
     .avatar-placeholder {
@@ -115,11 +126,6 @@
         display: block;
     }
 </style>
-{% endblock %}
-
-{% block content %}
-{% include 'components/alerts.html' %}
-
 <section class="profile-section">
     <div class="container">
         <div class="row justify-content-center">
@@ -133,9 +139,11 @@
                             <div class="avatar-container position-relative">
                                 {% if profile_form.instance.avatar %}
                                 <div class="position-relative">
-                                    <img src="{{ profile_form.instance.avatar.url }}" 
+                                    <div class="avatar-img" >
+                                        <img src="{{ profile_form.instance.avatar.url }}" 
                                          alt="{{ user.get_full_name }}" 
-                                         class="avatar-img">
+                                         class="">
+                                    </div>
                                     <label for="avatarInput" class="avatar-edit-btn">
                                         <i class="fas fa-camera"></i>
                                     </label>

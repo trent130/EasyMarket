@@ -1,184 +1,121 @@
 {% extends 'layouts/base.html' %} {% load static %} {% block title %}EasyMarket
 - Your Campus Marketplace{% endblock %} {% block extra_css %}
 <style>
-  /* Hero Section Styles */
-  .hero-section {
-    position: relative;
-  }
-
-  .carousel-item::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
-    z-index: 1;
-  }
-
-  .carousel-caption {
-    z-index: 2;
-    top: 50%;
-    transform: translateY(-50%);
-    bottom: auto;
-  }
-
-  .carousel-caption h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    animation: fadeInDown 1s ease-out;
-  }
-
-  .carousel-caption p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    animation: fadeInUp 1s ease-out;
-  }
-
-  .carousel-caption .btn {
-    animation: fadeInUp 1.2s ease-out;
-    transition: transform 0.3s ease;
-  }
-
-  .carousel-caption .btn:hover {
-    transform: translateY(-3px);
-  }
-
-  .features-section {
-    padding: 5rem 0;
-    background: #f8f9fa;
-  }
-
-  .section-title {
-    text-align: center;
-    margin-bottom: 3rem;
-    position: relative;
-  }
-
-  .section-title::after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
-    background: #007bff;
-  }
-
-  .feature {
-    text-align: center;
-    padding: 2rem;
-    transition: all 0.3s ease;
-  }
-
-  .feature svg {
-    width: 150px;
-    height: 150px;
-    fill: #007bff;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
-  }
-
-  .feature:hover {
-    transform: translateY(-10px);
-  }
-
-  .feature:hover svg {
-    transform: scale(1.1);
-  }
-
-  /* Featured Products Section */
-  .featured-products {
-    padding: 5rem 0;
-  }
-
-  /* Testimonials Section */
-  .testimonials {
-    background: #f8f9fa;
-    padding: 5rem 0;
-  }
-
-  .testimonial-card {
-    height: 100%;
-    transition: transform 0.3s ease;
-  }
-
-  .testimonial-card:hover {
-    transform: translateY(-5px);
-  }
-
-  .testimonial-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border: 3px solid #007bff;
-  }
-  .feature, .section-title, .testimonial-card, .about-section {
-        transition: all 0.6s ease-out;
-    }
-
-    .feature.animate {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-    }
-
-    .section-title.animate {
-        opacity: 1 !important;
-    }
-
-    .testimonial-card.animate {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-    }
-
-    .about-section.animate {
-        opacity: 1 !important;
-    }
-
-    /* Section spacing */
-    section {
-        padding: 5rem 0;
-        position: relative;
-        overflow: hidden;
-    }
-
-    /* Make sure content is visible */
-    .features-section,
-    .featured-products,
-    .testimonials,
-    .about-section {
-        background-color: #fff;
-        position: relative;
-        z-index: 1;
-    }
-
-    /* Ensure carousel doesn't overlap */
-    .hero-section {
-        height: 100vh;
-        position: relative;
-        z-index: 1;
-    }
-
-    /* Add margin to main content */
-    main {
+    /* Base Styles */
+    .homepage {
         overflow-x: hidden;
     }
 
-  /* About Section */
-  .about-section {
-    padding: 5rem 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-      url('{% static "images/bg_main.jpg" %}') center/cover;
-    color: white;
-  }
+    section {
+        position: relative;
+        width: 100%;
+        padding: 5rem 0;
+        z-index: 1;
+    }
 
-  .about-section .section-title::after {
-    background: white;
-  }
+    /* Hero Section */
+    .hero-section {
+        height: 100vh;
+        padding: 0;
+    }
 
-  .hero-fallback {
+    .carousel-item::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+        z-index: 1;
+    }
+
+    .carousel-caption {
+        z-index: 2;
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: auto;
+    }
+
+    .carousel-caption h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        animation: fadeInDown 1s ease-out;
+    }
+
+    .carousel-caption p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    /* Section Styles */
+    .section-title {
+        text-align: center;
+        position: relative;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background: #007bff;
+    }
+
+    /* Features Section */
+    .features-section {
+        background-color: #fff;
+        z-index: 2;
+    }
+
+    .feature {
+        text-align: center;
+        padding: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .feature svg {
+        width: 150px;
+        height: 150px;
+        fill: #007bff;
+        margin-bottom: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    /* Featured Products Section */
+    .featured-products {
+        background-color: #f8f9fa;
+        z-index: 2;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+        background: #f8f9fa;
+    }
+
+    .testimonial-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 3px solid #007bff;
+    }
+
+    /* About Section */
+    .about-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                    url('{% static "images/bg_main.jpg" %}') center/cover;
+        color: white;
+    }
+
+    .about-section .section-title::after {
+        background: white;
+    }
+
+    /* Fallback Styles */
+    .hero-fallback {
         height: 100vh;
         background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                     url('{% static "images/fallback.jpg" %}') center/cover;
@@ -188,27 +125,36 @@
         color: white;
     }
 
-    .fallback-content {
-        padding: 2rem;
-        text-align: center;
+    /* Animation Classes */
+    .animate {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
     }
 
-    /* Enhanced carousel animations */
-    .carousel-item {
-        transition: transform .6s ease-in-out;
+    /* Hover Effects */
+    .feature:hover,
+    .testimonial-card:hover {
+        transform: translateY(-10px);
     }
 
-    .carousel-item-next:not(.carousel-item-start),
-    .active.carousel-item-end {
-        transform: translateX(100%);
+    .feature:hover svg {
+        transform: scale(1.1);
     }
 
-    .carousel-item-prev:not(.carousel-item-end),
-    .active.carousel-item-start {
-        transform: translateX(-100%);
+    .carousel-caption .btn:hover {
+        transform: translateY(-3px);
     }
 
-    /* Loading indicator */
+    /* Transitions */
+    .carousel-item,
+    .feature,
+    .testimonial-card,
+    .carousel-caption .btn,
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    /* Loading Indicator */
     .carousel::before {
         content: '';
         position: absolute;
@@ -224,60 +170,60 @@
         z-index: 1;
     }
 
+    .carousel.loaded::before {
+        display: none;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     @keyframes spin {
         0% { transform: translate(-50%, -50%) rotate(0deg); }
         100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-    .carousel.loaded::before {
-        display: none;
-    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .carousel-caption {
+            padding: 0 20px;
+        }
 
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .carousel-caption {
-      padding: 0 20px;
-    }
+        .carousel-caption h1 {
+            font-size: 2.5rem;
+        }
 
-    .carousel-caption h1 {
-      font-size: 2.5rem;
-    }
+        .carousel-caption p {
+            font-size: 1rem;
+        }
 
-    .carousel-caption p {
-      font-size: 1rem;
+        .carousel-caption .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
     }
-
-    .carousel-caption .btn {
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
-    }
-  }
-
-  /* Animations */
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 </style>
 {% endblock %} {% block content %}
-<div class="main-section">
+<main class="homepage" >
   <!-- Hero Section -->
 <section class="hero-section">
   <!-- Fallback for when carousel fails -->
@@ -361,7 +307,7 @@
 </section>
 
 <!-- Features Section -->
-<section class="features-section">
+<section class="features-section py-5">
   <div class="container">
       <h2 class="section-title">Why Choose EasyMarket?</h2>
       <div class="row">
@@ -397,7 +343,7 @@
 </section>
 
 <!-- Featured Products -->
-<section class="featured-products">
+<section class="featured-products py-5">
   <div class="container">
     <h2 class="section-title">Featured Products</h2>
     {% include 'components/alerts.html' %}
@@ -414,7 +360,7 @@
 </section>
 
 <!-- Testimonials -->
-<section class="testimonials">
+<section class="testimonials py-5">
   <div class="container">
       <h2 class="section-title">What Our Users Say</h2>
       <div class="row justify-content-center">
@@ -489,11 +435,35 @@
   </div>
 </section>
 
-{% include 'shared/footer.html' %} </div>{% endblock %} 
+{% include 'shared/footer.html' %} </main >{% endblock %} 
 
 {% block extra_js %}
 <script>
-    // Debug logging function
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Debug logging
+    const sections = document.querySelectorAll('section');
+    console.log('Total sections found:', sections.length);
+    
+    sections.forEach((section, index) => {
+        console.log(`Section ${index + 1}:`, {
+            className: section.className,
+            offsetTop: section.offsetTop,
+            offsetHeight: section.offsetHeight,
+            visibility: window.getComputedStyle(section).visibility,
+            display: window.getComputedStyle(section).display,
+            zIndex: window.getComputedStyle(section).zIndex
+        });
+    });
+
+    // Check for potential CSS conflicts
+    const computedStyle = window.getComputedStyle(document.querySelector('.homepage'));
+    console.log('Homepage styles:', {
+        overflow: computedStyle.overflow,
+        height: computedStyle.height,
+        position: computedStyle.position
+    });
+});
     const DEBUG = true;
     function debugLog(message, data = null) {
         if (DEBUG) {
