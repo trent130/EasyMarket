@@ -55,6 +55,28 @@ def index(request):
             }
         }
     ]
+        
+    featured_users = UserProfile.objects.order_by('?')[:6]
+    featured_products = Product.objects.annotate(num_products=Count('image')).order_by('-num_products')[:9]
+
+        # Features data
+    features = [
+        {
+            'icon': 'fa-shield-alt',
+            'title': 'Secure Transactions',
+            'description': 'All transactions are protected and secure'
+        },
+        {
+            'icon': 'fa-tags',
+            'title': 'Best Deals',
+            'description': 'Find the best prices on campus'
+        },
+        {
+            'icon': 'fa-user-shield',
+            'title': 'Verified Users',
+            'description': 'All users are verified students'
+        }
+    ]
 
     testimonials = [
         {
@@ -76,9 +98,8 @@ def index(request):
             'quote': 'Found rare lab equipment at a fraction of the cost.'
         }
     ]
-    featured_users = UserProfile.objects.order_by('?')[:6]
-    featured_products = Product.objects.annotate(num_products=Count('image')).order_by('-num_products')[:9]
-    context = {'title': 'home', 'featured_products': featured_products, 'featured_users': featured_users, 'hero_slides': hero_slides, 'testimonials': testimonials}
+
+    context = {'title': 'home', 'featured_products': featured_products, 'features': features, 'featured_users': featured_users, 'hero_slides': hero_slides, 'testimonials': testimonials}
     return render(request, 'pages/staticpages/index.html', context)
 
 def about(request):
