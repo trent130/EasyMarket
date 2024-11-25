@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* Same styles as payment_confirmation.html */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Payment Failed</h1>
+        </div>
+        
+        <div class="content">
+            <p>Dear {{ transaction.user.get_full_name }},</p>
+            
+            <p>We're sorry, but your recent payment attempt was unsuccessful. Here are the details:</p>
+            
+            <div class="transaction-details">
+                <p><strong>Transaction ID:</strong> {{ transaction.transaction_id }}</p>
+                <p><strong>Amount:</strong> Ksh {{ transaction.amount|floatformat:2 }}</p>
+                <p><strong>Date:</strong> {{ transaction.timestamp|date:"j M Y, g:i A" }}</p>
+                <p><strong>Reason:</strong> {{ transaction.failure_reason|default:"Payment processing error" }}</p>
+            </div>
+            
+            <p>Don't worry! You can try the payment again by clicking the button below:</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ retry_url }}" class="button">Retry Payment</a>
+            </div>
+            
+            <p>If you continue to experience issues, please contact our support team:</p>
+            <ul>
+                <li>Email: {{ support_email }}</li>
+                <li>Phone: {{ support_phone }}</li>
+            </ul>
+            
+            <p>Common reasons for payment failure:</p>
+            <ul>
+                <li>Insufficient funds in M-Pesa account</li>
+                <li>Wrong PIN entered</li>
+                <li>Transaction timed out</li>
+                <li>Daily transaction limit reached</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>This is an automated message, please do not reply to this email.</p>
+            <p>&copy; {% now "Y" %} EasyMarket. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
