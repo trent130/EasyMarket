@@ -2,6 +2,6 @@
 # 2FA Dependencies
 pyotp==2.9.0  # For TOTP generation and verification
 qrcode==7.4.2  # For generating QR codes
-pillow==10.0.0  # Required by qrcode for image generation
+pillow==10.3.0  # Required by qrcode for image generation
 django-otp==1.2.2  # For additional OTP utilities
 cryptography==41.0.3  # For secure token handling
