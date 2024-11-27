@@ -124,6 +124,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # If using whitenoise
+    'marketplace.middleware.TwoFactorMiddleware',
 ]
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
