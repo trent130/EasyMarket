@@ -1,38 +1,51 @@
 import { NextResponse } from 'next/server';
-import { verifyTOTP } from '@/lib/utils/twoFactorAuth';
-import { users } from '@/lib/models/user';
+import { verifyToken, verify2FAWithBackend } from '../../../../lib/utils/twoFactorAuth';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../../../../lib/auth';
 
 export async function POST(req: Request) {
   try {
-    const { userId, token, secret } = await req.json();
+    const session = await getServerSession(authOptions);
 
-    if (!userId || !token || !secret) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const user = users.find(u => u.id === userId);
+    const { token, secret } = await req.json();
 
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    if (!token || !secret) {
+      return NextResponse.json(
+        { error: 'Token and secret are required' },
+        { status: 400 }
+      );
     }
 
-    if (user.isTwoFactorEnabled) {
-      return NextResponse.json({ error: 'Two-factor authentication is already enabled' }, { status: 400 });
+    // First verify locally
+    const isValidToken = verifyToken(token, secret);
+
+    if (!isValidToken) {
+      return NextResponse.json(
+        { error: 'Invalid verification code' },
+        { status: 400 }
+      );
     }
 
-    const isValid = verifyTOTP(token, secret);
+    // Then verify with backend
+    const verified = await verify2FAWithBackend(session.user.id, token, secret);
 
-    if (!isValid) {
-      return NextResponse.json({ error: 'Invalid verification code' }, { status: 400 });
+    if (!verified) {
+      return NextResponse.json(
+        { error: 'Failed to verify with backend' },
+        { status: 400 }
+      );
     }
 
-    // In a real application, you would update the user's record in the database
-    user.isTwoFactorEnabled = true;
-    user.twoFactorSecret = secret;
-
-    return NextResponse.json({ message: 'Two-factor authentication enabled successfully' });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error in verify 2FA route:', error);
-    return NextResponse.json({ error: 'An error occurred while processing your request' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'An error occurred while processing your request' },
+      { status: 500 }
+    );
   }
 }
