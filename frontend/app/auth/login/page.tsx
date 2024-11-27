@@ -57,7 +57,7 @@ export default function LoginPage() {
         </Alert>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+<form onSubmit={handleSubmit(onSubmit)} className="space-y-4" aria-label="Login Form">
         <div className="space-y-2">
           <Input
             {...register('email')}

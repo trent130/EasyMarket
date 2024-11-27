@@ -114,7 +114,7 @@ export function Profile() {
         <div className="profile-container">
             {/* Profile Edit Form */}
             {isEditing ? (
-                <form onSubmit={handleSubmit} className="profile-form">
+<form onSubmit={handleSubmit} className="profile-form" aria-label="Profile Edit Form">
                     <div className="form-group">
                         <label htmlFor="firstName">First Name</label>
                         <input

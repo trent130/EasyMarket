@@ -94,7 +94,7 @@ const Profile = () => {
                 </Alert>
             )}
 
-            <form onSubmit={formik.handleSubmit}>
+<form onSubmit={formik.handleSubmit} aria-label="Profile Update Form">
                 <Box className="avatar-section">
                     <Avatar
                         src={formik.values.avatar ? URL.createObjectURL(formik.values.avatar) : undefined}
