@@ -1,32 +1,57 @@
-// API Response Types
-export interface ApiResponse<T> {
-    data: T;
-    message?: string;
-    status: 'success' | 'error';
-}
-
-// User Types
-export interface UserProfile {
-    id: number;
-    username: string;
-    email: string;
-    avatar?: string;
-    // ... other profile fields
-}
-
-// Product Types
 export interface Product {
-    id: number;
-    name: string;
-    price: number;
-    description: string;
-    // ... other product fields
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  // Add other product fields as needed
 }
 
-// Cart Types
 export interface CartItem {
-    id: number;
-    productId: number;
-    quantity: number;
-    // ... other cart item fields
-} 
+  id: number;
+  product: Product;
+  quantity: number;
+  cart: number;
+}
+
+export interface Cart {
+  id: number;
+  items: CartItem[];
+  total: number;
+  user: number;
+}
+
+export interface WishList {
+  id: number;
+  products: Product[];
+  user: number;
+}
+
+export interface ApiError {
+  message: string;
+  status: number;
+}
+
+export interface AuthTokens {
+  access: string;
+  refresh: string;
+}
+
+export interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+export interface Order {
+  id: number;
+  items: OrderItem[];
+  total: number;
+  status: string;
+  created_at: string;
+}
+
+export interface OrderItem {
+  id: number;
+  product: Product;
+  quantity: number;
+  price: number;
+}
