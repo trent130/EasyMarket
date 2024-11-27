@@ -23,9 +23,12 @@ logger = logging.getLogger(__name__)
 class PaymentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
-
+    
     def get_queryset(self):
-        return Transaction.objects.filter(order__user=self.request.user)
+        # Add select_related to reduce database queries
+        return Transaction.objects.select_related('order', 'order__user')\
+            .filter(order__user=self.request.user)\
+            .defer('payment_details')  # Defer loading of large JSON field unless needed
 
     @action(detail=False, methods=['post'])
     def mpesa(self, request):
@@ -89,6 +92,17 @@ class PaymentViewSet(viewsets.ModelViewSet):
                     transaction_id=transaction_id,
                     order_id=order_id
                 )
+
+                # Check for payment timeout (2 minutes)
+                from django.utils import timezone
+                PAYMENT_TIMEOUT = 120  # 2 minutes in seconds
+                
+                if (timezone.now() - transaction.created_at).total_seconds() > PAYMENT_TIMEOUT:
+                    transaction.status = 'failed'
+                    transaction.save()
+                    return Response({
+                        'error': 'Payment timeout. Please try again.'
+                    }, status=status.HTTP_408_REQUEST_TIMEOUT)
                 
                 if transaction.payment_method == 'mpesa':
                     mpesa = MpesaClient()
@@ -166,13 +180,20 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def history(self, request):
-        transactions = self.get_queryset().order_by('-created_at')
-        page = self.paginate_queryset(transactions)
+        # Add pagination with smaller page size for better performance
+        page_size = 10
+        transactions = self.get_queryset()\
+            .order_by('-created_at')\
+            .only('id', 'amount', 'status', 'created_at', 'payment_method')  # Select only needed fields
         
-        if page is not None:
+        paginator = self.paginator
+        if paginator:
+            page = paginator.paginate_queryset(transactions, request)
             serializer = PaymentHistorySerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-            
+            return paginator.get_paginated_response(serializer.data)
+        
+        # Limit results if no pagination
+        transactions = transactions[:page_size]
         serializer = PaymentHistorySerializer(transactions, many=True)
         return Response(serializer.data)
 
