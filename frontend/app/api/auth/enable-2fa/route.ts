@@ -10,7 +10,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
     }
 
-    const user = users.find(u => u.id === userId);
+    const user = users.find((u: { id: any; }) => u.id === userId);
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });

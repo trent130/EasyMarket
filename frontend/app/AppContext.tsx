@@ -7,19 +7,20 @@ import {
   fetchWishlists,
   addProductToWishlist as apiAddToWishlist,
   removeProductFromWishlist as apiRemoveFromWishlist,
-  createOrder,
-  fetchOrders
+  createOrder
 } from '../lib/api';
 
-type Product = {
+interface Product {
   id: number;
   name: string;
   price: number;
-};
+}
 
-type CartItem = Product & { quantity: number };
+interface CartItem extends Product {
+  quantity: number;
+}
 
-type AppContextType = {
+interface AppContextType {
   cart: CartItem[];
   wishlist: Product[];
   addToCart: (product: Product) => void;
@@ -42,6 +43,40 @@ export function useAppContext() {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<Product[]>([]);
+  const [wsService, setWsService] = useState<WebSocketService | null>(null);
+
+  // Initialize WebSocket connection
+  useEffect(() => {
+    const ws = new WebSocketService('ws://localhost:8000/ws/marketplace/');
+    ws.connect();
+    setWsService(ws);
+
+    // Subscribe to real-time updates
+    ws.subscribe<{ products: Product[] }>(WebSocketMessageType.PRODUCT_UPDATE, (data) => {
+      const updatedProducts = data.products;
+      setCart(prevCart => 
+        prevCart.map(item => {
+          const updatedProduct = updatedProducts.find((p: Product) => p.id === item.id);
+          return updatedProduct ? { ...updatedProduct, quantity: item.quantity } : item;
+        })
+      );
+    });
+
+    return () => ws.disconnect();
+  }, []);
+
+  // Initialize wishlist from backend
+  useEffect(() => {
+    const initializeData = async () => {
+      try {
+        const wishlistData = await fetchWishlists();
+        setWishlist(wishlistData as Product[]);
+      } catch (error) {
+        console.error('Failed to fetch initial data:', error);
+      }
+    };
+    initializeData();
+  }, []);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
@@ -59,17 +94,47 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
-  const addToWishlist = (product: Product) => {
-    setWishlist((prevWishlist) => {
-      if (!prevWishlist.some((item) => item.id === product.id)) {
-        return [...prevWishlist, product];
-      }
-      return prevWishlist;
-    });
+  const addToWishlist = async (product: Product) => {
+    try {
+      await apiAddToWishlist(1, product.id); // Assuming wishlist ID 1 for now
+      setWishlist((prevWishlist) => {
+        if (!prevWishlist.some((item) => item.id === product.id)) {
+          return [...prevWishlist, product];
+        }
+        return prevWishlist;
+      });
+    } catch (error) {
+      console.error('Failed to add to wishlist:', error);
+      throw error;
+    }
   };
 
-  const removeFromWishlist = (productId: number) => {
-    setWishlist((prevWishlist) => prevWishlist.filter((item) => item.id !== productId));
+  const removeFromWishlist = async (productId: number) => {
+    try {
+      await apiRemoveFromWishlist(1, productId); // Assuming wishlist ID 1 for now
+      setWishlist((prevWishlist) => prevWishlist.filter((item) => item.id !== productId));
+    } catch (error) {
+      console.error('Failed to remove from wishlist:', error);
+      throw error;
+    }
+  };
+
+  const checkout = async () => {
+    try {
+      const orderData = {
+        items: cart.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity
+        }))
+      };
+      await createOrder(orderData);
+      setCart([]); // Clear cart after successful checkout
+      // Notify websocket about order
+      wsService?.send(WebSocketMessageType.ORDER_UPDATE, { status: 'created' });
+    } catch (error) {
+      console.error('Checkout failed:', error);
+      throw error;
+    }
   };
 
   const value = {
@@ -79,6 +144,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     removeFromCart,
     addToWishlist,
     removeFromWishlist,
+    checkout
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
