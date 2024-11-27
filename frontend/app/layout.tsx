@@ -3,11 +3,10 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { SessionProvider } from 'next-auth/react'
-import Navigation from '@/components/Navigation'
-import { AppProvider } from '@/app/AppContext'
+import Navigation from '../src/components/Navigation'
+import { AppProvider } from '../src/AppContext'
 
 const inter = Inter({ subsets: ['latin'] })
-
 
 export default function RootLayout({
   children,
