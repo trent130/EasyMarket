@@ -67,6 +67,8 @@ export interface ProductSearchFilters {
     condition?: ProductCondition;
     sort_by?: 'price_asc' | 'price_desc' | 'newest' | 'rating' | 'popularity';
     in_stock?: boolean;
+    page?: number;
+    page_size?: number;
 }
 
 export interface ProductSearchResponse {

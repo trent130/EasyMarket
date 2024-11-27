@@ -3,23 +3,18 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { debounce } from 'lodash';
-import { productService } from '@/app/services/product';
-import type { ProductBase, ProductSearchFilters, Category } from '@/app/types/product';
+import { productService } from '../../services/product';
+import type { ProductBase, ProductSearchFilters, Category } from '../../types/product';
 import ProductCard from './ProductCard';
 import ProductFilter from './ProductFilter';
-import ProductSort from './ProductSort';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 const ITEMS_PER_PAGE = 12;
 
 export default function ProductList() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { toast } = useToast();
 
     // State
     const [products, setProducts] = useState<ProductBase[]>([]);
@@ -45,15 +40,11 @@ export default function ProductList() {
                 const data = await productService.getCategories();
                 setCategories(data);
             } catch (error) {
-                toast({
-                    title: 'Error',
-                    description: 'Failed to load categories',
-                    variant: 'destructive'
-                });
+                console.error('Failed to load categories:', error);
             }
         };
         loadCategories();
-    }, [toast]);
+    }, []);
 
     // Load products with current filters
     const loadProducts = useCallback(async () => {
@@ -68,15 +59,11 @@ export default function ProductList() {
             setTotalItems(response.count);
         } catch (error) {
             setError('Failed to load products');
-            toast({
-                title: 'Error',
-                description: 'Failed to load products',
-                variant: 'destructive'
-            });
+            console.error('Failed to load products:', error);
         } finally {
             setLoading(false);
         }
-    }, [filters, currentPage, toast]);
+    }, [filters, currentPage]);
 
     useEffect(() => {
         loadProducts();
@@ -94,15 +81,23 @@ export default function ProductList() {
     }, [filters, router]);
 
     // Debounced search handler
-    const debouncedSearch = debounce((query: string) => {
-        setFilters(prev => ({ ...prev, query }));
-        setCurrentPage(1);
-    }, 300);
+    const debouncedSearch = useCallback(
+        debounce((query: string) => {
+            setFilters(prev => ({ ...prev, query }));
+            setCurrentPage(1);
+        }, 300),
+        []
+    );
 
     // Filter handlers
     const handleFilterChange = (newFilters: Partial<ProductSearchFilters>) => {
         setFilters(prev => ({ ...prev, ...newFilters }));
         setCurrentPage(1);
+    };
+
+    // Sort handler
+    const handleSortChange = (value: string) => {
+        setFilters(prev => ({ ...prev, sort_by: value as any }));
     };
 
     // Pagination handler
@@ -113,72 +108,92 @@ export default function ProductList() {
 
     if (error) {
         return (
-            <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-            </Alert>
+            <div className="text-center py-12">
+                <p className="text-red-500">{error}</p>
+                <Button onClick={loadProducts} className="mt-4">
+                    Try Again
+                </Button>
+            </div>
         );
     }
 
     return (
         <div className="container mx-auto px-4 py-8">
-            {/* Search and Filters */}
-            <div className="mb-8 space-y-4">
-                <div className="flex gap-4">
-                    <Input
-                        type="search"
-                        placeholder="Search products..."
-                        defaultValue={filters.query}
-                        onChange={e => debouncedSearch(e.target.value)}
-                        className="max-w-sm"
-                    />
-                    <ProductSort
-                        value={filters.sort_by}
-                        onChange={sort_by => handleFilterChange({ sort_by })}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                {/* Filters */}
+                <div className="md:col-span-1">
+                    <ProductFilter
+                        filters={filters}
+                        categories={categories}
+                        onChange={handleFilterChange}
                     />
                 </div>
-                <ProductFilter
-                    filters={filters}
-                    categories={categories}
-                    onChange={handleFilterChange}
-                />
+
+                {/* Products */}
+                <div className="md:col-span-3">
+                    {/* Search and Sort */}
+                    <div className="mb-6">
+                        <Input
+                            type="search"
+                            placeholder="Search products..."
+                            defaultValue={filters.query}
+                            onChange={e => debouncedSearch(e.target.value)}
+                            className="max-w-sm mb-4"
+                        />
+                        <select
+                            value={filters.sort_by}
+                            onChange={e => handleSortChange(e.target.value)}
+                            className="ml-auto h-10 rounded-md border px-3"
+                        >
+                            <option value="newest">Newest First</option>
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_desc">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="popularity">Most Popular</option>
+                        </select>
+                    </div>
+
+                    {/* Product Grid */}
+                    {loading ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="h-[350px] rounded-lg bg-gray-100 animate-pulse"
+                                />
+                            ))}
+                        </div>
+                    ) : products.length > 0 ? (
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {products.map(product => (
+                                    <ProductCard key={product.id} product={product} />
+                                ))}
+                            </div>
+
+                            {/* Pagination */}
+                            <div className="mt-8 flex justify-center gap-2">
+                                {Array.from(
+                                    { length: Math.ceil(totalItems / ITEMS_PER_PAGE) },
+                                    (_, i) => i + 1
+                                ).map(page => (
+                                    <Button
+                                        key={page}
+                                        variant={page === currentPage ? 'default' : 'outline'}
+                                        onClick={() => handlePageChange(page)}
+                                    >
+                                        {page}
+                                    </Button>
+                                ))}
+                            </div>
+                        </>
+                    ) : (
+                        <div className="text-center py-12">
+                            <p className="text-gray-500">No products found</p>
+                        </div>
+                    )}
+                </div>
             </div>
-
-            {/* Product Grid */}
-            {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
-                        <Skeleton key={i} className="h-[350px] rounded-lg" />
-                    ))}
-                </div>
-            ) : products.length > 0 ? (
-                <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {products.map(product => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
-
-                    {/* Pagination */}
-                    <div className="mt-8 flex justify-center gap-2">
-                        {Array.from(
-                            { length: Math.ceil(totalItems / ITEMS_PER_PAGE) },
-                            (_, i) => i + 1
-                        ).map(page => (
-                            <Button
-                                key={page}
-                                variant={page === currentPage ? 'default' : 'outline'}
-                                onClick={() => handlePageChange(page)}
-                            >
-                                {page}
-                            </Button>
-                        ))}
-                    </div>
-                </>
-            ) : (
-                <div className="text-center py-12">
-                    <p className="text-gray-500">No products found</p>
-                </div>
-            )}
         </div>
     );
 }

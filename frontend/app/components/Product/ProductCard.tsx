@@ -4,35 +4,20 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
-import { ProductBase } from '@/app/types/product';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
+import type { ProductBase } from '../../types/product';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardFooter } from '../ui/card';
+import { Badge } from '../ui/badge';
+import { cn } from '../../../lib/utils';
 
 interface ProductCardProps {
     product: ProductBase;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-    const { toast } = useToast();
-
     const handleWishlistToggle = async (e: React.MouseEvent) => {
         e.preventDefault();
-        try {
-            // Wishlist toggle logic will be implemented later
-            toast({
-                title: product.is_wishlisted ? 'Removed from wishlist' : 'Added to wishlist',
-                description: `${product.title} has been ${product.is_wishlisted ? 'removed from' : 'added to'} your wishlist`,
-            });
-        } catch (error) {
-            toast({
-                title: 'Error',
-                description: 'Failed to update wishlist',
-                variant: 'destructive',
-            });
-        }
+        // Wishlist functionality will be implemented later
     };
 
     const formatPrice = (price: number) => {
