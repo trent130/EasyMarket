@@ -1,6 +1,15 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { WebSocketService, WebSocketMessageType } from '../lib/websocket';
+import { 
+  fetchProducts, 
+  fetchWishlists,
+  addProductToWishlist as apiAddToWishlist,
+  removeProductFromWishlist as apiRemoveFromWishlist,
+  createOrder,
+  fetchOrders
+} from '../lib/api';
 
 type Product = {
   id: number;
@@ -15,8 +24,9 @@ type AppContextType = {
   wishlist: Product[];
   addToCart: (product: Product) => void;
   removeFromCart: (productId: number) => void;
-  addToWishlist: (product: Product) => void;
-  removeFromWishlist: (productId: number) => void;
+  addToWishlist: (product: Product) => Promise<void>;
+  removeFromWishlist: (productId: number) => Promise<void>;
+  checkout: () => Promise<void>;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
