@@ -11,15 +11,17 @@ export interface MpesaPaymentRequest {
   order_id: number;
 }
 
+export type PaymentStatus = 'pending' | 'completed' | 'failed' | 'refunded';
+
 export interface Transaction {
   id: number;
   order_id: number;
   amount: number;
   payment_method: string;
-  status: 'pending' | 'completed' | 'failed' | 'refunded';
+  status: PaymentStatus;
   created_at: string;
   checkout_request_id?: string;
-  payment_details?: any;
+  payment_details?: Record<string, unknown>;
 }
 
 export interface PaymentVerification {
@@ -31,7 +33,7 @@ export interface PaymentResponse {
   message: string;
   transaction_id: string;
   checkout_request_id?: string;
-  status?: string;
+  status: PaymentStatus;
   redirect_url?: string;
 }
 
@@ -45,11 +47,17 @@ export interface PaymentReceipt {
   order_id: number;
   amount: number;
   payment_method: string;
-  status: string;
+  status: PaymentStatus;
   date: string;
   customer: {
     name: string;
     email: string;
     phone?: string;
   };
+}
+
+// Cache types
+export interface StatusCacheEntry {
+  status: PaymentStatus;
+  timestamp: number;
 }
