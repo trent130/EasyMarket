@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
-from .models import Product, Category
+from .models import Product, Category, ProductVariant
 from marketplace.models import Student, Review
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -25,6 +25,27 @@ class ReviewSerializer(serializers.ModelSerializer):
             'created_at'
         ]
 
+class ProductVariantSerializer(serializers.ModelSerializer):
+    final_price = serializers.SerializerMethodField()
+    available_stock = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductVariant
+        fields = [
+            'id', 'name', 'sku', 'price_adjustment',
+            'stock', 'reserved_stock', 'is_active',
+            'final_price', 'available_stock'
+        ]
+
+    def get_final_price(self, obj):
+        product = obj.products.first()
+        if product:
+            return float(product.price) + float(obj.price_adjustment)
+        return float(obj.price_adjustment)
+
+    def get_available_stock(self, obj):
+        return max(0, obj.stock - obj.reserved_stock)
+
 class ProductListSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True)
     student_name = serializers.CharField(source='student.user.username', read_only=True)
@@ -32,6 +53,8 @@ class ProductListSerializer(serializers.ModelSerializer):
     is_wishlisted = serializers.SerializerMethodField()
     available_stock = serializers.IntegerField(read_only=True)
     image_url = serializers.SerializerMethodField()
+    has_variants = serializers.BooleanField(source='variants.exists', read_only=True)
+    total_sales = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Product
@@ -63,6 +86,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     available_stock = serializers.IntegerField(read_only=True)
     image_url = serializers.SerializerMethodField()
     related_products = serializers.SerializerMethodField()
+    variants = ProductVariantSerializer(many=True, read_only=True)
+    statistics = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -71,8 +96,19 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'category', 'image_url', 'student', 'reviews',
             'is_wishlisted', 'available_stock', 'condition',
             'created_at', 'updated_at', 'related_products',
-            'views_count'
+            'views_count', 'variants', 'statistics',
+            'total_sales', 'total_revenue', 'last_sale_date'
         ]
+
+    def get_statistics(self, obj):
+        return {
+            'total_sales': obj.total_sales,
+            'total_revenue': float(obj.total_revenue),
+            'last_sale_date': obj.last_sale_date,
+            'average_rating': float(obj.average_rating),
+            'review_count': obj.review_count,
+            'views_count': obj.views_count
+        }
 
     def get_student(self, obj):
         return {
@@ -118,11 +154,13 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         ).data
 
 class ProductCreateSerializer(serializers.ModelSerializer):
+    variants = ProductVariantSerializer(many=True, required=False)
+
     class Meta:
         model = Product
         fields = [
             'title', 'description', 'price', 'category',
-            'image', 'condition', 'stock'
+            'image', 'condition', 'stock', 'variants'
         ]
 
     def validate_price(self, value):
@@ -142,16 +180,40 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        variants_data = validated_data.pop('variants', [])
         student = Student.objects.get(user=self.context['request'].user)
-        return Product.objects.create(student=student, **validated_data)
+        product = Product.objects.create(student=student, **validated_data)
+
+        # Create variants if provided
+        for variant_data in variants_data:
+            variant = ProductVariant.objects.create(**variant_data)
+            product.variants.add(variant)
+
+        return product
 
 class ProductUpdateSerializer(serializers.ModelSerializer):
+    variants = ProductVariantSerializer(many=True, required=False)
     class Meta:
         model = Product
         fields = [
             'title', 'description', 'price', 'category',
-            'image', 'condition', 'stock', 'is_active'
+            'image', 'condition', 'stock', 'is_active',
+            'variants'
         ]
+
+    def update(self, instance, validated_data):
+        variants_data = validated_data.pop('variants', None)
+        product = super().update(instance, validated_data)
+
+        if variants_data is not None:
+            # Remove existing variants
+            product.variants.clear()
+            # Add new variants
+            for variant_data in variants_data:
+                variant = ProductVariant.objects.create(**variant_data)
+                product.variants.add(variant)
+
+        return product
 
     def validate(self, attrs):
         instance = getattr(self, 'instance', None)
