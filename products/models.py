@@ -54,6 +54,28 @@ def default_category():
     )
     return category.id
 
+class ProductVariant(models.Model):
+    """Model for product variants (e.g., different sizes, colors)"""
+    name = models.CharField(max_length=100)
+    sku = models.CharField(max_length=50, unique=True)
+    price_adjustment = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        default=0.00,
+        help_text="Price adjustment relative to base product price"
+    )
+    stock = models.PositiveIntegerField(default=0)
+    reserved_stock = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.sku}"
+
+    class Meta:
+        ordering = ['name']
+
 class Product(models.Model):
     CONDITION_CHOICES = [
         ('new', 'New'),
@@ -63,6 +85,11 @@ class Product(models.Model):
     ]
 
     title = models.CharField(max_length=100)
+    variants = models.ManyToManyField(
+        ProductVariant,
+        related_name='products',
+        blank=True
+    )
     description = models.TextField()
     price = models.DecimalField(
         max_digits=8,
@@ -99,6 +126,21 @@ class Product(models.Model):
     views_count = models.PositiveIntegerField(default=0)
     featured = models.BooleanField(default=False)
     last_stock_update = models.DateTimeField(auto_now=True)
+    
+    # Statistics fields
+    total_sales = models.PositiveIntegerField(default=0)
+    total_revenue = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0.00
+    )
+    last_sale_date = models.DateTimeField(null=True, blank=True)
+    average_rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
+        default=0.00
+    )
+    review_count = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['-created_at']
