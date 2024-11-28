@@ -10,3 +10,6 @@ payment/migrations/__pycache__/
 staticpages/__pycache__/
 students/__pycache__/
 orders/__pycache__/
+env/
+products/__pycache__/
+staticpages/templatetags/__pycache__/
