@@ -1,13 +1,15 @@
+'use client';
+
 import React from 'react';
-import ProductList from '../components/ProductList';
+import ProductList from './components/Product/ProductList';
 
-const HomePage: React.FC = () => {
-  return (
-    <div>
-      <h1>Welcome to the Marketplace</h1>
-      <ProductList />
-    </div>
-  );
-};
-
-export default HomePage;
+export default function HomePage() {
+    return (
+        <main className="min-h-screen bg-gray-50">
+            <div className="container mx-auto px-4 py-8">
+                <h1 className="text-2xl font-bold mb-4">Product Marketplace</h1>
+                <ProductList />
+            </div>
+        </main>
+    );
+}
