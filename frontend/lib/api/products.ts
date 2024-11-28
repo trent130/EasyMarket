@@ -1,123 +1,57 @@
-import { apiClient } from '../api-client';
+import axios from 'axios';
+import type { Product } from '../types/product';
+import type { ApiResponse, SingleResponse, SearchParams } from '../types/common';
 
-export interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  category: string;
-  image?: string;
-  student: number;
-  created_at: string;
-  updated_at: string;
-  slug: string;
-}
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
-export interface ProductCreateInput {
-  title: string;
-  description: string;
-  price: number;
-  category: string;
-  image?: File;
-}
-
-export interface ProductUpdateInput extends Partial<ProductCreateInput> {
-  id: number;
-}
-
-export const productApi = {
-  // Get all products with optional filters
-  getAll: async (params?: { 
-    category?: string; 
-    search?: string;
-    min_price?: number;
-    max_price?: number;
-    page?: number;
-  }) => {
-    const response = await apiClient.get<Product[]>('/products/', { params });
-    return response.data;
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
   },
+});
 
-  // Get single product by ID
-  getById: async (id: number) => {
-    const response = await apiClient.get<Product>(`/products/${id}/`);
-    return response.data;
-  },
-
-  // Create new product
-  create: async (data: ProductCreateInput) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined) {
-        formData.append(key, value);
-      }
-    });
-
-    const response = await apiClient.post<Product>('/products/', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  },
-
-  // Update existing product
-  update: async ({ id, ...data }: ProductUpdateInput) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined) {
-        formData.append(key, value);
-      }
-    });
-
-    const response = await apiClient.patch<Product>(`/products/${id}/`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  },
-
-  // Delete product
-  delete: async (id: number) => {
-    await apiClient.delete(`/products/${id}/`);
-  },
-
-  // Get product reviews
-  getReviews: async (productId: number) => {
-    const response = await apiClient.get(`/products/${productId}/reviews/`);
-    return response.data;
-  },
-
-  // Add product review
-  addReview: async (productId: number, data: { rating: number; comment: string }) => {
-    const response = await apiClient.post(`/products/${productId}/reviews/`, data);
-    return response.data;
-  },
-
-  // Get product categories
-  getCategories: async () => {
-    const response = await apiClient.get('/products/categories/');
-    return response.data;
-  },
-
-  // Search products
-  search: async (query: string) => {
-    const response = await apiClient.get<Product[]>('/products/search/', {
-      params: { q: query }
-    });
-    return response.data;
-  },
-
-  // Get recommended products
-  getRecommended: async () => {
-    const response = await apiClient.get<Product[]>('/products/recommended/');
-    return response.data;
-  },
-
-  // Get products by student
-  getByStudent: async (studentId: number) => {
-    const response = await apiClient.get<Product[]>(`/products/student/${studentId}/`);
-    return response.data;
+// Add response interceptor for error handling
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error.response?.data || error.message);
+    return Promise.reject(error);
   }
+);
+
+// Products
+export const fetchProducts = async (): Promise<Product[]> => {
+  const { data } = await apiClient.get<ApiResponse<Product>>('/products/');
+  return data.results || [];
 };
+
+export const fetchProductById = async (id: number): Promise<Product> => {
+  const { data } = await apiClient.get<SingleResponse<Product>>(`/products/${id}/`);
+  return data.data;
+};
+
+export const fetchProductBySlug = async (slug: string): Promise<Product> => {
+  const { data } = await apiClient.get<SingleResponse<Product>>(`/products/by-slug/${slug}/`);
+  return data.data;
+};
+
+// Search
+export const searchProducts = async (params: SearchParams): Promise<Product[]> => {
+  const { data } = await apiClient.get<ApiResponse<Product>>('/products/search/', { params });
+  return data.results || [];
+};
+
+// Featured Products
+export const fetchFeaturedProducts = async (): Promise<Product[]> => {
+  const { data } = await apiClient.get<ApiResponse<Product>>('/products/featured/');
+  return data.results || [];
+};
+
+// Trending Products
+export const fetchTrendingProducts = async (): Promise<Product[]> => {
+  const { data } = await apiClient.get<ApiResponse<Product>>('/products/trending/');
+  return data.results || [];
+};
+
+export default apiClient;

@@ -26,12 +26,12 @@ export const fetchProducts = async (): Promise<Product[]> => {
 };
 
 export const fetchProductById = async (id: number): Promise<Product> => {
-  const response = await apiClient.get<Product>(`/products/${id}/`);
+  const response = await apiClient.get<ApiResponse<Product>>(`/products/${id}/`);
   return response.data;
 };
 
 export const fetchProductBySlug = async (slug: string): Promise<Product> => {
-  const response = await apiClient.get<Product>(`/products/by-slug/${slug}/`);
+  const response = await apiClient.get<ApiResponse<Product>>(`/products/by-slug/${slug}/`);
   return response.data;
 };
 
