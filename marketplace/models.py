@@ -54,12 +54,22 @@ class Message(models.Model):
         return f'{self.user.username} - {self.timestamp}'
 
 class Reaction(models.Model):
-    emoji = models.CharField(max_length=2)
+    REACTION_CHOICES = [
+        ('like', 'Like'),
+        ('love', 'Love'),
+        ('haha', 'Haha'),
+        ('wow', 'Wow'),
+        ('sad', 'Sad'),
+        ('angry', 'Angry')
+    ]
+    
+    reaction_type = models.CharField(max_length=10, choices=REACTION_CHOICES)
+    message = models.ForeignKey('Message', on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='reactions')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.emoji} by {self.user.username}'
+        return f'{self.reaction_type} by {self.user.username}'
 
 class Review(models.Model):
     product = models.ForeignKey('products.Product', on_delete = models.CASCADE, related_name = 'reviews')
