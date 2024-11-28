@@ -1,6 +1,8 @@
+from decimal import Decimal
 from rest_framework import serializers
 from .models import Transaction
 from orders.models import Order
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class PaymentMethodSerializer(serializers.Serializer):
     type = serializers.ChoiceField(choices=['mpesa', 'card', 'bank'])
@@ -45,7 +47,12 @@ class TransactionSerializer(serializers.ModelSerializer):
         source='get_status_display',
         read_only=True
     )
-
+    amount = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=False,
+        validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('999999.99'))]
+    )
     class Meta:
         model = Transaction
         fields = [
@@ -68,8 +75,9 @@ class RefundSerializer(serializers.Serializer):
     amount = serializers.DecimalField(
         max_digits=10,
         decimal_places=2,
-        required=False
-    )  # If not provided, full refund
+        required=False,
+        validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('999999.99'))]
+    )
     reason = serializers.CharField()
 
     def validate(self, data):
