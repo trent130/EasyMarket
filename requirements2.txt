@@ -103,6 +103,6 @@ txaio==23.1.1
 typing_extensions==4.12.2
 update==0.0.1
 uritemplate==4.1.1
-urllib3==1.25.11
+urllib3==1.26.19
 whitenoise==6.6.0
 zope.interface==7.0.2
