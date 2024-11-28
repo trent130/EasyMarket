@@ -6,27 +6,28 @@ from .models import Transaction
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = [
-        # 'transaction_id', 
+        'transaction_id', 
         'user_info', 
         'amount', 
         'status_badge',
-        # 'payment_method', 
         'timestamp'
     ]
     
-    list_filter = ['status', 'timestamp']  # Removed payment_method from list_filter
+    list_filter = ['status', 'timestamp']
     
     search_fields = [
         'transaction_id', 
         'user__email', 
         'user__username',
         'phone_number',
-        'account_reference'
+        'reference'
     ]
     
     readonly_fields = [
         'user_details',
-        'payment_details'
+        'payment_details',
+        'timestamp',
+        'updated_at'
     ]
     
     fieldsets = (
@@ -42,84 +43,55 @@ class TransactionAdmin(admin.ModelAdmin):
         }),
         ('User Information', {
             'fields': (
-                'user_details',
+                'user',
                 'phone_number',
             )
         }),
         ('Payment Details', {
             'fields': (
-                'payment_details',
-                'account_reference',
-                'transaction_desc',
-                'failure_reason'
+                'reference',
+                'description',
+                'checkout_request_id',
+                'updated_at'
             )
-        }),
+        })
     )
 
     def user_info(self, obj):
-        """Display user information with link."""
-        url = reverse('admin:auth_user_change', args=[obj.user.id])
-        return format_html(
-            '<a href="{}">{}</a><br><small>{}</small>',
-            url,
-            obj.user.get_full_name() or obj.user.username,
-            obj.user.email
-        )
-    user_info.short_description = 'User'
+        return f"{obj.user.username} ({obj.user.email})"
+    user_info.short_description = "User"
 
     def status_badge(self, obj):
-        """Display status as colored badge."""
         colors = {
-            'pending': 'warning',
-            'completed': 'success',
-            'failed': 'danger'
+            'pending': '#FFA500',
+            'completed': '#28a745',
+            'failed': '#dc3545'
         }
         return format_html(
-            '<span class="badge bg-{}">{}</span>',
-            colors.get(obj.status, 'secondary'),
+            '<span style="color: {};">{}</span>',
+            colors.get(obj.status.lower(), '#000'),
             obj.get_status_display()
         )
-    status_badge.short_description = 'Status'
+    status_badge.short_description = "Status"
 
     def user_details(self, obj):
-        """Display detailed user information."""
         return format_html(
-            """
-            <div class="user-details">
-                <p><strong>Name:</strong> {}</p>
-                <p><strong>Email:</strong> {}</p>
-                <p><strong>Phone:</strong> {}</p>
-                <p><strong>Member Since:</strong> {}</p>
-            </div>
-            """,
-            obj.user.get_full_name(),
+            "<strong>Username:</strong> {}<br>"
+            "<strong>Email:</strong> {}<br>"
+            "<strong>Phone:</strong> {}",
+            obj.user.username,
             obj.user.email,
-            obj.phone_number,
-            obj.user.date_joined.strftime('%B %d, %Y')
+            obj.phone_number
         )
-    user_details.short_description = 'User Details'
+    user_details.short_description = "User Details"
 
     def payment_details(self, obj):
-        """Display detailed payment information."""
         return format_html(
-            """
-            <div class="payment-details">
-                <p><strong>Amount:</strong> Ksh {}</p>
-                <p><strong>Method:</strong> {}</p>
-                <p><strong>Reference:</strong> {}</p>
-                <p><strong>Status:</strong> {}</p>
-                {}
-            </div>
-            """,
-            obj.amount,
+            "<strong>Method:</strong> {}<br>"
+            "<strong>Reference:</strong> {}<br>"
+            "<strong>Amount:</strong> {}",
             obj.get_payment_method_display(),
-            obj.account_reference,
-            obj.get_status_display(),
-            f"<p><strong>Failure Reason:</strong> {obj.failure_reason}</p>" if obj.failure_reason else ""
+            obj.reference,
+            obj.amount
         )
-    payment_details.short_description = 'Payment Details'
-
-    class Media:
-        css = {
-            'all': ('css/admin/transaction.css',)
-        }
+    payment_details.short_description = "Payment Details"

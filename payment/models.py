@@ -15,7 +15,7 @@ class Transaction(models.Model):
         ('MPESA', 'M-Pesa'),
         ('CASH', 'Cash on Delivery'),
     ]
-      # Add missing fields that caused the errors
+    # Add missing fields that caused the errors
     transaction_id = models.CharField(max_length=100, unique=True)
     merchant_request_id = models.CharField(max_length=100, blank=True, null=True)
     payment_method = models.CharField(
@@ -27,19 +27,21 @@ class Transaction(models.Model):
     amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        validators=[MinValueValidator(0.01), MaxValueValidator(Decimal('999999.99'))]
+        validators=[
+            MinValueValidator(Decimal('0.01')), 
+            MaxValueValidator(Decimal('999999.99'))
+        ]
     )
     phone_number = models.CharField(max_length=15)
     reference = models.CharField(max_length=50, unique=True)
     description = models.CharField(max_length=100)
     checkout_request_id = models.CharField(max_length=50, unique=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    created_at = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)  # Renamed from created_at
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-timestamp']
 
     def __str__(self):
         return f"{self.reference} - {self.amount}"
-
