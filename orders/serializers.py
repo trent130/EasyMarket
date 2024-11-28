@@ -12,13 +12,13 @@ class OrderItemSerializer(serializers.Serializer):
         max_digits=10,
         decimal_places=2,
         read_only=True,
-        validators=[MinValueValidator(0.01), MaxValueValidator(Decimal('999999.99'))]
+        validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('999999.99'))]
     )
     total = serializers.DecimalField(
         max_digits=10,
         decimal_places=2,
         read_only=True,
-        validators=[MinValueValidator(0.01), MaxValueValidator(Decimal('999999.99'))]
+        validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('999999.99'))]
     )
     product = ProductSerializer(read_only=True)
 

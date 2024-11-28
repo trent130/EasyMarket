@@ -49,7 +49,6 @@ class Message(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
-    reactions = models.ManyToManyField('Reaction', blank=True)
 
     def __str__(self):
         return f'{self.user.username} - {self.timestamp}'
@@ -57,6 +56,7 @@ class Message(models.Model):
 class Reaction(models.Model):
     emoji = models.CharField(max_length=2)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='reactions')
 
     def __str__(self):
         return f'{self.emoji} by {self.user.username}'

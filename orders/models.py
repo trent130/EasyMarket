@@ -26,7 +26,10 @@ class Order(models.Model):
     total_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        validators=[MinValueValidator(0.01), MaxValueValidator(Decimal('999999.99'))]
+        validators=[
+            MinValueValidator(Decimal('0.01')), 
+            MaxValueValidator(Decimal('999999.99'))
+        ]
     )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES)
@@ -36,11 +39,11 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f'order #{self.id}- {self.product.title}'
+        return f'Order #{self.id} - {self.user.username}'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey("marketplace.Product", on_delete=models.PROTECT)
+    product = models.ForeignKey("products.Product", on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
 

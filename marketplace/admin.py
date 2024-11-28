@@ -28,7 +28,6 @@ class CartAdmin(admin.ModelAdmin):
     search_fields = ['user__username']
     list_filter = ['created_at', 'updated_at']
     inlines = [CartItemInline]
-    prepopulated_fields = {'slug': ('items', 'created_at')}
 
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartItem, CartItemAdmin)
@@ -44,7 +43,8 @@ class ReactionAdmin(admin.ModelAdmin):
     list_filter = ['emoji', 'user__username']
 
 class ReactionInline(admin.TabularInline):
-    model = Message.reactions.through
+    model = Reaction
+    fk_name = 'message'
     extra = 1
 
 class MessageAdmin(admin.ModelAdmin):
