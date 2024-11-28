@@ -1,13 +1,25 @@
+from decimal import Decimal
 from rest_framework import serializers
 from .models import Order
 from products.models import Product
 from marketplace.serializers_marketplace import ProductSerializer
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class OrderItemSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
     quantity = serializers.IntegerField(min_value=1)
-    price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
-    total = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+    price = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        read_only=True,
+        validators=[MinValueValidator(0.01), MaxValueValidator(Decimal('999999.99'))]
+    )
+    total = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        read_only=True,
+        validators=[MinValueValidator(0.01), MaxValueValidator(Decimal('999999.99'))]
+    )
     product = ProductSerializer(read_only=True)
 
     def validate_product_id(self, value):

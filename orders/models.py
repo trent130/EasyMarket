@@ -1,6 +1,8 @@
+from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Order(models.Model):
@@ -21,7 +23,11 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     reference = models.CharField(max_length=20, unique=True)
     shipping_address = models.ForeignKey('ShippingAddress', on_delete=models.PROTECT)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    total_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0.01), MaxValueValidator(Decimal('999999.99'))]
+    )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)

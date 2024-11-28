@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone 
@@ -94,7 +95,7 @@ class Product(models.Model):
     price = models.DecimalField(
         max_digits=8,
         decimal_places=2,
-        validators=[MinValueValidator(0.01)]
+        validators=[MinValueValidator(0.01), MaxValueValidator(Decimal('999999.99'))]
     )
     student = models.ForeignKey(
         'marketplace.Student',
