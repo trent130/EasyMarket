@@ -15,14 +15,8 @@ export interface ApiResponse<T> {
   previous: string | null;
 }
 
-export interface SearchParams {
-  query?: string;
-  category?: number;
-  min_price?: number;
-  max_price?: number;
-  condition?: string;
-  sort_by?: string;
-  in_stock?: boolean;
+export interface SingleResponse<T> {
+  data: T;
 }
 
 export interface ApiError {
@@ -37,8 +31,15 @@ export interface PaginationParams {
   offset?: number;
 }
 
-export interface SortParams {
-  sort_by?: 'price_asc' | 'price_desc' | 'newest' | 'rating' | 'popularity';
+export interface SearchParams {
+  query?: string;
+  category?: number;
+  min_price?: number;
+  max_price?: number;
+  condition?: string;
+  in_stock?: boolean;
 }
 
-export interface FilterParams extends SearchParams, PaginationParams, SortParams {}
+export interface FilterParams extends PaginationParams, SearchParams {
+  sort_by?: 'price_asc' | 'price_desc' | 'newest' | 'rating' | 'popularity';
+}
