@@ -1,124 +1,122 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
 /**
- * Merge Tailwind CSS classes with clsx and tailwind-merge
- * This ensures proper class merging and overrides
+ * Format price with currency symbol and decimal places
  */
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
-/**
- * Format a date string to a localized format
- */
-export function formatDate(date: string | Date) {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
-
-/**
- * Format a price number to a currency string
- */
-export function formatPrice(price: number, currency: string = 'KES') {
+export const formatPrice = (price: number): string => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency,
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(price);
-}
+};
 
 /**
- * Truncate a string to a maximum length
+ * Calculate final price including variant adjustments
  */
-export function truncateString(str: string, length: number) {
-  if (str.length <= length) return str;
-  return str.slice(0, length) + '...';
-}
+export const calculateFinalPrice = (basePrice: number, adjustment: number = 0): number => {
+  return basePrice + adjustment;
+};
 
 /**
- * Generate a random string of specified length
+ * Format date to local string
  */
-export function generateId(length: number = 8) {
-  return Math.random().toString(36).substring(2, length + 2);
-}
+export const formatDate = (date: string): string => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
 
 /**
- * Debounce a function
+ * Format rating to display with one decimal place
  */
-export function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout;
-
-  return function executedFunction(...args: Parameters<T>) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
+export const formatRating = (rating: number): string => {
+  return rating.toFixed(1);
+};
 
 /**
- * Check if an object is empty
+ * Format stock status message
  */
-export function isEmptyObject(obj: object): boolean {
-  return Object.keys(obj).length === 0;
-}
-
-/**
- * Deep clone an object
- */
-export function deepClone<T>(obj: T): T {
-  return JSON.parse(JSON.stringify(obj));
-}
-
-/**
- * Convert file size to human readable format
- */
-export function formatFileSize(bytes: number): string {
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 Byte';
-  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString());
-  return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
-}
-
-/**
- * Check if a string is a valid URL
- */
-export function isValidUrl(url: string): boolean {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
+export const getStockStatus = (availableStock: number): { color: string; message: string } => {
+  if (availableStock > 10) {
+    return { color: 'success', message: 'In Stock' };
+  } else if (availableStock > 0) {
+    return { color: 'warning', message: `Only ${availableStock} left` };
   }
-}
+  return { color: 'error', message: 'Out of Stock' };
+};
 
 /**
- * Get file extension from filename
+ * Get condition display text and color
  */
-export function getFileExtension(filename: string): string {
-  return filename.slice(((filename.lastIndexOf('.') - 1) >>> 0) + 2);
-}
+export const getConditionInfo = (condition: string): { label: string; color: string } => {
+  const conditionMap: Record<string, { label: string; color: string }> = {
+    new: { label: 'New', color: 'success' },
+    like_new: { label: 'Like New', color: 'primary' },
+    good: { label: 'Good', color: 'info' },
+    fair: { label: 'Fair', color: 'warning' },
+  };
+  return conditionMap[condition] || { label: condition, color: 'default' };
+};
 
 /**
- * Convert snake_case to Title Case
+ * Format large numbers with K/M suffix
  */
-export function snakeToTitleCase(str: string): string {
-  return str
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-}
+export const formatNumber = (num: number): string => {
+  if (num >= 1000000) {
+    return `${(num / 1000000).toFixed(1)}M`;
+  }
+  if (num >= 1000) {
+    return `${(num / 1000).toFixed(1)}K`;
+  }
+  return num.toString();
+};
 
 /**
- * Check if running in browser
+ * Calculate discount percentage
  */
-export const isBrowser = typeof window !== 'undefined';
+export const calculateDiscount = (originalPrice: number, currentPrice: number): number => {
+  if (originalPrice <= 0 || currentPrice >= originalPrice) return 0;
+  return Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+};
+
+/**
+ * Truncate text with ellipsis
+ */
+export const truncateText = (text: string, maxLength: number): string => {
+  if (text.length <= maxLength) return text;
+  return `${text.substring(0, maxLength)}...`;
+};
+
+/**
+ * Generate product URL
+ */
+export const getProductUrl = (slug: string): string => {
+  return `/products/${slug}`;
+};
+
+/**
+ * Sort products by different criteria
+ */
+export const sortProducts = <T extends { price: number; created_at: string; average_rating: number }>(
+  products: T[],
+  sortBy: 'price_asc' | 'price_desc' | 'newest' | 'rating'
+): T[] => {
+  const sortedProducts = [...products];
+  
+  switch (sortBy) {
+    case 'price_asc':
+      return sortedProducts.sort((a, b) => a.price - b.price);
+    case 'price_desc':
+      return sortedProducts.sort((a, b) => b.price - a.price);
+    case 'newest':
+      return sortedProducts.sort((a, b) => 
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    case 'rating':
+      return sortedProducts.sort((a, b) => b.average_rating - a.average_rating);
+    default:
+      return sortedProducts;
+  }
+};

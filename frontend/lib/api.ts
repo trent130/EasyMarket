@@ -1,20 +1,27 @@
-import apiClient from './api-client';
+import axios from 'axios';
 
-// User Authentication
-export const login = async (credentials: { username: string; password: string }) => {
-  const response = await apiClient.post('/token/', credentials);
-  return response.data;
-};
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
-export const refreshToken = async (refreshToken: string) => {
-  const response = await apiClient.post('/token/refresh/', { refresh: refreshToken });
-  return response.data;
-};
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Add response interceptor for error handling
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error.response?.data || error.message);
+    return Promise.reject(error);
+  }
+);
 
 // Products
 export const fetchProducts = async () => {
   const response = await apiClient.get('/products/');
-  return response.data;
+  return response.data.results || [];
 };
 
 export const fetchProductById = async (id: number) => {
@@ -22,29 +29,41 @@ export const fetchProductById = async (id: number) => {
   return response.data;
 };
 
-// Orders
-export const createOrder = async (orderData: any) => {
-  const response = await apiClient.post('/orders/', orderData);
+export const fetchProductBySlug = async (slug: string) => {
+  const response = await apiClient.get(`/products/by-slug/${slug}/`);
   return response.data;
 };
 
-export const fetchOrders = async () => {
-  const response = await apiClient.get('/orders/');
-  return response.data;
+// Categories
+export const fetchCategories = async () => {
+  const response = await apiClient.get('/categories/');
+  return response.data.results || [];
 };
 
-// Wishlists
-export const fetchWishlists = async () => {
-  const response = await apiClient.get('/wishlists/');
-  return response.data;
+// Search
+export const searchProducts = async (params: {
+  query?: string;
+  category?: number;
+  min_price?: number;
+  max_price?: number;
+  condition?: string;
+  sort_by?: string;
+  in_stock?: boolean;
+}) => {
+  const response = await apiClient.get('/products/search/', { params });
+  return response.data.results || [];
 };
 
-export const addProductToWishlist = async (wishlistId: number, productId: number) => {
-  const response = await apiClient.post(`/wishlists/${wishlistId}/add_product/`, { product_id: productId });
-  return response.data;
+// Featured Products
+export const fetchFeaturedProducts = async () => {
+  const response = await apiClient.get('/products/featured/');
+  return response.data.results || [];
 };
 
-export const removeProductFromWishlist = async (wishlistId: number, productId: number) => {
-  const response = await apiClient.post(`/wishlists/${wishlistId}/remove_product/`, { product_id: productId });
-  return response.data;
+// Trending Products
+export const fetchTrendingProducts = async () => {
+  const response = await apiClient.get('/products/trending/');
+  return response.data.results || [];
 };
+
+export default apiClient;
