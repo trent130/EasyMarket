@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from .models import Product, Category, ProductVariant
 from marketplace.models import Student, Review
+from django.core.validators import MinValueValidator, MaxValueValidator
+from decimal import Decimal
 
 class CategorySerializer(serializers.ModelSerializer):
     product_count = serializers.IntegerField(source='active_products_count', read_only=True)
@@ -155,6 +157,14 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
 class ProductCreateSerializer(serializers.ModelSerializer):
     variants = ProductVariantSerializer(many=True, required=False)
+    price = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[
+            MinValueValidator(Decimal('0.01')),
+            MaxValueValidator(Decimal('999999.99'))
+        ]
+    )
 
     class Meta:
         model = Product
@@ -165,10 +175,16 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
     def validate_price(self, value):
         """Validate price is reasonable"""
-        if value <= 0:
-            raise serializers.ValidationError("Price must be greater than zero")
-        if value > 1000000:  # 1 million
-            raise serializers.ValidationError("Price is unreasonably high")
+        if not isinstance(value, Decimal):
+            value = Decimal(str(value))
+        
+        min_value = Decimal('0.01')
+        max_value = Decimal('999999.99')
+        
+        if value < min_value:
+            raise serializers.ValidationError(f"Price must be at least {min_value}")
+        if value > max_value:
+            raise serializers.ValidationError(f"Price cannot exceed {max_value}")
         return value
 
     def validate_stock(self, value):
@@ -193,6 +209,15 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
 class ProductUpdateSerializer(serializers.ModelSerializer):
     variants = ProductVariantSerializer(many=True, required=False)
+    price = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[
+            MinValueValidator(Decimal('0.01')),
+            MaxValueValidator(Decimal('999999.99'))
+        ]
+    )
+
     class Meta:
         model = Product
         fields = [
@@ -238,12 +263,20 @@ class ProductSearchSerializer(serializers.Serializer):
     min_price = serializers.DecimalField(
         required=False,
         max_digits=10,
-        decimal_places=2
+        decimal_places=2,
+        validators=[
+            MinValueValidator(Decimal('0.01')),
+            MaxValueValidator(Decimal('999999.99'))
+        ]
     )
     max_price = serializers.DecimalField(
         required=False,
         max_digits=10,
-        decimal_places=2
+        decimal_places=2,
+        validators=[
+            MinValueValidator(Decimal('0.01')),
+            MaxValueValidator(Decimal('999999.99'))
+        ]
     )
     condition = serializers.ChoiceField(
         required=False,
