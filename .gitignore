@@ -13,3 +13,8 @@ orders/__pycache__/
 env/
 products/__pycache__/
 staticpages/templatetags/__pycache__/
+backend/api/__pycache__/
+*.pyc
+orders/__pycache__/
+backend/api/views/__pycache__/
+orders/__pycache__/
