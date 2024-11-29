@@ -22,6 +22,7 @@ apiClient.interceptors.response.use(
 // Products
 export const fetchProducts = async (): Promise<Product[]> => {
   const response = await apiClient.get<ApiResponse<Product>>('/products/');
+  console.log('Fetched Products:', response.data); // Add this line for debugging
   return response.data.results || [];
 };
 
