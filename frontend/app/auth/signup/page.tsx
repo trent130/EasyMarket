@@ -28,6 +28,7 @@ export default function SignUp() {
     setError('');
     setSuccess('');
 
+    // Input validation
     if (!name || !email || !password || !confirmPassword) {
       setError('Please fill in all fields');
       return;
@@ -76,7 +77,37 @@ export default function SignUp() {
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create your account</h2>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {/* ... (keep existing form fields) ... */}
+          {/* Name Input */}
+          <div>
+            <label htmlFor="name" className="sr-only">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          
+          {/* Email Input */}
+          <div>
+            <label htmlFor="email" className="sr-only">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          {/* Password Input */}
           <div>
             <label htmlFor="password" className="sr-only">Password</label>
             <input
@@ -106,8 +137,47 @@ export default function SignUp() {
               ))}
             </div>
           )}
-          {/* ... (keep the rest of the form) ... */}
+
+          {/* Confirm Password Input */}
+          <div>
+            <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+
+          {/* Error and Success Messages */}
+          {error && <p className="text-red-500">{error}</p>}
+          {success && <p className="text-green-500">{success}</p>}
+
+          {/* ReCAPTCHA */}
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey="YOUR_RECAPTCHA_SITE_KEY"
+          />
+
+          {/* Submit Button */}
+          <div>
+            <button
+              type="submit"
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Sign Up
+            </button>
+          </div>
         </form>
+        <div className="text-center">
+          <Link href="/auth/signin" className="text-sm text-indigo-600 hover:text-indigo-500">
+            Already have an account? Sign in
+          </Link>
+        </div>
       </div>
     </div>
   );
