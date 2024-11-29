@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ReCAPTCHA from "react-google-recaptcha";
-import { checkPasswordStrength, PasswordStrengthResult } from '@/lib/utils/passwordStrength';
+import { checkPasswordStrength, PasswordStrengthResult } from '../../lib/utils/passwordStrength';
 
 export default function SignUp() {
   const [name, setName] = useState('');

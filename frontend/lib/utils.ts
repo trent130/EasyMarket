@@ -120,3 +120,10 @@ export const sortProducts = <T extends { price: number; created_at: string; aver
       return sortedProducts;
   }
 };
+
+/**
+ * Conditional class name concatenation
+ */
+export const cn = (...classes: string[]) => {
+  return classes.filter(Boolean).join(' ');
+};
