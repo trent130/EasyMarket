@@ -14,10 +14,10 @@ websocket_urlpatterns = [
     path('ws/marketplace/', MarketplaceConsumer.as_asgi()),  # New WebSocket route
 ]
 
-# application = ProtocolTypeRouter({
-#     'websocket': AuthMiddlewareStack(
-#         URLRouter(
-#             websocket_urlpatterns
-#         )
-#     ),
-# })
+application = ProtocolTypeRouter({
+    'websocket': AuthMiddlewareStack(
+        URLRouter(
+            websocket_urlpatterns
+        )
+    ),
+})
