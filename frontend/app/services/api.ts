@@ -9,13 +9,29 @@ import {
   ApiError 
 } from '../types/api';
 
+// interface ApiError {
+//   message: string;
+//   code?: string;
+//   details?: Record<string, string[]>;
+//   status?: number;
+// }
+
 // Error handler
-const handleApiError = (error: any): never => {
+const handleApiError = (error: { response?: { data?: { message?: string }; status?: number } }): never => {
   const apiError: ApiError = {
     message: error.response?.data?.message || 'An error occurred',
     status: error.response?.status || 500
   };
+
+  if(isApiError(error)) {
+    apiError.message = error.response?.data?.message || 'An error occurred';
+    apiError.status = error.response?.status || apiError.status;
+  }
   throw apiError;
+};
+
+const isApiError = (error: unknown): error is { response?: { data?: { message?: string }; status?: number } } => {
+  return typeof error === 'object' && error !== null && 'response' in error;
 };
 
 // Auth
@@ -24,7 +40,13 @@ export const login = async (credentials: LoginCredentials): Promise<AuthTokens> 
     const response = await apiClient.post<AuthTokens>('/token/', credentials);
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+    // Check if the error is of type ApiError and handle accordingly
+    if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -33,7 +55,13 @@ export const refreshToken = async (refreshToken: string): Promise<AuthTokens> =>
     const response = await apiClient.post<AuthTokens>('/token/refresh/', { refresh: refreshToken });
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+    // Check if the error is of type ApiError and handle accordingly
+    if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -43,7 +71,13 @@ export const fetchProducts = async (): Promise<Product[]> => {
     const response = await apiClient.get<Product[]>('/products/');
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -52,7 +86,13 @@ export const fetchProductById = async (id: number): Promise<Product> => {
     const response = await apiClient.get<Product>(`/products/${id}/`);
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -62,7 +102,13 @@ export const fetchCart = async (): Promise<Cart> => {
     const response = await apiClient.get<Cart>('/carts/');
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -74,7 +120,13 @@ export const addToCart = async (cartId: number, productId: number, quantity: num
     });
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -85,7 +137,13 @@ export const removeFromCart = async (cartId: number, cartItemId: number): Promis
     });
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -95,7 +153,13 @@ export const createOrder = async (orderData: Partial<Order>): Promise<Order> => 
     const response = await apiClient.post<Order>('/orders/', orderData);
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -104,7 +168,13 @@ export const fetchOrders = async (): Promise<Order[]> => {
     const response = await apiClient.get<Order[]>('/orders/');
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -114,7 +184,13 @@ export const fetchWishlists = async (): Promise<WishList[]> => {
     const response = await apiClient.get<WishList[]>('/wishlists/');
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -125,7 +201,13 @@ export const addProductToWishlist = async (wishlistId: number, productId: number
     });
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
 
@@ -136,6 +218,13 @@ export const removeProductFromWishlist = async (wishlistId: number, productId: n
     });
     return response.data;
   } catch (error) {
-    throw handleApiError(error);
+     // Check if the error is of type ApiError and handle accordingly
+     if (isApiError(error)) {
+      throw handleApiError(error); // Pass the error directly without type assertion
+    } else {
+      // Handle unexpected error types
+      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+    }
   }
 };
+

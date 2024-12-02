@@ -3,18 +3,20 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { WebSocketService, WebSocketMessageType } from '../lib/websocket';
 import { 
-  fetchProducts, 
+ /*  fetchProducts,  */
   fetchWishlists,
   addProductToWishlist as apiAddToWishlist,
   removeProductFromWishlist as apiRemoveFromWishlist,
-  createOrder
-} from '../lib/api';
+  createOrder as apiCreateOrder
+} from '../app/services/api';
+
 
 interface Product {
   id: number;
   name: string;
   price: number;
 }
+
 
 interface CartItem extends Product {
   quantity: number;
@@ -127,7 +129,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           quantity: item.quantity
         }))
       };
-      await createOrder(orderData);
+      await apiCreateOrder(orderData);
       setCart([]); // Clear cart after successful checkout
       // Notify websocket about order
       wsService?.send(WebSocketMessageType.ORDER_UPDATE, { status: 'created' });
