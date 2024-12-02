@@ -1,0 +1,139 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Transaction Details - {{ transaction.transaction_id }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Transaction Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">Transaction Details</h1>
+                {% if transaction.status == 'failed' %}
+                <a href="{% url 'retry_payment' transaction.id %}" 
+                   class="btn btn-primary">
+                    <i class="fas fa-redo me-2"></i>
+                    Retry Payment
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Transaction Status Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Status</h6>
+                            {% if transaction.status == 'completed' %}
+                                <span class="badge bg-success">Completed</span>
+                            {% elif transaction.status == 'pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% else %}
+                                <span class="badge bg-danger">Failed</span>
+                            {% endif %}
+                        </div>
+                        <div class="text-end">
+                            <h6 class="text-muted mb-1">Amount</h6>
+                            <h3 class="mb-0">Ksh {{ transaction.amount|floatformat:2 }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction Details Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Transaction Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Transaction ID</h6>
+                            <p class="mb-0">{{ transaction.transaction_id }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Date</h6>
+                            <p class="mb-0">{{ transaction.timestamp|date:"j M Y, g:i A" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Payment Method</h6>
+                            <p class="mb-0">M-Pesa</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Phone Number</h6>
+                            <p class="mb-0">{{ transaction.phone_number }}</p>
+                        </div>
+                        <div class="col-12">
+                            <h6 class="text-muted">Reference</h6>
+                            <p class="mb-0">{{ transaction.account_reference }}</p>
+                        </div>
+                        {% if transaction.failure_reason %}
+                        <div class="col-12">
+                            <h6 class="text-muted">Failure Reason</h6>
+                            <p class="mb-0 text-danger">{{ transaction.failure_reason }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Details Card -->
+            {% if transaction.order %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Order Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-end">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in transaction.order.items.all %}
+                                <tr>
+                                    <td>{{ item.product.title }}</td>
+                                    <td class="text-center">{{ item.quantity }}</td>
+                                    <td class="text-end">Ksh {{ item.price|floatformat:2 }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <td colspan="2" class="text-end"><strong>Total:</strong></td>
+                                    <td class="text-end">
+                                        <strong>Ksh {{ transaction.amount|floatformat:2 }}</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'transaction_history' %}" 
+                   class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Back to Transactions
+                </a>
+                {% if transaction.status == 'completed' %}
+                <a href="#" 
+                   class="btn btn-outline-secondary"
+                   onclick="window.print()">
+                    <i class="fas fa-print me-2"></i>
+                    Print Receipt
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

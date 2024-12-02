@@ -1,0 +1,32 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block title %}EasyMarket | Category products{% endblock title %}
+    
+{% block content %}
+
+<div class="d-flex">
+  {% include 'shared/sidebar.html' %}
+
+    <div class="mainbar p-3 autoscroll-auto flex-grow-1 bg-body-tertiary">
+        {% include 'components/alerts.html' %}
+
+        <div class="container my-5 scrollarea">
+            <h1 class="mb-3">{{ category.name }}</h1>
+            <p class="mb-4">{{ category.description }}</p>
+    
+            <h2 class="mb-4">Products</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in products %}
+                <div class="col">
+                  {% include 'product_card.html' %}    
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="alert alert-info">No products in this category.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

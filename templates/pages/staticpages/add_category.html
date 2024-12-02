@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}EasyMarket | Add Category{% endblock %}
+
+{% block content %}
+<div class="d-flex">
+    {% include 'shared/sidebar.html' %}
+
+    <div class="mainbar p-3 flex-grow-1 overflow-auto bg-body-tertiary">
+       <main class="overflow-auto">
+        <div class="container">
+        {% include 'components/alerts.html' %}
+
+            <h2 class="text-center">Add Category</h2>
+            <form method="post" class="scrollarea">
+                {% csrf_token %}
+                {{ form.as_p }}
+               <div class="d-flex justify-content-center allign-items-center mb-3">
+                    <button type="submit" class="btn btn-primary w-25">Submit</button>
+               </div>
+            </form>
+        </div>
+       </main>
+    </div>
+</div>
+{% endblock %}
