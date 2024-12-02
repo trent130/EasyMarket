@@ -1,0 +1,137 @@
+{% load static %}
+
+<header class="site-header navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <h1 class="navbar-brand mb-0 h1">
+                <i class="fas fa-store me-2"></i>
+                Easymarket
+            </h1>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="d-flex mx-lg-auto" action="{% url 'marketplace:search' %}" method="GET">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Search products..." aria-label="Search products" value="{{ request.GET.q }}" autocomplete="off">
+              <button class="btn btn-outline-light" type="submit">
+                  <i class="fas fa-search d-none d-sm-inline"></i>
+                  <span class="d-sm-none">Search</span>
+              </button>
+          </div>
+          </form>
+
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                        <i class="fas fa-home me-1"></i>
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="{% url 'chat' %}" aria-disabled="true">
+                        <i class="fas fa-comments me-1"></i>
+                        Chat
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+                        <i class="fas fa-tachometer-alt me-1"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">
+                        <i class="fas fa-info-circle me-1"></i>
+                        About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'help' %}active{% endif %}" href="{% url 'help' %}">
+                        <i class="fas fa-question-circle me-1"></i>
+                        Help
+                    </a>
+                </li>
+            </ul>
+
+            <div class="ms-lg-3 d-flex align-items-center">
+                <a class="nav-link position-relative me-3" href="{% url 'marketplace:cart' %}" aria-label="Shopping cart">
+                    <i class="fas fa-shopping-cart fs-5"></i>
+                    {% if request.session.cart|length > 0 %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ request.session.cart|length }}
+                            <span class="visually-hidden">items in cart</span>
+                        </span>
+                    {% endif %}
+                </a>
+
+                {% if request.user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-link nav-link dropdown-toggle text-white text-decoration-none" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>
+                            {{ request.user.username }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'dashboard' %}">
+                                    <i class="fas fa-tachometer-alt me-2"></i>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'user_profile' %}">
+                                    <i class="fas fa-user me-2"></i>
+                                    My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'marketplace:wishlist' %}">
+                                    <i class="fas fa-heart me-2"></i>
+                                    Wishlist
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-bell me-2"></i>
+                                    Notifications
+                                    <span class="badge bg-danger ms-2">2</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cog me-2"></i>
+                                    Settings
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="{% url 'signout' %}" method="post" class="dropdown-item p-0">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i>
+                                        Log out
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm" href="{% url 'signin' %}">
+                            <i class="fas fa-sign-in-alt me-1"></i>
+                            Login
+                        </a>
+                        <a class="btn btn-light btn-sm" href="{% url 'register' %}">
+                            <i class="fas fa-user-plus me-1"></i>
+                            Register
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>

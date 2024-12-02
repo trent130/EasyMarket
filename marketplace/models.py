@@ -6,6 +6,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser,Permission
 from products.models import Product
+import string
+import random
+
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -46,17 +49,27 @@ class Message(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
-    reactions = models.ManyToManyField('Reaction', blank=True)
 
     def __str__(self):
         return f'{self.user.username} - {self.timestamp}'
 
 class Reaction(models.Model):
-    emoji = models.CharField(max_length=2)
+    REACTION_CHOICES = [
+        ('like', 'Like'),
+        ('love', 'Love'),
+        ('haha', 'Haha'),
+        ('wow', 'Wow'),
+        ('sad', 'Sad'),
+        ('angry', 'Angry')
+    ]
+    
+    reaction_type = models.CharField(max_length=10, choices=REACTION_CHOICES)
+    message = models.ForeignKey('Message', on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.emoji} by {self.user.username}'
+        return f'{self.reaction_type} by {self.user.username}'
 
 class Review(models.Model):
     product = models.ForeignKey('products.Product', on_delete = models.CASCADE, related_name = 'reviews')
@@ -70,13 +83,24 @@ class Review(models.Model):
 
     class Meta:
         unique_together = (('product', 'reviewer'),)
-        index_together = (('product', 'reviewer'),)
+    #    index_together = (('product', 'reviewer'),)
+
+# def unique_slug_field_cart():
+#     length =10
+#     characters = string.ascii_lowercase + string.digits
+
+#     while slug:
+#         if Cart.objects.filter(slug == slug).exists():
+#             pass
+#         slug = ''.join(random.choices(characters), k=length)   
+#     return slug
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(Product, through='CartItem')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField()
 
     def __str__(self):
         return f"Cart for {self.user.username}"

@@ -1,13 +1,18 @@
-# Core
-django==4.1.12
+django==5.0.9
+django-cors-headers==4.3.1
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
 python-dotenv==1.0.0
+channels==4.0.0
+django-crispy-forms==2.1
+django-daraja==1.3.0
+django-widget-tweaks==1.5.0
+whitenoise==6.6.0
 
-# UI
-django-admin-material-dashboard==1.0.10
+# 2FA Dependencies
+pyotp==2.9.0  # For TOTP generation and verification
+qrcode==7.4.2  # For generating QR codes
+pillow==10.3.0  # Required by qrcode for image generation
+django-otp==1.2.2  # For additional OTP utilities
+cryptography==43.0.1  # For secure token handling
 
-# Deployment
-whitenoise==6.5.0
-gunicorn==21.2.0
-
-# psycopg2-binary
-# mysqlclient

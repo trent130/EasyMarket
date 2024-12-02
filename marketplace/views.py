@@ -7,10 +7,6 @@ from .forms import searchForm, AddToCartForm, UpdateCartForm, RemoveFromCartForm
 from products.models import Product
 from .models import CartItem, Cart, WishList
 
-
-
-
-
 # def cart_cleared(request):
 #     return render(request, 'marketplace/cart_cleared.html')
 
@@ -21,7 +17,7 @@ def search(request):
     query = request.GET.get('q', '')
     results = Product.objects.filter(title__icontains=query)
  
-    return render(request, 'marketplace/search_results.html', {'query': query, 'results': results})
+    return render(request, 'pages/marketplace/search_results.html', {'query': query, 'results': results})
 
 
 def add_to_cart(request, product_id):
@@ -30,7 +26,7 @@ def add_to_cart(request, product_id):
         form = AddToCartForm(request.POST)
         if form.is_valid():
             quantity = form.cleaned_data['quantity']
-            cart = request.session.get('cart', {})
+            cart = form.cleaned_data['cart', {}]
             current_quantity = cart.get(product_id, 0)
 
             if current_quantity + quantity > product.stock:
@@ -42,7 +38,7 @@ def add_to_cart(request, product_id):
                 return redirect('marketplace:cart')
     else:
         form = AddToCartForm(initial={'product_id': product_id})
-    return render(request, 'marketplace/add_to_cart.html', {'product': product, 'form': form})
+    return render(request, 'pages/marketplace/add_to_cart.html', {'product': product, 'form': form})
 
 
 
@@ -54,7 +50,7 @@ def cart(request):
         product = get_object_or_404(Product, pk=product_id)
         total_price += product.price * quantity
         cart_items.append({'product': product, 'quantity': quantity, 'total': product.price * quantity})
-    return render(request, 'marketplace/cart.html', {'cart_items': cart_items, 'cart_total': total_price})
+    return render(request, 'pages/marketplace/cart.html', {'cart_items': cart_items, 'cart_total': total_price})
 
 def update_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
@@ -73,7 +69,7 @@ def update_cart(request, product_id):
                 del cart[product_id]
                 messages.success(request, f"{product.title} removed from cart")
         request.session['cart'] = cart
-    return redirect('marketplace:cart')
+    return redirect('pages/marketplace:cart')
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
@@ -83,14 +79,14 @@ def remove_from_cart(request, product_id):
             del cart[product_id]
             request.session['cart'] = cart
             messages.success(request, f"{product.title} removed from cart")
-    return redirect('marketplace:cart')
+    return redirect('pages/marketplace:cart')
 
 @login_required
 def checkout(request):
     cart = request.session.get('cart', {})
     if not cart:
         messages.error(request, "Your cart is empty.")
-        return redirect('marketplace:cart')
+        return redirect('pages/marketplace:cart')
     
     out_of_stock_items = []
     for product_id, quantity in cart.items():
@@ -100,7 +96,7 @@ def checkout(request):
     
     if out_of_stock_items:
         messages.error(request, f'The following items are out of stock: {", ".join(out_of_stock_items)}')
-        return redirect('marketplace:cart')
+        return redirect('pages/marketplace:cart')
     
     # Deduct stock and clear cart items
     for product_id, quantity in cart.items():
@@ -110,14 +106,14 @@ def checkout(request):
     
     request.session['cart'] = {}
     messages.success(request, "Checkout successful. Your order is being processed.")
-    return redirect('marketplace:order_confirmation')  # Modify this redirect as needed
+    return redirect('pages/marketplace:order_confirmation')  # Modify this redirect as needed
 
 
 def clear_cart(request): 
     if request.method == 'POST':
         request.session['cart'] = {}
         messages.success(request, "Cart has been cleared.")
-        return render(request, 'marketplace/cart_cleared.html')
+        return render(request, 'pages/marketplace/cart_cleared.html')
     else:
         return HttpResponseNotAllowed(['POST'])
 
@@ -126,16 +122,16 @@ def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     wishlist, created = WishList.objects.get_or_create(user=request.user)
     wishlist.products.add(product)
-    return redirect('marketplace:wishlist_view')
+    return redirect('pages/marketplace:wishlist_view')
 
 @login_required
 def wishlist_view(request):
     wishlist, created = WishList.objects.get_or_create(user=request.user)
-    return render(request, 'marketplace/wishlist.html', {'wishlist': wishlist})
+    return render(request, 'pages/marketplace/wishlist.html', {'wishlist': wishlist})
 
 @login_required
 def remove_from_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     wishlist = get_object_or_404(WishList, user=request.user)
     wishlist.products.remove(product)
-    return redirect('marketplace:wishlist_view')
+    return redirect('pages/marketplace:wishlist_view')

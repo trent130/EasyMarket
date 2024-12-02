@@ -1,0 +1,67 @@
+/* Transaction Admin Styles */
+.user-details,
+.payment-details {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.user-details p,
+.payment-details p {
+    margin-bottom: 8px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.badge.bg-success {
+    background-color: #28a745 !important;
+    color: white;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+    color: white;
+}
+
+/* Custom List Display */
+#changelist-form .results {
+    margin-top: 20px;
+}
+
+#changelist-form .column-status_badge {
+    text-align: center;
+}
+
+#changelist-form .column-amount {
+    text-align: right;
+}
+
+/* Custom Detail View */
+.field-user_details,
+.field-payment_details {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+    .user-details,
+    .payment-details {
+        padding: 10px;
+    }
+    
+    .field-user_details,
+    .field-payment_details {
+        max-width: 100%;
+    }
+}

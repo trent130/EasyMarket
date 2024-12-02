@@ -1,0 +1,620 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block title %}EasyMarket
+- Your Campus Marketplace{% endblock %} {% block extra_css %}
+<style>
+    /* Base Styles */
+    .homepage {
+        overflow-x: hidden;
+    }
+
+    section {
+        position: relative;
+        width: 100%;
+        padding: 5rem 0;
+        z-index: 1;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        height: 100vh;
+        padding: 0;
+    }
+
+    .carousel-item::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+        z-index: 1;
+    }
+
+    .carousel-caption {
+        z-index: 2;
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: auto;
+    }
+
+    .carousel-caption h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        animation: fadeInDown 1s ease-out;
+    }
+
+    .carousel-caption p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    /* Section Styles */
+    .section-title {
+        text-align: center;
+        position: relative;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background: #007bff;
+    }
+
+    /* Features Section */
+    .features-section {
+        background-color: #fff;
+        z-index: 2;
+    }
+
+    .feature {
+        text-align: center;
+        padding: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .feature svg {
+        width: 150px;
+        height: 150px;
+        fill: #007bff;
+        margin-bottom: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    /* Featured Products Section */
+    .featured-products {
+        background-color: #f8f9fa;
+        z-index: 2;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+        background: #f8f9fa;
+    }
+
+    .testimonial-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 3px solid #007bff;
+    }
+
+    /* About Section */
+    .about-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                    url('{% static "images/bg_main.jpg" %}') center/cover;
+        color: white;
+    }
+
+    .about-section .section-title::after {
+        background: white;
+    }
+
+    /* Fallback Styles */
+    .hero-fallback {
+        height: 100vh;
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                    url('{% static "images/fallback.jpg" %}') center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    /* Animation Classes */
+    .animate {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+
+    /* Hover Effects */
+    .feature:hover,
+    .testimonial-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .feature:hover svg {
+        transform: scale(1.1);
+    }
+
+    .carousel-caption .btn:hover {
+        transform: translateY(-3px);
+    }
+
+    /* Transitions */
+    .carousel-item,
+    .feature,
+    .testimonial-card,
+    .carousel-caption .btn,
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    /* Loading Indicator */
+    .carousel::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 1;
+    }
+
+    .carousel.loaded::before {
+        display: none;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .carousel-caption {
+            padding: 0 20px;
+        }
+
+        .carousel-caption h1 {
+            font-size: 2.5rem;
+        }
+
+        .carousel-caption p {
+            font-size: 1rem;
+        }
+
+        .carousel-caption .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %} {% block content %}
+<main class="homepage" >
+  <!-- Hero Section -->
+<section class="hero-section">
+  <!-- Fallback for when carousel fails -->
+  <div class="hero-fallback d-none">
+      <div class="fallback-content text-center">
+          <h1>Welcome to EasyMarket</h1>
+          <p>Your Campus Marketplace</p>
+          <div class="fallback-buttons">
+              {% if request.user.is_authenticated %}
+                  <a href="{% url 'products:product_list' %}" class="btn btn-primary btn-lg">Shop Now</a>
+              {% else %}
+                  <a href="{% url 'signin' %}" class="btn btn-primary btn-lg">Get Started</a>
+              {% endif %}
+          </div>
+      </div>
+  </div>
+
+  <!-- Main Carousel -->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+          {% for slide in hero_slides %}
+          <button type="button" 
+                  data-bs-target="#heroCarousel" 
+                  data-bs-slide-to="{{ forloop.counter0 }}" 
+                  {% if forloop.first %}class="active"{% endif %}
+                  aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-label="Slide {{ forloop.counter }}">
+          </button>
+          {% endfor %}
+      </div>
+
+      <div class="carousel-inner">
+          {% for slide in hero_slides %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}" 
+               data-slide-id="{{ forloop.counter }}">
+              <img src="{% static slide.image %}" 
+                   class="d-block w-100" 
+                   alt="{{ slide.title }}"
+                   style="height: 100vh; object-fit: cover;"
+                   onerror="handleImageError(this)"
+                   data-fallback="{% static 'images/fallback.jpg' %}">
+              <div class="carousel-caption">
+                  <h1 class="display-4 fw-bold">{{ slide.title }}</h1>
+                  <p class="lead mb-4">{{ slide.description }}</p>
+                  
+                  <div class="carousel-buttons">
+                      {% if request.user.is_authenticated %}
+                          <a href="{% url slide.primary_btn.url %}" 
+                             class="btn btn-primary btn-lg px-4 me-2">
+                              {{ slide.primary_btn.text }}
+                          </a>
+                          <a href="{% url slide.secondary_btn.url %}" 
+                             class="btn btn-outline-light btn-lg px-4">
+                              {{ slide.secondary_btn.text }}
+                          </a>
+                      {% else %}
+                          <a href="{% url 'signin' %}" 
+                             class="btn btn-primary btn-lg px-4 me-2">
+                              Sign In
+                          </a>
+                          <a href="{% url 'register' %}" 
+                             class="btn btn-outline-light btn-lg px-4">
+                              Sign Up
+                          </a>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+      </button>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+  <div class="container">
+      <h2 class="section-title">Why Choose EasyMarket?</h2>
+      <div class="row">
+          <div class="col-md-4">
+              <div class="feature">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/>
+                  </svg>
+                  <h3>Secure Transactions</h3>
+                  <p>Shop with confidence knowing your transactions are secure.</p>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="feature">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                      <path d="M58.9 42.1c3-6.1 9.6-9.6 16.3-8.7L320 64 564.8 33.4c6.7-.8 13.3 2.7 16.3 8.7l41.7 83.4c9 17.9-.6 39.6-19.8 45.1L439.6 217.3c-13.9 4-28.8-1.9-36.2-14.3L320 64 236.6 203c-7.4 12.4-22.3 18.3-36.2 14.3L37.1 170.6c-19.3-5.5-28.8-27.2-19.8-45.1L58.9 42.1z"/>
+                  </svg>
+                  <h3>Wide Selection</h3>
+                  <p>Explore a wide range of products from textbooks to gadgets.</p>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="feature">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                      <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c1.8 0 3.5-.2 5.3-.5c-76.3-55.1-99.8-141-103.1-200.2c-16.1-4.8-33.1-7.3-50.7-7.3H178.3z"/>
+                  </svg>
+                  <h3>Buyer Protection</h3>
+                  <p>Your purchases are protected with our buyer guarantee.</p>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="featured-products py-5">
+  <div class="container">
+    <h2 class="section-title">Featured Products</h2>
+    {% include 'components/alerts.html' %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for product in featured_products %}
+      <div class="col">{% include 'product_card.html' %}</div>
+      {% empty %}
+      <div class="col-12 text-center">
+        <p class="text-muted">No featured products available at the moment.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials py-5">
+  <div class="container">
+      <h2 class="section-title">What Our Users Say</h2>
+      <div class="row justify-content-center">
+          <div class="col-md-4">
+              <div class="card testimonial-card shadow-sm border-0">
+                  <div class="card-body text-center">
+                      <img src="{% static 'images/background_.jpg' %}?{% now 'U' %}" 
+                           alt="John Doe" 
+                           class="testimonial-image rounded-circle mb-3">
+                      <h5>John Doe
+                          <br>
+                          <small class="text-muted">CS Student</small>
+                      </h5>
+                      <p class="card-text">"Found great deals on textbooks and study materials through EasyMarket."</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card testimonial-card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <img src="{% static 'images/background_.jpg' %}?{% now 'U' %}" 
+                         alt="John Doe" 
+                         class="testimonial-image rounded-circle mb-3">
+                    <h5>John Doe
+                        <br>
+                        <small class="text-muted">CS Student</small>
+                    </h5>
+                    <p class="card-text">"Found great deals on textbooks and study materials through EasyMarket."</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card testimonial-card shadow-sm border-0">
+              <div class="card-body text-center">
+                  <img src="{% static 'images/background_.jpg' %}?{% now 'U' %}" 
+                       alt="John Doe" 
+                       class="testimonial-image rounded-circle mb-3">
+                  <h5>John Doe
+                      <br>
+                      <small class="text-muted">CS Student</small>
+                  </h5>
+                  <p class="card-text">"Found great deals on textbooks and study materials through EasyMarket."</p>
+              </div>
+          </div>
+      </div>
+      </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-center">
+        <h2 class="section-title">About EasyMarket</h2>
+        <p class="lead">
+          EasyMarket is your go-to platform for buying and selling academic
+          resources. Our mission is to provide students with a secure and
+          convenient marketplace where they can find everything they need at
+          affordable prices.
+        </p>
+        <div class="mt-4">
+          <a
+            href="{% url 'products:product_list' %}"
+            class="btn btn-primary btn-lg"
+          >
+            Start Shopping
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include 'shared/footer.html' %} </main >{% endblock %} 
+
+{% block extra_js %}
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Debug logging
+    const sections = document.querySelectorAll('section');
+    console.log('Total sections found:', sections.length);
+    
+    sections.forEach((section, index) => {
+        console.log(`Section ${index + 1}:`, {
+            className: section.className,
+            offsetTop: section.offsetTop,
+            offsetHeight: section.offsetHeight,
+            visibility: window.getComputedStyle(section).visibility,
+            display: window.getComputedStyle(section).display,
+            zIndex: window.getComputedStyle(section).zIndex
+        });
+    });
+
+    // Check for potential CSS conflicts
+    const computedStyle = window.getComputedStyle(document.querySelector('.homepage'));
+    console.log('Homepage styles:', {
+        overflow: computedStyle.overflow,
+        height: computedStyle.height,
+        position: computedStyle.position
+    });
+});
+    const DEBUG = true;
+    function debugLog(message, data = null) {
+        if (DEBUG) {
+            console.log(`[Carousel Debug] ${message}`, data || '');
+        }
+    }
+
+    // Image error handling
+    function handleImageError(img) {
+        debugLog('Image failed to load:', img.src);
+        const fallbackImage = img.getAttribute('data-fallback');
+        if (fallbackImage && img.src !== fallbackImage) {
+            img.src = fallbackImage;
+        }
+    }
+
+    // Carousel initialization and error handling
+    class CarouselManager {
+        constructor(elementId) {
+            this.elementId = elementId;
+            this.element = document.getElementById(elementId);
+            this.carousel = null;
+            this.failedImages = 0;
+            this.totalImages = 0;
+            this.initialized = false;
+        }
+
+        init() {
+            try {
+                debugLog('Initializing carousel');
+                if (!this.element) {
+                    throw new Error(`Carousel element #${this.elementId} not found`);
+                }
+
+                // Count total images
+                this.totalImages = this.element.querySelectorAll('img').length;
+                debugLog('Total images to load:', this.totalImages);
+
+                // Initialize carousel after checking images
+                this.checkImagesAndInitialize();
+
+                // Add event listeners
+                this.addEventListeners();
+
+                return true;
+            } catch (error) {
+                this.handleCarouselError(error);
+                return false;
+            }
+        }
+
+        checkImagesAndInitialize() {
+            const images = Array.from(this.element.querySelectorAll('img'));
+            let loadedImages = 0;
+
+            images.forEach(img => {
+                if (img.complete) {
+                    loadedImages++;
+                } else {
+                    img.addEventListener('load', () => {
+                        loadedImages++;
+                        if (loadedImages === images.length) {
+                            this.initializeCarousel();
+                        }
+                    });
+                    img.addEventListener('error', () => {
+                        this.failedImages++;
+                        loadedImages++;
+                        if (loadedImages === images.length) {
+                            this.initializeCarousel();
+                        }
+                    });
+                }
+            });
+
+            if (loadedImages === images.length) {
+                this.initializeCarousel();
+            }
+        }
+
+        initializeCarousel() {
+            try {
+                debugLog('Creating carousel instance');
+                this.carousel = new bootstrap.Carousel(this.element, {
+                    interval: 5000,
+                    pause: 'hover',
+                    wrap: true,
+                    keyboard: true
+                });
+                this.initialized = true;
+                debugLog('Carousel initialized successfully');
+            } catch (error) {
+                this.handleCarouselError(error);
+            }
+        }
+
+        addEventListeners() {
+            this.element.addEventListener('slide.bs.carousel', (event) => {
+                debugLog('Slide event triggered:', event.to);
+            });
+
+            this.element.addEventListener('slid.bs.carousel', (event) => {
+                debugLog('Slide completed:', event.to);
+            });
+
+            // Add touch swipe support
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            this.element.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            this.element.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].clientX;
+                this.handleSwipe();
+            });
+        }
+
+        handleSwipe() {
+            const swipeThreshold = 50;
+            const difference = touchStartX - touchEndX;
+
+            if (Math.abs(difference) > swipeThreshold) {
+                if (difference > 0) {
+                    this.carousel.next();
+                } else {
+                    this.carousel.prev();
+                }
+            }
+        }
+
+        handleCarouselError(error) {
+            debugLog('Carousel error:', error);
+            this.showFallbackContent();
+        }
+
+        showFallbackContent() {
+            debugLog('Showing fallback content');
+            const fallback = document.querySelector('.hero-fallback');
+            if (fallback) {
+                this.element.style.display = 'none';
+                fallback.classList.remove('d-none');
+            }
+        }
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        const carouselManager = new CarouselManager('heroCarousel');
+        carouselManager.init();
+    });
+</script>
+{% endblock %}

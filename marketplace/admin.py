@@ -38,12 +38,14 @@ except NotRegistered:
 admin.site.register(Student, StudentAdmin)
 
 class ReactionAdmin(admin.ModelAdmin):
-    list_display = ('emoji', 'user')
-    search_fields = ['emoji', 'user__username']
-    list_filter = ['emoji', 'user__username']
+    list_display = ['reaction_type', 'user', 'message', 'created_at']
+    list_filter = ['reaction_type', 'created_at']
+    search_fields = ['user__username', 'message__content']
+    ordering = ['-created_at']
 
 class ReactionInline(admin.TabularInline):
-    model = Message.reactions.through
+    model = Reaction
+    fk_name = 'message'
     extra = 1
 
 class MessageAdmin(admin.ModelAdmin):
