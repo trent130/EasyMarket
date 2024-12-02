@@ -9,6 +9,7 @@ import {
   removeProductFromWishlist as apiRemoveFromWishlist,
   createOrder as apiCreateOrder
 } from '../app/services/api';
+import { WishList } from './types/api';
 
 
 interface Product {
@@ -68,17 +69,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Initialize wishlist from backend
-  useEffect(() => {
-    const initializeData = async () => {
-      try {
-        const wishlistData = await fetchWishlists();
-        setWishlist(wishlistData as Product[]);
-      } catch (error) {
-        console.error('Failed to fetch initial data:', error);
-      }
-    };
-    initializeData();
-  }, []);
+// Assuming the API response structure includes a list of wishlists, each containing a list of products
+useEffect(() => {
+  const initializeData = async () => {
+    try {
+      const wishlistData: WishList[] = await fetchWishlists();
+      
+      // Extract products from the first wishlist (or handle multiple wishlists as needed)
+      const products: Product[] = wishlistData.flatMap(wishlist => wishlist.products);
+
+      setWishlist(products);
+    } catch (error) {
+      console.error('Failed to fetch initial data:', error);
+    }
+  };
+  initializeData();
+}, []);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
@@ -125,8 +131,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       const orderData = {
         items: cart.map(item => ({
-          product_id: item.id,
-          quantity: item.quantity
+          id: item.id,
+          product: Product,
+          quantity: item.quantity,
+          price: item.price,
         }))
       };
       await apiCreateOrder(orderData);

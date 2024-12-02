@@ -1,3 +1,5 @@
+import { Decimal } from "@prisma/client/runtime/library";
+
 export interface Product {
   id: number;
   name: string;
@@ -21,6 +23,8 @@ export interface Cart {
 }
 
 export interface WishList {
+  name: unknown;
+  price: Decimal;
   id: number;
   products: Product[];
   user: number;
