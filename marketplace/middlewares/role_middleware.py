@@ -10,3 +10,4 @@ class RoleMiddleware:
                 return HttpResponseForbidden("You don't have permission to access this page.")
 
         """ response = self.get_response(request) """
+
