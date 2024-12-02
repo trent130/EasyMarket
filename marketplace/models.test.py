@@ -21,7 +21,7 @@ def test_create_user_profile(self):
     self.assertEqual(user_profile.user, user)
     self.assertEqual(user_profile.avatar, 'avatars/default.jpg')def test_create_student_profile_on_user_creation(self):
         new_user = User.objects.create_user(username='newuser', email='newuser@example.com', password='password123')
-        self.assertTrue(Student.objects.filter(user=new_user).exists())
+    self.assertTrue(Student.objects.filter(user=new_user).exists())
         student = Student.objects.get(user=new_user)
         self.assertEqual(student.email, 'newuser@example.com')
         self.assertEqual(str(student), f'{student.first_name} {student.last_name}')
