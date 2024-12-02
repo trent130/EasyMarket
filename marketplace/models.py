@@ -124,18 +124,22 @@ class CartItem(models.Model):
         return self.product.price * self.quantity
 
 class CustomUser(AbstractUser):
-    is_basic = models.BooleanField(default=True)
-    is_legacy = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_students = models.BooleanField(default=False)
-    
-    class Meta:
-        # Define a unique related_name for the groups relationship
-        db_table = 'custom_user'
-
+    ROLE_CHOICES = [
+        ('basic', 'Basic'),
+        ('legacy', 'Legacy'),
+        ('admin', 'Admin'),
+        ('premium', 'Premium'),
+    ]
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='basic')
+        
     # Define a unique related_name for the user_permissions relationship
     groups = models.ManyToManyField(Group, related_name='custom_users')
     user_permissions = models.ManyToManyField(Permission, related_name='custom_users')
+
+    class Meta:
+        db_table = 'custom_user'
+
+
 
 
 class WishList(models.Model):
