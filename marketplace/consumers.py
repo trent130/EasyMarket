@@ -1,58 +1,80 @@
-# # consumers.py
-# from channels.generic.websocket import AsyncWebsocketConsumer
-# import json
-# from Crypto.Cipher import AES
-# from Crypto.Util.Padding import unpad
-# from base64 import b64decode
+from channels.generic.websocket import AsyncWebsocketConsumer
+import json
 
-# class ChatConsumer(AsyncWebsocketConsumer):
-#     async def connect(self):
-#         self.room_name = 'chat_room'
-#         self.room_group_name = 'chat_room'
+class MarketplaceConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.marketplace_group_name = 'marketplace'
 
-#         # Join room group
-#         await self.channel_layer.group_add(
-#             self.room_group_name,
-#             self.channel_name
-#         )
+        # Join marketplace group
+        await self.channel_layer.group_add(
+            self.marketplace_group_name,
+            self.channel_name
+        )
 
-#         await self.accept()
+        await self.accept()
 
-#     async def disconnect(self, close_code):
-#         # Leave room group
-#         await self.channel_layer.group_discard(
-#             self.room_group_name,
-#             self.channel_name
-#         )
+    async def disconnect(self, close_code):
+        # Leave marketplace group
+        await self.channel_layer.group_discard(
+            self.marketplace_group_name,
+            self.channel_name
+        )
 
-#     async def receive(self, text_data):
-#         # Receive encrypted message from WebSocket
-#         text_data_json = json.loads(text_data)
-#         encrypted_message = text_data_json['encrypted_message']
-#         sender_username = text_data_json['username']
+    async def receive(self, text_data):
+        # Handle incoming messages
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
 
-#         # Decrypt message using AES
-#         key = b'supersecretkey'  # Same key used for encryption
-#         cipher = AES.new(key, AES.MODE_ECB)
-#         decrypted_message = unpad(cipher.decrypt(b64decode(encrypted_message)), AES.block_size).decode('utf-8')
+        # Broadcast message to marketplace group
+        await self.channel_layer.group_send(
+            self.marketplace_group_name,
+            {
+                'type': 'marketplace_message',
+                'message': message
+            }
+        )
 
-#         # Broadcast decrypted message to room group
-#         await self.channel_layer.group_send(
-#             self.room_group_name,
-#             {
-#                 'type': 'chat_message',
-#                 'username': sender_username,
-#                 'message': decrypted_message
-#             }
-#         )
+    async def marketplace_message(self, event):
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps(event))
 
+class ChatConsumer(AsyncWebsocketConsumer): 
+    async def connect(self): 
+        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = f'chat_{self.room_name}'
 
-#     async def chat_message(self, event):
-#         # Send message to WebSocket
-#         await self.send(text_data=json.dumps(event))
+        # Join room group
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
 
-#     async def typing_status(self, event):
-#         # Send typing status to WebSocket
-#         await self.send(text_data=json.dumps(event))
+        await self.accept()
 
+    async def disconnect(self, close_code):
+        # Leave room group
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
 
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+
+        # Send message to room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message
+            }
+        )
+
+    async def chat_message(self, event):
+        message = event['message']
+
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'message': message
+        }))

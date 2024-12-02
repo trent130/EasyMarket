@@ -10,8 +10,8 @@ class Student(models.Model):
     
     class Meta:
         ordering = ['last_name']
-        
-class payment(models.Model):
+
+class Payment(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     # other fields...
@@ -21,4 +21,3 @@ class payment(models.Model):
     
     class Meta:
         ordering = ['last_name']
-    

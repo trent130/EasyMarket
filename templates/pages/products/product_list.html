@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Product List{% endblock %}
+
+{% block content %}
+<div class="d-flex">
+  {% include 'shared/sidebar.html' %}
+
+<div class="mainbar p-3 flex-grow-1 overflow-auto bg-body-tertiary">
+      {% include 'components/alerts.html' %}
+
+        <h1 class="text-center">Product List</h1>
+        <div class="row row-cols-1 row-cols-md-3 scrollarea">
+            {% for product in page_obj %}
+                <div class="col">
+                    <div class=" mb-4">
+                       
+                    {% include 'components/product_card.html' %}
+                      
+                    </div>
+                    
+                </div>
+            
+            {% empty %}
+            <div class="col">
+                <div class="alert alert-info" role="alert">
+                    No products available.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    {% include 'shared/pagination.html' %}
+          
+</div>
+</div>
+
+{% endblock %}
