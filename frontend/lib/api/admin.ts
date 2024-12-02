@@ -1,6 +1,6 @@
-import { apiClient } from '../api-client';
+import  apiClient  from '../api-client';
 import { Student } from './students';
-import { Product } from './products';
+import  Product  from './products';
 import { Order } from './orders';
 
 export interface AdminStats {

@@ -1,6 +1,6 @@
 import { fetchWrapper } from '../../utils/fetchWrapper';
 import { User } from '../../types/common';
-import { WebSocketService, WebSocketMessageType } from '../websocket/websocketService';
+import { WebSocketService, WebSocketMessageType } from '../../../lib/websocket';
 
 interface GroupChat {
     id: number;
@@ -29,11 +29,11 @@ interface MessageReaction {
     createdAt: string;
 }
 
-interface GroupChatParams {
-    page?: number;
-    pageSize?: number;
-    search?: string;
-}
+// interface GroupChatParams {
+//     page?: number;
+//     pageSize?: number;
+//     search?: string;
+// }
 
 export const groupChatApi = {
     // Group Management

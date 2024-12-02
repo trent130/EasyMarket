@@ -86,6 +86,10 @@ useEffect(() => {
   initializeData();
 }, []);
 
+  /**
+   * Adds a product to the cart or increments its quantity if it already exists
+   * @param {Product} product The product to add
+   */
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
@@ -132,7 +136,7 @@ useEffect(() => {
       const orderData = {
         items: cart.map(item => ({
           id: item.id,
-          product: Product,
+          product: item.product,
           quantity: item.quantity,
           price: item.price,
         }))

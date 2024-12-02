@@ -22,6 +22,16 @@ class MarketplaceConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         # Handle incoming messages
+        # Handles incoming messages from WebSocket
+        #
+        # The incoming message must be a JSON string containing
+        # a 'message' key. The message is then broadcast to all
+        # members of the marketplace group.
+        #
+        # Example incoming message:
+        # {
+        #     'message': 'Hello, world!'
+        # }
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
@@ -36,6 +46,19 @@ class MarketplaceConsumer(AsyncWebsocketConsumer):
 
     async def marketplace_message(self, event):
         # Send message to WebSocket
+        # Send message to WebSocket
+        # 
+        # Handles incoming messages from the marketplace group and
+        # sends them to the WebSocket.
+        # 
+        # The incoming message is expected to be a JSON string
+        # containing a 'message' key. The message is then sent to
+        # the WebSocket as a JSON string.
+        # 
+        # Example incoming message:
+        # {
+        #     'message': 'Hello, world!'
+        # }
         await self.send(text_data=json.dumps(event))
 
 class ChatConsumer(AsyncWebsocketConsumer): 

@@ -1,3 +1,5 @@
+
+
 export enum WebSocketMessageType {
     CHAT_MESSAGE = 'CHAT_MESSAGE',
     NOTIFICATION = 'NOTIFICATION',
@@ -6,15 +8,16 @@ export enum WebSocketMessageType {
     USER_STATUS = 'USER_STATUS'
 }
 
-interface WebSocketMessage<T = any> {
+interface WebSocketMessage<T = unknown> {
     type: WebSocketMessageType;
     payload: T;
     timestamp: string;
 }
 
 export class WebSocketService {
+    
     private socket: WebSocket | null = null;
-    private messageHandlers: Map<WebSocketMessageType, ((data: any) => void)[]> = new Map();
+    private messageHandlers: Map<WebSocketMessageType, ((data: unknown) => void)[]> = new Map();
     private reconnectAttempts = 0;
     private readonly maxReconnectAttempts = 5;
 
@@ -57,7 +60,7 @@ export class WebSocketService {
         this.messageHandlers.set(type, handlers);
     }
 
-    unsubscribe(type: WebSocketMessageType, handler: (data: any) => void) {
+    unsubscribe(type: WebSocketMessageType, handler: (data: unknown) => void) {
         const handlers = this.messageHandlers.get(type) || [];
         this.messageHandlers.set(
             type,
@@ -65,7 +68,7 @@ export class WebSocketService {
         );
     }
 
-    send(type: WebSocketMessageType, payload: any) {
+    send(type: WebSocketMessageType, payload: unknown) {
         if (this.socket?.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify({
                 type,
