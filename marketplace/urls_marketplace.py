@@ -1,3 +1,4 @@
+from marketplace.consumers import ChatConsumer, MarketplaceConsumer
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views_marketplace
@@ -52,5 +53,8 @@ urlpatterns = [
          name='review-detail'),
 ]
 
-# URL patterns for authentication views are in urls.py
-# URL patterns for product views are in products/urls.py
+
+websocket_urlpatterns = [
+    path('ws/chat/', ChatConsumer.as_asgi()),
+    path('ws/marketplace/', MarketplaceConsumer.as_asgi()),  # New WebSocket route
+]
