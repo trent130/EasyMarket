@@ -1,6 +1,8 @@
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth.models import User
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import Student
@@ -46,6 +48,34 @@ def enable_2fa(request):
             'backup_codes': backup_codes
         })
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def sign_in(request):
+    """Sign in a user"""
+    username = request.data.get('username')
+    password = request.data.get('password')
+    user = authenticate(request, username=username, password=password)
+    
+    if user is not None:
+        # Generate token logic here (e.g., using JWT)
+        return Response({'message': 'Sign in successful'}, status=status.HTTP_200_OK)
+    return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def sign_up(request):
+    """Sign up a new user"""
+    username = request.data.get('username')
+    password = request.data.get('password')
+    email = request.data.get('email')
+
+    if User.objects.filter(username=username).exists():
+        return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user = User.objects.create_user(username=username, password=password, email=email)
+    Student.objects.create(user=user)  # Assuming a Student model is linked to User
+
+    return Response({'message': 'Sign up successful'}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -112,6 +142,18 @@ def disable_2fa(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+def forgot_password(request):
+    """Handle forgot password"""
+    email = request.data.get('email')
+    try:
+        user = User.objects.get(email=email)
+        # Generate a password reset token and send email logic here
+        return Response({'message': 'Password reset email sent'}, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def validate_backup_code(request):
     """Validate a backup code for 2FA recovery"""
@@ -132,6 +174,34 @@ def validate_backup_code(request):
             status=status.HTTP_400_BAD_REQUEST
         )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def disable_backup_code(request):
+#     """Disable backup codes for 2FA"""
+#     student = get_object_or_404(Student, user=request.user)
+    
+#     if not student.two_factor_enabled:
+#         return Response(
+#             {'error': '2FA is not enabled'},
+#             status=status.HTTP_400_BAD_REQUEST
+#         )
+
+#     serializer = BackupCodesSerializer(data=request.data)
+#     if serializer.is_valid():
+#         student.backup_codes = []
+#         student.save()
+#         return Response({'success': True})
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout(request):
+    """Logout a user"""
+    # TODO: Implement logout logic here
+    user = request.user
+    logout(request, user)
+    return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

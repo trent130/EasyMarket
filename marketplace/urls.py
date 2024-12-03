@@ -60,6 +60,10 @@ urlpatterns = [
      path('validate-2fa/', views.validate_backup_code, name='validate_backup_code'),
      path('regenerate-2-fa/', views.regenerate_backup_codes, name='regenerate_backup_codes'),
      # path('2fa-setup/', views.setup_2fa, name='setup_2fa'),
+     path('signin/', views.signin, name='signin'),
+     path('signup/', views.signup, name='signup'),
+     path('logout/', views.logout, name='logout'),
+     path('forgot_password/', views.forgot_password, name='forgot_password'),
     
 ]
 
