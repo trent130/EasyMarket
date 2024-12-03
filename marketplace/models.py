@@ -29,6 +29,18 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_related_profiles(sender, instance, created, **kwargs):
+    
+    """
+    Signal receiver that creates user-related profiles upon User creation.
+
+    This function is triggered when a User instance is saved. If a new User 
+    is created, it automatically creates a UserProfile associated with that 
+    User. Additionally, it attempts to create a Student profile only if the 
+    email does not already exist in the Student model. If the email already 
+    exists, it logs a message indicating that a Student with that email 
+    already exists. For existing Users, it ensures that the UserProfile is 
+    saved if it exists.
+    """
     if created:
         # Create UserProfile
         UserProfile.objects.create(user=instance)

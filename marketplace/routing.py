@@ -4,20 +4,20 @@
 # from channels.auth import AuthMiddlewareStack
 # from marketplace.consumers import ChatConsumer
 
-from django.urls import path
+from django.urls import re_path
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
-from marketplace.consumers import ChatConsumer, MarketplaceConsumer
+from . import consumers
 
 websocket_urlpatterns = [
-    path('ws/chat/', ChatConsumer.as_asgi()),
-    path('ws/marketplace/', MarketplaceConsumer.as_asgi()),  # New WebSocket route
+    re_path(r'ws/chat/$', consumers.ChatConsumer.as_asgi()),
+    re_path(r'ws/marketplace/$', consumers.MarketplaceConsumer.as_asgi()),  # New WebSocket route
 ]
 
-application = ProtocolTypeRouter({
-    'websocket': AuthMiddlewareStack(
-        URLRouter(
-            websocket_urlpatterns
-        )
-    ),
-})
+# application = ProtocolTypeRouter({
+#     'websocket': AuthMiddlewareStack(
+#         URLRouter(
+#             websocket_urlpatterns
+#         )
+#     ),
+# })
