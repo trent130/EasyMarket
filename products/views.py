@@ -19,6 +19,7 @@ from .serializers import (
     ProductBulkActionSerializer,
     CategorySerializer
 )
+from .search import search_products
 from marketplace.models import Student, Review
 import logging
 
@@ -137,7 +138,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response(cached_results)
 
         # Perform search using search module
-        from .search import search_products
+
         queryset = search_products(
             query=data.get('query'),
             filters={
