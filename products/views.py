@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from django.db.models import Q, Avg, Count, F, Prefetch
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from django.core.cache import cache
 from django.conf import settings
@@ -37,8 +38,10 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering_fields = ['price', 'created_at', 'title', 'stock']
     ordering = ['-created_at']
 
+
+
+    # ...
     def get_queryset(self):
-        """Get optimized queryset with caching"""
         queryset = Product.objects.select_related(
             'category', 
             'student', 
@@ -46,34 +49,18 @@ class ProductViewSet(viewsets.ModelViewSet):
         ).prefetch_related(
             Prefetch(
                 'reviews',
-                queryset=Review.objects.select_related('reviewer').order_by('-created_at')
+                queryset=Review.objects.select_related('reviewer').order_by('-timestamp')
             ),
             'variants'
         ).annotate(
             avg_rating=Avg('reviews__rating'),
             review_count=Count('reviews'),
-            total_sales_amount=sum(F('price') * F('total_sales'))
+            total_sales_amount=Sum(F('price') * F('total_sales'), output_field=models.DecimalField())
         )
 
-        # Filter by category
-        if category_id := self.request.query_params.get('category'):
-            queryset = queryset.filter(category_id=category_id)
+        # ...
 
-        # Filter by price range
-        if min_price := self.request.query_params.get('min_price'):
-            queryset = queryset.filter(price__gte=min_price)
-        if max_price := self.request.query_params.get('max_price'):
-            queryset = queryset.filter(price__lte=max_price)
-
-        # Filter by stock status
-        if self.request.query_params.get('in_stock'):
-            queryset = queryset.filter(stock__gt=F('reserved_stock'))
-
-        # Filter by student
-        if student_id := self.request.query_params.get('student'):
-            queryset = queryset.filter(student_id=student_id)
-
-        return queryset.filter(is_active=True)
+    # ...
 
     def get_object(self):
         """Get single object with caching"""
