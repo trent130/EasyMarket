@@ -30,6 +30,12 @@ const handleApiError = (error: { response?: { data?: { message?: string }; statu
   throw apiError;
 };
 
+/**
+ * Checks if an error is an ApiError.
+ *
+ * @param error - The error to check.
+ * @returns True if the error is an ApiError, false otherwise.
+ */
 const isApiError = (error: unknown): error is { response?: { data?: { message?: string }; status?: number } } => {
   return typeof error === 'object' && error !== null && 'response' in error;
 };
@@ -50,6 +56,13 @@ export const login = async (credentials: LoginCredentials): Promise<AuthTokens> 
   }
 };
 
+/**
+ * Uses a refresh token to obtain a new set of auth tokens.
+ *
+ * @param refreshToken - The refresh token to use.
+ * @returns The new set of auth tokens.
+ * @throws {ApiError} If the API request fails.
+ */
 export const refreshToken = async (refreshToken: string): Promise<AuthTokens> => {
   try {
     const response = await apiClient.post<AuthTokens>('/token/refresh/', { refresh: refreshToken });
@@ -81,6 +94,13 @@ export const fetchProducts = async (): Promise<Product[]> => {
   }
 };
 
+/**
+ * Fetches a product by its ID.
+ *
+ * @param id - The ID of the product to fetch.
+ * @returns The fetched product.
+ * @throws {ApiError} If the API request fails.
+ */
 export const fetchProductById = async (id: number): Promise<Product> => {
   try {
     const response = await apiClient.get<Product>(`/products/${id}/`);
@@ -130,6 +150,14 @@ export const addToCart = async (cartId: number, productId: number, quantity: num
   }
 };
 
+/**
+ * Removes an item from a cart.
+ *
+ * @param cartId - The ID of the cart to modify.
+ * @param cartItemId - The ID of the cart item to remove.
+ * @returns The updated cart.
+ * @throws {ApiError} If the API request fails.
+ */
 export const removeFromCart = async (cartId: number, cartItemId: number): Promise<Cart> => {
   try {
     const response = await apiClient.post<Cart>(`/carts/${cartId}/remove_item/`, {
@@ -163,6 +191,12 @@ export const createOrder = async (orderData: Partial<Order>): Promise<Order> => 
   }
 };
 
+/**
+ * Fetches the list of orders associated with the currently logged in user.
+ *
+ * @returns A list of orders.
+ * @throws {ApiError} If the API request fails.
+ */
 export const fetchOrders = async (): Promise<Order[]> => {
   try {
     const response = await apiClient.get<Order[]>('/orders/');
@@ -194,6 +228,14 @@ export const fetchWishlists = async (): Promise<WishList[]> => {
   }
 };
 
+/**
+ * Adds a product to a wishlist.
+ *
+ * @param wishlistId - The ID of the wishlist to modify.
+ * @param productId - The ID of the product to add.
+ * @returns The updated wishlist.
+ * @throws {ApiError} If the API request fails.
+ */
 export const addProductToWishlist = async (wishlistId: number, productId: number): Promise<WishList> => {
   try {
     const response = await apiClient.post<WishList>(`/wishlists/${wishlistId}/add_product/`, {
@@ -211,6 +253,14 @@ export const addProductToWishlist = async (wishlistId: number, productId: number
   }
 };
 
+/**
+ * Removes a product from a wishlist.
+ *
+ * @param wishlistId - The ID of the wishlist to modify.
+ * @param productId - The ID of the product to remove.
+ * @returns The updated wishlist.
+ * @throws {ApiError} If the API request fails.
+ */
 export const removeProductFromWishlist = async (wishlistId: number, productId: number): Promise<WishList> => {
   try {
     const response = await apiClient.post<WishList>(`/wishlists/${wishlistId}/remove_product/`, {

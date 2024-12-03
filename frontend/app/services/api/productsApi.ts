@@ -1,6 +1,7 @@
 import { fetchWrapper } from '../../utils/fetchWrapper';
 import { Product } from '../../types/common';
 import { PaginatedResponse } from '../../types/common';
+import { Category } from '../../types/product';
 
 // interface ProductQueryParams {
 //     page?: number;
@@ -12,14 +13,19 @@ import { PaginatedResponse } from '../../types/common';
 //     inStock?: boolean;
 // }
 
+export const categoriesApi = {
+    getCategories: () =>
+        fetchWrapper<Category[]>('/api/categories'), // Assuming this is the endpoint for categories
+};
+
 export const productsApi = {
     getProducts: (params?: Record<string, string | number>) =>
-        fetchWrapper<PaginatedResponse<Product>>('/api/products', { params }),
+        fetchWrapper<PaginatedResponse<Product>>('/products/api/products', { params }),
     
     getProductDetails: (id: number) =>
-        fetchWrapper<Product>(`/products/products/api/products/${id}`),
+        fetchWrapper<Product>(`/products/api/products/${id}`),
     createProduct: (data: Partial<Product>) =>
-        fetchWrapper('/api/products', {
+        fetchWrapper('/products/api/products', {
             method: 'POST',
             body: JSON.stringify(data)
         }),

@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import   AxiosError  from 'axios';
 
 export interface ApiError {
   message: string;
@@ -15,9 +15,10 @@ export interface PaginatedResponse<T> {
 }
 
 export function handleApiError(error: unknown): ApiError {
-  if (error instanceof AxiosError) {
-    const status = error.response?.status;
-    const data = error.response?.data;
+  if (error instanceof  AxiosError) {
+    const axiosError = error as AxiosError; // Add a type guard here
+    const status = axiosError.response?.status;
+    const data = axiosError.response?.data;
 
     // Handle specific error cases
     switch (status) {
@@ -77,6 +78,19 @@ export function formatApiUrl(path: string, params?: Record<string, never>): stri
   return url.toString();
 }
 
+/**
+ * Converts a given data object into a FormData instance.
+ * 
+ * This function iterates over the key-value pairs in the provided data object,
+ * and appends each value to a FormData instance. The values are handled as follows:
+ * - Files are directly appended.
+ * - Arrays are serialized with indexed keys.
+ * - Objects are stringified to JSON.
+ * - Other values are converted to strings.
+ * 
+ * @param data - An object containing key-value pairs to be converted to FormData.
+ * @returns A FormData instance representing the provided data.
+ */
 export function formatFormData(data: Record<string, unknown>): FormData {
   const formData = new FormData();
   
@@ -99,12 +113,35 @@ export function formatFormData(data: Record<string, unknown>): FormData {
   return formData;
 }
 
+
+/**
+ * Parses an API response to a specified type.
+ *
+ * This function takes a response of unknown type and casts it to the specified generic type `T`.
+ * It is intended for use when the structure of the response is known and trusted.
+ *
+ * @param data - The API response data to be parsed.
+ * @returns The parsed response data as type `T`.
+ */
 export function parseApiResponse<T>(data: unknown): T {
   // Add any common response parsing logic here
   return data as T;
 }
+/**
+ * Checks if a given response is a paginated response.
+ *
+ * A paginated response is expected to have the following properties:
+ *
+ * - `results`: an array of items
+ * - `total`: the total number of items in the result set
+ * - `page`: the current page number
+ * - `total_pages`: the total number of pages in the result set
+ *
+ * @param data the response to check
+ * @returns `true` if the response is a paginated response, `false` otherwise
+ */
 
-export function isPaginatedResponse<T>(data: any): data is PaginatedResponse<T> {
+export function isPaginatedResponse<T>(data: PaginatedResponse<T>): data is PaginatedResponse<T> {
   return (
     data &&
     Array.isArray(data.results) &&

@@ -1,4 +1,4 @@
-import { apiClient } from '../api-client';
+import  apiClient  from '../api-client';
 
 export interface OrderItem {
   id: number;
@@ -29,31 +29,31 @@ export interface CreateOrderInput {
 export const orderApi = {
   // Get all orders for current user
   getAll: async () => {
-    const response = await apiClient.get<Order[]>('/orders/');
+    const response = await apiClient.get<Order[]>('/orders/orders/');
     return response.data;
   },
 
   // Get single order by ID
   getById: async (id: number) => {
-    const response = await apiClient.get<Order>(`/orders/${id}/`);
+    const response = await apiClient.get<Order>(`/orders/orders/${id}/`);
     return response.data;
   },
 
   // Create new order
   create: async (data: CreateOrderInput) => {
-    const response = await apiClient.post<Order>('/orders/', data);
+    const response = await apiClient.post<Order>('/orders/orders/', data);
     return response.data;
   },
 
   // Cancel order
   cancel: async (id: number) => {
-    const response = await apiClient.post<Order>(`/orders/${id}/cancel/`);
+    const response = await apiClient.post<Order>(`/orders/orders/${id}/cancel/`);
     return response.data;
   },
 
   // Update shipping address
   updateShippingAddress: async (id: number, address: string) => {
-    const response = await apiClient.patch<Order>(`/orders/${id}/`, {
+    const response = await apiClient.patch<Order>(`/orders/orders/${id}/`, {
       shipping_address: address
     });
     return response.data;
@@ -71,7 +71,7 @@ export const orderApi = {
       total: number;
       page: number;
       total_pages: number;
-    }>('/orders/history/', { params });
+    }>('/orders/orders/history/', { params });
     return response.data;
   },
 
@@ -87,7 +87,7 @@ export const orderApi = {
         location: string;
         timestamp: string;
       }[];
-    }>(`/orders/${id}/track/`);
+    }>(`/orders/orders/${id}/track/`);
     return response.data;
   },
 
@@ -102,13 +102,13 @@ export const orderApi = {
       total_amount: number;
       average_order_value: number;
       orders_by_status: Record<Order['status'], number>;
-    }>('/orders/stats/', { params });
+    }>('/orders/orders/stats/', { params });
     return response.data;
   },
 
   // Generate order invoice
   generateInvoice: async (id: number) => {
-    const response = await apiClient.get(`/orders/${id}/invoice/`, {
+    const response = await apiClient.get(`/orders/orders/${id}/invoice/`, {
       responseType: 'blob'
     });
     return response.data;
@@ -119,7 +119,7 @@ export const orderApi = {
     const response = await apiClient.post<{
       verified: boolean;
       order: Order;
-    }>(`/orders/${id}/verify-payment/`, {
+    }>(`/orders/orders/${id}/verify-payment/`, {
       payment_id: paymentId
     });
     return response.data;

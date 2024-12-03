@@ -1,4 +1,4 @@
-import { UserRole } from '@/lib/models/user';
+import { UserRole } from '../../lib/models/user';
 
 const roleHierarchy: Record<UserRole, number> = {
   'user': 1,
