@@ -69,30 +69,40 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'students',
-    'channels',
-    'crispy_forms',
+    # custom apps
     'marketplace.apps.MarketplaceConfig',
     'products.apps.ProductsConfig',
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
     'adminapp.apps.AdminappConfig',
     'staticpages.apps.StaticpagesConfig',
+
+    # third-party apps
     'django_daraja',
     'widget_tweaks',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'channels',
+    'crispy_forms',
 ]
 
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
+# for in memory service in development mode i am jus testing this out
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
+
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [

@@ -4,7 +4,8 @@ from django.contrib.postgres.search import (
 from django.db.models import Q, F, Value, FloatField, Avg
 from django.db.models.functions import Greatest
 from django.conf import settings
-from .models import Product, Review
+from .models import Product
+from marketplace.models import Review
 
 class ProductSearch:
     """Product search functionality with full-text search and trigram similarity"""
