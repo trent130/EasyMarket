@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views_marketplace
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter()
 router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
@@ -54,3 +55,11 @@ urlpatterns = [
 
 # URL patterns for authentication views are in urls.py
 # URL patterns for product views are in products/urls.py
+urlpatterns = [
+    # JWT Authentication endpoints
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    # API endpoints
+    path('', include(router.urls)),
+]
