@@ -2,6 +2,7 @@ from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from django.db import models
 from django.db.models import Q, Avg, Count, F, Prefetch
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
