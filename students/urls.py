@@ -5,10 +5,13 @@ from django.conf.urls.static import static
 from django.views.static import serve
 
 urlpatterns = [
-    re_path(r"^static/(?P<path>.*)", serve, {'document_root': settings.STATIC_ROOT}),
+    re_path(
+        r"^static/(?P<path>.*)", serve, 
+        {'document_root': settings.STATIC_ROOT}
+        ),
     re_path(r'^media/(?P<path>.*)', serve,  {'document_root': settings.MEDIA_ROOT}),
     path('admin/', admin.site.urls),
-    path('api/', include('backend.api.urls')),  # Add API URLs
+    # path('api/', include('backend.api.urls')),  # Add API URLs
     path('', include('staticpages.urls')),
     path('marketplace/', include('marketplace.urls')),
     path('products/', include('products.urls', namespace='products')),

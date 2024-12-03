@@ -37,9 +37,9 @@ class ProductSearch:
             return queryset
 
         # Create search vector
-        self.vector = SearchVector('title', weight='A') + \
-                     SearchVector('description', weight='B') + \
-                     SearchVector('category__name', weight='C')
+        self.vector = SearchVector('title', weight='A') + 
+                    SearchVector('description', weight='B') + 
+                    SearchVector('category__name', weight='C')
 
         # Create search query
         search_query = SearchQuery(self.query)

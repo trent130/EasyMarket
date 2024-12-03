@@ -14,7 +14,18 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('API Error:', error.response?.data || error.message);
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error('API Error Response:', error.response.status, error.response.data);
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error('API Error Request:', error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error('API Error Message:', error.message);
+    }
+    console.error('API Error Config:', error.config);
     return Promise.reject(error);
   }
 );

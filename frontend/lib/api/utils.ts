@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 export interface ApiError {
   message: string;
   code?: string;
-  details?: any;
+  details?: never;
   status?: number;
 }
 
@@ -63,7 +63,7 @@ export function handleApiError(error: unknown): ApiError {
   };
 }
 
-export function formatApiUrl(path: string, params?: Record<string, any>): string {
+export function formatApiUrl(path: string, params?: Record<string, never>): string {
   const url = new URL(path, process.env.NEXT_PUBLIC_API_URL);
   
   if (params) {
@@ -77,7 +77,7 @@ export function formatApiUrl(path: string, params?: Record<string, any>): string
   return url.toString();
 }
 
-export function formatFormData(data: Record<string, any>): FormData {
+export function formatFormData(data: Record<string, unknown>): FormData {
   const formData = new FormData();
   
   Object.entries(data).forEach(([key, value]) => {
@@ -99,7 +99,7 @@ export function formatFormData(data: Record<string, any>): FormData {
   return formData;
 }
 
-export function parseApiResponse<T>(data: any): T {
+export function parseApiResponse<T>(data: unknown): T {
   // Add any common response parsing logic here
   return data as T;
 }
@@ -134,7 +134,7 @@ export function formatDate(date: string | Date): string {
   }).format(new Date(date));
 }
 
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -151,7 +151,7 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
