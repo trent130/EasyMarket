@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
       if (token.accessToken) {
         try {
           // Verify token is still valid by making a test request
-          const response = await fetch('http://localhost:8000/api/products/', {
+          const response = await fetch('http://localhost:8000/products/api/products/', {
             headers: {
               Authorization: `Bearer ${token.accessToken}`,
             },

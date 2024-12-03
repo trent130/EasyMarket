@@ -35,8 +35,8 @@ POST   /api/wishlist/{id}/remove/ - Remove product from wishlist
 
 ### Product Reviews
 ```
-GET    /api/products/{id}/reviews/ - Get product reviews
-POST   /api/products/{id}/reviews/ - Create product review
+GET    /products/api/products/{id}/reviews/ - Get product reviews
+POST   /products/api/products/{id}/reviews/ - Create product review
 GET    /api/reviews/{id}/         - Get review details
 PUT    /api/reviews/{id}/         - Update review
 DELETE /api/reviews/{id}/         - Delete review

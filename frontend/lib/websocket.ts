@@ -93,7 +93,7 @@ export class WebSocketService {
      * @param handler - The function to execute when a message of the given type is received.
      * @template T - The expected type of the message payload.
      */
-    subscribe<T>(type: WebSocketMessageType, handler: (data: T) => void) {
+    subscribe(type: WebSocketMessageType, handler: (data: unknown) => void) {
         const handlers = this.messageHandlers.get(type) || [];
         handlers.push(handler);
         this.messageHandlers.set(type, handlers);

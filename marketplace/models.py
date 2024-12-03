@@ -25,7 +25,7 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to='avatars/', default='avatars/default.jpg')
 
     def __str__(self):
-        return f'{self.user.username}'
+        return f'{self.user.username}' # pylint: disable=no-member
 
 @receiver(post_save, sender=User)
 def create_user_related_profiles(sender, instance, created, **kwargs):
@@ -65,6 +65,7 @@ class Message(models.Model):
     def __str__(self):
         return f'{self.user.username} - {self.timestamp}'
 
+
 class Reaction(models.Model):
     REACTION_CHOICES = [
         ('like', 'Like'),
@@ -75,13 +76,16 @@ class Reaction(models.Model):
         ('angry', 'Angry')
     ]
     
-    reaction_type = models.CharField(max_length=10, choices=REACTION_CHOICES)
+
+    reaction_type = models.CharField(
+        max_length=10, choices=REACTION_CHOICES)
     message = models.ForeignKey('Message', on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.reaction_type} by {self.user.username}'
+
 
 class Review(models.Model):
     product = models.ForeignKey('products.Product', on_delete = models.CASCADE, related_name = 'reviews')
