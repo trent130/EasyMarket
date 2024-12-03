@@ -15,6 +15,13 @@ class MarketplaceModelsTest(TestCase):
             category=self.category
         )
 def test_create_user_profile(self):
+    """
+    Test the creation of a UserProfile upon User creation.
+
+    This test verifies that a UserProfile instance is automatically created
+    when a new User is created. It checks that the UserProfile is associated
+    with the correct User and that the default avatar is set correctly.
+    """
     user = User.objects.create_user(username='testuser2', email='testuser2@example.com', password='testpass123')
     self.assertTrue(UserProfile.objects.filter(user=user).exists())
     user_profile = UserProfile.objects.get(user=user)
