@@ -11,6 +11,12 @@ async function sendVerificationEmail(email: string, token: string) {
   await new Promise(resolve => setTimeout(resolve, 1000));
 }
 
+/**
+ * Verifies the reCAPTCHA token by sending a request to Google's reCAPTCHA verification API.
+ *
+ * @param token - The reCAPTCHA token to be verified.
+ * @returns A promise that resolves to a boolean indicating whether the CAPTCHA was successfully verified.
+ */
 async function verifyCaptcha(token: string) {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
   const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;

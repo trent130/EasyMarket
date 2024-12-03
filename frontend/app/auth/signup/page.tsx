@@ -160,7 +160,7 @@ export default function SignUp() {
           {/* ReCAPTCHA */}
           <ReCAPTCHA
             ref={recaptchaRef}
-            sitekey="YOUR_RECAPTCHA_SITE_KEY"
+            sitekey="6LeVDZEqAAAAAGvG9URkbf2tBJFsMvBjpqwm98tZ"
           />
 
           {/* Submit Button */}
