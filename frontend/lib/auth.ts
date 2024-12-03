@@ -1,6 +1,6 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { fetchProducts } from './api';
+// import { fetchProducts } from './api';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const response = await fetch('http://localhost:8000/api/token/', {
+          const response = await fetch('http://localhost:8000/marketplace/token/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const authOptions: NextAuthOptions = {
           }
 
           // Token expired, try to refresh
-          const refreshResponse = await fetch('http://localhost:8000/api/token/refresh/', {
+          const refreshResponse = await fetch('http://localhost:8000/marketplace/token/refresh/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

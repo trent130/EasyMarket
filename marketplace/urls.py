@@ -51,15 +51,23 @@ urlpatterns = [
              'delete': 'destroy'
          }),
          name='review-detail'),
+     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+     path('enable-2fa/', views.enable_2fa, name='enable_2fa'),
+     path('verify-2fa/', views.verify_2fa, name='verify_2fa'),
+     path('2fa-status/', views.get_2fa_status, name='get_2fa_status'),
+     path('disable-2fa/', views.disable_2fa, name='disable_2fa'),
+     path('validate-2fa/', views.validate_backup_code, name='validate_backup_code'),
+     path('regenerate-2-fa/', views.regenerate_backup_codes, name='regenerate_backup_codes'),
+     # path('2fa-setup/', views.setup_2fa, name='setup_2fa'),
+    
 ]
 
 # URL patterns for authentication views are in urls.py
 # URL patterns for product views are in products/urls.py
-urlpatterns = [
-    # JWT Authentication endpoints
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    
-    # API endpoints
-    path('', include(router.urls)),
-]
+# urlpatterns = [
+#     # JWT Authentication endpoints
+
+#     # API endpoints
+#     path('', include(router.urls)),
+# ]

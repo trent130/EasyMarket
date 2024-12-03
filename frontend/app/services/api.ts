@@ -215,7 +215,7 @@ export const fetchOrders = async (): Promise<Order[]> => {
 // Wishlists
 export const fetchWishlists = async (): Promise<WishList[]> => {
   try {
-    const response = await apiClient.get<WishList[]>('/marketplace/api/wishlist/');
+    const response = await apiClient.get<WishList[]>('/marketplace/wishlist/');
     return response.data;
   } catch (error) {
      // Check if the error is of type ApiError and handle accordingly
@@ -238,7 +238,7 @@ export const fetchWishlists = async (): Promise<WishList[]> => {
  */
 export const addProductToWishlist = async (wishlistId: number, productId: number): Promise<WishList> => {
   try {
-    const response = await apiClient.post<WishList>(`/marketplace/api/wishlist/${wishlistId}/add_product/`, {
+    const response = await apiClient.post<WishList>(`/marketplace/wishlist/${wishlistId}/add_product/`, {
       product_id: productId
     });
     return response.data;
@@ -263,7 +263,7 @@ export const addProductToWishlist = async (wishlistId: number, productId: number
  */
 export const removeProductFromWishlist = async (wishlistId: number, productId: number): Promise<WishList> => {
   try {
-    const response = await apiClient.post<WishList>(`/marketplace/api/wishlist/${wishlistId}/remove_product/`, {
+    const response = await apiClient.post<WishList>(`/marketplace/wishlist/${wishlistId}/remove_product/`, {
       product_id: productId
     });
     return response.data;
