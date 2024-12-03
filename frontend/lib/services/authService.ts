@@ -12,6 +12,20 @@ export interface TwoFactorStatusResponse {
   isVerified: boolean;
 }
 
+
+export interface SignInResponse {
+  message: string;
+  token: string; // Assuming a token is returned on successful sign-in
+}
+
+export interface SignUpResponse {
+  message: string;
+}
+
+export interface ForgotPasswordResponse {
+  message: string;
+}
+
 export interface TwoFactorVerifyResponse {
   success: boolean;
   message?: string;
@@ -73,6 +87,31 @@ class AuthService {
     });
     return response.data;
   }
+
+  async signIn(username: string, password: string): Promise<SignInResponse> {
+    const response = await axios.post(`${API_URL}/auth/signin/`, {
+        username,
+        password,
+    });
+    return response.data;
+  }
+
+  async signUp(username: string, email: string, password: string): Promise<SignUpResponse> {
+    const response = await axios.post(`${API_URL}/auth/signup/`, {
+        username,
+        email,
+        password,
+    });
+    return response.data;
+  }
+
+  async forgotPassword(email: string): Promise<ForgotPasswordResponse> {
+    const response = await axios.post(`${API_URL}/auth/forgot-password/`, {
+        email,
+    });
+    return response.data;
+  }
+
 }
 
 export const authService = new AuthService();
