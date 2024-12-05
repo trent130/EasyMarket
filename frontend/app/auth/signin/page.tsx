@@ -29,7 +29,7 @@ export default function SignInPage() {
   const onSubmit = async (data: LoginForm) => {
     try {
       const result = await signIn('credentials', {
-        email: data.email,
+        username: data.username,
         password: data.password,
         redirect: false,
       });
@@ -62,12 +62,12 @@ export default function SignInPage() {
         <div className="space-y-2">
           <Input
             {...register('email')}
-            type="email"
-            placeholder="Email"
-            className={errors.email ? 'border-red-500' : ''}
+            type="text"
+            placeholder="Username"
+            className={errors.username ? 'border-red-500' : ''}
           />
           {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
+            <p className="text-red-500 text-sm">{errors.username.message}</p>
           )}
         </div>
 

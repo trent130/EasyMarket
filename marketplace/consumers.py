@@ -84,6 +84,7 @@ class MarketplaceConsumer(AsyncWebsocketConsumer):
         } """
         await self.send(text_data=json.dumps(event))
 
+
 class ChatConsumer(AsyncWebsocketConsumer): 
     async def connect(self): 
         """

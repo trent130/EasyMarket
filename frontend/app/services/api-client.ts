@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -34,7 +34,7 @@ apiClient.interceptors.response.use(
 
       try {
         const refreshToken = localStorage.getItem('refreshToken');
-        const response = await axios.post<{ access: string }>('/api/token/refresh/', {
+        const response = await axios.post<{ access: string }>('/marketplace/api/token/refresh/', {
           refresh: refreshToken,
         });
 
@@ -48,7 +48,7 @@ apiClient.interceptors.response.use(
         // If refresh token fails, logout user
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/auth/login';
+        window.location.href = '/marketplace/signin/';
         return Promise.reject(refreshError);
       }
     }

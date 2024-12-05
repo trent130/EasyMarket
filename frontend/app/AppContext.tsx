@@ -43,6 +43,23 @@ export function useAppContext() {
   return context;
 }
 
+/**
+ * Provides application-level context including cart and wishlist management.
+ * Initializes and maintains WebSocket connection for real-time product updates.
+ * 
+ * @param {Object} props - The component props.
+ * @param {ReactNode} props.children - The child components to render.
+ * 
+ * @returns {JSX.Element} The AppProvider component.
+ * 
+ * @description
+ * Initializes the cart and wishlist states. Subscribes to WebSocket
+ * for real-time product updates and updates cart items accordingly.
+ * Provides functions to add/remove items from cart and wishlist, and
+ * to perform checkout operations. Wraps children components with the
+ * AppContext provider to make cart, wishlist, and related functions
+ * available throughout the application.
+ */
 export function AppProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<Product[]>([]);
@@ -50,7 +67,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Initialize WebSocket connection
   useEffect(() => {
-    const ws = new WebSocketService('ws://localhost:8000/marketplace/ws/marketplace/');
+    const ws = new WebSocketService('ws://localhost:8000/ws/marketplace/');
     ws.connect();
     setWsService(ws);
 
@@ -71,6 +88,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   // Initialize wishlist from backend
 // Assuming the API response structure includes a list of wishlists, each containing a list of products
 useEffect(() => {
+  /**
+   * Initializes the wishlist state by fetching the wishlist data from the backend.
+   * 
+   * @returns {Promise<void>} A promise that resolves when the data is fetched and the state is updated.
+   * @throws {Error} If the API request fails. The error is logged to the console.
+   */
   const initializeData = async () => {
     try {
       const wishlistData: WishList[] = await fetchWishlists();
@@ -102,6 +125,10 @@ useEffect(() => {
     });
   };
 
+  /**
+   * Removes a product from the cart by its ID
+   * @param {number} productId The ID of the product to remove
+   */
   const removeFromCart = (productId: number) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
