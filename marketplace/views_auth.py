@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import User
 from rest_framework.response import Response
@@ -15,7 +15,8 @@ from .serializers import (
     ValidateBackupCodeSerializer
 )
 import pyotp
-import base64
+# import base64
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -48,9 +49,11 @@ def enable_2fa(request):
             'backup_codes': backup_codes
         })
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
-def sign_in(request):
+def signin(request):
     """Sign in a user"""
     username = request.data.get('username')
     password = request.data.get('password')
@@ -61,9 +64,10 @@ def sign_in(request):
         return Response({'message': 'Sign in successful'}, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
-def sign_up(request):
+def signup(request):
     """Sign up a new user"""
     username = request.data.get('username')
     password = request.data.get('password')
@@ -76,6 +80,7 @@ def sign_up(request):
     Student.objects.create(user=user)  # Assuming a Student model is linked to User
 
     return Response({'message': 'Sign up successful'}, status=status.HTTP_201_CREATED)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -103,6 +108,7 @@ def verify_2fa(request):
         return Response({'success': True})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_2fa_status(request):
@@ -110,6 +116,7 @@ def get_2fa_status(request):
     student = get_object_or_404(Student, user=request.user)
     serializer = TwoFactorStatusSerializer(student)
     return Response(serializer.data)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -140,6 +147,7 @@ def disable_2fa(request):
 
         return Response({'success': True})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -194,6 +202,7 @@ def validate_backup_code(request):
 #         return Response({'success': True})
 #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout(request):
@@ -202,6 +211,7 @@ def logout(request):
     user = request.user
     logout(request, user)
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
