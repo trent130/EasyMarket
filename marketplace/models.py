@@ -235,7 +235,8 @@ class WishList(models.Model):
 
     def __str__(self):
         """
-        Returns a string representation of the wishlist, which is the username of the associated user concatenated with the string "'s wishlist".
+        Returns a string representation of the wishlist, which is the username of the associated user concatenated with
+        the string wishlist".
         
         Returns:
             str: The string representation of the wishlist.
