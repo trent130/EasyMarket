@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const response = await fetch('http://localhost:8000/marketplace/token/', {
+          const response = await fetch('http://127.0.0.1:8000/marketplace/token/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
