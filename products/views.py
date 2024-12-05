@@ -40,10 +40,17 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering_fields = ['price', 'created_at', 'title', 'stock']
     ordering = ['-created_at']
 
-
-
     # ...
     def get_queryset(self):
+    """
+    Override get_queryset to include necessary joins and annotations.
+
+    The included annotations are:
+
+    - avg_rating: the average rating of the product
+    - review_count: the number of reviews the product has
+    - total_sales_amount: the total amount of money the product has made in sales
+    """
         queryset = Product.objects.select_related(
             'category', 
             'student', 
@@ -79,6 +86,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         return obj
 
     def get_serializer_class(self):
+        """
+        Return the appropriate serializer class based on the current action.
+
+        - For 'list' action, return ProductListSerializer.
+        - For 'create' action, return ProductCreateSerializer.
+        - For 'update' and 'partial_update' actions, return ProductUpdateSerializer.
+        - For other actions, return ProductDetailSerializer.
+        """
         if self.action == 'list':
             return ProductListSerializer
         elif self.action == 'create':
