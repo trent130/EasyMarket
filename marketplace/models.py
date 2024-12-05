@@ -1,13 +1,13 @@
 from django.db import models
-from django.urls import reverse
+# from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import AbstractUser,Permission
+from django.contrib.auth.models import AbstractUser, Permission
 from products.models import Product
-import string
-import random
+# import string
+# import random
 
 
 class Student(models.Model):
@@ -20,12 +20,14 @@ class Student(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', default='avatars/default.jpg')
 
     def __str__(self):
-        return f'{self.user.username}' # pylint: disable=no-member
+        return f'{self.user.username}'  # pylint: disable=no-member
+
 
 @receiver(post_save, sender=User)
 def create_user_related_profiles(sender, instance, created, **kwargs):
@@ -76,7 +78,6 @@ class Reaction(models.Model):
         ('angry', 'Angry')
     ]
     
-
     reaction_type = models.CharField(
         max_length=10, choices=REACTION_CHOICES)
     message = models.ForeignKey('Message', on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
@@ -88,11 +89,11 @@ class Reaction(models.Model):
 
 
 class Review(models.Model):
-    product = models.ForeignKey('products.Product', on_delete = models.CASCADE, related_name = 'reviews')
-    reviewer = models.ForeignKey(User, on_delete = models.CASCADE)
-    rating = models.PositiveIntegerField(validators = [MinValueValidator(1), MaxValueValidator(5)])
-    comment = models.TextField(blank = True)
-    timestamp = models.DateTimeField(auto_now_add = True)
+    product = models.ForeignKey('products.Product', on_delete=models.CASCADE, related_name='reviews')
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    comment = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'Review for {self.product.title} by {self.reviewer.username}'
@@ -111,6 +112,7 @@ class Review(models.Model):
 #         slug = ''.join(random.choices(characters), k=length)   
 #     return slug
 
+
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(Product, through='CartItem')
@@ -127,6 +129,7 @@ class Cart(models.Model):
     def total_price(self):
         return sum(item.total_price() for item in self.cartitem_set.all())
 
+
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -138,6 +141,7 @@ class CartItem(models.Model):
 
     def total_price(self):
         return self.product.price * self.quantity
+
 
 class CustomUser(AbstractUser):
     ROLE_CHOICES = [
@@ -154,8 +158,6 @@ class CustomUser(AbstractUser):
 
     class Meta:
         db_table = 'custom_user'
-
-
 
 
 class WishList(models.Model):
