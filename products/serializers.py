@@ -6,6 +6,7 @@ from marketplace.models import Student, Review
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
 
+
 class CategorySerializer(serializers.ModelSerializer):
     product_count = serializers.IntegerField(source='active_products_count', read_only=True)
     
@@ -17,6 +18,7 @@ class CategorySerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['slug']
 
+
 class ReviewSerializer(serializers.ModelSerializer):
     reviewer_name = serializers.CharField(source='reviewer.username', read_only=True)
     
@@ -26,6 +28,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             'id', 'rating', 'comment', 'reviewer_name',
             'created_at'
         ]
+
 
 class ProductVariantSerializer(serializers.ModelSerializer):
     final_price = serializers.SerializerMethodField()
@@ -40,13 +43,25 @@ class ProductVariantSerializer(serializers.ModelSerializer):
         ]
 
     def get_final_price(self, obj):
+        """
+        Return the final price of the product variant, which is the product price + the price adjustment.
+
+        If the product variant is not associated with a product, return the price adjustment only.
+        """
+        
         product = obj.products.first()
         if product:
             return float(product.price) + float(obj.price_adjustment)
         return float(obj.price_adjustment)
 
     def get_available_stock(self, obj):
+        """
+        Return the available stock of the product variant, which is the total stock minus the reserved stock.
+
+        If the result is negative, return 0.
+        """
         return max(0, obj.stock - obj.reserved_stock)
+
 
 class ProductListSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True)
@@ -64,21 +79,32 @@ class ProductListSerializer(serializers.ModelSerializer):
             'id', 'title', 'slug', 'price', 'category',
             'category_name', 'image_url', 'student', 'student_name',
             'average_rating', 'is_wishlisted', 'available_stock',
-            'condition', 'created_at'
+            'condition', 'created_at', 'total_sales', 'has_variants',
         ]
 
     def get_is_wishlisted(self, obj):
+        """
+        Return True if the product is in the current user's wishlist, False otherwise.
+
+        This method requires the request object to be passed in the serializer context.
+        """
         request = self.context.get('request')
         if request and request.user.is_authenticated:
             return request.user.wishlist.products.filter(id=obj.id).exists()
         return False
 
     def get_image_url(self, obj):
+        """
+        Return the absolute URL of the product image, if any.
+
+        This method requires the request object to be passed in the serializer context.
+        """
         if obj.image:
             request = self.context.get('request')
             if request:
                 return request.build_absolute_uri(obj.image.url)
         return None
+
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
@@ -155,6 +181,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             context=self.context
         ).data
 
+
 class ProductCreateSerializer(serializers.ModelSerializer):
     variants = ProductVariantSerializer(many=True, required=False)
     price = serializers.DecimalField(
@@ -207,6 +234,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
         return product
 
+
 class ProductUpdateSerializer(serializers.ModelSerializer):
     variants = ProductVariantSerializer(many=True, required=False)
     price = serializers.DecimalField(
@@ -257,6 +285,7 @@ class ProductUpdateSerializer(serializers.ModelSerializer):
 
         return attrs
 
+
 class ProductSearchSerializer(serializers.Serializer):
     query = serializers.CharField(required=False, allow_blank=True)
     category = serializers.IntegerField(required=False)
@@ -301,6 +330,7 @@ class ProductSearchSerializer(serializers.Serializer):
                     "Minimum price cannot be greater than maximum price"
                 )
         return attrs
+
 
 class ProductBulkActionSerializer(serializers.Serializer):
     product_ids = serializers.ListField(
