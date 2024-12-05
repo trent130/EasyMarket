@@ -50,7 +50,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Initialize WebSocket connection
   useEffect(() => {
-    const ws = new WebSocketService('ws://localhost:8000/ws/marketplace/');
+    const ws = new WebSocketService('ws://localhost:8000/marketplace/ws/marketplace/');
     ws.connect();
     setWsService(ws);
 
