@@ -3,12 +3,28 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProducts } from '../services/api';
 
+/**
+ * A component that displays a list of products.
+ *
+ * On initial load, the component fetches a list of products from the API and
+ * displays them in a list. If the API request fails, the component displays
+ * an error message. If the request is still in progress, the component displays
+ * a "Loading..." message.
+ *
+ * @return {React.ReactElement} The component.
+ */
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    /**
+     * Fetches a list of products from the API and updates the state with the
+     * results. If the API request fails, the component displays an error
+     * message. If the request is still in progress, the component displays a
+     * "Loading..." message.
+     */
     const loadProducts = async () => {
       try {
         const data = await fetchProducts();

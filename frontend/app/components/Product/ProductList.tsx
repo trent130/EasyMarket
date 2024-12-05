@@ -12,6 +12,16 @@ import { Button } from '../ui/button';
 
 const ITEMS_PER_PAGE = 12;
 
+/**
+ * A page that displays a list of products with filters and pagination.
+ *
+ * This page will load the categories on mount and the products with the current filters on mount and
+ * whenever the filters change. The filters are stored in the URL as query parameters.
+ *
+ * The page also handles pagination by displaying a pagination component at the bottom of the page.
+ *
+ * @returns A React component that displays a list of products with filters and pagination.
+ */
 export default function ProductList() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -35,6 +45,12 @@ export default function ProductList() {
 
     // Load categories
     useEffect(() => {
+    /**
+     * Loads the categories from the API and sets them to the state.
+     *
+     * This function is called once on mount and whenever the filters change.
+     * If the load fails, it will log an error to the console.
+     */
         const loadCategories = async () => {
             try {
                 const data = await productService.getCategories();
@@ -144,7 +160,7 @@ export default function ProductList() {
                             value={filters.sort_by}
                             onChange={e => handleSortChange(e.target.value)}
                             className="ml-auto h-10 rounded-md border px-3"
-                        >
+                            >
                             <option value="newest">Newest First</option>
                             <option value="price_asc">Price: Low to High</option>
                             <option value="price_desc">Price: High to Low</option>
