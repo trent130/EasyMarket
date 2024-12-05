@@ -161,6 +161,7 @@ def forgot_password(request):
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         
+        
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def validate_backup_code(request):
