@@ -15,6 +15,7 @@ from .serializers import (
     ValidateBackupCodeSerializer
 )
 import pyotp
+from rest_framework_simplejwt.tokens import RefreshToken
 # import base64
 
 
@@ -55,12 +56,29 @@ def enable_2fa(request):
 @permission_classes([AllowAny])
 def signin(request):
     """Sign in a user"""
-    username = request.data.get('username')
+    username_or_email = request.data.get('username_or_email')
+    """ username = User.objects.filter(username=username_or_email).first().username """
     password = request.data.get('password')
+
+    if '@' in username_or_email:
+        try:
+            user = User.objects.get(email=username_or_email)
+            username = user.username
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    else:
+        username = username_or_email
+        
     user = authenticate(request, username=username, password=password)
-    
+
     if user is not None:
-        # Generate token logic here (e.g., using JWT)
+        refresh = RefreshToken.for_user(user)
+        if refresh:
+            # TODO: Implement refresh token logic here
+            return Response({'refresh': str(refresh),
+                            'access': str(refresh.access_token)},
+                            status=status.HTTP_200_OK
+                            )
         return Response({'message': 'Sign in successful'}, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
