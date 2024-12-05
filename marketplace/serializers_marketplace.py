@@ -57,6 +57,9 @@ class CartItemSerializer(serializers.ModelSerializer):
         read_only_fields = ['cart', 'added_at', 'total_price']
 
     def validate_quantity(self, value):
+        """
+        Validate quantity is at least 1.
+        """
         if value < 1:
             raise serializers.ValidationError("Quantity must be at least 1")
         return value
@@ -92,6 +95,15 @@ class WishListSerializer(serializers.ModelSerializer):
         read_only_fields = ['user', 'auto_now']
 
     def create(self, validated_data):
+        """
+        Create a new wishlist and add the given product IDs to it.
+        
+        Args:
+            validated_data (dict): The validated data from the serializer.
+        
+        Returns:
+            WishList: The newly created wishlist.
+        """
         product_ids = validated_data.pop('product_ids', [])
         wishlist = WishList.objects.create(**validated_data)
         if product_ids:
