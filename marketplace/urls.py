@@ -1,8 +1,11 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 from . import views_marketplace
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views_auth
+from . import consumers
+
+# Create a router and register our viewset with it.
 router = DefaultRouter()
 router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
 router.register(r'wishlist', views_marketplace.WishListViewSet, basename='wishlist')
@@ -76,3 +79,8 @@ urlpatterns = [
 #     # API endpoints
 #     path('', include(router.urls)),
 # ]
+
+websocket_urlpatterns = [
+    re_path(r'ws/chat/$', consumers.ChatConsumer.as_asgi()),
+    re_path(r'ws/marketplace/$', consumers.MarketplaceConsumer.as_asgi()),  # New WebSocket route
+]
