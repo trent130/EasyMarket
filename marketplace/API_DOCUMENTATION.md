@@ -190,7 +190,7 @@ interface ErrorResponse {
 
 ### Real-time Updates
 ```typescript
-const ws = new WebSocketService('ws://localhost:8000/ws/marketplace/');
+const ws = new WebSocketService('/ws/marketplace/ws://localhost:8000');
 ws.subscribe(WebSocketMessageType.PRODUCT_UPDATE, handleProductUpdate);
 ```
 
