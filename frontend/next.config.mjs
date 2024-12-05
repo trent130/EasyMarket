@@ -19,6 +19,16 @@ const nextConfig = {
   reactStrictMode: true,
   // Recommended for performance
   swcMinify: true,
+  // Configure image domains
+  images: {
+    domains: process.env.IMAGE_DOMAINS?.split(',') || ['localhost']
+  },
+
+    // Configure on-demand entries
+    onDemandEntries: {
+      // Adjust to increase time before entries are disposed
+      maxInactiveAge: 60 * 1000, // 60 seconds
+    },
 };
 
 export default nextConfig;
