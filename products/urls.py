@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
+from django.conf import settings
+
 app_name = 'products' 
 
 router = DefaultRouter()
@@ -107,10 +109,14 @@ urlpatterns = [
     path('api/products/validate/',
          views.ProductViewSet.as_view({'post': 'validate_product'}),
          name='validate-product'),
+
+    # New URL for retrieving product by slug
+    path('api/products/<slug:slug>/', views.ProductViewSet.as_view({'get': 'retrieve'}), name='product-detail'),
 ]
 
+
 # Add debug patterns if in debug mode
-from django.conf import settings
+
 if settings.DEBUG:
     urlpatterns += [
         # Test endpoints

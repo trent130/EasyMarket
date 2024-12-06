@@ -36,16 +36,34 @@ class Category(models.Model):
         ordering = ['name']
 
     def save(self, *args, **kwargs):
+        """
+        Save the category instance. If the slug is not set, it
+        is automatically generated from the name.
+        """
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
     def __str__(self):
+        """
+        Returns a string representation of the category, which is
+        the name of the category.
+
+        Returns:
+            str: The string representation of the category.
+        """
         return self.name
 
     @property
     def active_products_count(self):
+        """
+        Calculate the number of active products associated with this category.
+
+        Returns:
+            int: The count of products that are marked as active.
+        """
         return self.products.filter(is_active=True).count()
+
 
 def default_category():
     """Get or create default category"""
