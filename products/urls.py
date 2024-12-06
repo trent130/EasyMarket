@@ -22,6 +22,10 @@ urlpatterns = [
     path('api/products/bulk-action/',
          views.ProductViewSet.as_view({'post': 'bulk_action'}),
          name='product-bulk-action'),
+
+    # fetch categories
+    path('api/categories/' views.CategoryViewSet.as_view({'get': 'categories'}), 
+        name='categoriess')
     
     path('api/products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),
