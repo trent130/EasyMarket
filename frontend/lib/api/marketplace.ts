@@ -57,19 +57,19 @@ export const marketplaceApi = {
 
   // Wishlist
   getWishlist: async () => {
-    const response = await apiClient.get<WishlistItem[]>('/marketplace/wishlist/');
+    const response = await apiClient.get<WishlistItem[]>('/marketplace/api/wishlist/');
     return response.data;
   },
 
   addToWishlist: async (productId: number) => {
-    const response = await apiClient.post<WishlistItem>('/marketplace/wishlist/add/', {
+    const response = await apiClient.post<WishlistItem>('/marketplace/api/wishlist/productId/add/', {
       product_id: productId
     });
     return response.data;
   },
 
   removeFromWishlist: async (productId: number) => {
-    await apiClient.post('/marketplace/wishlist/remove/', {
+    await apiClient.post('/marketplace/api/wishlist/productId/remove/', {
       product_id: productId
     });
   },

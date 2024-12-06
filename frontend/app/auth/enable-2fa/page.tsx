@@ -14,7 +14,7 @@ export default function Enable2FA() {
     try {
       // In a real application, you would get the user ID from the session
       const userId = '1'; // Hardcoded for this example
-      const response = await fetch('/api/auth/enable-2fa', {
+      const response = await fetch('/marketplace/enable-2fa', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
@@ -36,7 +36,7 @@ export default function Enable2FA() {
   const handleVerify = async () => {
     try {
       // In a real application, you would send this to your backend for verification
-      const response = await fetch('/api/auth/verify-2fa', {
+      const response = await fetch('/marketplace/verify-2fa', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: '1', token: verificationCode, secret }),

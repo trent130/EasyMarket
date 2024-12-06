@@ -1,29 +1,47 @@
-import React from 'react';
+import { Box, Button, Toolbar, Typography } from '@mui/material';
+import { useSession, signOut, signIn } from 'next-auth/react';
 import Link from 'next/link';
+import SearchBar from './search/SearchBar';
 
-const Navigation: React.FC = () => {
-  const currentPath = window.location.pathname; // Get the current path
+export default function Navigation() {
+  const { data: session } = useSession();
+
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/products">Products</Link>
-        </li>
-        <li>
-          <Link href="/marketplace">Marketplace</Link>
-        </li>
-        <li>
-          <Link href="/orders">Orders</Link>
-        </li>
-        <li>
-          <Link href="/wishlist">Wishlist</Link>
-        </li>
-      </ul>
+    <nav className="bg-gray-800 text-white p-4">
+      <Toolbar>
+        <Typography variant="h6" component={Link} href="/" style={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
+          Student Marketplace
+        </Typography>
+        <SearchBar />
+        <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
+          <Button color="inherit" component={Link} href="/products">
+            Products
+          </Button>
+          <Button color="inherit" component={Link} href="/textbook-exchange">
+            Textbook Exchange
+          </Button>
+          <Button color="inherit" component={Link} href="/cart">
+            Cart
+          </Button>
+          <Button color="inherit" component={Link} href="/wishlist">
+            Wishlist
+          </Button>
+          {session ? (
+            <>
+              <Typography variant="body1" sx={{ mr: 2 }}>
+                Welcome, {session.user?.name}
+              </Typography>
+              <Button color="inherit" onClick={() => signOut()}>
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <Button color="inherit" onClick={() => signIn()}>
+              Sign In
+            </Button>
+          )}
+        </Box>
+      </Toolbar>
     </nav>
   );
-};
-
-export default Navigation;
+}

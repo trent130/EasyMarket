@@ -27,16 +27,16 @@ export const fetchProducts = async (): Promise<Product[]> => {
 };
 
 /**
- * Fetch a product by its ID.
- *
+ * Fetch a product by its ID *
  * @param {number} id The product ID.
  *
  * @returns {Promise<Product>} The product.
- */
-export const fetchProductById = async (slug: string): Promise<Product> => {
-  const { data } = await apiClient.get<SingleResponse<Product>>(`/products/${slug}/`);
-  return data.data;
-};
+ 
+* export const fetchProductById = async (slug: string): Promise<Product> => {
+*  const { data } = await apiClient.get<SingleResponse<Product>>(`/products/${slug}/`);
+* return data.data;
+*};
+*/
 
 /**
  * Fetch a product by its slug.

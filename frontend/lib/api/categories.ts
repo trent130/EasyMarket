@@ -11,7 +11,7 @@ export interface Category {
   is_active: boolean;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/products/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -32,8 +32,8 @@ export const fetchCategoryBySlug = async (slug: string): Promise<Category> => {
 };
 
 // Category Products
-export const fetchCategoryProducts = async (categoryId: number) => {
-  const { data } = await apiClient.get<ApiResponse<Category>>(`/categories/${categoryId}/products/`);
+export const fetchCategoryProducts = async (slug: string) => {
+  const { data } = await apiClient.get<ApiResponse<Category>>(`/categories/${slug}/products/`);
   return data.results || [];
 };
 

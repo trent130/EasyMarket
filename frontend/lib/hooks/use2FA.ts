@@ -20,7 +20,7 @@ export function use2FA() {
     setError(null);
 
     try {
-      const response = await fetch('/api/auth/enable-2fa', {
+      const response = await fetch('/marketplace/enable-2fa', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
