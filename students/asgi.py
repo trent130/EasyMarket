@@ -22,4 +22,4 @@ application = ProtocolTypeRouter({
         )
     ),
 })
-# running using daphene: daphne -p 8000 students.asgi:application
+# running using daphne: daphne -p 8000 students.asgi:application
