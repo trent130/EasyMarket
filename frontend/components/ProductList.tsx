@@ -20,6 +20,15 @@ import { fetchProducts } from '../lib/api-client';
 import { formatPrice, formatNumber, getConditionInfo, getStockStatus } from '../lib/utils';
 import type { Product } from '../lib/types';
 
+/**
+ * A single product card component.
+ *
+ * @param {{ product: Product }} props
+ * @prop {Product} product The product to display.
+ *
+ * @returns {React.ReactElement} The product card component.
+ */
+
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const [isWishlisted, setIsWishlisted] = useState(product.is_wishlisted);
   const { color: conditionColor, label: conditionLabel } = getConditionInfo(product.condition);
@@ -33,7 +42,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
   return (
     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-      <Link href={`/products/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Link href={`/products/api/products/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -107,6 +116,18 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   );
 };
 
+/**
+ * A skeleton component to display a loading state for a product card.
+ *
+ * @remarks
+ *
+ * This component is used to display a loading state for a product card.
+ * It displays a rectangular skeleton with a height of 200 pixels, and
+ * three text skeletons with widths of 60%, 40%, and 30% respectively.
+ *
+ * @example
+ * <LoadingSkeleton />
+ */
 const LoadingSkeleton: React.FC = () => (
   <Card sx={{ height: '100%' }}>
     <Skeleton variant="rectangular" height={200} />
@@ -121,12 +142,28 @@ const LoadingSkeleton: React.FC = () => (
   </Card>
 );
 
+/**
+ * A component that displays a list of products.
+ *
+ * On initial load, the component fetches a list of products from the API and
+ * displays them in a list. If the API request fails, the component displays
+ * an error message. If the request is still in progress, the component displays
+ * a "Loading..." message.
+ *
+ * @return {React.ReactElement} The component.
+ */
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    /**
+     * Fetches a list of products from the API and updates the state with the
+     * results. If the API request fails, the component displays an error
+     * message. If the request is still in progress, the component displays a
+     * "Loading..." message.
+     */
     const loadProducts = async () => {
       try {
         const data = await fetchProducts();

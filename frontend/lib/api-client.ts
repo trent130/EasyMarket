@@ -47,7 +47,7 @@ export const fetchProductById = async (id: number): Promise<Product> => {
 };
 
 export const fetchProductBySlug = async (slug: string): Promise<Product> => {
-  const response = await apiClient.get<ApiResponse<Product>>(`/products/api/products/by-slug/${slug}/`);
+  const response = await apiClient.get<ApiResponse<Product>>(`/products/api/products/${slug}/`);
   return response.data; // Adjusted to return the correct data structure
 };
 

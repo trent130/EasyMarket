@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { Product } from '../types/product';
 import type { ApiResponse, SingleResponse, SearchParams } from '../types/common';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/products/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -26,13 +26,27 @@ export const fetchProducts = async (): Promise<Product[]> => {
   return data.results || [];
 };
 
-export const fetchProductById = async (id: number): Promise<Product> => {
-  const { data } = await apiClient.get<SingleResponse<Product>>(`/products/${id}/`);
+/**
+ * Fetch a product by its ID.
+ *
+ * @param {number} id The product ID.
+ *
+ * @returns {Promise<Product>} The product.
+ */
+export const fetchProductById = async (slug: string): Promise<Product> => {
+  const { data } = await apiClient.get<SingleResponse<Product>>(`/products/${slug}/`);
   return data.data;
 };
 
+/**
+ * Fetch a product by its slug.
+ *
+ * @param {string} slug The product slug.
+ *
+ * @returns {Promise<Product>} The product object.
+ */
 export const fetchProductBySlug = async (slug: string): Promise<Product> => {
-  const { data } = await apiClient.get<SingleResponse<Product>>(`/products/by-slug/${slug}/`);
+  const { data } = await apiClient.get<SingleResponse<Product>>(`/products//${slug}/`);
   return data.data;
 };
 

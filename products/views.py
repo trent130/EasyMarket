@@ -87,6 +87,12 @@ class ProductViewSet(viewsets.ModelViewSet):
         # Increment views count
         obj.increment_views()
         return obj
+        
+    def retrieve(self, request, slug=None):
+        """Retrieve a product by slug"""
+        product = self.get_object()  # This will call your get_object method
+        serializer = self.get_serializer(product)
+        return Response(serializer.data)
 
     def get_serializer_class(self):
         """

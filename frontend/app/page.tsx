@@ -3,6 +3,11 @@
 import React from 'react';
 import ProductList from './components/Product/ProductList';
 
+/**
+ * The home page of the app.
+ *
+ * Displays a list of products in a centered container.
+ */
 export default function HomePage() {
     return (
         <main className="min-h-screen bg-gray-50">
