@@ -10,10 +10,11 @@ export default function Navigation() {
     <nav className="bg-gray-800 text-white p-4">
       <Toolbar>
         <Typography variant="h6" component={Link} href="/" style={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
-          Student Marketplace
+          EasyMarket
         </Typography>
         <SearchBar />
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
+	 <Button color="inherit" component={Link} href="/">Home</Button>
           <Button color="inherit" component={Link} href="/products">
             Products
           </Button>
