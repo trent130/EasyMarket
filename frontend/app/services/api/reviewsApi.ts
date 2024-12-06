@@ -23,22 +23,22 @@ interface ReviewQueryParams {
 
 export const reviewsApi = {
     getReviews: (params?: Record<string, string | number>) =>
-        fetchWrapper<Review[]>('/api/reviews', { params }),
+        fetchWrapper<Review[]>('products/api/products/reviews', { params }),
     
     createReview: (data: Partial<Review>) =>
-        fetchWrapper<Review>('/api/reviews', {
+        fetchWrapper<Review>('/products/api/products/reviews', {
             method: 'POST',
             body: JSON.stringify(data)
         }),
     
     updateReview: (id: number, data: Partial<Review>) =>
-        fetchWrapper<Review>(`/api/reviews/${id}`, {
+        fetchWrapper<Review>(`/products/api/products/reviews/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data)
         }),
     
     deleteReview: (id: number) =>
-        fetchWrapper(`/api/reviews/${id}`, {
+        fetchWrapper(`/products/api/products/reviews/${id}`, {
             method: 'DELETE'
         })
 };

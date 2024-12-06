@@ -23,4 +23,5 @@ export const marketplaceApi = {
         })
 };
 
-export type MarketplaceApi = typeof marketplaceApi; 
+export type MarketplaceApi = typeof marketplaceApi;
+// to be removed definately

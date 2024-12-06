@@ -18,27 +18,27 @@ interface Cart {
 
 export const cartApi = {
     getCart: () => 
-        fetchWrapper<Cart>('/api/cart'),
+        fetchWrapper<Cart>('/marketplace/api/cart'),
     
     addItem: (productId: number, quantity: number) =>
-        fetchWrapper<Cart>('/api/cart/items', {
+        fetchWrapper<Cart>('/marketplace/api/cart/${productId}/add/', { // to be implimented this one
             method: 'POST',
             body: JSON.stringify({ productId, quantity })
         }),
     
     updateItem: (itemId: number, quantity: number) =>
-        fetchWrapper<Cart>(`/api/cart/items/${itemId}`, {
+        fetchWrapper<Cart>(`/marketplace/api/cart/items/${itemId}/update/`, {
             method: 'PUT',
             body: JSON.stringify({ quantity })
         }),
     
     removeItem: (itemId: number) =>
-        fetchWrapper<Cart>(`/api/cart/items/${itemId}`, {
+        fetchWrapper<Cart>(`/marketplace/api/cart/${itemId}/remove/`, {
             method: 'DELETE'
         }),
     
     clearCart: () =>
-        fetchWrapper<void>('/api/cart/clear', {
+        fetchWrapper<void>('/marketplace/api/clear', { // to be added in the cart functionalities in the backend
             method: 'POST'
         })
 };
