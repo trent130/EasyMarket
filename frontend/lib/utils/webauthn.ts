@@ -57,6 +57,12 @@ export const verifyRegistrationResponseHelper = async (userId: string, response:
   return verification;
 };
 
+/**
+ * Generates WebAuthn authentication options for a given user.
+ *
+ * @param {string} userId User ID to generate options for
+ * @returns {Promise<GenerateAuthenticationOptionsOutput>} WebAuthn authentication options
+ */
 export const generateAuthenticationOptionsHelper = (userId: string) => {
   const userAuthenticators = authenticatorStore.get(userId) || [];
 
@@ -79,6 +85,13 @@ export const generateAuthenticationOptionsHelper = (userId: string) => {
   return options;
 };
 
+/**
+ * Verifies a WebAuthn authentication response for a given user.
+ *
+ * @param {string} userId User ID to verify response for
+ * @param {object} response WebAuthn authentication response
+ * @returns {Promise<VerifyAuthenticationResponseOutput>} Verification result
+ */
 export const verifyAuthenticationResponseHelper = async (userId: string, response: any) => {
   const expectedChallenge = challengeStore.get(userId);
   if (!expectedChallenge) {

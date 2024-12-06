@@ -18,7 +18,7 @@ export const verifyToken = (token: string, secret: string) => {
 // Function to verify 2FA with Django backend
 export const verify2FAWithBackend = async (userId: string, token: string, secret: string) => {
   try {
-    const response = await fetch('http://localhost:8000/api/auth/verify-2fa/', {
+    const response = await fetch('http://localhost:8000/marketplace/verify-2fa/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const verify2FAWithBackend = async (userId: string, token: string, secret
 // Function to enable 2FA with Django backend
 export const enable2FAWithBackend = async (userId: string) => {
   try {
-    const response = await fetch('http://localhost:8000/api/auth/enable-2fa/', {
+    const response = await fetch('http://localhost:8000/marketplace/enable-2fa/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

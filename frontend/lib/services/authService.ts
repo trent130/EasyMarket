@@ -50,7 +50,7 @@ class AuthService {
    */
   async enable2FA(): Promise<TwoFactorAuthResponse> {
     const response = await axios.post(
-      `${API_URL}/auth/enable-2fa/`,
+      `${API_URL}/enable-2fa/`,
       {},
       { headers: this.getAuthHeader() }
     );
@@ -67,7 +67,7 @@ class AuthService {
    */
   async verify2FA(token: string, secret: string): Promise<TwoFactorVerifyResponse> {
     const response = await axios.post(
-      `${API_URL}/auth/verify-2fa/`,
+      `${API_URL}/verify-2fa/`,
       { token, secret },
       { headers: this.getAuthHeader() }
     );
@@ -80,7 +80,7 @@ class AuthService {
    */
   async get2FAStatus(): Promise<TwoFactorStatusResponse> {
     const response = await axios.get(
-      `${API_URL}/auth/2fa-status/`,
+      `${API_URL}/2fa-status/`,
       { headers: this.getAuthHeader() }
     );
     return response.data;
@@ -92,7 +92,7 @@ class AuthService {
    */
   async disable2FA(): Promise<TwoFactorVerifyResponse> {
     const response = await axios.post(
-      `${API_URL}/auth/disable-2fa/`,
+      `${API_URL}/disable-2fa/`,
       {},
       { headers: this.getAuthHeader() }
     );
@@ -108,7 +108,7 @@ class AuthService {
    */
   async validate2FAToken(token: string): Promise<TwoFactorVerifyResponse> {
     const response = await axios.post(
-      `${API_URL}/auth/validate-2fa/`,
+      `${API_URL}/validate-2fa/`,
       { token },
       { headers: this.getAuthHeader() }
     );
@@ -136,7 +136,7 @@ class AuthService {
  * @returns A Promise that resolves to a SignInResponse containing a message and token if successful.
  */
   async signIn(username: string, password: string): Promise<SignInResponse> {
-    const response = await axios.post(`${API_URL}/auth/signin/`, {
+    const response = await axios.post(`${API_URL}/signin/`, {
         username,
         password,
     });
@@ -152,7 +152,7 @@ class AuthService {
  * @returns A Promise that resolves to a SignUpResponse containing a message.
  */
   async signUp(username: string, email: string, password: string): Promise<SignUpResponse> {
-    const response = await axios.post(`${API_URL}/auth/signup/`, {
+    const response = await axios.post(`${API_URL}/signup/`, {
         username,
         email,
         password,
@@ -167,7 +167,7 @@ class AuthService {
    * @returns A Promise that resolves to a ForgotPasswordResponse containing a message.
    */
   async forgotPassword(email: string): Promise<ForgotPasswordResponse> {
-    const response = await axios.post(`${API_URL}/auth/forgot-password/`, {
+    const response = await axios.post(`${API_URL}/forgot-password/`, {
         email,
     });
     return response.data;

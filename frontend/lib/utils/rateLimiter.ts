@@ -12,6 +12,13 @@ interface RateLimitEntry {
 const ipRateLimitMap = new Map<string, RateLimitEntry>();
 const userRateLimitMap = new Map<string, RateLimitEntry>();
 
+
+/**
+ * Checks if a given key is within the rate limit, and if not, locks them out for a duration.
+ * @param key The key to check.
+ * @param isIp Whether the key is an IP address (true) or a user ID (false).
+ * @returns An object with a boolean indicating whether the request was allowed, and optionally a timestamp indicating when the lockout will expire.
+ */
 export function rateLimit(key: string, isIp: boolean = false): { allowed: boolean; lockedUntil?: number } {
   const now = Date.now();
   const map = isIp ? ipRateLimitMap : userRateLimitMap;
@@ -40,6 +47,12 @@ export function rateLimit(key: string, isIp: boolean = false): { allowed: boolea
   return { allowed: true };
 }
 
+/**
+ * Gets the client's IP address from the request headers.
+ *
+ * If the request is being proxied, the IP address is obtained from the
+ * `X-Forwarded-For` header. Otherwise, the IP address is unknown.
+ */
 export function getClientIp(req: Request): string {
   const forwardedFor = req.headers.get('x-forwarded-for');
   if (forwardedFor) {
@@ -48,6 +61,12 @@ export function getClientIp(req: Request): string {
   return 'unknown';
 }
 
+/**
+ * Resets the rate limit for a given key.
+ *
+ * @param key The key to reset.
+ * @param isIp Whether the key is an IP address (true) or a user ID (false).
+ */
 export function resetRateLimit(key: string, isIp: boolean = false): void {
   const map = isIp ? ipRateLimitMap : userRateLimitMap;
   map.delete(key);
