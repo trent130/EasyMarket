@@ -47,6 +47,15 @@ const ProductStatCard: React.FC<{
   </Grid>
 );
 
+/**
+ * A single review card component.
+ * 
+ * @prop {string} reviewer_name The name of the reviewer.
+ * @prop {string} created_at The date the review was left.
+ * @prop {number} rating The rating given by the reviewer (on a scale of 1-5).
+ * @prop {string} comment The comment left by the reviewer.
+ * @returns A single review card component.
+ */
 const ReviewCard: React.FC<{
   reviewer_name: string;
   created_at: string;
@@ -71,6 +80,19 @@ const ReviewCard: React.FC<{
   </Card>
 );
 
+/**
+ * Renders the product detail page for a specific product.
+ *
+ * This component fetches and displays detailed information about a product
+ * based on the slug obtained from the URL parameters. It includes product
+ * image, title, price, description, condition, stock status, seller
+ * information, available variants, and statistics such as total sales,
+ * revenue, views, and rating. It also shows recent reviews for the product.
+ * If the product details are loading or if there is an error in fetching the
+ * product, appropriate messages are displayed.
+ *
+ * @return {React.ReactElement} The JSX element for the product detail page.
+ */
 export default function ProductDetail() {
   const params = useParams();
   const [product, setProduct] = useState<Product | null>(null);
@@ -78,13 +100,19 @@ export default function ProductDetail() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+/**
+ * Fetches detailed information about a product using the product slug 
+ * from URL parameters. Updates the product state with the fetched data. 
+ * If the operation fails, sets an error message. 
+ * Updates the loading state accordingly.
+ */
     const loadProduct = async () => {
       try {
         if (typeof params.slug === 'string') {
           const data = await fetchProductBySlug(params.slug);
           setProduct(data);
         }
-      } catch (err) {
+      } catch (error) {
         setError('Failed to load product details');
       } finally {
         setLoading(false);

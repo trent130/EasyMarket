@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.db import models
 from django.db.models import Q, Avg, Count, F, Prefetch
 from django.db.models import Sum
@@ -29,9 +29,11 @@ logger = logging.getLogger(__name__)
 CACHE_TTL = getattr(settings, 'PRODUCT_CACHE_TTL', 3600)  # 1 hour default
 CACHE_PREFIX = 'products:'
 
+
 def get_cache_key(prefix, identifier):
     """Generate cache key with prefix"""
     return f'{CACHE_PREFIX}{prefix}:{identifier}'
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -42,18 +44,18 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     # ...
     def get_queryset(self):
-    """
-    Override get_queryset to include necessary joins and annotations.
+        """
+        Override get_queryset to include necessary joins and annotations.
 
-    The included annotations are:
+        The included annotations are:
 
-    - avg_rating: the average rating of the product
-    - review_count: the number of reviews the product has
-    - total_sales_amount: the total amount of money the product has made in sales
-    """
+        - avg_rating: the average rating of the product
+        - review_count: the number of reviews the product has
+        - total_sales_amount: the total amount of money the product has made in sales
+        """
         queryset = Product.objects.select_related(
-            'category', 
-            'student', 
+            'category',
+            'student',
             'student__user'
         ).prefetch_related(
             Prefetch(
@@ -73,12 +75,13 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_object(self):
         """Get single object with caching"""
-        pk = self.kwargs.get('pk')
-        cache_key = get_cache_key('detail', pk)
+        slug = self.kwargs.get('slug')
+        cache_key = get_cache_key('detail', slug)
         obj = cache.get(cache_key)
 
         if obj is None:
-            obj = super().get_object()
+            """ obj = super().get_object() """
+            obj = get_object_or_404(Product, slug=slug, is_active=True)
             cache.set(cache_key, obj, CACHE_TTL)
 
         # Increment views count
