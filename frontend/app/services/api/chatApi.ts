@@ -50,4 +50,6 @@ export const chatApi = {
         }),
 };
 
-export type ChatApi = typeof chatApi; 
+export type ChatApi = typeof chatApi;
+
+// backend implimentations of the same needed

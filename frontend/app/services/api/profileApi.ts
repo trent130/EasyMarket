@@ -82,4 +82,6 @@ export const profileApi = {
         fetchWrapper('/api/user/delete-account', {
             method: 'POST'
         }),
-}; 
+};
+
+// impimentations in the backend 
