@@ -5,11 +5,11 @@
 # from marketplace.consumers import ChatConsumer
 
 from django.urls import re_path
-from . import consumers
+from .consumers import ChatConsumer, MarketplaceConsumer
 
 websocket_urlpatterns = [
-    re_path(r'ws/chat/$', consumers.ChatConsumer.as_asgi()),
-    re_path(r'ws/marketplace/$', consumers.MarketplaceConsumer.as_asgi()),  # New WebSocket route
+        re_path(r'ws/chat/$', ChatConsumer.as_asgi()),
+    re_path(r'ws/marketplace/$', MarketplaceConsumer.as_asgi()),  # New WebSocket route
 ]
 
 # application = ProtocolTypeRouter({
