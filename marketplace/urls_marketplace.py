@@ -53,7 +53,7 @@ urlpatterns = [
          name='review-detail'),
 ]
 
-
+# to be rremoved all because it is not being needed anymore
 websocket_urlpatterns = [
     path('ws/chat/', ChatConsumer.as_asgi()),
     path('ws/marketplace/', MarketplaceConsumer.as_asgi()),  # New WebSocket route
