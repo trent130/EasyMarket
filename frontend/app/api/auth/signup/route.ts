@@ -17,30 +17,32 @@ async function sendVerificationEmail(email: string, token: string) {
  * @param token - The reCAPTCHA token to be verified.
  * @returns A promise that resolves to a boolean indicating whether the CAPTCHA was successfully verified.
  */
-async function verifyCaptcha(token: string) {
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
-
-  const response = await fetch(verifyUrl, { method: 'POST' });
-  const data = await response.json();
-  return data.success;
-}
-
+/*
+*async function verifyCaptcha(token: string) {
+*  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+*  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
+*
+*  const response = await fetch(verifyUrl, { method: 'POST' });
+*  const data = await response.json();
+*  return data.success;
+*}
+*/
 export async function POST(req: Request) {
   try {
-    const { name, email, password, captchaToken } = await req.json();
+    const { name, email, password, /*recaptch*/ } = await req.json();
 
     // Basic validation
-    if (!name || !email || !password || !captchaToken) {
+    if (!name || !email || !password /*|| !captchaToken*/) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Verify CAPTCHA
+    /*
     const isCaptchaValid = await verifyCaptcha(captchaToken);
     if (!isCaptchaValid) {
       logSecurityEvent('SIGNUP_INVALID_CAPTCHA', { email });
       return NextResponse.json({ error: 'Invalid CAPTCHA' }, { status: 400 });
-    }
+    }*/
 
     // Check if user already exists
     if (users.find(user => user.email === email)) {

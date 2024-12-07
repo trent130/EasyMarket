@@ -160,8 +160,8 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage' if
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
-LOGIN_URL = 'signin'
-LOGOUT_URL = 'signout'
+LOGIN_URL = 'marketplace:signin'
+LOGOUT_URL = 'marketplace:signout'
 
 ROOT_URLCONF = 'students.urls'
 

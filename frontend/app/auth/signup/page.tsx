@@ -78,11 +78,11 @@ export default function SignUp() {
       return;
     }
 
-    const captchaToken = recaptchaRef.current?.getValue();
-    if (!captchaToken) {
-      setError('Please complete the CAPTCHA');
-      return;
-    }
+   // const captchaToken = recaptchaRef.current?.getValue();
+    //if (!captchaToken) {
+    //  setError('Please complete the CAPTCHA');
+      //return;
+    //}
 
     try {
       const response = await fetch('/marketplace/signup', {
