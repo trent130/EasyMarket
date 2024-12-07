@@ -362,7 +362,4 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
             response_data = serializer.data
 
         cache.set(cache_key, response_data, CACHE_TTL)
-        return Response(response_data
-    )
-    def get_categories(self):
-        pass
+        return Response(response_data)
