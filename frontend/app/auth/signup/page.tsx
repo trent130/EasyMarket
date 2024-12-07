@@ -95,7 +95,7 @@ export default function SignUp() {
 
       if (response.ok) {
         setSuccess(data.message);
-        setTimeout(() => router.push('/marketplace/signin'), 3000);
+        setTimeout(() => router.push('/auth/signin'), 3000);
       } else {
         setError(data.error || 'An error occurred during signup');
       }
@@ -209,7 +209,7 @@ export default function SignUp() {
           </div>
         </form>
         <div className="text-center">
-          <Link href="/marketplace/signin" className="text-sm text-indigo-600 hover:text-indigo-500">
+          <Link href="/auth/signin" className="text-sm text-indigo-600 hover:text-indigo-500">
             Already have an account? Sign in
           </Link>
         </div>
