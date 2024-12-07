@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import Layout from '../../components/Layout';
+import Layout from '../components/Layout';
 import { Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Button } from '@mui/material';
 import { Delete, ShoppingCart } from '@mui/icons-material';
 import { useAppContext } from '../AppContext';

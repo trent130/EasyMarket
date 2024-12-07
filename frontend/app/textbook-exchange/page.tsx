@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Grid, Card, CardContent, CardActions } from '@mui/material';
-import Layout from '../../components/Layout';
+import Layout from '../components/Layout';
 
 // Mock data for listed textbooks (in a real app, this would come from a database)
 const initialTextbooks = [
