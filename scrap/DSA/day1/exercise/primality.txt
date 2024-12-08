@@ -1,0 +1,4 @@
+prime number is a number above 1 that has no other positive divisor other than itself and 1.
+
+exercise: givenp integers, determin the primality of each integer and return Prime or not prime on the new line
+
