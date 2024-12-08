@@ -26,11 +26,11 @@ These instructions will get you a copy of the project up and running on your loc
    ```
 2. Install django packages
    ```
-   pip install django
+   pip install -r requirements.txt
 
 ## Usage
 
-After setting up, you can run `python manage.py runserver` to start the application. Open your browser and visit `http://localhost:8000/
+After setting up, you can run `python manage.py runserver or daphne -p 8000 students.asgi: application` to start the application. Open your browser and visit `http://localhost:8000/
 
 ## Contributing
 
