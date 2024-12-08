@@ -1,5 +1,7 @@
 """ 
 applicable in devide and concur algorithms like binary search
+
+This is a binary search algorithm - this cut down the search to half as soon as it finds the middle ground of a sorted list. The middle element is looked at to check if it is greater than or less than the value to be searched. Accordingly, a search is done in either halves of the given list.
 """
 
 def binary_search(arr, target):
