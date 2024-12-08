@@ -1,0 +1,35 @@
+what are data structures and algorithms
+ -Data structure is a way to organize and store data so that it can accessed and modified efficiently.
+ -examples arrays store sequential data, linked lists use nodes and store data and pointers to connect them
+ -hash maps key value pairs for quicklookups
+ -tree hierarchial structures
+Algorithmns - is a set of stepby step instructions to solve a specific problem. examples 
+ - sorting an array(eg bubble sort,merge sort)
+ - searching for an element( eg binary search)
+importance of data structures and algorithms
+1. Efficiency - helps you wrrite programs that run faster and use less memory
+2. Problem-solving - Essential for solving real world problems like route optimization, recommendation systems etc
+3. Interviews - Mastering Dsa is critcal for technical interviews in top tech companies.
+
+Time and space complexity
+time complexity measures how the running time of an algorithm changes with the size of the input
+Big-O notation:
+	describes the worst case growth rate of an algorithm
+	common complexities:
+		O(1) - constant time
+		O(n) - linear time
+		O(log n) - logarithmic time
+		O(n^2)  - quadratic time 
+Space complexity:
+	Measure the amount of memory used by an algorithm as a function of the input size
+	includes:
+		Auxiliary space - Temporary space used by the algorithm.
+		Input space - Memory needed for input storage
+
+Examplesof time complexity:
+O(1): constant time
+	No matter thesize of the input, the operation takes the same time
+
+Binary and Linear search
+Linear search 
+assume that item is in an array in random order and we have to find an item.Then the only way to search for a target item is to begin wit, the first position and compare it with the target until we find the expected outcome. If the position is found, then w e return the index and print it otherwise we continue searching until we find what we want.If we arrive at the last index and still we do find the expected result we return a -1.This is 
