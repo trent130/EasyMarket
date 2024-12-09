@@ -17,6 +17,7 @@ import {
   Card,
   CardContent,
   Alert,
+  CircularProgress,
 } from '@mui/material';
 import { 
   formatPrice, 
@@ -29,6 +30,7 @@ import {
 import type { Product } from '../../types/product';
 import { productsApi } from '../../services/api/productsApi';
 import { isValidSlug } from '../../utils/validation';
+import { handleApiError, logError } from '../../utils/errorHandling';
 
 const ProductStatCard: React.FC<{
   title: string;
@@ -81,6 +83,11 @@ const ReviewCard: React.FC<{
   </Card>
 );
 
+interface ProductDetailParams {
+  [key: string]: string;
+  slug: string;
+}
+
 /**
  * Renders the product detail page for a specific product.
  *
@@ -95,7 +102,7 @@ const ReviewCard: React.FC<{
  * @return {React.ReactElement} The JSX element for the product detail page.
  */
 export default function ProductDetail() {
-  const params = useParams();
+  const params = useParams<ProductDetailParams>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -107,48 +114,81 @@ export default function ProductDetail() {
  * If the operation fails, sets an error message. 
  * Updates the loading state accordingly.
  */
-  const loadProduct = async () => {
+const loadProduct = async () => {
+  // Reset state
+  setLoading(true);
+  setError(null);
+
+  try {
+    // Validate slug
     const slug = params.slug;
-    try {
-      if (typeof params.slug === 'string' && isValidSlug(slug)) {
-        try {
-          const data = await productsApi.getProductDetails(params.slug);
-          setProduct(data);
-        } catch (error) {
-          // More specific error handling
-          if (error.response?.status === 404) {
-            setError('Product not found');
-          } else {
-            setError('Failed to load product details');
-          }
-        }
-      }
-    } catch (error) {
-      setError('An unexpected error occurred');
-    } finally {
-      setLoading(false);
+    
+    // Ensure slug is a string and not undefined
+    if (!slug || typeof slug !== 'string') {
+      throw new Error('Invalid slug');
     }
-  };
 
+    // Validate slug format
+    if (!isValidSlug(slug)) {
+      throw new Error('Invalid slug format');
+    }
+
+    // Fetch product details
+    const data = await productsApi.getProductDetails(slug);
+    
+    // Validate fetched data
+    if (!data) {
+      throw new Error('No product data found');
+    }
+
+    setProduct(data);
+  } catch (error) {
+    // Log the full error for debugging
+    logError(error, 'ProductDetail');
+
+    // Set user-friendly error message
+    const errorMessage = handleApiError(error);
+    setError(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Only attempt to load if slug is present
+if (params.slug) {
   loadProduct();
-  }, [params.slug]);
+}
+}, [params.slug]); // Dependency array with explicitly typed slug
 
+
+  // Loading state
   if (loading) {
     return (
-      <Container sx={{ py: 4 }}>
-        <Typography>Loading product details...</Typography>
+      <Container 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
       </Container>
     );
   }
 
+  // Error state
   if (error || !product) {
     return (
       <Container sx={{ py: 4 }}>
-        <Alert severity="error">{error || 'Product not found'}</Alert>
+        <Alert severity="error">
+          {error || 'Unable to load product details'}
+        </Alert>
       </Container>
     );
   }
 
+  // Render product details (keep your existing render logic)
   const { color: conditionColor, label: conditionLabel } = getConditionInfo(product.condition);
   const stockStatus = getStockStatus(product.available_stock);
 
