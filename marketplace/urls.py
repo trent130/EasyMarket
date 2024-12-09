@@ -1,9 +1,12 @@
 from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 from . import views_marketplace
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .views import CustomTokenObtainPairView
 from . import views_auth
 from . import consumers
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+)
 
 # Create a router and register our viewset with it.
 router = DefaultRouter()
@@ -55,7 +58,7 @@ urlpatterns = [
           }),
           name='review-detail'),
 
-     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
      path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
      path('enable-2fa/', views_auth.enable_2fa, name='enable_2fa'),
      path('verify-2fa/', views_auth.verify_2fa, name='verify_2fa'),
@@ -66,7 +69,7 @@ urlpatterns = [
      # path('2fa-setup/', views.setup_2fa, name='setup_2fa'),
      path('signin/', views_auth.signin, name='signin'),
      path('signup/', views_auth.signup, name='signup'),
-     path('logout/', views_auth.logout, name='logout'),
+     path('logout/', views_auth.signout, name='logout'),
      path('forgot_password/', views_auth.forgot_password, name='forgot_password'),
     
 ]

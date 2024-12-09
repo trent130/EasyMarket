@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
+import sys
 
 load_dotenv()
 
@@ -18,20 +19,49 @@ PAYMENT_VARIANTS = {
     # Add more payment variants for different gateways
 }
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': sys.stdout,
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django_debug.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'myapp': {  # Replace 'myapp' with your app name
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     },
 }
+
 MPESA_CALLBACK_URL = 'mpesa_callback'
 
 MPESA_ENVIRONMENT = 'sandbox'
@@ -48,8 +78,7 @@ MPESA_INITIATOR_SECURITY_CREDENTIALS = os.getenv(
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-w%r6m-g^uf&+077us1j$y-+m5+v_fk5b)$3=)id!15+(o!&f9d'
@@ -88,6 +117,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'channels',
     'crispy_forms',
+    'livereload',
 ]
 
 # CHANNEL_LAYERS = {
@@ -146,6 +176,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # If using whitenoise
     'marketplace.middleware.TwoFactorMiddleware',
+    'livereload.middleware.LiveReloadScript'
 ]
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
