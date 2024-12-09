@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { enable2FAWithBackend, verify2FAWithBackend } from '../utils/twoFactorAuth';
+// import { enable2FAWithBackend, verify2FAWithBackend } from '../utils/twoFactorAuth';
 
 export function use2FA() {
   const { data: session } = useSession();

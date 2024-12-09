@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ReCAPTCHA from "react-google-recaptcha";
-import { checkPasswordStrength, PasswordStrengthResult } from '../../../lib/utils/passwordStrength';
+import { checkPasswordStrength, PasswordStrengthResult } from '../../utils/passwordStrength';
 
 /**
  * Handles the sign up form submission.

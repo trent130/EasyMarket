@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { verifyToken, verify2FAWithBackend } from '../../../../lib/utils/twoFactorAuth';
+import { verifyToken, verify2FAWithBackend } from '../../../utils/twoFactorAuth';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../../lib/auth';
 

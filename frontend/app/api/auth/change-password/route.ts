@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { users } from '../../../../lib/models/user';
-import { logSecurityEvent } from '../../../../lib/utils/logger';
+import { logSecurityEvent } from '../../../utils/logger';
 import { hash } from 'bcrypt';
-import { isPasswordReused, updatePasswordHistory } from '../../../../lib/utils/passwordHistory';
-import { notifyUserOfSuspiciousActivity } from '../../../../lib/utils/notifications';
+import { isPasswordReused, updatePasswordHistory } from '../../../utils/passwordHistory';
+import { notifyUserOfSuspiciousActivity } from '../../../utils/notifications';
 
 export async function POST(req: Request) {
   try {
