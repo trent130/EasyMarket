@@ -14,9 +14,14 @@ from .serializers import (
     BackupCodesSerializer,
     ValidateBackupCodeSerializer
 )
+import logging
 import pyotp
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 # import base64
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['POST'])
@@ -224,7 +229,7 @@ def validate_backup_code(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def logout(request):
+def signout(request):
     """Logout a user"""
     # TODO: Implement logout logic here
     user = request.user
@@ -249,3 +254,46 @@ def regenerate_backup_codes(request):
     if serializer.is_valid():
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        try:
+            data = super().validate(attrs)
+            
+            # Add additional user information
+            data['user_id'] = self.user.id
+            data['email'] = self.user.email
+            
+            return data
+        except Exception as e:
+            # Detailed error logging
+            logger.error(f"Token generation error: {str(e)}")
+            raise
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        try:
+            serializer = self.get_serializer(data=request.data)
+            
+            # Validate and handle errors explicitly
+            try:
+                serializer.is_valid(raise_exception=True)
+            except Exception as e:
+                # Log validation errors
+                logger.error(f"Token validation error: {str(e)}")
+                return Response({
+                    'error': 'Invalid credentials',
+                    'details': str(e)
+                }, status=status.HTTP_401_UNAUTHORIZED)
+
+            return Response(serializer.validated_data)
+        except Exception as e:
+            logger.error(f"Unexpected token generation error: {str(e)}")
+            return Response({
+                'error': 'Authentication failed',
+                'details': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
