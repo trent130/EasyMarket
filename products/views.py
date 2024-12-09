@@ -41,6 +41,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'description', 'category__name']
     ordering_fields = ['price', 'created_at', 'title', 'stock']
     ordering = ['-created_at']
+    lookup_field = 'slug'
 
     # ...
     def get_queryset(self):
@@ -88,11 +89,34 @@ class ProductViewSet(viewsets.ModelViewSet):
         obj.increment_views()
         return obj
         
-    def retrieve(self, request, slug):
-        """Retrieve a product by slug"""
-        product = self.get_object()  # This will call your get_object method
-        serializer = self.get_serializer(product)
-        return Response(serializer.data)
+    def retrieve(self, request, slug=None):
+            """
+            Retrieve a product by its slug.
+            
+            Note the method signature uses 'slug' instead of 'pk'
+            """
+            try:
+                # Use get_object_or_404 with the slug
+                product = self.get_object()
+                
+                # Increment views count
+                product.increment_views()
+                
+                # Serialize and return the product
+                serializer = self.get_serializer(product)
+                return Response(serializer.data)
+            
+            except Product.DoesNotExist:
+                return Response({
+                    'detail': 'Product not found'
+                }, status=status.HTTP_404_NOT_FOUND)
+            
+            except Exception as e:
+                # Log the error
+                logger.error(f"Error retrieving product: {str(e)}")
+                return Response({
+                    'detail': 'An unexpected error occurred'
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_serializer_class(self):
         """
