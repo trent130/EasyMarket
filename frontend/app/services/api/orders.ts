@@ -1,6 +1,6 @@
 import apiClient from '../api-client';
-import { fetchWrapper } from '../../utils/fetchWrapper';
-import { Order, OrderStatus } from '../../types/orders';
+// import { fetchWrapper } from '../../utils/fetchWrapper';
+// import { Orders  } from '../../types/orders'; //OrderStatus
 
 export interface OrderItem {
   id: number;

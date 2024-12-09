@@ -2,7 +2,7 @@ import { Address } from "cluster";
 import { User } from "next-auth";
 import { Product } from "./api";
 
-export interface Order {
+export interface Orders {
     id: number;
     user: User;
     items: OrderItem[];

@@ -1,8 +1,7 @@
 import apiClient from '../api-client';
 import { Student } from './students';
-import Product from './products';
+import { Product } from '../../types/product';
 import { Order } from './orders';
-// import { AdminDashboardData, UserManagementData } from '../../types/admin';
 
 export interface AdminStats {
   total_users: number;
