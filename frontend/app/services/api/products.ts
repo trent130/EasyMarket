@@ -1,6 +1,6 @@
 import axios from 'axios';
-import type { Product } from '../types/product';
-import type { ApiResponse, SingleResponse, SearchParams } from '../types/common';
+import type { Product } from '../../types/product';
+import type { ApiResponse, SingleResponse, SearchParams } from '../../types/common';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/products/api';
 
