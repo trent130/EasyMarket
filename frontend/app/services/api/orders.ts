@@ -1,5 +1,14 @@
+export interface Order {
+    id: number;
+    userId: number;
+    productId: number;
+    status: 'pending' | 'completed' | 'canceled';
+    createdAt: string;
+    updatedAt: string;
+    // Add any additional fields as necessary
+}
+
 // Merged content from orders.ts and ordersApi.ts
-// Example content structure
 export const orderFunctions = {
     // Order-related functions from orders.ts and ordersApi.ts
 };

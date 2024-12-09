@@ -9,6 +9,13 @@ export interface User {
     status: UserStatus;
 }
 
+export interface ApiResponse<T> {
+    results: T[];
+    count: number;
+    next: string | null;
+    previous: string | null;
+  }
+
 export interface Product {
     id: number;
     name: string;

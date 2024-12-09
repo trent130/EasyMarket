@@ -1,5 +1,12 @@
+export interface Student {
+    id: number;
+    name: string;
+    email: string;
+    avatar?: string;
+    // Add any additional fields as necessary
+}
+
 // Merged content from students.ts and studentsApi.ts
-// Example content structure
 export const studentFunctions = {
     // Student-related functions from students.ts and studentsApi.ts
 };
