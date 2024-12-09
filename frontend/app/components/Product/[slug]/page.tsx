@@ -25,9 +25,11 @@ import {
   formatNumber, 
   getConditionInfo,
   getStockStatus 
-} from '../../../lib/utils';
-import { fetchProductBySlug } from '../../../lib/api-client';
-import type { Product } from '../../../lib/types';
+} from '../../../../lib/utils';
+// import { fetchProductBySlug } from '../../../lib/api-client';
+import type { Product } from '../../../types/product';
+import { productsApi } from '../../../services/api/productsApi';
+import { isValidSlug } from '../../../utils/validation';
 
 const ProductStatCard: React.FC<{
   title: string;
@@ -106,20 +108,30 @@ export default function ProductDetail() {
  * If the operation fails, sets an error message. 
  * Updates the loading state accordingly.
  */
-    const loadProduct = async () => {
-      try {
-        if (typeof params.slug === 'string') {
-          const data = await fetchProductBySlug(params.slug);
+  const loadProduct = async () => {
+    const slug = params.slug;
+    try {
+      if (typeof params.slug === 'string' && isValidSlug(slug)) {
+        try {
+          const data = await productsApi.getProductDetails(params.slug);
           setProduct(data);
+        } catch (error) {
+          // More specific error handling
+          if (error.response?.status === 404) {
+            setError('Product not found');
+          } else {
+            setError('Failed to load product details');
+          }
         }
-      } catch (error) {
-        setError('Failed to load product details');
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (error) {
+      setError('An unexpected error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    loadProduct();
+  loadProduct();
   }, [params.slug]);
 
   if (loading) {

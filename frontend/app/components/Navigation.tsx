@@ -14,8 +14,8 @@ export default function Navigation() {
         </Typography>
         <SearchBar />
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-	 <Button color="inherit" component={Link} href="/">Home</Button>
-          <Button color="inherit" component={Link} href="/products">
+	        <Button color="inherit" component={Link} href="/">Home</Button>
+          <Button color="inherit" component={Link} href="/product">
             Products
           </Button>
           <Button color="inherit" component={Link} href="/textbook-exchange">

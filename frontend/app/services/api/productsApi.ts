@@ -2,6 +2,7 @@ import { fetchWrapper } from '../../utils/fetchWrapper';
 import { Product } from '../../types/common';
 import { PaginatedResponse } from '../../types/common';
 import { Category } from '../../types/product';
+import apiClient from '../api-client';
 
 // interface ProductQueryParams {
 //     page?: number;
@@ -24,32 +25,43 @@ export const categoriesApi = {
 };
 
 export const productsApi = {
-/**
- * Fetches a paginated list of products with optional filtering parameters.
- * 
- * @param params - An optional object containing query parameters for filtering 
- *                 the products. Possible keys include:
- *                 - `page`: The page number to retrieve.
- *                 - `pageSize`: The number of products per page.
- *                 - `search`: A search term to filter products by name or description.
- *                 - `category`: The category to filter products by.
- *                 - `minPrice`: The minimum price of products to filter by.
- *                 - `maxPrice`: The maximum price of products to filter by.
- *                 - `inStock`: A boolean indicating whether to only include products in stock.
- * 
- * @returns A promise that resolves to a paginated response containing products.
- */
+    /**
+     * Fetches a paginated list of products with optional filtering parameters.
+     * 
+     * @param params - An optional object containing query parameters for filtering 
+     *                 the products. Possible keys include:
+     *                 - `page`: The page number to retrieve.
+     *                 - `pageSize`: The number of products per page.
+     *                 - `search`: A search term to filter products by name or description.
+     *                 - `category`: The category to filter products by.
+     *                 - `minPrice`: The minimum price of products to filter by.
+     *                 - `maxPrice`: The maximum price of products to filter by.
+     *                 - `inStock`: A boolean indicating whether to only include products in stock.
+     * 
+     * @returns A promise that resolves to a paginated response containing products.
+     */
     getProducts: (params?: Record<string, string | number>) =>
         fetchWrapper<PaginatedResponse<Product>>('/products/api/products', { params }),
     
-/**
- * Fetches detailed information about a product using its slug.
- * 
- * @param slug - The unique identifier for the product.
- * @returns A promise that resolves to a Product object containing detailed information.
- */
-    getProductDetails: (slug: string) =>
-        fetchWrapper<Product>(`/products/api/products/${slug}`),
+    /**
+     * Fetches detailed information about a product using its slug.
+     * 
+     * @param slug - The unique identifier for the product.
+     * @returns A promise that resolves to a Product object containing detailed information.
+     */
+
+    getProductDetails: async (slug: string) => {
+        try {
+        const response = await apiClient.get<Product>(`/products/api/products/${slug}/`);
+        return response.data;
+        } catch (error) {
+        if (error.response?.status === 404) {
+            throw new Error('Product not found');
+        }
+        throw error;
+        }
+    }
+    
     /**
      * Creates a new product using the provided data.
      * 
