@@ -60,7 +60,7 @@ export const productsApi = {
         }
         throw error;
         }
-    }
+    },
     
     /**
      * Creates a new product using the provided data.

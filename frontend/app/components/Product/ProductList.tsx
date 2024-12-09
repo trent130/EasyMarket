@@ -36,8 +36,12 @@ export default function ProductList() {
     const [filters, setFilters] = useState<ProductSearchFilters>({
         query: searchParams?.get('query') || undefined,
         category: Number(searchParams?.get('category')) || undefined,
-        min_price: Number(searchParams?.get('min_price')) || undefined,
-        max_price: Number(searchParams?.get('max_price')) || undefined,
+        min_price: searchParams?.get('min_price') 
+        ? Number(searchParams.get('min_price')) 
+        : undefined,
+        max_price: searchParams?.get('max_price') 
+        ? Number(searchParams.get('max_price')) 
+        : undefined,
         condition: searchParams?.get('condition') as any || undefined,
         sort_by: searchParams?.get('sort_by') as any || 'newest',
         in_stock: searchParams?.get('in_stock') === 'true'
