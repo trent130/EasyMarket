@@ -139,12 +139,18 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         }
 
     def get_student(self, obj):
+        """
+        Return a dictionary with the student's id, username, average rating, products count and join date.
+        """
+        
+        student = obj.student
+        average_rating = student.products.aggregate(Avg('reviews__rating'))['reviews__rating__avg'] or 0
         return {
-            'id': obj.student.id,
-            'username': obj.student.user.username,
-            'rating': obj.student.average_rating,
-            'products_count': obj.student.products.count(),
-            'joined_date': obj.student.user.date_joined
+            'id': student.id,
+            'username': student.user.username,
+            'rating': average_rating,
+            'products_count': student.products.count(),
+            'joined_date': student.user.date_joined
         }
 
     def get_reviews(self, obj):
