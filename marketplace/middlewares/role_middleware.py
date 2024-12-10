@@ -1,5 +1,6 @@
 from django.http import HttpResponseForbidden
 
+
 class RoleMiddleware:
     def __init__(self, get_responsse):
         self.get_response = get_response

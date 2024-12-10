@@ -9,7 +9,8 @@ export default function Navigation() {
   const { data: session } = useSession();
 
   return (
-    <nav className="bg-gray-800 text-white p-4">
+    <div className="relative z-10 p-6">
+        <nav className="bg-gray-800 text-white p-4 fixed top-0 left-0 right-0">
       <Toolbar>
         <Typography
           variant="h6"
@@ -41,7 +42,10 @@ export default function Navigation() {
               <Typography variant="body1" sx={{ mr: 2 }}>
                 Welcome, {session.user?.name}
               </Typography>
-              <LogoutButton />
+              <a onClick={() => signOut()}>
+                <LogoutButton/>
+              </a>
+              
             </>
           ) : (
             <MUIButton color="inherit" onClick={() => signIn()}>
@@ -51,5 +55,6 @@ export default function Navigation() {
         </Box>
       </Toolbar>
     </nav>
+    </div>
   );
 }
