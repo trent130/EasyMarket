@@ -1,10 +1,11 @@
 from rest_framework import serializers
-from django.core.exceptions import ValidationError
-from django.utils.text import slugify
+# from django.core.exceptions import ValidationError
+# from django.utils.text import slugify
 from .models import Product, Category, ProductVariant
 from marketplace.models import Student, Review
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
+from django.db.models import Avg
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -26,7 +27,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = [
             'id', 'rating', 'comment', 'reviewer_name',
-            'created_at'
+            'timestamp'
         ]
 
 
@@ -154,7 +155,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         }
 
     def get_reviews(self, obj):
-        recent_reviews = obj.reviews.select_related('reviewer').order_by('-created_at')[:3]
+        recent_reviews = obj.reviews.select_related('reviewer').order_by('-timestamp')[:3]
         return {
             'average': obj.average_rating,
             'count': obj.review_count,

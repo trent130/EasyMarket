@@ -2,9 +2,10 @@ from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.db.models import Avg, F, Count, Sum, Q
 from django.db import models
-from django.db.models import Q, Avg, Count, F, Prefetch
-from django.db.models import Sum
+from django.db.models import Prefetch
+from marketplace.models import Review
 from django.shortcuts import get_object_or_404
 from django.core.cache import cache
 from django.conf import settings
@@ -20,7 +21,7 @@ from .serializers import (
     CategorySerializer
 )
 from .search import search_products
-from marketplace.models import Student, Review
+from marketplace.models import Student
 import logging
 
 logger = logging.getLogger(__name__)
@@ -70,9 +71,18 @@ class ProductViewSet(viewsets.ModelViewSet):
             total_sales_amount=Sum(F('price') * F('total_sales'), output_field=models.DecimalField())
         )
 
-        # ...
+        return queryset
 
-    # ...
+    def increment_views(self, product):
+        """
+        Increment product view count with rate limiting
+        """
+        # Check if the view has been recently incremented (e.g., within the last minute)
+        cache_key = f'product_view_{product.id}'
+        if not cache.get(cache_key):
+            Product.objects.filter(id=product.id).update(views_count=F('views_count') + 1)
+            # Set a cache to prevent frequent updates
+            cache.set(cache_key, True, 60)  # 1-minute cooldown
 
     def get_object(self):
         """Get single object with caching"""
@@ -90,33 +100,33 @@ class ProductViewSet(viewsets.ModelViewSet):
         return obj
         
     def retrieve(self, request, slug=None):
-            """
-            Retrieve a product by its slug.
+        """
+        Retrieve a product by its slug.
+        
+        Note the method signature uses 'slug' instead of 'pk'
+        """
+        try:
+            # Use get_object_or_404 with the slug
+            product = self.get_object()
             
-            Note the method signature uses 'slug' instead of 'pk'
-            """
-            try:
-                # Use get_object_or_404 with the slug
-                product = self.get_object()
-                
-                # Increment views count
-                product.increment_views()
-                
-                # Serialize and return the product
-                serializer = self.get_serializer(product)
-                return Response(serializer.data)
+            # Increment views count
+            product.increment_views()
             
-            except Product.DoesNotExist:
-                return Response({
-                    'detail': 'Product not found'
-                }, status=status.HTTP_404_NOT_FOUND)
+            # Serialize and return the product
+            serializer = self.get_serializer(product)
+            return Response(serializer.data)
             
-            except Exception as e:
-                # Log the error
-                logger.error(f"Error retrieving product: {str(e)}")
-                return Response({
-                    'detail': 'An unexpected error occurred'
-                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Product.DoesNotExist:
+            return Response({
+                'detail': 'Product not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        except Exception as e:
+            # Log the error
+            logger.error(f"Error retrieving product: {str(e)}")
+            return Response({
+                'detail': 'An unexpected error occurred'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_serializer_class(self):
         """
