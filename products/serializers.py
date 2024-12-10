@@ -181,6 +181,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             is_active=True
         ).exclude(
             id=obj.id
+        ).annotate(
+            similarity_score=Count('reviews')
         ).order_by('-created_at')[:4]
         return ProductListSerializer(
             related,
