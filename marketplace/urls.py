@@ -1,7 +1,7 @@
 from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 from . import views_marketplace
-from .views import CustomTokenObtainPairView
+# from .views import CustomTokenObtainPairView
 from . import views_auth
 from . import consumers
 from rest_framework_simplejwt.views import (
@@ -19,7 +19,7 @@ urlpatterns = [
      path('api/', include(router.urls)),
 
      # Cart operations
-     path('api/cart/<int:cart_id>/add/', 
+     path('api/cart/<int:cart_id>/add/',
           views_marketplace.CartViewSet.as_view({'post': 'add_item'}),
           name='cart-add-item'),
      path('api/cart/<int:cart_id>/remove/',
@@ -58,7 +58,7 @@ urlpatterns = [
           }),
           name='review-detail'),
 
-     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+     path('token/', views_auth.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
      path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
      path('enable-2fa/', views_auth.enable_2fa, name='enable_2fa'),
      path('verify-2fa/', views_auth.verify_2fa, name='verify_2fa'),
