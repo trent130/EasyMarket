@@ -1,13 +1,12 @@
-
 'use client';
 
 import React from 'react';
-import Layout from '../components/Layout';
+import { useAppContext } from '../AppContext';
 import { Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Button } from '@mui/material';
 import { Delete, ShoppingCart } from '@mui/icons-material';
-import { useAppContext } from '../AppContext';
+import Layout from '../layout';
 
-export default function Wishlist() {
+export default function WishlistPage() {
   const { wishlist, removeFromWishlist, addToCart } = useAppContext();
 
   const handleAddToCart = (item) => {
@@ -31,10 +30,19 @@ export default function Wishlist() {
                 secondary={`$${item.price.toFixed(2)}`}
               />
               <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="add to cart" onClick={() => handleAddToCart(item)} sx={{ mr: 1 }}>
+                <IconButton 
+                  edge="end" 
+                  aria-label="add to cart" 
+                  onClick={() => handleAddToCart(item)} 
+                  sx={{ mr: 1 }}
+                >
                   <ShoppingCart />
                 </IconButton>
-                <IconButton edge="end" aria-label="delete" onClick={() => removeFromWishlist(item.id)}>
+                <IconButton 
+                  edge="end" 
+                  aria-label="delete" 
+                  onClick={() => removeFromWishlist(item.id)}
+                >
                   <Delete />
                 </IconButton>
               </ListItemSecondaryAction>

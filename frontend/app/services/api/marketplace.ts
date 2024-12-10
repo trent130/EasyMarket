@@ -1,43 +1,9 @@
 import apiClient from '../api-client';
-import { Product } from './products'; // Ensure correct import
-import { fetchWrapper } from '../../utils/fetchWrapper';
-import { MarketplaceListing } from '../../types/marketplace';
-
-export interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  description?: string;
-  parent?: number;
-  image?: string;
-  product_count: number;
-}
-
-export interface WishlistItem {
-  id: number;
-  product: Product;
-  added_at: string;
-}
-
-export interface CartItem {
-  id: number;
-  product: Product;
-  quantity: number;
-  added_at: string;
-}
-
-export interface Review {
-  id: number;
-  product: number;
-  reviewer: {
-    id: number;
-    username: string;
-    avatar?: string;
-  };
-  rating: number;
-  comment: string;
-  created_at: string;
-}
+import  { Product }  from '../../types/product'; // Ensure correct import
+// import { fetchWrapper } from '../../utils/fetchWrapper';
+// import { MarketplaceListing } from '../../types/marketplace';
+import { WishlistItem } from '../../types/api';
+import { Category, Review, CartItem }  from '../../types/marketplace';
 
 export const marketplaceApi = {
   // Categories
@@ -46,7 +12,7 @@ export const marketplaceApi = {
     include_children?: boolean;
   }) => {
     const response = await apiClient.get<Category[]>('/marketplace/categories/', { params });
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   getCategoryDetails: async (slug: string) => {
@@ -54,20 +20,20 @@ export const marketplaceApi = {
       subcategories: Category[];
       featured_products: Product[];
     }>(`/marketplace/categories/${slug}/`);
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   // Wishlist
   getWishlist: async () => {
     const response = await apiClient.get<WishlistItem[]>('/marketplace/api/wishlist/');
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   addToWishlist: async (productId: number) => {
     const response = await apiClient.post<WishlistItem>('/marketplace/api/wishlist/productId/add/', {
       product_id: productId
     });
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   removeFromWishlist: async (productId: number) => {
@@ -83,7 +49,7 @@ export const marketplaceApi = {
       total_items: number;
       total_amount: number;
     }>('/marketplace/cart/');
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   addToCart: async (productId: number, quantity: number = 1) => {
@@ -91,14 +57,14 @@ export const marketplaceApi = {
       product_id: productId,
       quantity
     });
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   updateCartItem: async (itemId: number, quantity: number) => {
     const response = await apiClient.patch<CartItem>(`/marketplace/cart/items/${itemId}/`, {
       quantity
     });
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   removeFromCart: async (itemId: number) => {
@@ -121,7 +87,7 @@ export const marketplaceApi = {
       average_rating: number;
       rating_distribution: Record<number, number>;
     }>(`/marketplace/products/${productId}/reviews/`, { params });
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   addReview: async (productId: number, data: {
@@ -129,7 +95,7 @@ export const marketplaceApi = {
     comment: string;
   }) => {
     const response = await apiClient.post<Review>(`/marketplace/products/${productId}/reviews/`, data);
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   updateReview: async (reviewId: number, data: {
@@ -137,7 +103,7 @@ export const marketplaceApi = {
     comment?: string;
   }) => {
     const response = await apiClient.patch<Review>(`/marketplace/reviews/${reviewId}/`, data);
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   deleteReview: async (reviewId: number) => {
@@ -160,7 +126,7 @@ export const marketplaceApi = {
       categories: Category[];
       price_range: { min: number; max: number };
     }>('/marketplace/search/', { params });
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   },
 
   // Recommendations
@@ -170,7 +136,7 @@ export const marketplaceApi = {
     exclude_ids?: number[];
   }) => {
     const response = await apiClient.get<Product[]>('/marketplace/recommendations/', { params });
-    return response.data; // Adjusted to return the correct data structure
+    return response; // Adjusted to return the correct data structure
   }
 };
 

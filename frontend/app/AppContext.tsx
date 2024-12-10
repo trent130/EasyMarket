@@ -7,9 +7,11 @@ import {
   fetchWishlists,
   addProductToWishlist as apiAddToWishlist,
   removeProductFromWishlist as apiRemoveFromWishlist,
-  createOrder as apiCreateOrder
+  createOrder as apiCreateOrder,
+  addProductToWishlist,
+  removeProductFromWishlist
 } from '../app/services/api';
-import { WishList } from './types/api';
+import { Wishlist } from './types/api';
 
 
 interface Product {
@@ -26,10 +28,11 @@ interface CartItem extends Product {
 interface AppContextType {
   cart: CartItem[];
   wishlist: Product[];
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
+  wishlistId: number | null;
   addToWishlist: (product: Product) => Promise<void>;
   removeFromWishlist: (productId: number) => Promise<void>;
+  addToCart: (product: Product) => void;
+  removeFromCart: (productId: number) => void;
   checkout: () => Promise<void>;
 };
 
@@ -63,6 +66,7 @@ export function useAppContext() {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<Product[]>([]);
+  const [wishlistId, setWishlistId] = useState<number | null>(null);
   const [wsService, setWsService] = useState<WebSocketService | null>(null);
 
   // Initialize WebSocket connection
@@ -96,14 +100,26 @@ useEffect(() => {
    */
   const initializeData = async () => {
     try {
-      const wishlistData: WishList[] = await fetchWishlists();
+      // Fetch user's wishlists
+      const wishlists: Wishlist[] = await fetchWishlists();
       
-      // Extract products from the first wishlist (or handle multiple wishlists as needed)
-      const products: Product[] = wishlistData.flatMap(wishlist => wishlist.products);
-
-      setWishlist(products);
+      // Use the first wishlist or create a default one
+      if (wishlists.length > 0) {
+        const primaryWishlist = wishlists[0];
+        setWishlistId(primaryWishlist.id);
+        
+        // Extract products from wishlist items
+        const wishlistProducts = primaryWishlist.items.map(item => item.product);
+        setWishlist(wishlistProducts);
+      } else {
+        // Handle case where no wishlist exists
+        setWishlistId(null);
+        setWishlist([]);
+      }
     } catch (error) {
-      console.error('Failed to fetch initial data:', error);
+      console.error('Failed to fetch wishlist:', error);
+      setWishlistId(null);
+      setWishlist([]);
     }
   };
   initializeData();
@@ -135,13 +151,21 @@ useEffect(() => {
 
   const addToWishlist = async (product: Product) => {
     try {
-      await apiAddToWishlist(1, product.id); // Assuming wishlist ID 1 for now
-      setWishlist((prevWishlist) => {
-        if (!prevWishlist.some((item) => item.id === product.id)) {
-          return [...prevWishlist, product];
-        }
-        return prevWishlist;
-      });
+      // Ensure we have a valid wishlist ID
+      if (!wishlistId) {
+        throw new Error('No wishlist available');
+      }
+
+      // Check if product is already in wishlist
+      if (wishlist.some(item => item.id === product.id)) {
+        return;
+      }
+
+      // Add product to wishlist via API
+      await addProductToWishlist(wishlistId, product.id);
+      
+      // Update local state
+      setWishlist(prevWishlist => [...prevWishlist, product]);
     } catch (error) {
       console.error('Failed to add to wishlist:', error);
       throw error;
@@ -150,8 +174,18 @@ useEffect(() => {
 
   const removeFromWishlist = async (productId: number) => {
     try {
-      await apiRemoveFromWishlist(1, productId); // Assuming wishlist ID 1 for now
-      setWishlist((prevWishlist) => prevWishlist.filter((item) => item.id !== productId));
+      // Ensure we have a valid wishlist ID
+      if (!wishlistId) {
+        throw new Error('No wishlist available');
+      }
+
+      // Remove product from wishlist via API
+      await removeProductFromWishlist(wishlistId, productId);
+      
+      // Update local state
+      setWishlist(prevWishlist => 
+        prevWishlist.filter(item => item.id !== productId)
+      );
     } catch (error) {
       console.error('Failed to remove from wishlist:', error);
       throw error;
@@ -163,7 +197,7 @@ useEffect(() => {
       const orderData = {
         items: cart.map(item => ({
           id: item.id,
-          product: item.product,
+          product: item.name,
           quantity: item.quantity,
           price: item.price,
         }))
@@ -185,6 +219,7 @@ useEffect(() => {
     removeFromCart,
     addToWishlist,
     removeFromWishlist,
+    wishlistId,
     checkout
   };
 

@@ -22,12 +22,16 @@ export interface Cart {
   user: number;
 }
 
-export interface WishList {
-  name: unknown;
-  price: Decimal;
+export interface WishlistItem {
   id: number;
-  products: Product[];
+  product: Product;
+  added_at: string;
+}
+
+export interface Wishlist {
+  id: number;
   user: number;
+  items: WishlistItem[];
 }
 
 export interface ApiError {
