@@ -1,38 +1,48 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart } from 'lucide-react';
+import { Heart, MessageCircle, ShoppingCart } from 'lucide-react';
 import type { ProductBase } from '../../types/product';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { cn } from '../../../lib/utils';
 import { useAppContext } from '../../AppContext';
+import ChatUI from '../chat/ChatUI';
 
 interface ProductCardProps {
     product: ProductBase;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-    const { wishlist, addToWishlist, removeFromWishlist } = useAppContext();
+    const { wishlist, addToWishlist, removeFromWishlist, addToCart } = useAppContext();
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     const handleWishlistToggle = async (e: React.MouseEvent) => {
-      e.preventDefault();
-      try {
-        const isInWishlist = wishlist.some(item => item.id === product.id);
+        e.preventDefault();
+        try {
+            const isInWishlist = wishlist.some(item => item.id === product.id);
 
-        if (isInWishlist) {
-          await removeFromWishlist(product.id);
-        } else {
-          await addToWishlist(product);
+            if (isInWishlist) {
+                await removeFromWishlist(product.id);
+            } else {
+                await addToWishlist(product);
+            }
+        } catch (error) {
+            console.error('Wishlist toggle failed:', error);
         }
-      } catch (error) {
-        console.error('Wishlist toggle failed:', error);
-        // Optionally show error notification
-        // toast.error('Failed to update wishlist');
-      }
+    };
+
+    const handleAddToCart = (e: React.MouseEvent) => {
+        e.preventDefault();
+        addToCart(product);
+    };
+
+    const handleChatToggle = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setIsChatOpen(!isChatOpen);
     };
 
     const formatPrice = (price: number) => {
@@ -59,7 +69,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     return (
         <Card className="group relative overflow-hidden transition-all hover:shadow-lg">
-            <Link href={`/product/${product.slug}`}>
+            <Link href={`/product/${product.slug}`} className="block">
                 <div className="relative aspect-square overflow-hidden">
                     {product.image_url ? (
                         <Image
@@ -74,21 +84,29 @@ export default function ProductCard({ product }: ProductCardProps) {
                             <span className="text-gray-400">No image</span>
                         </div>
                     )}
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-2 top-2 z-10"
-                        onClick={handleWishlistToggle}
-                    >
-                        <Heart
-                        className={cn(
-                            'h-5 w-5',
-                            wishlist.some(item => item.id === product.id) 
-                            ? 'fill-red-500 text-red-500' 
-                            : 'text-gray-500'
-                        )}
-                        />
-                    </Button>
+                    <div className="absolute top-2 right-2 z-10 flex space-x-2">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={handleWishlistToggle}
+                        >
+                            <Heart
+                                className={cn(
+                                    'h-5 w-5',
+                                    wishlist.some(item => item.id === product.id) 
+                                    ? 'fill-red-500 text-red-500' 
+                                    : 'text-gray-500'
+                                )}
+                            />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={handleChatToggle}
+                        >
+                            <MessageCircle className="h-5 w-5 text-gray-500" />
+                        </Button>
+                    </div>
                 </div>
 
                 <CardContent className="p-4">
@@ -116,16 +134,38 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </div>
                 </CardContent>
 
-                <CardFooter className="p-4 pt-0">
+                <CardFooter className="p-4 pt-0 flex space-x-2">
                     <Button
-                        className="w-full"
+                        className="flex-1"
                         variant={product.available_stock ? 'default' : 'outline'}
                         disabled={!product.available_stock}
+                        onClick={handleAddToCart}
                     >
-                        {product.available_stock ? 'View Details' : 'Out of Stock'}
+                        <ShoppingCart className="mr-2 h-4 w-4" />
+                        {product.available_stock ? 'Add to Cart' : 'Out of Stock'}
+                    </Button>
+                    <Button
+                        className="flex-1"
+                        variant="secondary"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            window.location.href = `/product/${product.slug}`;
+                        }}
+                    >
+                        View Details
                     </Button>
                 </CardFooter>
             </Link>
+
+            {isChatOpen && (
+                <div className="fixed bottom-20 right-4 z-50">
+                    <ChatUI 
+                        productId={product.id} 
+                        sellerId={product.student} 
+                        productName={product.title} 
+                    />
+                </div>
+            )}
         </Card>
     );
 }
