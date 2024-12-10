@@ -33,6 +33,17 @@ export class WebSocketService {
     connect() {
         this.socket = new WebSocket(this.url);
         
+        /**
+         * Handles the WebSocket open event by logging the establishment of the connection.
+         * 
+         * @remarks
+         * This event listener is triggered when the WebSocket connection is successfully 
+         * established. It logs a message indicating the active connection along with the 
+         * WebSocket URL.
+         */
+        this.socket.onopen = () => {
+            console.log('WebSocket connection established:', this.url);
+        };
         // Handles WebSocket message event. The library expects the incoming
         // message to be a JSON object with a "type" field and a "payload" field.
         // The message is dispatched to all registered handlers for the given
@@ -40,6 +51,16 @@ export class WebSocketService {
         this.socket.onmessage = (event) => {
             const message: WebSocketMessage = JSON.parse(event.data);
             this.handleMessage(message);
+        };
+
+        /**
+         * Handles the WebSocket close event by logging the closure of the connection
+         * and attempting to reconnect up to `maxReconnectAttempts` times, with an
+         * exponential backoff time between attempts.
+         */
+        this.socket.onclose = () => {
+            console.log('WebSocket connection closed:', this.url);
+            this.handleDisconnect();
         };
 
         // Handles WebSocket close event.

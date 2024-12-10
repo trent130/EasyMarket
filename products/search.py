@@ -1,6 +1,7 @@
 from django.contrib.postgres.search import (
     SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 )
+from django.db import models
 from django.db.models import Q, F, Value, FloatField, Avg
 from django.db.models.functions import Greatest
 from django.conf import settings
@@ -130,6 +131,7 @@ class ProductSearch:
             queryset = self.apply_sorting(queryset)
 
         return queryset
+
 
 def search_products(query=None, filters=None):
     """Helper function to perform product search"""

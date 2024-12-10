@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { Router as useRouter } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -12,7 +12,7 @@ import { Alert, AlertDescription } from '../../components/ui/alert';
 import Link from 'next/link';
 
 const loginSchema = z.object({
-  username: z.string().name('Invalid email address'),
+  username: z.string().min(3, 'Username must be at least 3 characters'), ////.email('Invalid username address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
