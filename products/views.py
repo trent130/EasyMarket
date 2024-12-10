@@ -74,15 +74,18 @@ class ProductViewSet(viewsets.ModelViewSet):
         return queryset
 
     def increment_views(self, product):
+        from django.core.cache import cache
+
         """
         Increment product view count with rate limiting
         """
         # Check if the view has been recently incremented (e.g., within the last minute)
-        cache_key = f'product_view_{product.id}'
+        cache_key = f'product_view_{product.id}_{request.user.id}'
         if not cache.get(cache_key):
             Product.objects.filter(id=product.id).update(views_count=F('views_count') + 1)
+           
             # Set a cache to prevent frequent updates
-            cache.set(cache_key, True, 60)  # 1-minute cooldown
+            cache.set(cache_key, True, 3600)  # 1 hour cooldown per user
 
     def get_object(self):
         """Get single object with caching"""
@@ -106,6 +109,12 @@ class ProductViewSet(viewsets.ModelViewSet):
         Note the method signature uses 'slug' instead of 'pk'
         """
         try:
+            cache_key = get_cache_key('detail', slug)
+            cached_results = cache.get(cache_key)
+
+            if cached_results is not None:
+                return Response(cached_results)
+
             # Use get_object_or_404 with the slug
             product = self.get_object()
             
@@ -114,6 +123,9 @@ class ProductViewSet(viewsets.ModelViewSet):
             
             # Serialize and return the product
             serializer = self.get_serializer(product)
+
+            # cache the serialized data for 1 hour
+            cache.set(cache_key, serializer.data, timeout=3600)
             return Response(serializer.data)
             
         except Product.DoesNotExist:
@@ -343,6 +355,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             cache.delete(get_cache_key('detail', product.id))
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
