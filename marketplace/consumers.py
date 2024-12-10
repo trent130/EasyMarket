@@ -5,15 +5,13 @@ import json
 class MarketplaceConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         """
-        Handles WebSocket connections.
+        Handle WebSocket connection establishment.
 
-        When a WebSocket connection is established, this method
-        is called. It extracts the room name from the URL route
-        and joins the corresponding room group. Finally, it
-        accepts the connection.
+        This method is called when a WebSocket connection is initiated.
+        It adds the WebSocket to the 'marketplace' group and accepts the connection.
 
-        See the documentation for `AsyncWebsocketConsumer` for
-        more information.
+        Attributes:
+        - `marketplace_group_name`: The group name for the marketplace WebSocket channel.
         """
         self.marketplace_group_name = 'marketplace'
 
@@ -26,16 +24,14 @@ class MarketplaceConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Leave marketplace group
         """
-        Handles WebSocket disconnections.
+        Handle WebSocket disconnection.
 
-        When a WebSocket connection is disconnected, this method
-        is called. It leaves the marketplace group and discards the
-        channel name from the marketplace group.
-
-        See the documentation for `AsyncWebsocketConsumer` for
-        more information.
+        This method is called when the WebSocket is closed. It removes
+        the WebSocket from the 'marketplace' group.
+        
+        Args:
+        - close_code: The code indicating the reason for the WebSocket disconnection.
         """
         await self.channel_layer.group_discard(
             self.marketplace_group_name,
@@ -43,18 +39,20 @@ class MarketplaceConsumer(AsyncWebsocketConsumer):
         )
 
     async def receive(self, text_data):
-        """ 
-        Handle incoming messages
-        Handles incoming messages from WebSocket
-        
-        The incoming message must be a JSON string containing
-        a 'message' key. The message is then broadcast to all
-        members of the marketplace group.
-        
-        Example incoming message:
+        """
+        Handle messages received from the WebSocket.
+
+        Parses incoming JSON messages, extracts the 'message' field, and
+        broadcasts it to the 'marketplace' group.
+
+        Args:
+        - text_data: A JSON string containing the message to broadcast.
+
+        Expected Message Format:
         {
-             'message': 'Hello, world!'
-         } """
+            "message": "Your message here"
+        }
+        """
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
@@ -69,35 +67,38 @@ class MarketplaceConsumer(AsyncWebsocketConsumer):
 
     async def marketplace_message(self, event):
         """
-        Send message to WebSocket
-         
-        Handles incoming messages from the marketplace group and
-        sends them to the WebSocket.
-         
-        The incoming message is expected to be a JSON string
-        containing a 'message' key. The message is then sent to
-        the WebSocket as a JSON string.
-        
-        Example incoming message:
+        Handle messages broadcast to the 'marketplace' group.
+
+        Sends the received message from the group to the WebSocket.
+
+        Args:
+        - event: A dictionary containing the 'message' field.
+
+        Example Event Format:
         {
-             'message': 'Hello, world!'
-        } """
+            "message": "Broadcasted message"
+        }
+        """
         await self.send(text_data=json.dumps(event))
 
 
-class ChatConsumer(AsyncWebsocketConsumer): 
-    async def connect(self): 
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
         """
-        Handles WebSocket connections.
+        Handle WebSocket connection establishment.
 
-        When a WebSocket connection is established, this method
-        is called. It extracts the room name from the URL route
-        and joins the corresponding room group. Finally, it
-        accepts the connection.
+        This method is called when a WebSocket connection is initiated.
+        It extracts the room and group details from the URL and adds the
+        WebSocket to the appropriate room group.
 
-        See the documentation for `AsyncWebsocketConsumer` for
-        more information.
+        Attributes:
+        - `room_name`: The unique name of the chat room.
+        - `room_group_name`: The group name for the chat WebSocket channel.
+        - `seller_id`: The ID of the seller associated with the chat room.
+        - `product_id`: The ID of the product associated with the chat room.
         """
+        self.seller_id = self.scope['url_route']['kwargs']['seller_id']
+        self.product_id = self.scope['url_route']['kwargs']['product_id']
 
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
@@ -111,16 +112,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Leave room group
         """
-        Handles WebSocket disconnections.
+        Handle WebSocket disconnection.
 
-        When a WebSocket connection is disconnected, this method
-        is called. It leaves the room group and discards the
-        channel name from the room group.
+        This method is called when the WebSocket is closed. It removes
+        the WebSocket from the chat room group.
 
-        See the documentation for `AsyncWebsocketConsumer` for
-        more information.
+        Args:
+        - close_code: The code indicating the reason for the WebSocket disconnection.
         """
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -129,19 +128,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         """
-        Handles incoming messages from WebSocket.
+        Handle messages received from the WebSocket.
 
-        When a message is received from WebSocket, this method
-        is called. It extracts the message from the JSON string
-        and sends it to the room group.
+        Parses incoming JSON messages, extracts the 'message' field, and
+        broadcasts it to the room group.
 
-        The incoming message is expected to be a JSON string
-        containing a 'message' key. The message is then sent to
-        the room group as a JSON string.
+        Args:
+        - text_data: A JSON string containing the message to broadcast.
 
-        Example incoming message:
+        Expected Message Format:
         {
-            'message': 'Hello, world!'
+            "message": "Your message here"
         }
         """
         text_data_json = json.loads(text_data)
@@ -158,19 +155,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def chat_message(self, event):
         """
-        Handles messages sent from the room group.
+        Handle messages broadcast to the chat room group.
 
-        When a message is sent from the room group, this method
-        is called. It extracts the message from the JSON string
-        and sends it to the WebSocket.
+        Sends the received message from the group to the WebSocket.
 
-        The incoming message is expected to be a JSON string
-        containing a 'message' key. The message is then sent to
-        the WebSocket as a JSON string.
+        Args:
+        - event: A dictionary containing the 'message' field.
 
-        Example incoming message:
+        Example Event Format:
         {
-            'message': 'Hello, world!'
+            "message": "Broadcasted message"
         }
         """
         message = event['message']
