@@ -118,6 +118,9 @@ INSTALLED_APPS = [
     'channels',
     'crispy_forms',
     'livereload',
+
+    # redis implementation for caches
+    'django_redis',
 ]
 
 # CHANNEL_LAYERS = {
@@ -136,6 +139,16 @@ CHANNEL_LAYERS = {
     },
 }
 
+# Redis cache settings
+CACHES =  {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
@@ -161,6 +174,15 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+# additional security settings
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+# SECURE_HSTS_SECONDS = 3600
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# SESSION_COOKIE_SAMESITE = 'strict'
 
 ASGI_APPLICATION = 'marketplace.routing.application'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -246,5 +268,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_I18N = True
 USE_TZ = True
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
