@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
-import crypto from 'crypto';
+// import crypto from 'crypto';
 import { getDatabaseConnection } from '@/lib/database'; // Import your database connection utility
 import { logSecurityEvent } from '@/lib/utils/logger';
-import { sendVerificationEmail } from '../../../utils/emailAuth'; // Import your email service utility
 
 export async function POST(req: Request) {
   try {
@@ -26,28 +25,21 @@ export async function POST(req: Request) {
     // Hash the password
     const hashedPassword = await hash(password, 10);
 
-    // Generate verification token
-    const verificationToken = crypto.randomBytes(20).toString('hex');
-
     // Create new user
     const newUser  = {
       name,
       email,
       password: hashedPassword,
-      isVerified: false,
-      verificationToken,
+      isVerified: false, // Initially set to false
       createdAt: new Date(),
     };
 
     // Insert user into the database
     await db.collection('users').insertOne(newUser );
 
-    // Send verification email
-    await sendVerificationEmail(email, verificationToken);
-
     logSecurityEvent('USER_SIGNUP', { email });
 
-    return NextResponse.json({ message: 'User  created successfully. Please check your email to verify your account.' }, { status: 201 });
+    return NextResponse.json({ message: 'User  created successfully.' }, { status: 201 });
   } catch (error) {
     console.error('Error in signup route:', error);
     logSecurityEvent('USER_SIGNUP_ERROR', { error: error.message });

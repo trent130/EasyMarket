@@ -9,6 +9,14 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { cn } from '../../../lib/utils';
+import { 
+    /*  fetchProducts,  */
+     fetchWishlists,
+     addProductToWishlist as addToWishlist,
+     removeProductFromWishlist as removeFromWishlist,
+     createOrder as apiCreateOrder
+   } from '../../services/api';
+
 
 interface ProductCardProps {
     product: ProductBase;
@@ -17,7 +25,22 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
     const handleWishlistToggle = async (e: React.MouseEvent) => {
         e.preventDefault();
-        // Wishlist functionality will be implemented later
+        try {
+            // Check if the product is already in the wishlist
+            const isInWishlist = wishlist.some(item => item.id === product.id);
+
+            if (isInWishlist) {
+                // Remove from wishlist
+                await removeFromWishlist(product.id, WishList.id);
+            } else {
+                // Add to wishlist
+                await addToWishlist(product);
+            }
+        } catch (error) {
+            console.error('Failed to toggle wishlist:', error);
+            // Optionally, you could show a toast or error notification here
+            // toast.error('Failed to update wishlist');
+        }
     };
 
     const formatPrice = (price: number) => {
@@ -59,7 +82,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                             <span className="text-gray-400">No image</span>
                         </div>
                     )}
-                    <Button
+                     <Button
                         variant="ghost"
                         size="icon"
                         className="absolute right-2 top-2 z-10"
@@ -68,7 +91,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <Heart
                             className={cn(
                                 'h-5 w-5',
-                                product.is_wishlisted ? 'fill-red-500 text-red-500' : 'text-gray-500'
+                                wishlist.some(item => item.id === product.id) 
+                                    ? 'fill-red-500 text-red-500' 
+                                    : 'text-gray-500'
                             )}
                         />
                     </Button>

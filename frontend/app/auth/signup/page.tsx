@@ -88,7 +88,7 @@ export default function SignUp() {
       const response = await fetch('/marketplace/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, captchaToken }),
+        body: JSON.stringify({ username, email, password, }), // captchaToken
       });
 
       const data = await response.json();

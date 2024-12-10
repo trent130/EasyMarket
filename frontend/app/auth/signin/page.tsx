@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import {  useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -37,7 +37,7 @@ export default function SignInPage() {
       if (result?.error) {
         setError(result.error);
       } else {
-        router.push('/dashboard');
+        router.push('/');
         router.refresh();
       }
     } catch (error) {
@@ -61,12 +61,12 @@ export default function SignInPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
           <Input
-            {...register('email')}
+            {...register('username')}
             type="text"
             placeholder="Username"
             className={errors.username ? 'border-red-500' : ''}
           />
-          {errors.email && (
+          {errors.username && (
             <p className="text-red-500 text-sm">{errors.username.message}</p>
           )}
         </div>
