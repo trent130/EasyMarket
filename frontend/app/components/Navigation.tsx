@@ -1,7 +1,9 @@
-import { Box, Button, Toolbar, Typography } from '@mui/material';
+// Navigation.js
+import { Box, Button as MUIButton, Toolbar, Typography } from '@mui/material';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import SearchBar from './search/SearchBar';
+import LogoutButton from './ui/LogoutButton';
 
 export default function Navigation() {
   const { data: session } = useSession();
@@ -9,37 +11,42 @@ export default function Navigation() {
   return (
     <nav className="bg-gray-800 text-white p-4">
       <Toolbar>
-        <Typography variant="h6" component={Link} href="/" style={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
+        <Typography
+          variant="h6"
+          component={Link}
+          href="/"
+          style={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
+        >
           EasyMarket
         </Typography>
         <SearchBar />
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-	        <Button color="inherit" component={Link} href="/">Home</Button>
-          <Button color="inherit" component={Link} href="/product">
+          <MUIButton color="inherit" component={Link} href="/">
+            Home
+          </MUIButton>
+          <MUIButton color="inherit" component={Link} href="/product">
             Products
-          </Button>
-          <Button color="inherit" component={Link} href="/textbook-exchange">
+          </MUIButton>
+          <MUIButton color="inherit" component={Link} href="/textbook-exchange">
             Textbook Exchange
-          </Button>
-          <Button color="inherit" component={Link} href="/cart">
+          </MUIButton>
+          <MUIButton color="inherit" component={Link} href="/cart">
             Cart
-          </Button>
-          <Button color="inherit" component={Link} href="/wishlist">
+          </MUIButton>
+          <MUIButton color="inherit" component={Link} href="/wishlist">
             Wishlist
-          </Button>
+          </MUIButton>
           {session ? (
             <>
               <Typography variant="body1" sx={{ mr: 2 }}>
                 Welcome, {session.user?.name}
               </Typography>
-              <Button color="inherit" onClick={() => signOut()}>
-                Sign Out
-              </Button>
+              <LogoutButton />
             </>
           ) : (
-            <Button color="inherit" onClick={() => signIn()}>
+            <MUIButton color="inherit" onClick={() => signIn()}>
               Sign In
-            </Button>
+            </MUIButton>
           )}
         </Box>
       </Toolbar>
