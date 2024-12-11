@@ -5,18 +5,22 @@ import base64
 from django.conf import settings
 from ..models import Student
 
+
 def generate_totp_secret():
     """Generate a new TOTP secret key"""
     return pyotp.random_base32()
+
 
 def generate_totp(secret):
     """Create a TOTP object for a given secret"""
     return pyotp.TOTP(secret)
 
+
 def verify_totp(secret, token):
     """Verify a TOTP token"""
     totp = pyotp.TOTP(secret)
     return totp.verify(token)
+
 
 def generate_qr_code(secret, email):
     """Generate a QR code for the TOTP secret"""
@@ -44,6 +48,7 @@ def generate_qr_code(secret, email):
     img.save(buffer, format='PNG')
     return f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
 
+
 def generate_backup_codes(count=8):
     """Generate a list of backup codes"""
     import random
@@ -56,10 +61,12 @@ def generate_backup_codes(count=8):
         codes.append(code)
     return codes
 
+
 def is_path_protected(path):
     """Check if a path requires 2FA verification"""
     protected_paths = settings.TWO_FACTOR_SETTINGS.get('PROTECTED_PATHS', [])
     return any(path.startswith(protected) for protected in protected_paths)
+
 
 def requires_2fa(user):
     """Check if a user requires 2FA verification"""
@@ -69,6 +76,7 @@ def requires_2fa(user):
     except Student.DoesNotExist:
         return False
 
+
 def verify_backup_code(student, code):
     """Verify and consume a backup code"""
     if code in student.backup_codes:
@@ -76,6 +84,7 @@ def verify_backup_code(student, code):
         student.save()
         return True
     return False
+
 
 def setup_2fa(student):
     """Set up 2FA for a student"""
@@ -97,6 +106,7 @@ def setup_2fa(student):
         'qr_code_url': qr_code,
         'backup_codes': backup_codes
     }
+
 
 def disable_2fa(student):
     """Disable 2FA for a student"""
