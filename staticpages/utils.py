@@ -1,11 +1,11 @@
 from django.core.cache import cache
 from django.conf import settings
-from django.utils.text import slugify
+# from django.utils.text import slugify
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 import logging
-import json
+# import json
 import re
 
 logger = logging.getLogger(__name__)
@@ -21,6 +21,7 @@ PAGE_CACHE_TIMEOUT = 3600  # 1 hour
 FAQ_CACHE_TIMEOUT = 3600  # 1 hour
 SETTINGS_CACHE_TIMEOUT = 86400  # 24 hours
 META_CACHE_TIMEOUT = 3600  # 1 hour
+
 
 def get_cached_page(slug):
     """Get page from cache or database"""
@@ -43,10 +44,12 @@ def get_cached_page(slug):
             
     return page_data
 
+
 def clear_page_cache(slug):
     """Clear page cache"""
     cache_key = PAGE_CACHE_KEY.format(slug=slug)
     cache.delete(cache_key)
+
 
 def get_cached_faqs(category=None):
     """Get FAQs from cache or database"""
@@ -66,6 +69,7 @@ def get_cached_faqs(category=None):
         
     return faqs_data
 
+
 def clear_faq_cache(category=None):
     """Clear FAQ cache"""
     if category:
@@ -74,6 +78,7 @@ def clear_faq_cache(category=None):
     else:
         # Clear all FAQ caches
         cache.delete_pattern(FAQ_CACHE_KEY.format(category='*'))
+
 
 def get_site_settings():
     """Get site settings from cache or settings"""
@@ -92,9 +97,11 @@ def get_site_settings():
         
     return settings_data
 
+
 def clear_site_settings_cache():
     """Clear site settings cache"""
     cache.delete(SETTINGS_CACHE_KEY)
+
 
 def send_contact_notification(contact_data):
     """Send contact form notification email"""
@@ -126,6 +133,7 @@ def send_contact_notification(contact_data):
         logger.error(f"Failed to send contact notification: {str(e)}")
         return False
 
+
 def generate_meta_tags(page):
     """Generate meta tags for a page"""
     meta_data = cache.get(META_CACHE_KEY.format(page_id=page.id))
@@ -145,9 +153,11 @@ def generate_meta_tags(page):
         
     return meta_data
 
+
 def clear_meta_cache(page_id):
     """Clear meta tags cache"""
     cache.delete(META_CACHE_KEY.format(page_id=page_id))
+
 
 def generate_sitemap_data():
     """Generate sitemap data"""
@@ -165,6 +175,7 @@ def generate_sitemap_data():
         
     return sitemap_data
 
+
 def sanitize_html(content):
     """Sanitize HTML content"""
     # Remove script tags and their content
@@ -181,6 +192,7 @@ def sanitize_html(content):
     
     return content.strip()
 
+
 def track_page_view(page_slug):
     """Track page view for analytics"""
     try:
@@ -190,6 +202,7 @@ def track_page_view(page_slug):
     except Exception as e:
         logger.error(f"Failed to track page view: {str(e)}")
         return False
+
 
 def get_popular_pages(days=30, limit=10):
     """Get popular pages based on views"""

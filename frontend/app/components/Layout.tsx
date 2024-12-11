@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </Fab>
       {isChatOpen && (
         <div style={{ position: 'fixed', bottom: 80, right: 16, zIndex: 1000 }}>
-          <ChatUI productId={undefined} />
+          <ChatUI productId={''} sellerId={''} productName={''} />
         </div>
       )}
     </>

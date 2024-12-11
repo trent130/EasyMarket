@@ -6,6 +6,7 @@ from marketplace.models import Student, Review
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
 from django.db.models import Avg
+from django.db.models import Count
 
 
 class CategorySerializer(serializers.ModelSerializer):
