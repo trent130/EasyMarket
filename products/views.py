@@ -73,7 +73,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-    def increment_views(self, product):
+    def increment_views(self, product, request):
         from django.core.cache import cache
 
         """
@@ -96,7 +96,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         if obj is None:
             """ obj = super().get_object() """
             obj = get_object_or_404(Product, slug=slug, is_active=True)
-            cache.set(cache_key, obj, CACHE_TTL)
+            serializer = self.get_serializer(obj)
+            cache.set(cache_key, serializer.data)
 
         # Increment views count
         obj.increment_views()
@@ -112,8 +113,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             cache_key = get_cache_key('detail', slug)
             cached_results = cache.get(cache_key)
 
-            if cached_results is not None:
-                return Response(cached_results)
+            """ if cached_results is not None:
+                return Response(cached_results) """
 
             # Use get_object_or_404 with the slug
             product = self.get_object()
@@ -125,7 +126,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(product)
 
             # cache the serialized data for 1 hour
-            cache.set(cache_key, serializer.data, timeout=3600)
+            logger.debug(f"Caching product data: {serializer.data}")
+            cache.set(cached_results, serializer.data, timeout=3600)
             return Response(serializer.data)
             
         except Product.DoesNotExist:

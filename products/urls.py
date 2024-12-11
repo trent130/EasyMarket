@@ -25,7 +25,7 @@ urlpatterns = [
 
     # fetch categories
     path('api/categories/', views.CategoryViewSet.as_view({'get': 'categories'}), 
-        name='categories'),
+         name='categories'),
     
     path('api/products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),

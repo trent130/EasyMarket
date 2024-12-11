@@ -41,7 +41,7 @@ class AddToCartViewTest(TestCase):
         response = add_to_cart(request, product_id=self.product.id)
         self.assertEqual(response.status_code, 302)  # Redirect status code
         # Check if item is added to cart
-        self.assertEqual(CartItem.objects.filter(cart=self.cart, product=self.product).count(), 1) 
+        self.assertEqual(CartItem.objects.filter(cart=self.cart, product=self.product).count(), 1)
         self.assertRedirects(response, reverse('cart'))  # Check if the view redirects to cart page
         
     def test_invalid_form_submission(self):
