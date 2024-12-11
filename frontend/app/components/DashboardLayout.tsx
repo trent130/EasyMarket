@@ -1,7 +1,7 @@
 // File: /app/components/DashboardLayout.tsx
 
 import React from 'react';
-import { Sidebar } from '../../src/components/ui/sidebar';
+import { Sidebar } from './ui/sidebar';
 
 // Props type for layout
 interface DashboardLayoutProps {

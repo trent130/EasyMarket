@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google'
 import { SessionProvider } from 'next-auth/react'
 import Navigation from './components/Navigation'
 import { AppProvider } from './AppContext'
-import { Sidebar } from '../src/components/ui/sidebar'
+import { Sidebar } from './components/ui/sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
