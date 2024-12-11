@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -6,6 +5,8 @@ import { Container, Fab } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatUI from './chat/ChatUI';
 import ClientLayout from './ClientLayout';
+import DashboardLayout from './DashboardLayout';
+import { SidebarProvider } from './ui/sidebar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -13,8 +14,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <ClientLayout />
-      <Container maxWidth="lg" style={{ marginTop: '2rem', marginBottom: '5rem', position: 'relative' }}>
-        {children}
+      <Container maxWidth={false} style={{ marginTop: '2rem', marginBottom: '5rem', position: 'relative', padding: 0 }}>
+        <SidebarProvider>
+          <DashboardLayout>
+            {children} {/* This will render the specific page content */}
+          </DashboardLayout>
+        </SidebarProvider>
       </Container>
       <Fab 
         color="primary" 

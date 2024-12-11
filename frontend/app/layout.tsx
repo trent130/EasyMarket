@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google'
 import { SessionProvider } from 'next-auth/react'
 import Navigation from './components/Navigation'
 import { AppProvider } from './AppContext'
-import { Sidebar } from './components/ui/sidebar'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,7 +19,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionProvider>
           <AppProvider>
-            <Sidebar />
             <Navigation />
             <main className="container mx-auto mt-2">
               {children}
