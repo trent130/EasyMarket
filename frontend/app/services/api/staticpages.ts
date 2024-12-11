@@ -95,7 +95,7 @@ export const staticPagesApi = {
     const response = await apiClient.get<FAQ[]>('/api/faqs/search/', {
       params: { q: query }
     });
-    return response.data;
+    return response;
   },
 
   // Contact

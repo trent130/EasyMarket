@@ -26,7 +26,7 @@ const Navigation = () => {
         </Typography>
 
         {/* Search Bar */}
-        <div className="hidden md:block flex-1 mx-4">
+        <div className="hidden md:block flex-1 mx-[10%]">
           <SearchBar />
         </div>
 
