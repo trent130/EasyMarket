@@ -65,7 +65,7 @@ const Navigation = () => {
           </Link>
           <Link href="/textbook-exchange">
             <button className="bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-              Textbook Exchange
+              Dashboard
             </button>
           </Link>
           <Link href="/cart">

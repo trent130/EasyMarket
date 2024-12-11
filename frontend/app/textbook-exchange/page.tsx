@@ -32,7 +32,7 @@ export default function TextbookExchange() {
   };
 
   return (
-    <Layout>
+    <div>
       <Typography variant="h4" gutterBottom>
         Textbook Exchange
       </Typography>
@@ -119,6 +119,6 @@ export default function TextbookExchange() {
           </Grid>
         </Grid>
       </Grid>
-    </Layout>
+    </div>
   );
 }

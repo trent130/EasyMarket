@@ -17,7 +17,7 @@ export default function CartPage() {
   };
 
   return (
-    <Layout>
+    <div className=''>
       <Typography variant="h4" gutterBottom>
         Your Shopping Cart
       </Typography>
@@ -51,6 +51,6 @@ export default function CartPage() {
           </Box>
         </>
       )}
-    </Layout>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { AppProvider } from '@/app/AppContext'
+import { AppProvider } from './AppContext'
 import { ThemeProvider } from 'next-themes'
 // Import other providers as needed
 
