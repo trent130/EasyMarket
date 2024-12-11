@@ -15,11 +15,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <ClientLayout />
       <Container maxWidth={false} style={{ marginTop: '2rem', marginBottom: '5rem', position: 'relative', padding: 0 }}>
-        <SidebarProvider>
-          <DashboardLayout>
+        <>
+          <>
             {children} {/* This will render the specific page content */}
-          </DashboardLayout>
-        </SidebarProvider>
+          </>
+        </>
       </Container>
       <Fab 
         color="primary" 

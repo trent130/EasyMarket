@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Grid, Card, CardContent, CardActions } from '@mui/material';
-import Layout from '../components/Layout';
+import DashboardLayout from '@/components/DashboardLayout';
 
 // Mock data for listed textbooks (in a real app, this would come from a database)
 const initialTextbooks = [
@@ -20,6 +20,10 @@ export default function TextbookExchange() {
     setNewTextbook({ ...newTextbook, [name]: value });
   };
 
+/**
+ * Handles the submission of a new textbook listing by adding it to the list of textbooks and clearing out the form.
+ * @param {React.FormEvent} e - The form event
+ */
   const handleSubmit = (e) => {
     e.preventDefault();
     const textbookToAdd = {
@@ -32,7 +36,7 @@ export default function TextbookExchange() {
   };
 
   return (
-    <div>
+    <DashboardLayout>
       <Typography variant="h4" gutterBottom>
         Textbook Exchange
       </Typography>
@@ -119,6 +123,6 @@ export default function TextbookExchange() {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </DashboardLayout>
   );
 }
