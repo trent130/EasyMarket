@@ -11,6 +11,7 @@ import { Badge } from '../ui/badge';
 import { cn } from '../../../lib/utils';
 import { useAppContext } from '../../AppContext';
 import ChatUI from '../chat/ChatUI';
+import { Box, Grid } from '@mui/material';
 
 interface ProductCardProps {
     product: ProductBase;
@@ -38,6 +39,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();
         addToCart(product);
+        console.log('Image URL:', product.image_url);
     };
 
     const handleChatToggle = (e: React.MouseEvent) => {
@@ -71,19 +73,20 @@ export default function ProductCard({ product }: ProductCardProps) {
         <Card className="group relative overflow-hidden transition-all hover:shadow-lg">
             <Link href={`/product/${product.slug}`} className="block">
                 <div className="relative aspect-square overflow-hidden">
-                    {product.image_url ? (
-                        <Image
-                            src={product.image_url}
-                            alt={product.title}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-105"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                    ) : (
-                        <div className="flex h-full items-center justify-center bg-gray-100">
-                            <span className="text-gray-400">No image</span>
-                        </div>
-                    )}
+                    {/* Product Image */}
+                    <Grid item xs={12} md={6}>
+                            <Box
+                                component="img"
+                                src={product.image_url || '/placeholder.jpg'}
+                                alt={product.title}
+                                sx={{
+                                width: '100%',
+                                height: 'auto',
+                                borderRadius: 2,
+                                boxShadow: 3,
+                                }}
+                            />
+                    </Grid>
                     <div className="absolute top-2 right-2 z-10 flex space-x-2">
                         <Button
                             variant="ghost"

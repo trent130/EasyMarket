@@ -25,6 +25,7 @@ export default function ProductFilter({
         { value: 'good', label: 'Good' },
         { value: 'fair', label: 'Fair' },
     ];
+    
 
     const handleConditionChange = (value: ProductCondition) => {
         // This function updates the condition in the filters
@@ -33,11 +34,11 @@ export default function ProductFilter({
 
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 fixed w-1/4  left-0 bg-background-secondary py-4 px-6 z-10">
             {/* Price Range */}
             <div className="space-y-2">
                 <Label>Price Range</Label>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 ">
                     <Input
                         type="number"
                         placeholder="Min"

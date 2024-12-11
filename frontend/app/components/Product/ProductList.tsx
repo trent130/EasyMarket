@@ -141,7 +141,7 @@ export default function ProductList() {
         <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 {/* Filters */}
-                <div className="md:col-span-1">
+                <div className="md:col-span-1 ">
                     <ProductFilter
                         filters={filters}
                         categories={categories}
@@ -151,31 +151,10 @@ export default function ProductList() {
 
                 {/* Products */}
                 <div className="md:col-span-3">
-                    {/* Search and Sort */}
-                    <div className="mb-6">
-                        <Input
-                            type="search"
-                            placeholder="Search products..."
-                            defaultValue={filters.query}
-                            onChange={e => debouncedSearch(e.target.value)}
-                            className="max-w-sm mb-4"
-                        />
-                        <select
-                            value={filters.sort_by}
-                            onChange={e => handleSortChange(e.target.value)}
-                            className="ml-auto h-10 rounded-md border px-3"
-                            >
-                            <option value="newest">Newest First</option>
-                            <option value="price_asc">Price: Low to High</option>
-                            <option value="price_desc">Price: High to Low</option>
-                            <option value="rating">Highest Rated</option>
-                            <option value="popularity">Most Popular</option>
-                        </select>
-                    </div>
 
                     {/* Product Grid */}
                     {loading ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
                             {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
                                 <div
                                     key={i}
@@ -185,7 +164,7 @@ export default function ProductList() {
                         </div>
                     ) : products.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2  gap-6">
                                 {products.map(product => (
                                     <ProductCard key={product.slug} product={product} />
                                 ))}

@@ -107,7 +107,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex  justify-center items-center">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create your account</h2>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -208,9 +208,10 @@ export default function SignUp() {
             </button>
           </div>
         </form>
-        <div className="text-center">
-          <Link href="/auth/signin" className="text-sm text-indigo-600 hover:text-indigo-500">
-            Already have an account? Sign in
+        <div className="text-center text-sm text-indigo-600 hover:text-indigo-500">
+          Already have an account?
+          <Link href="/auth/signin" className="hover:underline ">
+             Sign in
           </Link>
         </div>
       </div>
