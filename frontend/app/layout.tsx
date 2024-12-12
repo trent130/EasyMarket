@@ -6,7 +6,9 @@ import { SessionProvider } from 'next-auth/react'
 import Navigation from './components/Navigation'
 import { AppProvider } from './AppContext'
 import { Providers } from './providers'
-
+import Layout from './components/layout'
+import DashboardLayout from './components/DashboardLayout'
+import { usePathname } from 'next/navigation'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -16,6 +18,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+const pathname = usePathname();
+
+// checksif the route is associated with the dashboard route
+isDashboard = pathname.startsWith('/dashboard');
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -24,8 +31,12 @@ export default function RootLayout({
             <AppProvider>
               <Navigation />
               <main className="mx-auto mt-2">
-                
-                {children}
+                {/* conditional rendereing of layouts */}
+		{isDashboard ? (
+		<DashBoard>{children}</Dashboard>
+		) : (
+		<Layout>{children}</Layout>
+		)}
               </main>
             </AppProvider>
           </Providers>
