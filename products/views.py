@@ -1,8 +1,11 @@
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from django.db.models import Q, Avg, Count, F, Prefetch
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.db.models import Avg, F, Count, Sum, Q
+from django.db import models
+from django.db.models import Prefetch
+from marketplace.models import Review
 from django.shortcuts import get_object_or_404
 from django.core.cache import cache
 from django.conf import settings
@@ -17,7 +20,8 @@ from .serializers import (
     ProductBulkActionSerializer,
     CategorySerializer
 )
-from marketplace.models import Student, Review
+from .search import search_products
+from marketplace.models import Student
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,9 +30,11 @@ logger = logging.getLogger(__name__)
 CACHE_TTL = getattr(settings, 'PRODUCT_CACHE_TTL', 3600)  # 1 hour default
 CACHE_PREFIX = 'products:'
 
+
 def get_cache_key(prefix, identifier):
     """Generate cache key with prefix"""
     return f'{CACHE_PREFIX}{prefix}:{identifier}'
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -36,60 +42,115 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'description', 'category__name']
     ordering_fields = ['price', 'created_at', 'title', 'stock']
     ordering = ['-created_at']
+    lookup_field = 'slug'
 
+    # ...
     def get_queryset(self):
-        """Get optimized queryset with caching"""
+        """
+        Override get_queryset to include necessary joins and annotations.
+
+        The included annotations are:
+
+        - avg_rating: the average rating of the product
+        - review_count: the number of reviews the product has
+        - total_sales_amount: the total amount of money the product has made in sales
+        """
         queryset = Product.objects.select_related(
-            'category', 
-            'student', 
+            'category',
+            'student',
             'student__user'
         ).prefetch_related(
             Prefetch(
                 'reviews',
-                queryset=Review.objects.select_related('reviewer').order_by('-created_at')
+                queryset=Review.objects.select_related('reviewer').order_by('-timestamp')
             ),
             'variants'
         ).annotate(
             avg_rating=Avg('reviews__rating'),
             review_count=Count('reviews'),
-            total_sales_amount=sum(F('price') * F('total_sales'))
+            total_sales_amount=Sum(F('price') * F('total_sales'), output_field=models.DecimalField())
         )
 
-        # Filter by category
-        if category_id := self.request.query_params.get('category'):
-            queryset = queryset.filter(category_id=category_id)
+        return queryset
 
-        # Filter by price range
-        if min_price := self.request.query_params.get('min_price'):
-            queryset = queryset.filter(price__gte=min_price)
-        if max_price := self.request.query_params.get('max_price'):
-            queryset = queryset.filter(price__lte=max_price)
+    def increment_views(self, product, request):
+        from django.core.cache import cache
 
-        # Filter by stock status
-        if self.request.query_params.get('in_stock'):
-            queryset = queryset.filter(stock__gt=F('reserved_stock'))
-
-        # Filter by student
-        if student_id := self.request.query_params.get('student'):
-            queryset = queryset.filter(student_id=student_id)
-
-        return queryset.filter(is_active=True)
+        """
+        Increment product view count with rate limiting
+        """
+        # Check if the view has been recently incremented (e.g., within the last minute)
+        cache_key = f'product_view_{product.id}_{request.user.id}'
+        if not cache.get(cache_key):
+            Product.objects.filter(id=product.id).update(views_count=F('views_count') + 1)
+           
+            # Set a cache to prevent frequent updates
+            cache.set(cache_key, True, 3600)  # 1 hour cooldown per user
 
     def get_object(self):
         """Get single object with caching"""
-        pk = self.kwargs.get('pk')
-        cache_key = get_cache_key('detail', pk)
+        slug = self.kwargs.get('slug')
+        cache_key = get_cache_key('detail', slug)
         obj = cache.get(cache_key)
 
         if obj is None:
-            obj = super().get_object()
-            cache.set(cache_key, obj, CACHE_TTL)
+            """ obj = super().get_object() """
+            obj = get_object_or_404(Product, slug=slug, is_active=True)
+            serializer = self.get_serializer(obj)
+            cache.set(cache_key, serializer.data)
 
         # Increment views count
         obj.increment_views()
         return obj
+        
+    def retrieve(self, request, slug=None):
+        """
+        Retrieve a product by its slug.
+        
+        Note the method signature uses 'slug' instead of 'pk'
+        """
+        try:
+            cache_key = get_cache_key('detail', slug)
+            cached_results = cache.get(cache_key)
+
+            """ if cached_results is not None:
+                return Response(cached_results) """
+
+            # Use get_object_or_404 with the slug
+            product = self.get_object()
+            
+            # Increment views count
+            product.increment_views()
+            
+            # Serialize and return the product
+            serializer = self.get_serializer(product)
+
+            # cache the serialized data for 1 hour
+            logger.debug(f"Caching product data: {serializer.data}")
+            cache.set(cached_results, serializer.data, timeout=3600)
+            return Response(serializer.data)
+            
+        except Product.DoesNotExist:
+            return Response({
+                'detail': 'Product not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        except Exception as e:
+            # Log the error
+            logger.error(f"Error retrieving product: {str(e)}")
+            return Response({
+                'detail': 'An unexpected error occurred'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_serializer_class(self):
+        """
+        Return the appropriate serializer class based on the current action.
+
+        - For 'list' action, return ProductListSerializer.
+        - For 'create' action, return ProductCreateSerializer.
+        - For 'update' and 'partial_update' actions, return ProductUpdateSerializer.
+        - For other actions, return ProductDetailSerializer.
+        """
         if self.action == 'list':
             return ProductListSerializer
         elif self.action == 'create':
@@ -149,7 +210,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response(cached_results)
 
         # Perform search using search module
-        from .search import search_products
+
         queryset = search_products(
             query=data.get('query'),
             filters={
@@ -296,6 +357,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             cache.delete(get_cache_key('detail', product.id))
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer

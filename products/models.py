@@ -1,21 +1,23 @@
 from decimal import Decimal
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.utils import timezone 
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from django.db.models import F
-from django.conf import settings
+# from django.conf import settings
 import logging
 
 logger = logging.getLogger(__name__)
+
 
 def validate_image_size(value):
     """Validate image size (max 5MB)"""
     filesize = value.size
     if filesize > 5 * 1024 * 1024:  # 5MB
         raise ValidationError("Maximum file size is 5MB")
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -36,16 +38,34 @@ class Category(models.Model):
         ordering = ['name']
 
     def save(self, *args, **kwargs):
+        """
+        Save the category instance. If the slug is not set, it
+        is automatically generated from the name.
+        """
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
     def __str__(self):
+        """
+        Returns a string representation of the category, which is
+        the name of the category.
+
+        Returns:
+            str: The string representation of the category.
+        """
         return self.name
 
     @property
     def active_products_count(self):
+        """
+        Calculate the number of active products associated with this category.
+
+        Returns:
+            int: The count of products that are marked as active.
+        """
         return self.products.filter(is_active=True).count()
+
 
 def default_category():
     """Get or create default category"""
@@ -54,6 +74,7 @@ def default_category():
         defaults={'description': 'Default category for uncategorized products'}
     )
     return category.id
+
 
 class ProductVariant(models.Model):
     """Model for product variants (e.g., different sizes, colors)"""
@@ -72,10 +93,17 @@ class ProductVariant(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        """
+        Returns a string representation of the product variant, which is the name of the variant followed by the sku.
+        
+        Returns:
+            str: The string representation of the product variant.
+        """
         return f"{self.name} - {self.sku}"
 
     class Meta:
         ordering = ['name']
+
 
 class Product(models.Model):
     CONDITION_CHOICES = [
@@ -155,6 +183,14 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         # Generate slug if not provided
+        """
+        Save the product instance. If the slug is not set, it
+        is automatically generated from the title. Also validates
+        that reserved stock does not exceed total stock.
+
+        Raises:
+            ValidationError: If reserved stock exceeds total stock.
+        """
         if not self.slug:
             base_slug = slugify(self.title)
             unique_slug = base_slug
@@ -171,6 +207,14 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
+        """
+        Returns a string representation of the product, which is
+        the title of the product.
+
+        Returns:
+            str: The string representation of the product.
+        """
+        
         return self.title
 
     @property
