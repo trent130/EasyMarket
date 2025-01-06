@@ -10,7 +10,6 @@ import Layout from './components/layout'
 import DashboardLayout from './components/DashboardLayout'
 import { usePathname } from 'next/navigation'
 
-
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
@@ -18,30 +17,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-const pathname = usePathname();
+  const pathname = usePathname();
 
-// checksif the route is associated with the dashboard route
-isDashboard = pathname.startsWith('/dashboard');
+  // checks if the route is associated with the dashboard route
+  const isDashboard = pathname.startsWith('/dashboard');
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <SessionProvider>
-          <Providers>
-            <AppProvider>
-              <Navigation />
-              <main className="mx-auto mt-2">
-                {/* conditional rendereing of layouts */}
-		{isDashboard ? (
-		<DashBoard>{children}</Dashboard>
-		) : (
-		<Layout>{children}</Layout>
-		)}
-              </main>
-            </AppProvider>
-          </Providers>
-        </SessionProvider>
-      </body>
-    </html>
-  )
+    <>
+      <html lang="en">
+        <body className={inter.className}>
+          <SessionProvider>
+            <Providers>
+              <AppProvider>
+                <Navigation />
+                <main className="mx-auto mt-2">
+                  {/* conditional rendering of layouts */}
+                  {isDashboard ? (
+                    <DashboardLayout>{children}</DashboardLayout>
+                  ) : (
+                    <Layout>{children}</Layout>
+                  )}
+                </main>
+              </AppProvider>
+            </Providers>
+          </SessionProvider>
+        </body>
+      </html>
+    </>
+  );
 }
