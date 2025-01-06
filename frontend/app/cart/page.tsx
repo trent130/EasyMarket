@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Typography, List, ListItem, ListItemText, Button, Box, Divider } from '@mui/material';
-import Layout from '../../components/Layout';
+import Layout from '../components/Layout';
 import { useAppContext } from '../AppContext';
 
 export default function CartPage() {
@@ -17,7 +17,7 @@ export default function CartPage() {
   };
 
   return (
-    <Layout>
+    <div className=''>
       <Typography variant="h4" gutterBottom>
         Your Shopping Cart
       </Typography>
@@ -51,6 +51,6 @@ export default function CartPage() {
           </Box>
         </>
       )}
-    </Layout>
+    </div>
   );
 }

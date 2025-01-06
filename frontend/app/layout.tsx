@@ -3,8 +3,12 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { SessionProvider } from 'next-auth/react'
-import Navigation from '../components/Navigation'
+import Navigation from './components/Navigation'
 import { AppProvider } from './AppContext'
+import { Providers } from './providers'
+import Layout from './components/layout'
+import DashboardLayout from './components/DashboardLayout'
+import { usePathname } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,18 +17,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const pathname = usePathname();
+
+  // checks if the route is associated with the dashboard route
+  const isDashboard = pathname.startsWith('/dashboard');
+
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <SessionProvider>
-          <AppProvider>
-            <Navigation />
-            <main className="container mx-auto mt-4">
-              {children}
-            </main>
-          </AppProvider>
-        </SessionProvider>
-      </body>
-    </html>
-  )
+    <>
+      <html lang="en">
+        <body className={inter.className}>
+          <SessionProvider>
+            <Providers>
+              <AppProvider>
+                <Navigation />
+                <main className="mx-auto mt-2">
+                  {/* conditional rendering of layouts */}
+                  {isDashboard ? (
+                    <DashboardLayout>{children}</DashboardLayout>
+                  ) : (
+                    <Layout>{children}</Layout>
+                  )}
+                </main>
+              </AppProvider>
+            </Providers>
+          </SessionProvider>
+        </body>
+      </html>
+    </>
+  );
 }

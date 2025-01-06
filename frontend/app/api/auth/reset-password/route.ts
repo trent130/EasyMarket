@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { users } from '@/lib/models/user';
+import { users } from '../../../lib/models/user';
 import { logSecurityEvent } from '@/lib/utils/logger';
 import { hash } from 'bcrypt';
 import crypto from 'crypto';

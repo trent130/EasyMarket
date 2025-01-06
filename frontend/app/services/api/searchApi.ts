@@ -24,7 +24,7 @@ interface SearchParams {
 
 export const searchApi = {
     search: (params: SearchParams) =>
-        fetchWrapper<SearchResults>('/api/search', { 
+        fetchWrapper<SearchResults>('/marketplace/api/search', { 
             params: Object.fromEntries(
                 Object.entries(params).map(([key, value]) => [
                     key, 
@@ -34,12 +34,12 @@ export const searchApi = {
         }),
     
     getAutoComplete: (query: string) =>
-        fetchWrapper<string[]>('/api/search/autocomplete', { 
+        fetchWrapper<string[]>('/marketplace/api/search/autocomplete', { 
             params: { query }
         }),
     
     getPopularSearches: () =>
-        fetchWrapper<string[]>('/api/search/popular'),
+        fetchWrapper<string[]>('/marketplace/api/search/popular'),
 };
 
 export type SearchApi = typeof searchApi; 

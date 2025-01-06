@@ -37,7 +37,7 @@ export const paymentService = {
   // Initiate M-Pesa payment
   initiateMpesaPayment: async (data: MpesaPaymentRequest): Promise<PaymentResponse> => {
     try {
-      const response = await apiClient.post<PaymentResponse>('/payment/mpesa/', data);
+      const response = await apiClient.post<PaymentResponse>('payment/api/payment/mpesa/', data);
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.error || ERROR_MESSAGES.PAYMENT_FAILED);
@@ -47,17 +47,17 @@ export const paymentService = {
   // Verify payment status
   verifyPayment: async (data: PaymentVerification): Promise<PaymentResponse> => {
     try {
-      const response = await apiClient.post<PaymentResponse>('/payment/verify_payment/', data);
+      const response = await apiClient.post<PaymentResponse>('/payment/api/payment/verify/', data);
       return response.data;
     } catch (error: any) {
-      throw new Error(error.response?.data?.error || ERROR_MESSAGES.VERIFICATION_FAILED);
+i      throw new Error(error.response?.data?.error || ERROR_MESSAGES.VERIFICATION_FAILED);
     }
   },
 
   // Get payment history
   getPaymentHistory: async (): Promise<Transaction[]> => {
     try {
-      const response = await apiClient.get<Transaction[]>('/payment/history/');
+      const response = await apiClient.get<Transaction[]>('payment/api/payment/history/');
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.error || ERROR_MESSAGES.HISTORY_FAILED);
@@ -67,7 +67,7 @@ export const paymentService = {
   // Get payment receipt
   getPaymentReceipt: async (transactionId: string): Promise<PaymentReceipt> => {
     try {
-      const response = await apiClient.get<PaymentReceipt>(`/payment/${transactionId}/receipt/`);
+      const response = await apiClient.get<PaymentReceipt>(`/payment/api/payment/transactions/${transactionId}/receipt/`);
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.error || ERROR_MESSAGES.RECEIPT_FAILED);
@@ -77,7 +77,7 @@ export const paymentService = {
   // Request refund
   requestRefund: async (transactionId: string, data: RefundRequest): Promise<PaymentResponse> => {
     try {
-      const response = await apiClient.post<PaymentResponse>(`/payment/${transactionId}/refund/`, data);
+      const response = await apiClient.post<PaymentResponse>(`payment/api/payment/${transactionId}/refund/`, data);
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.error || ERROR_MESSAGES.REFUND_FAILED);

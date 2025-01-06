@@ -44,4 +44,5 @@ export const paymentsApi = {
         })
 };
 
-export type PaymentsApi = typeof paymentsApi; 
+export type PaymentsApi = typeof paymentsApi;
+// backend and frontend sync needed

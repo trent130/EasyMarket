@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import timedelta
+import sys
 
 load_dotenv()
 
@@ -17,20 +19,49 @@ PAYMENT_VARIANTS = {
     # Add more payment variants for different gateways
 }
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': sys.stdout,
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django_debug.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'myapp': {  # Replace 'myapp' with your app name
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     },
 }
+
 MPESA_CALLBACK_URL = 'mpesa_callback'
 
 MPESA_ENVIRONMENT = 'sandbox'
@@ -41,12 +72,13 @@ MPESA_EXPRESS_SHORTCODE = '174379'
 MPESA_SHORTCODE_TYPE = 'paybill'
 MPESA_PASSKEY = os.getenv('MPESA_PASSKEY')
 MPESA_INITIATOR_USERNAME = os.getenv('MPESA_INITIATOR_USERNAME')
-MPESA_INITIATOR_SECURITY_CREDENTIALS = os.getenv('MPESA_INITIATOR_SECURITY_CREDENTIALS')
+MPESA_INITIATOR_SECURITY_CREDENTIALS = os.getenv(
+    'MPESA_INITIATOR_SECURITY_CREDENTIALS'
+    )
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-w%r6m-g^uf&+077us1j$y-+m5+v_fk5b)$3=)id!15+(o!&f9d'
@@ -69,29 +101,53 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'students',
-    'channels',
-    'crispy_forms',
+    # custom apps
     'marketplace.apps.MarketplaceConfig',
     'products.apps.ProductsConfig',
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
     'adminapp.apps.AdminappConfig',
     'staticpages.apps.StaticpagesConfig',
+
+    # third-party apps
     'django_daraja',
     'widget_tweaks',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'channels',
+    'crispy_forms',
+    'livereload',
+
+    # redis implementation for caches
+    'django_redis',
 ]
 
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
+# for in memory service in development mode i am jus testing this out
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
+}
+
+# Redis cache settings
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6380/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
 }
 
 # CORS settings
@@ -114,11 +170,19 @@ REST_FRAMEWORK = {
 }
 
 # JWT Settings
-from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+# additional security settings
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+# SECURE_HSTS_SECONDS = 3600
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# SESSION_COOKIE_SAMESITE = 'strict'
 
 ASGI_APPLICATION = 'marketplace.routing.application'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -134,6 +198,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # If using whitenoise
     'marketplace.middleware.TwoFactorMiddleware',
+    'livereload.middleware.LiveReloadScript'
 ]
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
@@ -148,8 +213,8 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage' if
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
-LOGIN_URL = 'signin'
-LOGOUT_URL = 'signout'
+LOGIN_URL = 'marketplace:signin'
+LOGOUT_URL = 'marketplace:signout'
 
 ROOT_URLCONF = 'students.urls'
 
@@ -203,5 +268,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_I18N = True
 USE_TZ = True
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

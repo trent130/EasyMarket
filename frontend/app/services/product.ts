@@ -21,7 +21,7 @@ export const productService = {
     // Get all products with pagination and caching
     getProducts: async (page = 1): Promise<ProductSearchResponse> => {
         try {
-            const response = await apiClient.get<ProductSearchResponse>('/products/', {
+            const response = await apiClient.get<ProductSearchResponse>('/products/api/products/', {
                 params: { page }
             });
             return response.data;
@@ -33,7 +33,7 @@ export const productService = {
     // Get single product by ID or slug
     getProduct: async (identifier: number | string): Promise<ProductDetail> => {
         try {
-            const response = await apiClient.get<ProductDetail>(`/products/${identifier}/`);
+            const response = await apiClient.get<ProductDetail>(`/products/api/products/${identifier}/`);
             return response.data;
         } catch (error) {
             throw handleApiError(error);
@@ -43,7 +43,7 @@ export const productService = {
     // Search products with filters
     searchProducts: async (filters: ProductSearchFilters): Promise<ProductSearchResponse> => {
         try {
-            const response = await apiClient.get<ProductSearchResponse>('/products/search/', {
+            const response = await apiClient.get<ProductSearchResponse>('/products/api/products/search/', {
                 params: filters
             });
             return response.data;
@@ -55,7 +55,7 @@ export const productService = {
     // Get featured products
     getFeaturedProducts: async (): Promise<ProductBase[]> => {
         try {
-            const response = await apiClient.get<ProductBase[]>('/products/featured/');
+            const response = await apiClient.get<ProductBase[]>('/products/api/products/featured/');
             return response.data;
         } catch (error) {
             throw handleApiError(error);
@@ -65,7 +65,7 @@ export const productService = {
     // Get trending products
     getTrendingProducts: async (): Promise<ProductBase[]> => {
         try {
-            const response = await apiClient.get<ProductBase[]>('/products/trending/');
+            const response = await apiClient.get<ProductBase[]>('/products/api/products/trending/');
             return response.data;
         } catch (error) {
             throw handleApiError(error);
@@ -83,7 +83,7 @@ export const productService = {
                 }
             });
 
-            const response = await apiClient.post<ProductDetail>('/products/', formData, {
+            const response = await apiClient.post<ProductDetail>('/products/api/products/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -105,7 +105,7 @@ export const productService = {
                 }
             });
 
-            const response = await apiClient.patch<ProductDetail>(`/products/${id}/`, formData, {
+            const response = await apiClient.patch<ProductDetail>(`/products/api/products/${id}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -119,7 +119,7 @@ export const productService = {
     // Delete product (soft delete)
     deleteProduct: async (id: number): Promise<void> => {
         try {
-            await apiClient.delete(`/products/${id}/`);
+            await apiClient.delete(`/products/api/products/${id}/`);
         } catch (error) {
             throw handleApiError(error);
         }
@@ -129,7 +129,7 @@ export const productService = {
     updateStock: async (id: number, data: UpdateStockData): Promise<ProductDetail> => {
         try {
             const response = await apiClient.post<ProductDetail>(
-                `/products/${id}/update_stock/`,
+                `/products/api/products/${id}/update_stock/`,
                 data
             );
             return response.data;
@@ -141,7 +141,7 @@ export const productService = {
     // Perform bulk actions on products
     bulkAction: async (data: BulkActionData): Promise<void> => {
         try {
-            await apiClient.post('/products/bulk_action/', data);
+            await apiClient.post('/products/api/products/bulk_action/', data);
         } catch (error) {
             throw handleApiError(error);
         }
@@ -150,7 +150,7 @@ export const productService = {
     // Get all categories
     getCategories: async (): Promise<Category[]> => {
         try {
-            const response = await apiClient.get<Category[]>('/categories/');
+            const response = await apiClient.get<Category[]>('/products/api/categories/');
             return response.data;
         } catch (error) {
             throw handleApiError(error);
@@ -161,7 +161,7 @@ export const productService = {
     getProductsByCategory: async (slug: string, page = 1): Promise<ProductSearchResponse> => {
         try {
             const response = await apiClient.get<ProductSearchResponse>(
-                `/categories/${slug}/products/`,
+                `/products/api/categories/${slug}/products/`,
                 {
                     params: { page }
                 }
@@ -175,7 +175,7 @@ export const productService = {
     // Cache management
     clearProductCache: async (): Promise<void> => {
         try {
-            await apiClient.post('/products/clear_cache/');
+            await apiClient.post('/products/api//products/clear_cache/');
         } catch (error) {
             throw handleApiError(error);
         }

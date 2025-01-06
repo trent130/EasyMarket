@@ -5,7 +5,7 @@ import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Typography, Grid, Card, CardContent, CardMedia, Button, Box } from '@mui/material';
 import { ShoppingCart, Favorite } from '@mui/icons-material';
-import Layout from '../../components/Layout';
+import Layout from '../components/Layout';
 import { useAppContext } from '../AppContext';
 import Link from 'next/link';
 

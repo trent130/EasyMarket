@@ -13,6 +13,22 @@ const SECURITY_QUESTIONS = [
   "What is your favorite movie?",
 ];
 
+/**
+ * Page to set up security questions for a user.
+ *
+ * This page allows an authenticated user to set up security questions and
+ * answers for their account. The user is presented with a form containing three
+ * questions and answer fields. The user can select a question from a list of
+ * predefined questions and enter an answer for that question. If the user has
+ * already set up their security questions, they are informed of this and no form
+ * is presented.
+ *
+ * After the user submits the form, the security questions and answers are
+ * validated and stored in the database. If the validation fails, an error
+ * message is displayed to the user. If the validation succeeds, the user is
+ * informed of the success and the page is rendered again with a success message.
+ */
+
 export default function SecurityQuestions() {
   const [questions, setQuestions] = useState(['', '', '']);
   const [answers, setAnswers] = useState(['', '', '']);
@@ -29,6 +45,14 @@ export default function SecurityQuestions() {
     }
   }, [status, router]);
 
+/**
+ * Checks if the user has already set up security questions.
+ *
+ * This function sends a request to the server to determine if the user
+ * has set up security questions. If the user has set up security questions,
+ * a success message is displayed indicating that the setup is complete.
+ * In case of an error during the request, the error is logged to the console.
+ */
   const checkExistingQuestions = async () => {
     try {
       const response = await fetch('/api/auth/security-questions');
@@ -42,6 +66,15 @@ export default function SecurityQuestions() {
     }
   };
 
+  /**
+   * Handles the form submission by sending the security questions and answers
+   * to the server to be stored. If the user has not filled in all questions and
+   * answers, an error is displayed. If the request to the server fails, an
+   * error is displayed. If the request succeeds, a success message is
+   * displayed.
+   *
+   * @param {React.FormEvent} e - The form event
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');

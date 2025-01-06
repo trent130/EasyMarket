@@ -12,6 +12,16 @@ import { Button } from '../ui/button';
 
 const ITEMS_PER_PAGE = 12;
 
+/**
+ * A page that displays a list of products with filters and pagination.
+ *
+ * This page will load the categories on mount and the products with the current filters on mount and
+ * whenever the filters change. The filters are stored in the URL as query parameters.
+ *
+ * The page also handles pagination by displaying a pagination component at the bottom of the page.
+ *
+ * @returns A React component that displays a list of products with filters and pagination.
+ */
 export default function ProductList() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -26,8 +36,12 @@ export default function ProductList() {
     const [filters, setFilters] = useState<ProductSearchFilters>({
         query: searchParams?.get('query') || undefined,
         category: Number(searchParams?.get('category')) || undefined,
-        min_price: Number(searchParams?.get('min_price')) || undefined,
-        max_price: Number(searchParams?.get('max_price')) || undefined,
+        min_price: searchParams?.get('min_price') 
+        ? Number(searchParams.get('min_price')) 
+        : undefined,
+        max_price: searchParams?.get('max_price') 
+        ? Number(searchParams.get('max_price')) 
+        : undefined,
         condition: searchParams?.get('condition') as any || undefined,
         sort_by: searchParams?.get('sort_by') as any || 'newest',
         in_stock: searchParams?.get('in_stock') === 'true'
@@ -35,6 +49,12 @@ export default function ProductList() {
 
     // Load categories
     useEffect(() => {
+    /**
+     * Loads the categories from the API and sets them to the state.
+     *
+     * This function is called once on mount and whenever the filters change.
+     * If the load fails, it will log an error to the console.
+     */
         const loadCategories = async () => {
             try {
                 const data = await productService.getCategories();
@@ -121,7 +141,7 @@ export default function ProductList() {
         <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 {/* Filters */}
-                <div className="md:col-span-1">
+                <div className="md:col-span-1 ">
                     <ProductFilter
                         filters={filters}
                         categories={categories}
@@ -131,31 +151,10 @@ export default function ProductList() {
 
                 {/* Products */}
                 <div className="md:col-span-3">
-                    {/* Search and Sort */}
-                    <div className="mb-6">
-                        <Input
-                            type="search"
-                            placeholder="Search products..."
-                            defaultValue={filters.query}
-                            onChange={e => debouncedSearch(e.target.value)}
-                            className="max-w-sm mb-4"
-                        />
-                        <select
-                            value={filters.sort_by}
-                            onChange={e => handleSortChange(e.target.value)}
-                            className="ml-auto h-10 rounded-md border px-3"
-                        >
-                            <option value="newest">Newest First</option>
-                            <option value="price_asc">Price: Low to High</option>
-                            <option value="price_desc">Price: High to Low</option>
-                            <option value="rating">Highest Rated</option>
-                            <option value="popularity">Most Popular</option>
-                        </select>
-                    </div>
 
                     {/* Product Grid */}
                     {loading ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
                             {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
                                 <div
                                     key={i}
@@ -165,9 +164,9 @@ export default function ProductList() {
                         </div>
                     ) : products.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2  gap-6">
                                 {products.map(product => (
-                                    <ProductCard key={product.id} product={product} />
+                                    <ProductCard key={product.slug} product={product} />
                                 ))}
                             </div>
 

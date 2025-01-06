@@ -4,7 +4,7 @@
 export const formatPrice = (price: number): string => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'KSH',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(price);
@@ -93,7 +93,7 @@ export const truncateText = (text: string, maxLength: number): string => {
  * Generate product URL
  */
 export const getProductUrl = (slug: string): string => {
-  return `/products/${slug}`;
+  return `/products/api/products/${slug}/`;
 };
 
 /**

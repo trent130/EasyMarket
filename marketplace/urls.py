@@ -1,27 +1,91 @@
-from django.urls import path
-from django.contrib.auth import views as auth_views
+from django.urls import path, include, re_path
+from rest_framework.routers import DefaultRouter
+from . import views_marketplace
+# from .views import CustomTokenObtainPairView
+from . import views_auth
+from . import consumers
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+)
 
-from marketplace import consumers
-from . import views
-
-app_name = 'marketplace'
+# Create a router and register our viewset with it.
+router = DefaultRouter()
+router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
+router.register(r'wishlist', views_marketplace.WishListViewSet, basename='wishlist')
+router.register(r'reviews', views_marketplace.ReviewViewSet, basename='review')
 
 urlpatterns = [
-     # path('', views.index, name='home'),
-    # path('chat_room/<int:room_id>/', views.chat_room, name='chat_room'),
-    # path('typing_status/', views.typing_status, name='typing_status'),
-    path('checkout/', views.checkout, name='checkout'),
-    path('search/', views.search, name='search'),
-    path('cart/', views.cart, name='cart'),
-    path('cart/add/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
-    path('cart/clear/', views.clear_cart, name="clear_cart"),
-    path('cart/update/<int:product_id>/', views.update_cart, name='update_cart'),
-    path('cart/remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
-    path('wishlist', views.wishlist_view, name='wishlist'),
-    path('wishlist/add/<int:product_id>/', views.add_to_wishlist, name='add_to_wishlist'),
-    path('wishlist/remove/<int:wishlist_item_id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
+     # Router URLs
+     path('api/', include(router.urls)),
+
+     # Cart operations
+     path('api/cart/<int:cart_id>/add/',
+          views_marketplace.CartViewSet.as_view({'post': 'add_item'}),
+          name='cart-add-item'),
+     path('api/cart/<int:cart_id>/remove/',
+          views_marketplace.CartViewSet.as_view({'post': 'remove_item'}),
+          name='cart-remove-item'),
+     path('api/cart/<int:cart_id>/clear/',
+          views_marketplace.CartViewSet.as_view({'post': 'clear'}),
+          name='cart-clear'),
+
+     # Wishlist operations
+     path('api/wishlist/<int:wishlist_id>/add/',
+          views_marketplace.WishListViewSet.as_view({'post': 'add_product'}),
+          name='wishlist-add-product'),
+     path('api/wishlist/<int:wishlist_id>/remove/',
+          views_marketplace.WishListViewSet.as_view({'post': 'remove_product'}),
+          name='wishlist-remove-product'),
+
+     # Search and recommendations
+     path('api/search/',
+          views_marketplace.SearchView.as_view(),
+          name='search'),
+     path('api/recommendations/',
+          views_marketplace.get_recommendations,
+          name='recommendations'),
+
+     # Reviews
+     path('api/products/<int:product_id>/reviews/',
+          views_marketplace.ReviewViewSet.as_view({'get': 'list', 'post': 'create'}),
+          name='product-reviews'),
+     path('api/reviews/<int:pk>/',
+          views_marketplace.ReviewViewSet.as_view({
+               'get': 'retrieve',
+               'put': 'update',
+               'patch': 'partial_update',
+               'delete': 'destroy'
+          }),
+          name='review-detail'),
+
+     path('token/', views_auth.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+     path('enable-2fa/', views_auth.enable_2fa, name='enable_2fa'),
+     path('verify-2fa/', views_auth.verify_2fa, name='verify_2fa'),
+     path('2fa-status/', views_auth.get_2fa_status, name='get_2fa_status'),
+     path('disable-2fa/', views_auth.disable_2fa, name='disable_2fa'),
+     path('validate-2fa/', views_auth.validate_backup_code, name='validate_backup_code'),
+     path('regenerate-2-fa/', views_auth.regenerate_backup_codes, name='regenerate_backup_codes'),
+     # path('2fa-setup/', views.setup_2fa, name='setup_2fa'),
+     path('signin/', views_auth.signin, name='signin'),
+     path('signup/', views_auth.signup, name='signup'),
+     path('logout/', views_auth.signout, name='logout'),
+     path('forgot_password/', views_auth.forgot_password, name='forgot_password'),
+    
 ]
 
+# URL patterns for authentication views are in urls.py
+# URL patterns for product views are in products/urls.py
+# urlpatterns = [
+#     # JWT Authentication endpoints
+
+#     # API endpoints
+#     path('', include(router.urls)),
+# ]
+
 websocket_urlpatterns = [
-    path('ws/marketplace/', consumers.MarketplaceConsumer.as_asgi()),
+    re_path(r'ws/chat/$', consumers.ChatConsumer.as_asgi()),
+    re_path(r'ws/marketplace/$', consumers.MarketplaceConsumer.as_asgi()),  # New WebSocket route
 ]
+
+# impliment the reset password auth functionality
