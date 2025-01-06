@@ -1,10 +1,12 @@
 from django.contrib.postgres.search import (
     SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 )
+from django.db import models
 from django.db.models import Q, F, Value, FloatField, Avg
 from django.db.models.functions import Greatest
 from django.conf import settings
-from .models import Product, Review
+from .models import Product
+from marketplace.models import Review
 
 class ProductSearch:
     """Product search functionality with full-text search and trigram similarity"""
@@ -36,9 +38,7 @@ class ProductSearch:
             return queryset
 
         # Create search vector
-        self.vector = SearchVector('title', weight='A') + \
-                     SearchVector('description', weight='B') + \
-                     SearchVector('category__name', weight='C')
+        self.vector = SearchVector('title', weight='A') + SearchVector('description', weight='B') + SearchVector('category__name', weight='C')
 
         # Create search query
         search_query = SearchQuery(self.query)
@@ -131,6 +131,7 @@ class ProductSearch:
             queryset = self.apply_sorting(queryset)
 
         return queryset
+
 
 def search_products(query=None, filters=None):
     """Helper function to perform product search"""

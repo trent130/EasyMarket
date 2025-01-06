@@ -1,0 +1,8 @@
+The isssues with the way display is done in dark mode mostly the product name and category ofit or so,
+flagged the average_rating not included in file flagged(instead of i presume AVG_rating or something)
+date issues with the date display in the recent reviews section
+issues with the sidebar display in the way the dahsboard layout 
+also issue with how the product list page overlaps with the static product filter pages, also  look into it
+signup page issues 
+migrate most pf the server side issues to the backend
+
