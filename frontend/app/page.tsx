@@ -185,7 +185,11 @@ export default function HomePage() {
             Join thousands of students who have found their perfect academic resources.
           </p>
           <div className="flex justify-center space-x-4">
-            
+            {/* <Link href="/auth/signup">
+              <Button size="lg" variant="secondary">
+                Create Account
+              </Button>
+            </Link> */}
             <Link href="/product">
               <Button size="lg" variant="outline" className="text-white border-white">
                 Browse Marketplace
