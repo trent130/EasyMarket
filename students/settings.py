@@ -54,7 +54,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'myapp': {  # Replace 'myapp' with your app name
+        'myapp': {  
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': False,
@@ -78,15 +78,13 @@ MPESA_INITIATOR_SECURITY_CREDENTIALS = os.getenv(
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
-
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-w%r6m-g^uf&+077us1j$y-+m5+v_fk5b)$3=)id!15+(o!&f9d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Set to True for development
+DEBUG = False  # Set to True for development
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*'] # for now the django app is running on a local machine so it allows all the hosts to connect
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -101,6 +99,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # custom apps
     'marketplace.apps.MarketplaceConfig',
     'products.apps.ProductsConfig',
@@ -123,27 +122,28 @@ INSTALLED_APPS = [
     'django_redis',
 ]
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
-#     },
-# }
-
-# for in memory service in development mode i am jus testing this out
+# for production testing and also for development
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
     },
 }
+
+# for in memory service in development mode i am just testing this out
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer",
+#     },
+# }
 
 # Redis cache settings
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6380/1',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -211,10 +211,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Static files storage - use whitenoise in production, default in development
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage' if DEBUG else 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
-LOGIN_URL = 'marketplace:signin'
-LOGOUT_URL = 'marketplace:signout'
+# LOGIN_REDIRECT_URL = 'home'
+# LOGOUT_REDIRECT_URL = 'home'
+# LOGIN_URL = 'marketplace:signin'
+# LOGOUT_URL = 'marketplace:signout'
 
 ROOT_URLCONF = 'students.urls'
 
