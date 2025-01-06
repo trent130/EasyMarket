@@ -2,7 +2,6 @@
 
 import { AppProvider } from './AppContext'
 import { ThemeProvider } from 'next-themes'
-// Import other providers as needed
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
