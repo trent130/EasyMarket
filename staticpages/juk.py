@@ -47,7 +47,8 @@
 # @login_required
 # def get_messages(request):
 #     messages = Message.objects.all()
-#     data = [{'username': message.user.username, 'message': message.content, 'timestamp': message.timestamp.strftime('%Y-%m-%d %H:%M:%S')} for message in messages]
+#     data = [{'username': message.user.username, 'message': message.content, 'timestamp': message.timestamp.strftime(
+#       '%Y-%m-%d %H:%M:%S')} for message in messages]
 #     return JsonResponse(data, safe=False)
 
 # @login_required
@@ -82,4 +83,3 @@
 #         message.reactions.add(reaction)
 
 #         return JsonResponse({'status': 'success'})
-
