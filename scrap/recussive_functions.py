@@ -15,14 +15,18 @@ this is very ineficient in the of calculation repetitions( one
 can use memoization to optimize)
 """
 
-# example of memoization tavoid repeated calls of the same function thu ensuring that only one fibonacci is run once
+# example of memoization to avoid repeated calls of the same function thus ensuring that only one fibonacci is run once
 def fibonacci_memo(n, memo = {}):
+
+    # base function calls
     if n in memo:
         return memo[n]
     if n == 0:
         return 0
     elif n == 1:
         return 1
+    
+    # recussive function calls
     memo[n] = fibonacci_memo(n-1, memo) + fibonacci_memo(n - 2, memo)
     return memo[n]
 
