@@ -13,25 +13,18 @@ class PersistentAuthMiddleware(BaseMiddleware):
     @database_sync_to_async
     def get_user(self, scope):
         from django.contrib.sessions.backends.db import SessionStore
-        
         # Retrieve session key from cookies
         session_key = scope.get('cookies', {}).get('sessionid')
-        
         if not session_key:
             return AnonymousUser()
-        
         # Recreate the session
         session = SessionStore(session_key)
-        
         # Retrieve user ID from session
         user_id = session.get('_auth_user_id')
-        
         if user_id:
             User = get_user_model()
             try:
                 return User.objects.get(pk=user_id)
             except User.DoesNotExist:
                 return AnonymousUser()
-        
         return AnonymousUser()
-

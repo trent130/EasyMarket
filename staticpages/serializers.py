@@ -2,24 +2,28 @@ from rest_framework import serializers
 from .models import StaticPage, FAQ, ContactMessage, Testimonial
 from django.core.validators import EmailValidator
 
+
 class StaticPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = StaticPage
         fields = ['id', 'title', 'slug', 'content', 'meta_description', 'is_published', 'updated_at']
         read_only_fields = ['slug', 'updated_at']
 
+
 class FAQSerializer(serializers.ModelSerializer):
     class Meta:
         model = FAQ
         fields = ['id', 'question', 'answer', 'category', 'order', 'is_published']
 
+
 class FAQCategorySerializer(serializers.Serializer):
     category = serializers.CharField()
     faqs = FAQSerializer(many=True, read_only=True)
 
+
 class ContactMessageSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(validators=[EmailValidator()])
-    
+
     class Meta:
         model = ContactMessage
         fields = ['id', 'name', 'email', 'subject', 'message', 'created_at']
@@ -31,6 +35,7 @@ class ContactMessageSerializer(serializers.ModelSerializer):
                 "Message must be at least 10 characters long"
             )
         return value
+
 
 class TestimonialSerializer(serializers.ModelSerializer):
     student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
@@ -49,6 +54,7 @@ class TestimonialSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Rating must be between 1 and 5")
         return value
 
+
 class SiteSettingsSerializer(serializers.Serializer):
     site_name = serializers.CharField()
     site_description = serializers.CharField()
@@ -60,6 +66,7 @@ class SiteSettingsSerializer(serializers.Serializer):
     )
     analytics_id = serializers.CharField(required=False)
     maintenance_mode = serializers.BooleanField(default=False)
+
 
 class NewsletterSubscriptionSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -73,6 +80,7 @@ class NewsletterSubscriptionSerializer(serializers.Serializer):
         # Add custom email validation if needed
         return value.lower()
 
+
 class FeedbackSerializer(serializers.Serializer):
     type = serializers.ChoiceField(
         choices=['bug', 'feature', 'content', 'other']
@@ -81,6 +89,7 @@ class FeedbackSerializer(serializers.Serializer):
     description = serializers.CharField()
     screenshot = serializers.ImageField(required=False)
     browser_info = serializers.JSONField(required=False)
+
 
 class SitemapSerializer(serializers.Serializer):
     url = serializers.URLField()
@@ -94,6 +103,7 @@ class SitemapSerializer(serializers.Serializer):
         min_value=0.0,
         max_value=1.0
     )
+
 
 class MetaTagSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=60)

@@ -17,12 +17,13 @@ from .serializers import (
     SiteSettingsSerializer,
     NewsletterSubscriptionSerializer,
     FeedbackSerializer,
-    SitemapSerializer,
+    # SitemapSerializer,
     MetaTagSerializer
 )
 import logging
 
 logger = logging.getLogger(__name__)
+
 
 class StaticPageViewSet(viewsets.ModelViewSet):
     queryset = StaticPage.objects.filter(is_published=True)
@@ -62,6 +63,7 @@ class StaticPageViewSet(viewsets.ModelViewSet):
         })
         return Response(serializer.data)
 
+
 class FAQViewSet(viewsets.ModelViewSet):
     queryset = FAQ.objects.filter(is_published=True)
     serializer_class = FAQSerializer
@@ -73,7 +75,6 @@ class FAQViewSet(viewsets.ModelViewSet):
         categories = FAQ.objects.values_list(
             'category', flat=True
         ).distinct()
-        
         result = []
         for category in categories:
             faqs = FAQ.objects.filter(
@@ -85,7 +86,6 @@ class FAQViewSet(viewsets.ModelViewSet):
                 'faqs': faqs
             })
             result.append(serializer.data)
-            
         return Response(result)
 
     @action(detail=False, methods=['get'])
@@ -93,8 +93,7 @@ class FAQViewSet(viewsets.ModelViewSet):
         """Search FAQs"""
         query = request.query_params.get('q', '')
         if not query:
-            return Response([])
-            
+            return Response([])  
         faqs = FAQ.objects.filter(
             is_published=True
         ).filter(
@@ -102,6 +101,7 @@ class FAQViewSet(viewsets.ModelViewSet):
         )
         serializer = self.get_serializer(faqs, many=True)
         return Response(serializer.data)
+
 
 class ContactMessageViewSet(viewsets.ModelViewSet):
     queryset = ContactMessage.objects.all()
@@ -122,13 +122,11 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
                 'subject': serializer.validated_data['subject'],
                 'message': serializer.validated_data['message']
             }
-            
             html_message = render_to_string(
                 'emails/contact_notification.html',
                 context
             )
             plain_message = strip_tags(html_message)
-            
             send_mail(
                 f"Contact Form: {serializer.validated_data['subject']}",
                 plain_message,
@@ -144,6 +142,7 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED
         )
 
+
 class TestimonialViewSet(viewsets.ModelViewSet):
     queryset = Testimonial.objects.filter(is_featured=True)
     serializer_class = TestimonialSerializer
@@ -158,6 +157,7 @@ class TestimonialViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(student=self.request.user.student)
 
+
 class SiteSettingsViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
@@ -165,7 +165,6 @@ class SiteSettingsViewSet(viewsets.ViewSet):
         """Get site settings"""
         cache_key = 'site_settings'
         settings = cache.get(cache_key)
-        
         if not settings:
             settings = {
                 'site_name': settings.SITE_NAME,
@@ -176,9 +175,9 @@ class SiteSettingsViewSet(viewsets.ViewSet):
                 'maintenance_mode': settings.MAINTENANCE_MODE
             }
             cache.set(cache_key, settings, 3600)  # Cache for 1 hour
-            
         serializer = SiteSettingsSerializer(settings)
         return Response(serializer.data)
+
 
 class NewsletterViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
@@ -187,7 +186,6 @@ class NewsletterViewSet(viewsets.ViewSet):
         """Subscribe to newsletter"""
         serializer = NewsletterSubscriptionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
         try:
             # Implement newsletter subscription logic
             # (e.g., using a service like Mailchimp)
@@ -199,6 +197,7 @@ class NewsletterViewSet(viewsets.ViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class FeedbackViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
@@ -206,7 +205,6 @@ class FeedbackViewSet(viewsets.ViewSet):
         """Submit feedback"""
         serializer = FeedbackSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
         try:
             # Store feedback and notify administrators
             return Response({'status': 'received'})
