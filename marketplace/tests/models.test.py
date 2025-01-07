@@ -9,10 +9,8 @@ class MarketplaceModelsTest(TestCase):
     def setUp(self):
         """
         Set up a test user, a test category, and a test product.
-        
         This method is called before each test in the class and is used
         to set up some common objects that can be used in the tests.
-        
         A test user is created with the username 'testuser' and password
         '12345'. A test category is created with the name 'Test Category'.
         A test product is created with a title of 'Test Product', a description
@@ -41,7 +39,7 @@ class MarketplaceModelsTest(TestCase):
         user_profile = UserProfile.objects.get(user=user)
         self.assertEqual(user_profile.user, user)
         self.assertEqual(user_profile.avatar, 'avatars/default.jpg')
-    
+
     # Test that UserProfile is also created
     def test_create_student_profile_on_user_creation(self):
         """
@@ -57,7 +55,6 @@ class MarketplaceModelsTest(TestCase):
         student = Student.objects.get(user=new_user)
         self.assertEqual(student.email, 'newuser@example.com')
         self.assertEqual(str(student), f'{student.first_name} {student.last_name}')
-    
         # Test that UserProfile is also created
         self.assertTrue(UserProfile.objects.filter(user=new_user).exists())
 
@@ -80,13 +77,11 @@ class MarketplaceModelsTest(TestCase):
             last_name='Student',
             email=existing_email
         )
-        
         new_user = User.objects.create_user(
             username='newuser',
             email=existing_email,
             password='password123'
         )
-        
         self.assertTrue(UserProfile.objects.filter(user=new_user).exists())
         self.assertEqual(Student.objects.filter(email=existing_email).count(), 1)
         self.assertFalse(Student.objects.filter(user=new_user).exists())

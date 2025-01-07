@@ -1,8 +1,9 @@
 from decimal import Decimal
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 # Create your models here.
 class Order(models.Model):
@@ -19,7 +20,6 @@ class Order(models.Model):
         ('MPESA', 'M-Pesa'),
         ('CASH', 'Cash on Delivery'),
     ]
-    
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     reference = models.CharField(max_length=20, unique=True)
     shipping_address = models.ForeignKey('ShippingAddress', on_delete=models.PROTECT)
@@ -27,7 +27,7 @@ class Order(models.Model):
         max_digits=10,
         decimal_places=2,
         validators=[
-            MinValueValidator(Decimal('0.01')), 
+            MinValueValidator(Decimal('0.01')),
             MaxValueValidator(Decimal('999999.99'))
         ]
     )
@@ -37,15 +37,17 @@ class Order(models.Model):
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     def __str__(self):
         return f'Order #{self.id} - {self.user.username}'
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey("products.Product", on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
 
 class ShippingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

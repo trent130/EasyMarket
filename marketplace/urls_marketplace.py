@@ -1,5 +1,5 @@
-from marketplace.consumers import ChatConsumer, MarketplaceConsumer
-from frontend.app.auth.signin import SigninView  # Import the SigninView
+# from marketplace.consumers import ChatConsumer, MarketplaceConsumer
+# from frontend.app.auth.signin import SigninView  # Import the SigninView
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
@@ -15,7 +15,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     # Cart operations
-    path('api/cart/<int:cart_id>/add/', 
+    path('api/cart/<int:cart_id>/add/',  # Add item to cart
          views_marketplace.CartViewSet.as_view({'post': 'add_item'}),
          name='cart-add-item'),
     path('api/cart/<int:cart_id>/remove/',

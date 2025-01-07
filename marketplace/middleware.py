@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.urls import resolve
 from .models import Student
 
+
 class TwoFactorMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response

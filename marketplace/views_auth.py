@@ -1,4 +1,4 @@
-from rest_framework import status, exceptions
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, logout
@@ -7,10 +7,10 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import Student
 from .serializers import (
-    TwoFactorEnableSerializer,
+    # TwoFactorEnableSerializer,
     TwoFactorVerifySerializer,
     TwoFactorStatusSerializer,
-    TwoFactorDisableSerializer,
+    # TwoFactorDisableSerializer,
     BackupCodesSerializer,
     ValidateBackupCodeSerializer
 )
@@ -22,6 +22,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.utils import timezone  # Import timezone
 
 logger = logging.getLogger(__name__)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -41,6 +42,7 @@ def enable_2fa(request):
 
     return Response({'secret': secret, 'qr_code_url': provisioning_uri})
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signin(request):
@@ -56,14 +58,13 @@ def signin(request):
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     else:
         username = username_or_email
-        
     user = authenticate(request, username=username, password=password)
 
     if user is not None:
         refresh = RefreshToken.for_user(user)
         return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
-    
     return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -81,12 +82,12 @@ def signup(request):
 
     return Response({'message': 'Sign up successful'}, status=status.HTTP_201_CREATED)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def verify_2fa(request):
     """Verify 2FA token"""
     student = get_object_or_404(Student, user=request.user)
-    
     if not student.two_factor_enabled:
         return Response({'error': '2FA is not enabled'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -101,6 +102,7 @@ def verify_2fa(request):
         return Response({'success': True})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_2fa_status(request):
@@ -108,6 +110,7 @@ def get_2fa_status(request):
     student = get_object_or_404(Student, user=request.user)
     serializer = TwoFactorStatusSerializer(student)
     return Response(serializer.data)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -124,6 +127,7 @@ def disable_2fa(request):
 
     return Response({'message': 'Two-factor authentication has been disabled'})
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 async def forgot_password(request):
@@ -134,7 +138,8 @@ async def forgot_password(request):
         return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
 
     if not rate_limit(email):
-        return Response({'error': 'Too many requests. Please try again later.'}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+        return Response({'error': 'Too many requests. Please try again later.'},
+                        status=status.HTTP_429_TOO_MANY_REQUESTS)
 
     reset_token = crypto.randomBytes(20).toString('hex')
     reset_token_expiry = timezone.now() + timezone.timedelta(hours=1)  # 1 hour from now
@@ -147,6 +152,7 @@ async def forgot_password(request):
     await send_password_reset_email(email, reset_token)
 
     return Response({'message': 'If an account exists for this email, a password reset link has been sent.'})
+
 
 @api_view(['PUT'])
 @permission_classes([AllowAny])
@@ -168,12 +174,12 @@ async def reset_password(request):
 
     return Response({'message': 'Password has been reset successfully'})
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def validate_backup_code(request):
     """Validate a backup code for 2FA recovery"""
     student = get_object_or_404(Student, user=request.user)
-    
     if not student.two_factor_enabled:
         return Response({'error': '2FA is not enabled'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -184,6 +190,7 @@ def validate_backup_code(request):
         return Response({'error': 'Invalid backup code'}, status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def signout(request):
@@ -192,55 +199,48 @@ def signout(request):
     logout(request, user)
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def regenerate_backup_codes(request):
-    """Regenerate backup codes for 2FA"""
-    student = get_object_or_404(Student, user=request.user)
-    
-    if not student.two_factor_enabled:
-        return Response({'error': '2FA is not enabled'}, status=status.HTTP_400_BAD_REQUEST)
 
-    backup_codes = student.generate_backup_codes()
-    serializer = BackupCodesSerializer(data={'codes': backup_codes})
-    if serializer.is_valid():
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def regenerate_backup_codes(request):
+#     """Regenerate backup codes for 2FA"""
+#     student = get_object_or_404(Student, user=request.user)
+#     if not student.two_factor_enabled:
+#         return Response({'error': '2FA is not enabled'}, status=status.HTTP_400_BAD_REQUEST)
 
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
-        try:
-            data = super().validate(attrs)
-            data['user_id'] = self.user.id
-            data['email'] = self.user.email
-            return data
-        except Exception as e:
-            logger.error(f"Token generation error: {str(e)}")
-            raise
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
-
-    def post(self, request, *args, **kwargs):
-        try:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            return Response(serializer.validated_data)
-        except Exception as e:
-            logger.error(f"Unexpected token generation error: {str(e)}")
-            return Response({'error': 'Authentication failed', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-#         return Response({'success': True})
+#     backup_codes = student.generate_backup_codes()
+#     serializer = BackupCodesSerializer(data={'codes': backup_codes})
+#     if serializer.is_valid():
+#         return Response(serializer.data)
 #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def signout(request):
-    """Logout a user"""
-    # TODO: Implement logout logic here
-    user = request.user
-    logout(request, user)
-    return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
+# class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     def validate(self, attrs):
+#         try:
+#             data = super().validate(attrs)
+#             data['user_id'] = self.user.id
+#             data['email'] = self.user.email
+#             return data
+#         except Exception as e:
+#             logger.error(f"Token generation error: {str(e)}")
+#             raise
+
+
+# class CustomTokenObtainPairView(TokenObtainPairView):
+#     serializer_class = CustomTokenObtainPairSerializer
+
+#     def post(self, request, *args, **kwargs):
+#         try:
+#             serializer = self.get_serializer(data=request.data)
+#             serializer.is_valid(raise_exception=True)
+#             return Response(serializer.validated_data)
+#         except Exception as e:
+#             logger.error(f"Unexpected token generation error: {str(e)}")
+#             return Response({'error': 'Authentication failed', 'details': str(e)},
+# status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+# #         return Response({'success': True})
+# #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -248,7 +248,6 @@ def signout(request):
 def regenerate_backup_codes(request):
     """Regenerate backup codes for 2FA"""
     student = get_object_or_404(Student, user=request.user)
-    
     if not student.two_factor_enabled:
         return Response(
             {'error': '2FA is not enabled'},
@@ -266,11 +265,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         try:
             data = super().validate(attrs)
-            
             # Add additional user information
             data['user_id'] = self.user.id
             data['email'] = self.user.email
-            
             return data
         except Exception as e:
             # Detailed error logging
@@ -284,7 +281,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         try:
             serializer = self.get_serializer(data=request.data)
-            
             # Validate and handle errors explicitly
             try:
                 serializer.is_valid(raise_exception=True)

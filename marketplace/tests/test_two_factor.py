@@ -3,13 +3,14 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from ..models import Student
 from ..utils.two_factor import (
-    generate_totp_secret,
-    verify_totp,
-    generate_backup_codes,
+    # generate_totp_secret,
+    # verify_totp,
+    # generate_backup_codes,
     setup_2fa
 )
 import pyotp
 import json
+
 
 class TwoFactorAuthenticationTests(TestCase):
     def setUp(self):
@@ -28,12 +29,10 @@ class TwoFactorAuthenticationTests(TestCase):
         """Test enabling 2FA"""
         response = self.client.post(reverse('marketplace:enable-2fa'))
         self.assertEqual(response.status_code, 200)
-        
         data = json.loads(response.content)
         self.assertIn('secret', data)
         self.assertIn('qr_code_url', data)
         self.assertIn('backup_codes', data)
-        
         # Verify student model was updated
         self.student.refresh_from_db()
         self.assertTrue(self.student.two_factor_enabled)
@@ -45,18 +44,15 @@ class TwoFactorAuthenticationTests(TestCase):
         # Setup 2FA
         setup_data = setup_2fa(self.student)
         secret = setup_data['secret']
-        
         # Generate valid token
         totp = pyotp.TOTP(secret)
         valid_token = totp.now()
-        
         # Test verification
         response = self.client.post(reverse('marketplace:verify-2fa'), {
             'token': valid_token,
             'secret': secret
         })
         self.assertEqual(response.status_code, 200)
-        
         # Verify student model was updated
         self.student.refresh_from_db()
         self.assertTrue(self.student.two_factor_verified)
@@ -66,14 +62,12 @@ class TwoFactorAuthenticationTests(TestCase):
         # Setup 2FA
         setup_data = setup_2fa(self.student)
         secret = setup_data['secret']
-        
         # Test with invalid token
         response = self.client.post(reverse('marketplace:verify-2fa'), {
             'token': '000000',
             'secret': secret
         })
         self.assertEqual(response.status_code, 400)
-        
         # Verify student model wasn't updated
         self.student.refresh_from_db()
         self.assertFalse(self.student.two_factor_verified)
@@ -83,13 +77,11 @@ class TwoFactorAuthenticationTests(TestCase):
         # Setup 2FA
         setup_data = setup_2fa(self.student)
         backup_codes = setup_data['backup_codes']
-        
         # Test valid backup code
         response = self.client.post(reverse('marketplace:validate-backup-code'), {
             'code': backup_codes[0]
         })
         self.assertEqual(response.status_code, 200)
-        
         # Verify code was consumed
         self.student.refresh_from_db()
         self.assertNotIn(backup_codes[0], self.student.backup_codes)
@@ -98,18 +90,15 @@ class TwoFactorAuthenticationTests(TestCase):
         """Test protected route access with 2FA"""
         # Setup 2FA but don't verify
         setup_2fa(self.student)
-        
         # Try accessing protected route
         response = self.client.get('/api/profile/')
         self.assertEqual(response.status_code, 403)
-        
         # Verify 2FA
         totp = pyotp.TOTP(self.student.two_factor_secret)
         self.client.post(reverse('marketplace:verify-2fa'), {
             'token': totp.now(),
             'secret': self.student.two_factor_secret
         })
-        
         # Try accessing protected route again
         response = self.client.get('/api/profile/')
         self.assertEqual(response.status_code, 200)
@@ -119,13 +108,11 @@ class TwoFactorAuthenticationTests(TestCase):
         # Setup and verify 2FA
         setup_data = setup_2fa(self.student)
         totp = pyotp.TOTP(setup_data['secret'])
-        
         # Disable 2FA
         response = self.client.post(reverse('marketplace:disable-2fa'), {
             'token': totp.now()
         })
         self.assertEqual(response.status_code, 200)
-        
         # Verify student model was updated
         self.student.refresh_from_db()
         self.assertFalse(self.student.two_factor_enabled)
