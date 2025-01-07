@@ -42,7 +42,6 @@ def generate_qr_code(secret, email):
 
     # Create QR code image
     img = qr.make_image(fill_color="black", back_color="white")
-    
     # Convert to base64
     buffer = io.BytesIO()
     img.save(buffer, format='PNG')
@@ -53,7 +52,6 @@ def generate_backup_codes(count=8):
     """Generate a list of backup codes"""
     import random
     import string
-    
     codes = []
     for _ in range(count):
         # Generate 8-character code with uppercase letters and numbers
@@ -92,15 +90,12 @@ def setup_2fa(student):
     backup_codes = generate_backup_codes(
         count=settings.TWO_FACTOR_SETTINGS.get('BACKUP_CODES_COUNT', 8)
     )
-    
     student.two_factor_secret = secret
     student.two_factor_enabled = True
     student.two_factor_verified = False
     student.backup_codes = backup_codes
     student.save()
-    
     qr_code = generate_qr_code(secret, student.email)
-    
     return {
         'secret': secret,
         'qr_code_url': qr_code,

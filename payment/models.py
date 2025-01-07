@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -19,7 +19,7 @@ class Transaction(models.Model):
     transaction_id = models.CharField(max_length=100, unique=True)
     merchant_request_id = models.CharField(max_length=100, blank=True, null=True)
     payment_method = models.CharField(
-        max_length=20, 
+        max_length=20,
         choices=PAYMENT_METHODS,
         default='mpesa'
     )
@@ -28,7 +28,7 @@ class Transaction(models.Model):
         max_digits=10,
         decimal_places=2,
         validators=[
-            MinValueValidator(Decimal('0.01')), 
+            MinValueValidator(Decimal('0.01')),
             MaxValueValidator(Decimal('999999.99'))
         ]
     )

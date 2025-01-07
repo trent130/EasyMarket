@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.db import models
 # from django.contrib.auth.models import User
-from django.utils import timezone 
+from django.utils import timezone
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
@@ -95,7 +95,6 @@ class ProductVariant(models.Model):
     def __str__(self):
         """
         Returns a string representation of the product variant, which is the name of the variant followed by the sku.
-        
         Returns:
             str: The string representation of the product variant.
         """
@@ -155,7 +154,6 @@ class Product(models.Model):
     views_count = models.PositiveIntegerField(default=0)
     featured = models.BooleanField(default=False)
     last_stock_update = models.DateTimeField(auto_now=True)
-    
     # Statistics fields
     total_sales = models.PositiveIntegerField(default=0)
     total_revenue = models.DecimalField(
@@ -164,12 +162,11 @@ class Product(models.Model):
         default=0.00
     )
     last_sale_date = models.DateTimeField(null=True, blank=True)
-    average_rating = models.DecimalField(
-        max_digits=3,
-        decimal_places=2,
-        default=0.00
-    )
-    review_count = models.PositiveIntegerField(default=0)
+    # average_rating = models.DecimalField(
+    #     max_digits=3,
+    #     decimal_places=2,
+    #     default=0.00
+    # )
 
     class Meta:
         ordering = ['-created_at']
@@ -214,7 +211,6 @@ class Product(models.Model):
         Returns:
             str: The string representation of the product.
         """
-        
         return self.title
 
     @property
@@ -230,7 +226,6 @@ class Product(models.Model):
         """Reserve product stock"""
         if quantity > self.available_stock:
             raise ValidationError("Not enough stock available")
-        
         success = Product.objects.filter(
             id=self.id,
             stock__gte=F('reserved_stock') + quantity
@@ -238,7 +233,6 @@ class Product(models.Model):
             reserved_stock=F('reserved_stock') + quantity,
             last_stock_update=timezone.now()
         )
-        
         if success:
             self.refresh_from_db()
             logger.info(f"Reserved {quantity} units of product {self.id}")
@@ -249,7 +243,6 @@ class Product(models.Model):
         """Release reserved stock"""
         if quantity > self.reserved_stock:
             raise ValidationError("Cannot release more stock than reserved")
-        
         success = Product.objects.filter(
             id=self.id,
             reserved_stock__gte=quantity
@@ -257,7 +250,6 @@ class Product(models.Model):
             reserved_stock=F('reserved_stock') - quantity,
             last_stock_update=timezone.now()
         )
-        
         if success:
             self.refresh_from_db()
             logger.info(f"Released {quantity} units of product {self.id}")
@@ -268,7 +260,6 @@ class Product(models.Model):
         """Update total stock with validation"""
         if quantity < self.reserved_stock:
             raise ValidationError("New stock level cannot be less than reserved stock")
-        
         self.stock = quantity
         self.last_stock_update = timezone.now()
         self.save()
