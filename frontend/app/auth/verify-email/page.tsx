@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import useSearchParams from 'next/navigation';
+ { useSearchParams }
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function VerifyEmail() {
   const [status, setStatus] = useState('Verifying...');
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams;
   const token = searchParams.get('token');
 
   useEffect(() => {

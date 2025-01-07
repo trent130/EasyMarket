@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -42,7 +42,6 @@ export default function SignInPage() {
         setError(result.error);
       } else {
         router.push("/");
-        router.refresh();
       }
     } catch (error) {
       setError("An error occurred during sign in");

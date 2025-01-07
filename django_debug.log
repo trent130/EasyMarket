@@ -6323,6 +6323,7 @@ Traceback (most recent call last):
 AttributeError: property 'review_count' of 'Product' object has no setter
 WARNING 2025-01-07 15:07:25,338 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-07 15:07:25,359 log Unauthorized: /marketplace/api/wishlist/
+<<<<<<< HEAD
 WARNING 2025-01-07 15:20:54,497 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-07 15:20:54,511 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-07 15:21:39,346 log Unauthorized: /marketplace/api/wishlist/
@@ -6765,3 +6766,5 @@ Traceback (most recent call last):
   File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 131, in __iter__
     setattr(obj, attr_name, row[col_pos])
 AttributeError: property 'review_count' of 'Product' object has no setter
+=======
+>>>>>>> 3a40c257bed1a8b3ae48b7ed9084534b42c05b15
