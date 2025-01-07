@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export default function ResetPassword() {
   const [newPassword, setNewPassword] = useState('');
@@ -9,8 +9,8 @@ export default function ResetPassword() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+  const { query } = useRouter();
+  const token = query.token as string;
 
   useEffect(() => {
     if (!token) {

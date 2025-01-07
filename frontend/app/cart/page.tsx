@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { Typography, List, ListItem, ListItemText, Button, Box, Divider } from '@mui/material';
-import Layout from '../components/Layout';
 import { useAppContext } from '../AppContext';
 
 export default function CartPage() {

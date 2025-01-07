@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/router";
 
 const SECURITY_QUESTIONS = [
   "What was the name of your first pet?",
