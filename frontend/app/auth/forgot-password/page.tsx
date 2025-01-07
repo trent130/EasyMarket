@@ -20,7 +20,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch('/api/auth/reset-password', {
+      const response = await fetch('/marketplace/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -39,7 +39,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex  items-center ">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-10 shadow-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Forgot Password</h2>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

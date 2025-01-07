@@ -27,7 +27,7 @@ export default function ManageSessions() {
 
   const fetchSessions = async () => {
     try {
-      const response = await fetch('/api/auth/sessions');
+      const response = await fetch('/marketplace/sessions');
       if (response.ok) {
         const data = await response.json();
         setSessions(data);
@@ -41,7 +41,7 @@ export default function ManageSessions() {
 
   const terminateSession = async (sessionId: string) => {
     try {
-      const response = await fetch('/api/auth/sessions', {
+      const response = await fetch('/marketplace/sessions', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId }),
