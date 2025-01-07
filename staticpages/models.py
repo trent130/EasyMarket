@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class StaticPage(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -11,6 +12,7 @@ class StaticPage(models.Model):
     def __str__(self):
         return self.title
 
+
 class FAQ(models.Model):
     question = models.CharField(max_length=200)
     answer = models.TextField()
@@ -21,6 +23,7 @@ class FAQ(models.Model):
     def __str__(self):
         return self.question
 
+
 class ContactMessage(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -29,6 +32,7 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f'Message from {self.name}'
+
 
 class Testimonial(models.Model):
     author = models.CharField(max_length=100)

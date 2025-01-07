@@ -27,7 +27,6 @@ def get_cached_page(slug):
     """Get page from cache or database"""
     cache_key = PAGE_CACHE_KEY.format(slug=slug)
     page_data = cache.get(cache_key)
-    
     if page_data is None:
         from .models import StaticPage
         try:
@@ -41,7 +40,6 @@ def get_cached_page(slug):
             cache.set(cache_key, page_data, PAGE_CACHE_TIMEOUT)
         except StaticPage.DoesNotExist:
             return None
-            
     return page_data
 
 
@@ -55,18 +53,15 @@ def get_cached_faqs(category=None):
     """Get FAQs from cache or database"""
     cache_key = FAQ_CACHE_KEY.format(category=category or 'all')
     faqs_data = cache.get(cache_key)
-    
     if faqs_data is None:
         from .models import FAQ
         queryset = FAQ.objects.filter(is_published=True)
         if category:
             queryset = queryset.filter(category=category)
-            
         faqs_data = list(queryset.values(
             'question', 'answer', 'category', 'order'
         ))
         cache.set(cache_key, faqs_data, FAQ_CACHE_TIMEOUT)
-        
     return faqs_data
 
 
@@ -83,7 +78,6 @@ def clear_faq_cache(category=None):
 def get_site_settings():
     """Get site settings from cache or settings"""
     settings_data = cache.get(SETTINGS_CACHE_KEY)
-    
     if settings_data is None:
         settings_data = {
             'site_name': settings.SITE_NAME,
@@ -94,7 +88,6 @@ def get_site_settings():
             'maintenance_mode': settings.MAINTENANCE_MODE
         }
         cache.set(SETTINGS_CACHE_KEY, settings_data, SETTINGS_CACHE_TIMEOUT)
-        
     return settings_data
 
 
@@ -112,13 +105,11 @@ def send_contact_notification(contact_data):
             'subject': contact_data['subject'],
             'message': contact_data['message']
         }
-        
         html_content = render_to_string(
             'emails/contact_notification.html',
             context
         )
         text_content = strip_tags(html_content)
-        
         msg = EmailMultiAlternatives(
             subject=f"Contact Form: {contact_data['subject']}",
             body=text_content,
@@ -127,7 +118,6 @@ def send_contact_notification(contact_data):
         )
         msg.attach_alternative(html_content, "text/html")
         msg.send()
-        
         return True
     except Exception as e:
         logger.error(f"Failed to send contact notification: {str(e)}")
@@ -137,7 +127,6 @@ def send_contact_notification(contact_data):
 def generate_meta_tags(page):
     """Generate meta tags for a page"""
     meta_data = cache.get(META_CACHE_KEY.format(page_id=page.id))
-    
     if meta_data is None:
         meta_data = {
             'title': page.title,
@@ -150,7 +139,6 @@ def generate_meta_tags(page):
             'twitter_card': 'summary'
         }
         cache.set(META_CACHE_KEY.format(page_id=page.id), meta_data, META_CACHE_TIMEOUT)
-        
     return meta_data
 
 
@@ -163,7 +151,6 @@ def generate_sitemap_data():
     """Generate sitemap data"""
     from .models import StaticPage
     pages = StaticPage.objects.filter(is_published=True)
-    
     sitemap_data = []
     for page in pages:
         sitemap_data.append({
@@ -172,7 +159,6 @@ def generate_sitemap_data():
             'change_frequency': 'weekly',
             'priority': 0.8 if page.slug == 'home' else 0.5
         })
-        
     return sitemap_data
 
 
@@ -180,16 +166,12 @@ def sanitize_html(content):
     """Sanitize HTML content"""
     # Remove script tags and their content
     content = re.sub(r'<script[^>]*>.*?</script>', '', content, flags=re.DOTALL)
-    
     # Remove style tags and their content
     content = re.sub(r'<style[^>]*>.*?</style>', '', content, flags=re.DOTALL)
-    
     # Remove onclick and other JavaScript event handlers
     content = re.sub(r' on\w+="[^"]*"', '', content)
-    
     # Remove iframe tags
     content = re.sub(r'<iframe[^>]*>.*?</iframe>', '', content, flags=re.DOTALL)
-    
     return content.strip()
 
 
@@ -210,9 +192,7 @@ def get_popular_pages(days=30, limit=10):
     from django.db.models import Count
     from django.utils import timezone
     import datetime
-    
     start_date = timezone.now() - datetime.timedelta(days=days)
-    
     popular_pages = PageView.objects.filter(
         created_at__gte=start_date
     ).values(
@@ -222,5 +202,4 @@ def get_popular_pages(days=30, limit=10):
     ).order_by(
         '-view_count'
     )[:limit]
-    
     return list(popular_pages)
