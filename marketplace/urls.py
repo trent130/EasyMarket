@@ -1,9 +1,9 @@
-from django.urls import path, include, re_path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views_marketplace
 # from .views import CustomTokenObtainPairView
 from . import views_auth
-from . import consumers
+# from . import consumers
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -66,13 +66,11 @@ urlpatterns = [
      path('disable-2fa/', views_auth.disable_2fa, name='disable_2fa'),
      path('validate-2fa/', views_auth.validate_backup_code, name='validate_backup_code'),
      path('regenerate-2-fa/', views_auth.regenerate_backup_codes, name='regenerate_backup_codes'),
-     
      # path('2fa-setup/', views.setup_2fa, name='setup_2fa'),
      path('signin/', views_auth.signin, name='signin'),
      path('signup/', views_auth.signup, name='signup'),
      path('logout/', views_auth.signout, name='logout'),
      path('forgot_password/', views_auth.forgot_password, name='forgot_password'),
-    
 ]
 
 # URL patterns for authentication views are in urls.py

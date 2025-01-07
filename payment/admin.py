@@ -1,35 +1,32 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from django.urls import reverse
+# from django.urls import reverse
 from .models import Transaction
+
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = [
-        'transaction_id', 
-        'user_info', 
-        'amount', 
+        'transaction_id',
+        'user_info',
+        'amount',
         'status_badge',
         'timestamp'
     ]
-    
     list_filter = ['status', 'timestamp']
-    
     search_fields = [
-        'transaction_id', 
-        'user__email', 
+        'transaction_id',
+        'user__email',
         'user__username',
         'phone_number',
         'reference'
     ]
-    
     readonly_fields = [
         'user_details',
         'payment_details',
         'timestamp',
         'updated_at'
     ]
-    
     fieldsets = (
         ('Transaction Information', {
             'fields': (

@@ -4,10 +4,12 @@ from .models import Transaction
 from orders.models import Order
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class PaymentMethodSerializer(serializers.Serializer):
     type = serializers.ChoiceField(choices=['mpesa', 'card', 'bank'])
     details = serializers.DictField(required=False)
     is_default = serializers.BooleanField(default=False)
+
 
 class MpesaPaymentSerializer(serializers.Serializer):
     phone_number = serializers.CharField(max_length=15)
@@ -16,7 +18,6 @@ class MpesaPaymentSerializer(serializers.Serializer):
     def validate_phone_number(self, value):
         # Remove any spaces or special characters
         cleaned = ''.join(filter(str.isdigit, value))
-        
         # Validate Kenyan phone number format
         if not cleaned.startswith('254') or len(cleaned) != 12:
             raise serializers.ValidationError(
@@ -33,10 +34,12 @@ class MpesaPaymentSerializer(serializers.Serializer):
         except Order.DoesNotExist:
             raise serializers.ValidationError("Order not found")
 
+
 class CardPaymentSerializer(serializers.Serializer):
     order_id = serializers.IntegerField()
     token = serializers.CharField()  # Card token from payment processor
     save_card = serializers.BooleanField(default=False)
+
 
 class TransactionSerializer(serializers.ModelSerializer):
     payment_method_display = serializers.CharField(
@@ -53,6 +56,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         required=False,
         validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('999999.99'))]
     )
+
     class Meta:
         model = Transaction
         fields = [
@@ -66,9 +70,11 @@ class TransactionSerializer(serializers.ModelSerializer):
             'created_at', 'updated_at'
         ]
 
+
 class PaymentVerificationSerializer(serializers.Serializer):
     transaction_id = serializers.CharField()
     order_id = serializers.IntegerField()
+
 
 class RefundSerializer(serializers.Serializer):
     transaction_id = serializers.CharField()
@@ -98,6 +104,7 @@ class RefundSerializer(serializers.Serializer):
         except Transaction.DoesNotExist:
             raise serializers.ValidationError("Transaction not found")
 
+
 class PaymentReceiptSerializer(serializers.ModelSerializer):
     customer_name = serializers.SerializerMethodField()
     payment_method_details = serializers.SerializerMethodField()
@@ -121,6 +128,7 @@ class PaymentReceiptSerializer(serializers.ModelSerializer):
                 'confirmation_code': obj.payment_details.get('mpesa_receipt')
             }
         return None
+
 
 class PaymentHistorySerializer(serializers.ModelSerializer):
     class Meta:

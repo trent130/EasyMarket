@@ -5,6 +5,7 @@ from products.models import Product
 from marketplace.serializers_marketplace import ProductSerializer
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class OrderItemSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
     quantity = serializers.IntegerField(min_value=1)
@@ -25,9 +26,10 @@ class OrderItemSerializer(serializers.Serializer):
     def validate_product_id(self, value):
         try:
             product = Product.objects.get(id=value)
-            return value
+            return product
         except Product.DoesNotExist:
             raise serializers.ValidationError("Product not found")
+
 
 class OrderCreateSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
@@ -43,25 +45,23 @@ class OrderCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         items_data = validated_data.pop('items')
         order = Order.objects.create(**validated_data)
-        
         total_amount = 0
         for item_data in items_data:
             product = Product.objects.get(id=item_data['product_id'])
             price = product.price
             quantity = item_data['quantity']
             total = price * quantity
-            total_amount += total
-            
+            total_amount += total  # Update total amount
             order.items.create(
                 product=product,
                 quantity=quantity,
                 price=price,
                 total=total
             )
-        
         order.total_amount = total_amount
         order.save()
         return order
+
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
@@ -91,15 +91,17 @@ class OrderDetailSerializer(serializers.ModelSerializer):
             return f"https://tracking.example.com/{obj.tracking_number}"
         return None
 
+
 class OrderUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['shipping_address', 'special_instructions', 'status']
         read_only_fields = ['status']  # Status can only be updated by staff
 
+
 class OrderCancellationSerializer(serializers.Serializer):
     reason = serializers.CharField(required=True)
-    
+
     def validate(self, data):
         order = self.context['order']
         if order.status not in ['pending', 'paid']:
@@ -107,6 +109,7 @@ class OrderCancellationSerializer(serializers.Serializer):
                 "Order cannot be cancelled in its current status"
             )
         return data
+
 
 class OrderTrackingSerializer(serializers.ModelSerializer):
     status_history = serializers.SerializerMethodField()

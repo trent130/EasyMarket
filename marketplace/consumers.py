@@ -26,10 +26,8 @@ class MarketplaceConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         """
         Handle WebSocket disconnection.
-
         This method is called when the WebSocket is closed. It removes
         the WebSocket from the 'marketplace' group.
-        
         Args:
         - close_code: The code indicating the reason for the WebSocket disconnection.
         """
