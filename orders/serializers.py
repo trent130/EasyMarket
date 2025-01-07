@@ -120,7 +120,7 @@ class OrderTrackingSerializer(serializers.ModelSerializer):
         ]
 
     def get_status_history(self, obj):
-        # This would be implemented based on your order tracking system
+        # This would be implemented based on my order tracking system
         return [
             {
                 'status': status.status,

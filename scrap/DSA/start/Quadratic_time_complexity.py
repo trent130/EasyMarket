@@ -1,5 +1,5 @@
 """ 
-nested loopslead to quadratic tie
+nested loops lead to quadratic time complexity
 """
 
 def print_pairs(arr):
