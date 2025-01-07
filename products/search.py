@@ -1,16 +1,16 @@
 from django.contrib.postgres.search import (
     SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 )
-from django.db import models
-from django.db.models import Q, F, Value, FloatField, Avg
+# from django.db import models
+from django.db.models import Q, F, FloatField, Avg
 from django.db.models.functions import Greatest
-from django.conf import settings
+# from django.conf import settings
 from .models import Product
-from marketplace.models import Review
+# from marketplace.models import Review
+
 
 class ProductSearch:
     """Product search functionality with full-text search and trigram similarity"""
-    
     def __init__(self, query=None, filters=None):
         self.query = query
         self.filters = filters or {}
@@ -38,14 +38,14 @@ class ProductSearch:
             return queryset
 
         # Create search vector
-        self.vector = SearchVector('title', weight='A') + SearchVector('description', weight='B') + SearchVector('category__name', weight='C')
+        self.vector = SearchVector('title', weight='A') + SearchVector('description', weight='B') +\
+            SearchVector('category__name', weight='C')
 
         # Create search query
         search_query = SearchQuery(self.query)
 
         # Calculate search rank and trigram similarity
         rank = SearchRank(self.vector, search_query)
-        
         # Calculate trigram similarity for each search field
         similarities = []
         for field in self.search_fields:
@@ -99,7 +99,6 @@ class ProductSearch:
     def apply_sorting(self, queryset):
         """Apply sorting to queryset"""
         sort_by = self.filters.get('sort_by', 'newest')
-        
         if sort_by == 'price_asc':
             return queryset.order_by('price')
         elif sort_by == 'price_desc':
@@ -110,26 +109,21 @@ class ProductSearch:
             ).order_by('-avg_rating')
         elif sort_by == 'popularity':
             return queryset.order_by('-views_count')
-        
         # Default to newest
         return queryset.order_by('-created_at')
 
     def search(self):
         """Execute search and return results"""
         queryset = self.get_base_queryset()
-        
         # Apply search if query exists
         if self.query:
             queryset = self.apply_search(queryset)
-        
         # Apply filters
         queryset = self.apply_filters(queryset)
-        
         # Apply sorting if no search query
         # (search results are already sorted by relevance)
         if not self.query:
             queryset = self.apply_sorting(queryset)
-
         return queryset
 
 
