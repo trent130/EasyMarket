@@ -66,6 +66,7 @@ urlpatterns = [
      path('disable-2fa/', views_auth.disable_2fa, name='disable_2fa'),
      path('validate-2fa/', views_auth.validate_backup_code, name='validate_backup_code'),
      path('regenerate-2-fa/', views_auth.regenerate_backup_codes, name='regenerate_backup_codes'),
+     
      # path('2fa-setup/', views.setup_2fa, name='setup_2fa'),
      path('signin/', views_auth.signin, name='signin'),
      path('signup/', views_auth.signup, name='signup'),
@@ -83,9 +84,5 @@ urlpatterns = [
 #     path('', include(router.urls)),
 # ]
 
-websocket_urlpatterns = [
-    re_path(r'ws/chat/$', consumers.ChatConsumer.as_asgi()),
-    re_path(r'ws/marketplace/$', consumers.MarketplaceConsumer.as_asgi()),  # New WebSocket route
-]
 
 # impliment the reset password auth functionality
