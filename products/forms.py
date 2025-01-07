@@ -7,9 +7,9 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['title', 'description', 'price', 'category', 'image', 'stock']
         widgets = {
-            'description': forms.Textarea(attrs={'class':'form-control'}),
-            'stock': forms.NumberInput(attrs={'class':'form-control'}),
-            'image': forms.FileInput(attrs={'class':'form-control'})
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control', 'rows': 5}),
+            'image': forms.FileInput(attrs={'class': 'form-control', 'rows': 5}),
         }
 
     def clean_price(self):
@@ -24,13 +24,13 @@ class ProductForm(forms.ModelForm):
             raise forms.ValidationError("Stock must be greater than zero.")
         return stock
 
+
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = '__all__'
-        
     widgets = {
-        'image': forms.ClearableFileInput(attrs={'class':'form-control'}),
-        'name': forms.TextInput(attrs={'class':'form-control'}),
-        'description': forms.Textarea(attrs={'class':'form-control'}),
+        'image': forms.ClearableFileInput(attrs={'class': 'form-control', 'rows': 5}),
+        'name': forms.TextInput(attrs={'class': 'form-control', 'rows': 5}),
+        'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
     }

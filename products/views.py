@@ -83,7 +83,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         cache_key = f'product_view_{product.id}_{request.user.id}'
         if not cache.get(cache_key):
             Product.objects.filter(id=product.id).update(views_count=F('views_count') + 1)
-           
             # Set a cache to prevent frequent updates
             cache.set(cache_key, True, 3600)  # 1 hour cooldown per user
 
@@ -102,11 +101,10 @@ class ProductViewSet(viewsets.ModelViewSet):
         # Increment views count
         obj.increment_views()
         return obj
-        
+
     def retrieve(self, request, slug=None):
         """
         Retrieve a product by its slug.
-        
         Note the method signature uses 'slug' instead of 'pk'
         """
         try:
@@ -118,10 +116,8 @@ class ProductViewSet(viewsets.ModelViewSet):
 
             # Use get_object_or_404 with the slug
             product = self.get_object()
-            
             # Increment views count
             product.increment_views()
-            
             # Serialize and return the product
             serializer = self.get_serializer(product)
 
@@ -129,12 +125,10 @@ class ProductViewSet(viewsets.ModelViewSet):
             logger.debug(f"Caching product data: {serializer.data}")
             cache.set(cached_results, serializer.data, timeout=3600)
             return Response(serializer.data)
-            
         except Product.DoesNotExist:
             return Response({
                 'detail': 'Product not found'
             }, status=status.HTTP_404_NOT_FOUND)
-        
         except Exception as e:
             # Log the error
             logger.error(f"Error retrieving product: {str(e)}")
@@ -163,14 +157,12 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Create product with inventory tracking"""
         student = Student.objects.get(user=self.request.user)
         product = serializer.save(student=student)
-        
         # Initialize statistics
         product.total_sales = 0
         product.total_revenue = 0
         product.average_rating = 0
         product.review_count = 0
         product.save()
-        
         # Clear relevant caches
         cache.delete_pattern(f'{CACHE_PREFIX}list:*')
         logger.info(f'Product created: {product.id} by student {student.id}')
@@ -178,7 +170,6 @@ class ProductViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         """Update product with cache management"""
         product = serializer.save()
-        
         # Clear relevant caches
         cache.delete(get_cache_key('detail', product.id))
         cache.delete_pattern(f'{CACHE_PREFIX}list:*')
@@ -188,7 +179,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Soft delete with cache management"""
         instance.is_active = False
         instance.save()
-        
         # Clear relevant caches
         cache.delete(get_cache_key('detail', instance.id))
         cache.delete_pattern(f'{CACHE_PREFIX}list:*')
@@ -300,11 +290,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     def update_stock(self, request, pk=None):
         """Update product stock with validation"""
         product = self.get_object()
-        
         try:
             new_stock = int(request.data.get('stock', 0))
             variant_id = request.data.get('variant_id')
-            
             if new_stock < 0:
                 raise ValueError("Stock cannot be negative")
 
@@ -316,14 +304,11 @@ class ProductViewSet(viewsets.ModelViewSet):
                 variant.save()
             else:
                 product.update_stock(new_stock)
-            
             # Clear caches
             cache.delete(get_cache_key('detail', product.id))
             cache.delete_pattern(f'{CACHE_PREFIX}list:*')
-            
             serializer = self.get_serializer(product)
             return Response(serializer.data)
-            
         except (TypeError, ValueError) as e:
             return Response(
                 {'error': str(e)},

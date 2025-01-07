@@ -11,7 +11,7 @@ from django.db.models import Count
 
 class CategorySerializer(serializers.ModelSerializer):
     product_count = serializers.IntegerField(source='active_products_count', read_only=True)
-    
+
     class Meta:
         model = Category
         fields = [
@@ -23,7 +23,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     reviewer_name = serializers.CharField(source='reviewer.username', read_only=True)
-    
+
     class Meta:
         model = Review
         fields = [
@@ -50,7 +50,6 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
         If the product variant is not associated with a product, return the price adjustment only.
         """
-        
         product = obj.products.first()
         if product:
             return float(product.price) + float(obj.price_adjustment)
@@ -144,7 +143,6 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         """
         Return a dictionary with the student's id, username, average rating, products count and join date.
         """
-        
         student = obj.student
         average_rating = student.products.aggregate(Avg('reviews__rating'))['reviews__rating__avg'] or 0
         return {
@@ -214,10 +212,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         """Validate price is reasonable"""
         if not isinstance(value, Decimal):
             value = Decimal(str(value))
-        
         min_value = Decimal('0.01')
         max_value = Decimal('999999.99')
-        
         if value < min_value:
             raise serializers.ValidationError(f"Price must be at least {min_value}")
         if value > max_value:

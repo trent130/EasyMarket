@@ -1,6 +1,7 @@
-import random
-import re
-import sys
+# import random
+# import re
+# import sys
+import os
 
 """
 at the end of the time here this function is expeected to:
@@ -9,8 +10,10 @@ at the end of the time here this function is expeected to:
 
 """
 
+
 def primality(n):
     pass
+
 
 if __name__ == "__main__":
     fptr = open(os.environ['OUTPUT_PATH'], 'w')

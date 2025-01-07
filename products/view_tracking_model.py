@@ -20,14 +20,12 @@ doing more research on the same still
 @action(detail=True, methods=['get'])
 def recommendations(self, request, slug=None):
     product = self.get_object()
-    
     # Simple recommendation based on category and tags
     recommendations = Product.objects.filter(
         category=product.category
     ).exclude(
         id=product.id
-    ).order_by('?')[:4]  # Random selection
-    
+    ).order_by('?')[:4]  # Random selection of 4 products
     serializer = self.get_serializer(recommendations, many=True)
     return Response(serializer.data)
 """

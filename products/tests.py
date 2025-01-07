@@ -11,7 +11,8 @@ class ProductViewTest(TestCase):
         self.client.login(username='testuser', password='12345')
         self.category = Category.objects.create(name='Test Category')
         self.user_id = 1
-        self.product = Product.objects.create(title='Test Product', description='Test Description', price=10.00, category=self.category)
+        self.product = Product.objects.create(title='Test Product', description='Test Description', price=10.00,
+                                                    category=self.category)
         self.image = Image.objects.create(product=self.product, image='test_image.jpg', description='Test Image')
 
     def test_product_view(self):
