@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
+from django.conf import settings
 
 router = DefaultRouter()
 router.register(r'transactions', views.PaymentViewSet, basename='transaction')
@@ -10,14 +11,12 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     # M-Pesa Payment URLs
-    path('api/payment/mpesa/', 
+    path('api/payment/mpesa/',
          views.PaymentViewSet.as_view({'post': 'mpesa'}),
          name='mpesa-payment'),
-    
-    path('api/payment/verify/', 
+    path('api/payment/verify/',
          views.PaymentViewSet.as_view({'post': 'verify_payment'}),
          name='verify-payment'),
-    
     path('api/payment/mpesa-callback/',
          views.mpesa_callback,
          name='mpesa-callback'),
@@ -26,7 +25,6 @@ urlpatterns = [
     path('api/payment/transactions/<str:transaction_id>/refund/',
          views.PaymentViewSet.as_view({'post': 'refund'}),
          name='refund-payment'),
-    
     path('api/payment/transactions/<str:transaction_id>/receipt/',
          views.PaymentViewSet.as_view({'get': 'receipt'}),
          name='payment-receipt'),
@@ -40,11 +38,9 @@ urlpatterns = [
     path('api/webhooks/mpesa/confirmation/',
          views.mpesa_callback,
          name='mpesa-confirmation'),
-    
     path('api/webhooks/mpesa/validation/',
          views.mpesa_callback,
          name='mpesa-validation'),
-    
     path('api/webhooks/mpesa/reversal/',
          views.mpesa_callback,
          name='mpesa-reversal'),
@@ -56,14 +52,12 @@ urlpatterns = [
              'post': 'add_payment_method'
          }),
          name='payment-methods'),
-    
     path('api/payment/methods/<int:pk>/',
          views.PaymentViewSet.as_view({
              'delete': 'remove_payment_method',
              'put': 'update_payment_method'
          }),
          name='payment-method-detail'),
-    
     path('api/payment/methods/<int:pk>/set-default/',
          views.PaymentViewSet.as_view({'post': 'set_default_payment_method'}),
          name='set-default-payment-method'),
@@ -80,7 +74,6 @@ urlpatterns = [
     path('api/payment/analytics/',
          views.PaymentViewSet.as_view({'get': 'get_payment_analytics'}),
          name='payment-analytics'),
-    
     path('api/payment/analytics/export/',
          views.PaymentViewSet.as_view({'get': 'export_payment_analytics'}),
          name='export-payment-analytics'),
@@ -92,14 +85,12 @@ urlpatterns = [
 ]
 
 # Add debug patterns if in debug mode
-from django.conf import settings
 if settings.DEBUG:
     urlpatterns += [
         # Test payment endpoints
         path('api/payment/test/mpesa/',
              views.PaymentViewSet.as_view({'post': 'test_mpesa_payment'}),
              name='test-mpesa-payment'),
-        
         path('api/payment/test/callback/',
              views.PaymentViewSet.as_view({'post': 'test_payment_callback'}),
              name='test-payment-callback'),

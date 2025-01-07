@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 from django.conf import settings
 
-app_name = 'products' 
+app_name = 'products'
 
 router = DefaultRouter()
 router.register(r'products', views.ProductViewSet, basename='product')
@@ -24,9 +24,8 @@ urlpatterns = [
          name='product-bulk-action'),
 
     # fetch categories
-    path('api/categories/', views.CategoryViewSet.as_view({'get': 'categories'}), 
+    path('api/categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
          name='categories'),
-    
     path('api/products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),
          name='my-products'),
@@ -45,7 +44,6 @@ urlpatterns = [
     path('api/products/analytics/',
          views.ProductViewSet.as_view({'get': 'analytics'}),
          name='product-analytics'),
-    
     path('api/products/analytics/export/',
          views.ProductViewSet.as_view({'get': 'export_analytics'}),
          name='export-product-analytics'),
@@ -57,7 +55,6 @@ urlpatterns = [
              'post': 'add_review'
          }),
          name='product-reviews'),
-    
     path('api/products/reviews/<int:review_id>/',
          views.ProductViewSet.as_view({
              'put': 'update_review',
@@ -77,7 +74,6 @@ urlpatterns = [
     path('api/categories/tree/',
          views.CategoryViewSet.as_view({'get': 'tree'}),
          name='category-tree'),
-    
     path('api/categories/featured/',
          views.CategoryViewSet.as_view({'get': 'featured'}),
          name='featured-categories'),
@@ -86,7 +82,6 @@ urlpatterns = [
     path('api/products/<int:pk>/report/',
          views.ProductViewSet.as_view({'post': 'report_product'}),
          name='report-product'),
-    
     path('api/products/reports/',
          views.ProductViewSet.as_view({'get': 'product_reports'}),
          name='product-reports'),
@@ -95,7 +90,6 @@ urlpatterns = [
     path('api/products/stats/',
          views.ProductViewSet.as_view({'get': 'product_stats'}),
          name='product-stats'),
-    
     path('api/products/<int:pk>/stats/',
          views.ProductViewSet.as_view({'get': 'single_product_stats'}),
          name='single-product-stats'),
@@ -104,7 +98,6 @@ urlpatterns = [
     path('api/products/export/',
          views.ProductViewSet.as_view({'get': 'export_products'}),
          name='export-products'),
-    
     path('api/products/import/',
          views.ProductViewSet.as_view({'post': 'import_products'}),
          name='import-products'),
@@ -127,7 +120,6 @@ if settings.DEBUG:
         path('api/products/test/create/',
              views.ProductViewSet.as_view({'post': 'test_create'}),
              name='test-create-product'),
-        
         path('api/products/test/bulk-create/',
              views.ProductViewSet.as_view({'post': 'test_bulk_create'}),
              name='test-bulk-create'),
