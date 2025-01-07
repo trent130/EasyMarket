@@ -1,4 +1,6 @@
 from marketplace.consumers import ChatConsumer, MarketplaceConsumer
+from frontend.app.auth.signin import SigninView  # Import the SigninView
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views_marketplace
@@ -51,10 +53,4 @@ urlpatterns = [
              'delete': 'destroy'
          }),
          name='review-detail'),
-]
-
-# to be rremoved all because it is not being needed anymore
-websocket_urlpatterns = [
-    path('ws/chat/', ChatConsumer.as_asgi()),
-    path('ws/marketplace/', MarketplaceConsumer.as_asgi()),  # New WebSocket route
 ]
