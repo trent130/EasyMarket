@@ -18,6 +18,7 @@ import {
 } from './services/api/products';
 import ProductCard from './components/Product/ProductCard';
 import type { ProductBase } from './types/product';
+// import { Height } from '@mui/icons-material';
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<ProductBase[]>([]);
@@ -47,24 +48,33 @@ export default function HomePage() {
   return (
     <main className="w-full bg-gray-50">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-        <div className="container mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
-          <div>
+      <section className="h-[100vh] relative bg-white text-gray-900 flex items-center justify-center">
+        <div className="mx-auto px-6 md:px-12 lg:px-16 py-16 grid md:grid-cols-2 items-center gap-8">
+          <div className="animate-fadeIn">
+            <div className="text-sm text-blue-500 uppercase font-semibold mb-2">
+              Your Trusted Marketplace
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Campus Marketplace, Reimagined
             </h1>
-            <p className="text-xl mb-6">
+            <p className="text-lg md:text-xl mb-6 text-gray-700 tracking-wide leading-relaxed">
               Buy, sell, and exchange textbooks and academic resources 
               with students across your campus.
             </p>
             <div className="flex space-x-4">
               <Link href="/product">
-                <Button variant="secondary" size="lg">
+                <Button 
+                  variant="destructive" 
+                  size="lg" 
+                  className="bg-blue-600 hover:bg-blue-700 text-white">
                   <ShoppingCart className="mr-2" /> Browse Products
                 </Button>
               </Link>
               <Link href="/textbook-exchange">
-                <Button variant="outline" size="lg" className="text-white border-white">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="border-gray-300 hover:bg-gray-100">
                   <Book className="mr-2" /> Textbook Exchange
                 </Button>
               </Link>
@@ -72,15 +82,16 @@ export default function HomePage() {
           </div>
           <div className="hidden md:block">
             <Image 
-              src="/hero-illustration.svg" 
+              src="/hero.jpg" 
               alt="Campus Marketplace" 
-              width={500} 
-              height={400} 
-              className="mx-auto"
+              width={800}
+              height={400}
+              className="mx-auto rounded-lg shadow-lg border border-gray-200"
             />
           </div>
         </div>
       </section>
+
 
       {/* Features Section */}
       <section className="container mx-auto px-4 py-16">
