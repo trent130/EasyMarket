@@ -20,7 +20,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 bg-white min-h-screen">{children}</main>
+      <main className={`flex-1 p-4 bg-white min-h-screen ${isSidebarOpen ? 'ml-64' : 'ml-16'} pt-16`}>{children}</main>
     </div>
   );
 };
