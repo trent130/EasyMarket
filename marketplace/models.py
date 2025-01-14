@@ -45,7 +45,7 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_related_profiles(sender, instance, created, **kwargs):
-    
+   
     """
     Signal receiver that creates user-related profiles upon User creation.
 
