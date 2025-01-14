@@ -1,118 +1,89 @@
-import {
-  Calendar,
-  ChevronUp,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-  User2,
-} from "lucide-react";
+"use client";
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "./ui/sidebar";
+import { useState } from "react";
+import { cn } from "@/lib/útils";
+import { Button } from "@/components/ui/button";
+import { Home, Settings, Users, BarChart3, Files, Calendar, MessagesSquare, LogOut, Menu } from "lucide-react";
+import { NavLink } from "./nav-link";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-// Menu items.
-const items = [
-  {
-    title: "dashboard",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "my products",
-    url: "/my-product",
-    icon: Inbox,
-  },
-  {
-    title: "Analytics",
-    url: "/analytics",
-    icon: Calendar,
-  },
-  {
-    title: "profile",
-    url: "/profile",
-    icon: Search,
-  },
-  {
-    title: "textbook exchange",
-    url: "/textbook-exchange",
-    icon: Settings,
-  },
-];
+export function Sidebar({ className }: SidebarProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
-
-
-export function AppSidebar() {
   return (
-    <SidebarProvider>
-      <Sidebar>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Application</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-        <SidebarFooter>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton>
-                    <User2 /> Username
-                    <ChevronUp className="ml-auto" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  side="top"
-                  className="w-[--radix-popper-anchor-width]"
-                >
-                  <DropdownMenuItem>
-                    <span>Account</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span>Billing</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span>Sign out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
-      </Sidebar>
-    </SidebarProvider>
+    <>
+      {/* Hamburger Menu for Mobile */}
+      <div className="sm:hidden fixed top-4 left-4 z-50">
+        <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className="p-2">
+          <Menu className="h-6 w-6 text-primary" />
+        </Button>
+      </div>
+
+      {/* Sidebar */}
+      <div
+        className={cn(
+          "absolute top-0 left-0 z-40 h-screen w-64  text-black transition-transform sm:translate-x-0",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+          className
+        )}
+      >
+        <div className="flex flex-col justify-between h-full pb-6">
+          {/* Header */}
+          <div>
+            <div className="flex items-center px-4 py-6">
+              <BarChart3 className="h-6 w-6 text-primary" />
+              <h2 className="ml-3 text-xl font-semibold tracking-tight">Dashboard</h2>
+            </div>
+
+            {/* Navigation Links */}
+            <nav className="mt-4 space-y-1">
+              <NavLink href="/" icon={<Home className="mr-2 h-5 w-5" />}>
+                Home
+              </NavLink>
+              <NavLink href="/analytics" icon={<BarChart3 className="mr-2 h-5 w-5" />}>
+                Analytics
+              </NavLink>
+              <NavLink href="/customers" icon={<Users className="mr-2 h-5 w-5" />}>
+                Customers
+              </NavLink>
+              <NavLink href="/documents" icon={<Files className="mr-2 h-5 w-5" />}>
+                Documents
+              </NavLink>
+              <NavLink href="/messages" icon={<MessagesSquare className="mr-2 h-5 w-5" />}>
+                Messages
+              </NavLink>
+              <NavLink href="/calendar" icon={<Calendar className="mr-2 h-5 w-5" />}>
+                Calendar
+              </NavLink>
+            </nav>
+          </div>
+
+          {/* Footer */}
+          <div>
+            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Settings</h2>
+            <nav className="space-y-1">
+              <NavLink href="/settings" icon={<Settings className="mr-2 h-5 w-5" />}>
+                Settings
+              </NavLink>
+            </nav>
+            <div className="px-4 mt-6">
+              <Button variant="secondary" className="w-full justify-start">
+                <LogOut className="mr-2 h-5 w-5" />
+                Logout
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Overlay for Mobile */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-opacity-50 sm:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+    </>
   );
 }
-
-export default AppSidebar;

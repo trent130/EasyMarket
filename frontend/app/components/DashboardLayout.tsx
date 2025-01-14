@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import { AppSidebar } from "./app-sidebar";
+import { Sidebar } from "./app-sidebar";
 
 // Props type for layout
 interface DashboardLayoutProps {
@@ -16,7 +18,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           isSidebarOpen ? "w-64" : "w-16"
         } bg-gray-100`}
       >
-        <AppSidebar />
+        <Sidebar />
       </aside>
 
       {/* Main Content */}

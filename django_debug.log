@@ -8389,3 +8389,447 @@ Traceback (most recent call last):
     setattr(obj, attr_name, row[col_pos])
 AttributeError: property 'review_count' of 'Product' object has no setter
 WARNING 2025-01-09 08:50:28,284 log Unauthorized: /marketplace/api/wishlist/
+INFO 2025-01-09 15:08:16,057 autoreload Watching for file changes with StatReloader
+DEBUG 2025-01-09 15:08:16,058 autoreload Waiting for apps ready_event.
+DEBUG 2025-01-09 15:08:17,708 autoreload Apps ready_event triggered. Sending autoreload_started signal.
+DEBUG 2025-01-09 15:08:17,782 autoreload Watching dir C:\Users\Admin\EasyMarket\templates with glob **/*.
+DEBUG 2025-01-09 15:08:17,787 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\templates with glob **/*.
+DEBUG 2025-01-09 15:08:17,788 autoreload Watching dir C:\Users\Admin\EasyMarket\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,789 autoreload Watching dir C:\Users\Admin\EasyMarket\marketplace\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,790 autoreload Watching dir C:\Users\Admin\EasyMarket\products\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,790 autoreload Watching dir C:\Users\Admin\EasyMarket\orders\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,790 autoreload Watching dir C:\Users\Admin\EasyMarket\payment\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,791 autoreload Watching dir C:\Users\Admin\EasyMarket\adminapp\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,791 autoreload Watching dir C:\Users\Admin\EasyMarket\staticpages\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,792 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\django_daraja\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,792 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\widget_tweaks\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,793 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,793 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\rest_framework_simplejwt\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,794 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\corsheaders\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,794 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\channels\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,794 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\crispy_forms\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,795 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\livereload\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:17,795 autoreload Watching dir C:\Users\Admin\env\.env\Lib\site-packages\django_redis\locale with glob **/*.mo.
+DEBUG 2025-01-09 15:08:18,313 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py first seen with mtime 1736168955.5378032
+DEBUG 2025-01-09 15:08:18,314 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\dotenv\parser.py first seen with mtime 1736168941.7820897
+DEBUG 2025-01-09 15:08:18,316 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\management\base.py first seen with mtime 1736168955.4106736
+DEBUG 2025-01-09 15:08:18,316 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\migrations\operations\fields.py first seen with mtime 1736168955.5254927
+DEBUG 2025-01-09 15:08:18,317 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\iterators.py first seen with mtime 1736168224.953029
+DEBUG 2025-01-09 15:08:18,317 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\requests\cookies.py first seen with mtime 1736168947.6810625
+DEBUG 2025-01-09 15:08:18,317 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\coroutines.py first seen with mtime 1736168224.3636293
+DEBUG 2025-01-09 15:08:18,319 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\corsheaders\apps.py first seen with mtime 1736168987.2858703
+DEBUG 2025-01-09 15:08:18,319 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\apps.py first seen with mtime 1736168951.8370535
+DEBUG 2025-01-09 15:08:18,320 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\files\uploadhandler.py first seen with mtime 1736168955.3876543
+DEBUG 2025-01-09 15:08:18,320 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\templatetags\__init__.py first seen with mtime 1736168984.9694538
+DEBUG 2025-01-09 15:08:18,323 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\xml\dom\domreg.py first seen with mtime 1736168231.0612488
+DEBUG 2025-01-09 15:08:18,324 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\postgres\lookups.py first seen with mtime 1736168954.3122127
+DEBUG 2025-01-09 15:08:18,325 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\functions\comparison.py first seen with mtime 1736168955.5582123
+DEBUG 2025-01-09 15:08:18,327 autoreload File C:\Users\Admin\EasyMarket\adminapp\admin.py first seen with mtime 1736424490.3816025
+DEBUG 2025-01-09 15:08:18,328 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\sessions\__init__.py first seen with mtime 1736168954.7886987
+DEBUG 2025-01-09 15:08:18,333 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\fields\generated.py first seen with mtime 1736168955.5492666
+DEBUG 2025-01-09 15:08:18,335 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py first seen with mtime 1736168226.710543
+DEBUG 2025-01-09 15:08:18,340 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\checks\translation.py first seen with mtime 1736168955.3734832
+DEBUG 2025-01-09 15:08:18,345 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\checks\urls.py first seen with mtime 1736168955.374385
+DEBUG 2025-01-09 15:08:18,359 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\requests\api.py first seen with mtime 1736168947.6772878
+DEBUG 2025-01-09 15:08:18,359 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\files\storage\filesystem.py first seen with mtime 1736168955.3919027
+DEBUG 2025-01-09 15:08:18,360 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\__init__.py first seen with mtime 1736168984.7110472
+DEBUG 2025-01-09 15:08:18,362 autoreload File C:\Users\Admin\EasyMarket\staticpages\templatetags\custom_filters.py first seen with mtime 1736167952.090546
+DEBUG 2025-01-09 15:08:18,362 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\pytz\tzfile.py first seen with mtime 1736168935.812198
+DEBUG 2025-01-09 15:08:18,363 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\inspect.py first seen with mtime 1736168955.75101
+DEBUG 2025-01-09 15:08:18,365 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\requests\auth.py first seen with mtime 1736168947.6782858
+DEBUG 2025-01-09 15:08:18,367 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\mime\nonmultipart.py first seen with mtime 1736168224.9573438
+DEBUG 2025-01-09 15:08:18,369 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\cookies.py first seen with mtime 1736168225.6246312
+DEBUG 2025-01-09 15:08:18,370 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\idna\__init__.py first seen with mtime 1736168945.5467155
+DEBUG 2025-01-09 15:08:18,371 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\functions\math.py first seen with mtime 1736168955.5602067
+DEBUG 2025-01-09 15:08:18,371 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\auth\validators.py first seen with mtime 1736168952.7988036
+DEBUG 2025-01-09 15:08:18,372 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\templatetags\l10n.py first seen with mtime 1736168955.7100358
+DEBUG 2025-01-09 15:08:18,373 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\pyotp\hotp.py first seen with mtime 1736168942.0136487
+DEBUG 2025-01-09 15:08:18,373 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\locale.py first seen with mtime 1736168226.706851
+DEBUG 2025-01-09 15:08:18,373 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\PIL\__init__.py first seen with mtime 1736168943.4016576
+DEBUG 2025-01-09 15:08:18,375 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\timeout.py first seen with mtime 1736168938.1488273
+DEBUG 2025-01-09 15:08:18,375 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\wait.py first seen with mtime 1736168938.1518197
+DEBUG 2025-01-09 15:08:18,376 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\streams.py first seen with mtime 1736168224.37886
+DEBUG 2025-01-09 15:08:18,377 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\test\__init__.py first seen with mtime 1736168955.7135756
+DEBUG 2025-01-09 15:08:18,377 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\test\testcases.py first seen with mtime 1736168955.720523
+DEBUG 2025-01-09 15:08:18,380 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\sqlparse\engine\statement_splitter.py first seen with mtime 1736168939.9005392
+DEBUG 2025-01-09 15:08:18,381 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\ipv6.py first seen with mtime 1736168955.7528348
+DEBUG 2025-01-09 15:08:18,382 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\proactor_events.py first seen with mtime 1736168224.3723025
+DEBUG 2025-01-09 15:08:18,383 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\backends\__init__.py first seen with mtime 1736168955.4563024
+DEBUG 2025-01-09 15:08:18,385 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\validators.py first seen with mtime 1736168984.7418785
+DEBUG 2025-01-09 15:08:18,386 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_subprocess.py first seen with mtime 1736168224.3610904
+DEBUG 2025-01-09 15:08:18,386 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\charset_normalizer\constant.py first seen with mtime 1736168946.3370752
+DEBUG 2025-01-09 15:08:18,387 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py first seen with mtime 1736168984.7330573
+DEBUG 2025-01-09 15:08:18,388 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\sqlite3\__init__.py first seen with mtime 1736168230.624188
+DEBUG 2025-01-09 15:08:18,388 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\ssltransport.py first seen with mtime 1736168938.1478264
+DEBUG 2025-01-09 15:08:18,389 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\__init__.py first seen with mtime 1736168219.9821374
+DEBUG 2025-01-09 15:08:18,390 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\migrations\__init__.py first seen with mtime 1736168955.5095873
+DEBUG 2025-01-09 15:08:18,391 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\management\__init__.py first seen with mtime 1736168955.4096758
+DEBUG 2025-01-09 15:08:18,392 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\backends\sqlite3\client.py first seen with mtime 1736168955.5044193
+DEBUG 2025-01-09 15:08:18,395 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\__init__.py first seen with mtime 1736168224.3930273
+DEBUG 2025-01-09 15:08:18,396 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\request.py first seen with mtime 1736168938.1432576
+DEBUG 2025-01-09 15:08:18,396 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\checks\security\sessions.py first seen with mtime 1736168955.379375
+DEBUG 2025-01-09 15:08:18,397 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\fields\__init__.py first seen with mtime 1736168955.5472715
+DEBUG 2025-01-09 15:08:18,398 autoreload File C:\Users\Admin\EasyMarket\adminapp\apps.py first seen with mtime 1736167951.7003522
+DEBUG 2025-01-09 15:08:18,398 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\files\storage\memory.py first seen with mtime 1736168955.393389
+DEBUG 2025-01-09 15:08:18,399 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\migrations\operations\models.py first seen with mtime 1736168955.5264893
+DEBUG 2025-01-09 15:08:18,400 autoreload File C:\Users\Admin\EasyMarket\products\views.py first seen with mtime 1736424490.6935308
+DEBUG 2025-01-09 15:08:18,401 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\calendar.py first seen with mtime 1736168224.5362778
+DEBUG 2025-01-09 15:08:18,401 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\__init__.py first seen with mtime 1736168951.833522
+DEBUG 2025-01-09 15:08:18,402 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\sessions\exceptions.py first seen with mtime 1736168954.7926884
+DEBUG 2025-01-09 15:08:18,402 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\re\__init__.py first seen with mtime 1736168227.0067222
+DEBUG 2025-01-09 15:08:18,403 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\enums.py first seen with mtime 1736168955.5367486
+DEBUG 2025-01-09 15:08:18,403 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\functions\mixins.py first seen with mtime 1736168955.561204
+DEBUG 2025-01-09 15:08:18,403 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\PIL\_version.py first seen with mtime 1736168943.4618683
+DEBUG 2025-01-09 15:08:18,404 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\contentmanager.py first seen with mtime 1736168224.9444366
+DEBUG 2025-01-09 15:08:18,405 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\manager.py first seen with mtime 1736168955.5399365
+DEBUG 2025-01-09 15:08:18,406 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\tree.py first seen with mtime 1736168955.7678761
+DEBUG 2025-01-09 15:08:18,408 autoreload File C:\Users\Admin\EasyMarket\orders\models.py first seen with mtime 1736424490.6516123
+DEBUG 2025-01-09 15:08:18,409 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\files\move.py first seen with mtime 1736168955.3845124
+DEBUG 2025-01-09 15:08:18,410 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\encoding.py first seen with mtime 1736168955.7443886
+DEBUG 2025-01-09 15:08:18,410 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\crispy_forms\templatetags\crispy_forms_filters.py first seen with mtime 1736168987.1081986
+DEBUG 2025-01-09 15:08:18,414 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\files\storage\handler.py first seen with mtime 1736168955.3919027
+DEBUG 2025-01-09 15:08:18,416 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\importlib\abc.py first seen with mtime 1736168226.312369
+DEBUG 2025-01-09 15:08:18,418 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\urls\conf.py first seen with mtime 1736168955.7247274
+DEBUG 2025-01-09 15:08:18,423 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\abc.py first seen with mtime 1736168226.32838
+DEBUG 2025-01-09 15:08:18,425 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\PIL\_util.py first seen with mtime 1736168943.4608746
+DEBUG 2025-01-09 15:08:18,426 autoreload File C:\Users\Admin\EasyMarket\orders\apps.py first seen with mtime 1736167952.0177703
+DEBUG 2025-01-09 15:08:18,442 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\colorama\initialise.py first seen with mtime 1736168946.205793
+DEBUG 2025-01-09 15:08:18,509 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\sqlparse\filters\tokens.py first seen with mtime 1736168939.9063993
+DEBUG 2025-01-09 15:08:18,578 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\wsgi.py first seen with mtime 1736168955.353596
+DEBUG 2025-01-09 15:08:18,581 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\template\context.py first seen with mtime 1736168955.682987
+DEBUG 2025-01-09 15:08:18,583 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\translation\__init__.py first seen with mtime 1736168955.7711022
+DEBUG 2025-01-09 15:08:18,583 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\auth\password_validation.py first seen with mtime 1736168952.7943196
+DEBUG 2025-01-09 15:08:18,585 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\migrations\exceptions.py first seen with mtime 1736168955.5119176
+DEBUG 2025-01-09 15:08:18,585 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\conf\locale\__init__.py first seen with mtime 1736168951.3585055
+DEBUG 2025-01-09 15:08:18,587 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\exceptions.py first seen with mtime 1736168224.365795
+DEBUG 2025-01-09 15:08:18,589 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\__init__.py first seen with mtime 1736168951.8346088
+DEBUG 2025-01-09 15:08:18,589 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\urls\converters.py first seen with mtime 1736168955.725304
+DEBUG 2025-01-09 15:08:18,590 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\aggregates.py first seen with mtime 1736168955.5307398
+DEBUG 2025-01-09 15:08:18,593 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework_simplejwt\__init__.py first seen with mtime 1736168988.9188194
+DEBUG 2025-01-09 15:08:18,601 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\PIL\ImageMode.py first seen with mtime 1736168943.3353834
+DEBUG 2025-01-09 15:08:18,606 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\widget_tweaks\__init__.py first seen with mtime 1736168946.0502179
+DEBUG 2025-01-09 15:08:18,611 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\filters.py first seen with mtime 1736168951.8437622
+DEBUG 2025-01-09 15:08:18,615 autoreload File C:\Users\Admin\EasyMarket\products\urls.py first seen with mtime 1736424490.6903868
+DEBUG 2025-01-09 15:08:18,621 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admindocs\utils.py first seen with mtime 1736168952.498153
+DEBUG 2025-01-09 15:08:18,623 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\messages\utils.py first seen with mtime 1736168954.298239
+DEBUG 2025-01-09 15:08:18,626 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\sessions\base_session.py first seen with mtime 1736168954.7916913
+DEBUG 2025-01-09 15:08:18,627 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\colorama\winterm.py first seen with mtime 1736168946.2081597
+DEBUG 2025-01-09 15:08:18,628 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\schemas\utils.py first seen with mtime 1736168984.8556187
+DEBUG 2025-01-09 15:08:18,628 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\idna\core.py first seen with mtime 1736168945.549708
+DEBUG 2025-01-09 15:08:18,629 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\functions\datetime.py first seen with mtime 1736168955.5592093
+DEBUG 2025-01-09 15:08:18,629 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py first seen with mtime 1736168225.625943
+DEBUG 2025-01-09 15:08:18,629 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\collections\abc.py first seen with mtime 1736168224.5446968
+DEBUG 2025-01-09 15:08:18,632 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\messages\apps.py first seen with mtime 1736168954.293174
+DEBUG 2025-01-09 15:08:18,634 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\routers.py first seen with mtime 1736168984.7330573
+DEBUG 2025-01-09 15:08:18,635 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\templatetags\cache.py first seen with mtime 1736168955.7082713
+DEBUG 2025-01-09 15:08:18,637 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\utils.py first seen with mtime 1736168224.9824207
+DEBUG 2025-01-09 15:08:18,638 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\xml\dom\minidom.py first seen with mtime 1736168231.068629
+DEBUG 2025-01-09 15:08:18,638 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\crispy_forms\templatetags\crispy_forms_field.py first seen with mtime 1736168987.1067576
+DEBUG 2025-01-09 15:08:18,638 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\migrations\state.py first seen with mtime 1736168955.5215034
+DEBUG 2025-01-09 15:08:18,640 autoreload File C:\Users\Admin\EasyMarket\adminapp\forms.py first seen with mtime 1736424490.3835988
+DEBUG 2025-01-09 15:08:18,641 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\importlib\readers.py first seen with mtime 1736168226.32838
+DEBUG 2025-01-09 15:08:18,642 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\wsgiref\util.py first seen with mtime 1736168231.0239608
+DEBUG 2025-01-09 15:08:18,642 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py first seen with mtime 1736168226.4268534
+DEBUG 2025-01-09 15:08:18,643 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\weakref.py first seen with mtime 1736168231.0171123
+DEBUG 2025-01-09 15:08:18,643 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\opcode.py first seen with mtime 1736168226.917897
+DEBUG 2025-01-09 15:08:18,643 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\readers.py first seen with mtime 1736168226.3440344
+DEBUG 2025-01-09 15:08:18,644 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\idna\package_data.py first seen with mtime 1736168945.5532901
+DEBUG 2025-01-09 15:08:18,644 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\migrations\operations\base.py first seen with mtime 1736168955.5244944
+DEBUG 2025-01-09 15:08:18,646 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\translation\trans_real.py first seen with mtime 1736168955.775092
+DEBUG 2025-01-09 15:08:18,648 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\requests\certs.py first seen with mtime 1736168947.6789904
+DEBUG 2025-01-09 15:08:18,651 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\fields\json.py first seen with mtime 1736168955.5502636
+DEBUG 2025-01-09 15:08:18,653 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\fractions.py first seen with mtime 1736168225.5812473
+DEBUG 2025-01-09 15:08:18,654 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\multiprocessing\reduction.py first seen with mtime 1736168226.815742
+DEBUG 2025-01-09 15:08:18,655 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\utils\timezone.py first seen with mtime 1736168984.9834583
+DEBUG 2025-01-09 15:08:18,655 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\crispy_forms\templatetags\crispy_forms_utils.py first seen with mtime 1736168987.110039
+DEBUG 2025-01-09 15:08:18,656 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\utils\urls.py first seen with mtime 1736168984.9848628
+DEBUG 2025-01-09 15:08:18,656 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\tempfile.py first seen with mtime 1736168230.655385
+DEBUG 2025-01-09 15:08:18,657 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django_daraja\models.py first seen with mtime 1736168989.3486323
+DEBUG 2025-01-09 15:08:18,658 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\version.py first seen with mtime 1736168955.7693436
+DEBUG 2025-01-09 15:08:18,659 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\uuid.py first seen with mtime 1736168230.9828854
+DEBUG 2025-01-09 15:08:18,659 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\PIL\_typing.py first seen with mtime 1736168943.4598699
+DEBUG 2025-01-09 15:08:18,659 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\regex_helper.py first seen with mtime 1736168955.7615666
+DEBUG 2025-01-09 15:08:18,660 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\forms\boundfield.py first seen with mtime 1736168955.576455
+DEBUG 2025-01-09 15:08:18,660 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\_base_connection.py first seen with mtime 1736168938.1152682
+DEBUG 2025-01-09 15:08:18,660 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\statistics.py first seen with mtime 1736168230.6432633
+DEBUG 2025-01-09 15:08:18,662 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\exceptions.py first seen with mtime 1736168951.8426201
+DEBUG 2025-01-09 15:08:18,663 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\result.py first seen with mtime 1736168230.9000728
+DEBUG 2025-01-09 15:08:18,666 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\template\loader_tags.py first seen with mtime 1736168955.69261
+DEBUG 2025-01-09 15:08:18,667 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\__init__.py first seen with mtime 1736168225.6273015
+DEBUG 2025-01-09 15:08:18,669 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework_simplejwt\exceptions.py first seen with mtime 1736168988.9228776
+DEBUG 2025-01-09 15:08:18,670 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django_daraja\apps.py first seen with mtime 1736168989.3474224
+DEBUG 2025-01-09 15:08:18,671 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\cache\backends\base.py first seen with mtime 1736168955.3565886
+DEBUG 2025-01-09 15:08:18,671 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\charset.py first seen with mtime 1736168224.9444366
+DEBUG 2025-01-09 15:08:18,672 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_futures.py first seen with mtime 1736168224.350799
+DEBUG 2025-01-09 15:08:18,673 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\dispatch\dispatcher.py first seen with mtime 1736168955.573463
+DEBUG 2025-01-09 15:08:18,676 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\actions.py first seen with mtime 1736168951.8359637
+DEBUG 2025-01-09 15:08:18,680 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\templatetags\admin_list.py first seen with mtime 1736168952.4867475
+DEBUG 2025-01-09 15:08:18,682 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\generator.py first seen with mtime 1736168224.9508905
+DEBUG 2025-01-09 15:08:18,683 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\parse.py first seen with mtime 1736168230.9562008
+DEBUG 2025-01-09 15:08:18,687 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\lookups.py first seen with mtime 1736168955.5399365
+DEBUG 2025-01-09 15:08:18,687 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\_os.py first seen with mtime 1736168955.7302177
+DEBUG 2025-01-09 15:08:18,688 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\operator.py first seen with mtime 1736168226.918932
+DEBUG 2025-01-09 15:08:18,688 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\ctypes\wintypes.py first seen with mtime 1736168224.6073778
+DEBUG 2025-01-09 15:08:18,689 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\migrations\operations\__init__.py first seen with mtime 1736168955.5244944
+DEBUG 2025-01-09 15:08:18,689 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\messages\storage\base.py first seen with mtime 1736168954.3002331
+DEBUG 2025-01-09 15:08:18,690 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\header.py first seen with mtime 1736168224.9508905
+DEBUG 2025-01-09 15:08:18,690 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\filepost.py first seen with mtime 1736168938.124635
+DEBUG 2025-01-09 15:08:18,691 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\zipfile.py first seen with mtime 1736168231.1745086
+DEBUG 2025-01-09 15:08:18,691 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\struct.py first seen with mtime 1736168230.6432633
+DEBUG 2025-01-09 15:08:18,691 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\autoreload.py first seen with mtime 1736168955.7322118
+DEBUG 2025-01-09 15:08:18,692 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\fields\related_lookups.py first seen with mtime 1736168955.5552838
+DEBUG 2025-01-09 15:08:18,693 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\hashable.py first seen with mtime 1736168955.7484636
+DEBUG 2025-01-09 15:08:18,693 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\schemas\generators.py first seen with mtime 1736168984.8520882
+DEBUG 2025-01-09 15:08:18,694 autoreload File C:\Users\Admin\EasyMarket\orders\__init__.py first seen with mtime 1736167952.011153
+DEBUG 2025-01-09 15:08:18,695 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\auth\decorators.py first seen with mtime 1736168952.7854733
+DEBUG 2025-01-09 15:08:18,695 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\exceptions.py first seen with mtime 1736168955.348608
+DEBUG 2025-01-09 15:08:18,695 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\decimal.py first seen with mtime 1736168224.6696217
+DEBUG 2025-01-09 15:08:18,696 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\backends\base\base.py first seen with mtime 1736168955.4602914
+DEBUG 2025-01-09 15:08:18,697 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\templatetags\admin_urls.py first seen with mtime 1736168952.4885757
+DEBUG 2025-01-09 15:08:18,698 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\connection.py first seen with mtime 1736168938.1412635
+DEBUG 2025-01-09 15:08:18,700 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\scanner.py first seen with mtime 1736168226.423932
+DEBUG 2025-01-09 15:08:18,701 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\staticfiles\handlers.py first seen with mtime 1736168955.3274643
+DEBUG 2025-01-09 15:08:18,702 autoreload File C:\Users\Admin\EasyMarket\payment\mpesa.py first seen with mtime 1736424490.6683528
+DEBUG 2025-01-09 15:08:18,703 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\checks\compatibility\__init__.py first seen with mtime 1736168955.3753867
+DEBUG 2025-01-09 15:08:18,705 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\contenttypes\views.py first seen with mtime 1736168953.0737658
+DEBUG 2025-01-09 15:08:18,705 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\views\__init__.py first seen with mtime 1736168952.4915714
+DEBUG 2025-01-09 15:08:18,706 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\sessions\backends\base.py first seen with mtime 1736168954.7966232
+DEBUG 2025-01-09 15:08:18,707 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\proxy.py first seen with mtime 1736168938.1422608
+DEBUG 2025-01-09 15:08:18,707 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\fields.py first seen with mtime 1736168938.123635
+DEBUG 2025-01-09 15:08:18,707 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\sessions\middleware.py first seen with mtime 1736168954.794193
+DEBUG 2025-01-09 15:08:18,708 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\cache\backends\__init__.py first seen with mtime 1736168955.3555908
+DEBUG 2025-01-09 15:08:18,708 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\token.py first seen with mtime 1736168230.7506006
+DEBUG 2025-01-09 15:08:18,708 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\PIL\_deprecate.py first seen with mtime 1736168943.407601
+DEBUG 2025-01-09 15:08:18,709 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\html\__init__.py first seen with mtime 1736168225.5925038
+DEBUG 2025-01-09 15:08:18,709 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admindocs\__init__.py first seen with mtime 1736168952.4949815
+DEBUG 2025-01-09 15:08:18,710 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\shortcuts.py first seen with mtime 1736168951.34393
+DEBUG 2025-01-09 15:08:18,710 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\messages\__init__.py first seen with mtime 1736168954.292176
+DEBUG 2025-01-09 15:08:18,711 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\handlers.py first seen with mtime 1736168226.710543
+DEBUG 2025-01-09 15:08:18,712 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\schemas\__init__.py first seen with mtime 1736168984.8499832
+DEBUG 2025-01-09 15:08:18,712 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\templatetags\tz.py first seen with mtime 1736168955.7125573
+DEBUG 2025-01-09 15:08:18,712 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\response.py first seen with mtime 1736168984.732016
+DEBUG 2025-01-09 15:08:18,713 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\templatetags\rest_framework.py first seen with mtime 1736168984.971448
+DEBUG 2025-01-09 15:08:18,714 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework_simplejwt\tokens.py first seen with mtime 1736168988.928418
+DEBUG 2025-01-09 15:08:18,716 autoreload File C:\Users\Admin\EasyMarket\students\__init__.py first seen with mtime 1736167952.090546
+DEBUG 2025-01-09 15:08:18,718 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\fields\related_descriptors.py first seen with mtime 1736168955.5542822
+DEBUG 2025-01-09 15:08:18,720 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\idna\idnadata.py first seen with mtime 1736168945.5507052
+DEBUG 2025-01-09 15:08:18,720 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\__init__.py first seen with mtime 1736168224.990366
+DEBUG 2025-01-09 15:08:18,722 autoreload File C:\Users\Admin\EasyMarket\payment\models.py first seen with mtime 1736424490.667353
+DEBUG 2025-01-09 15:08:18,722 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\constants.py first seen with mtime 1736168224.3636293
+DEBUG 2025-01-09 15:08:18,723 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\stringprep.py first seen with mtime 1736168230.6432633
+DEBUG 2025-01-09 15:08:18,723 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\requests\sessions.py first seen with mtime 1736168947.6868854
+DEBUG 2025-01-09 15:08:18,723 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\corsheaders\checks.py first seen with mtime 1736168987.2868736
+DEBUG 2025-01-09 15:08:18,724 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\checks.py first seen with mtime 1736168951.8380644
+DEBUG 2025-01-09 15:08:18,725 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\connectionpool.py first seen with mtime 1736168938.1216378
+DEBUG 2025-01-09 15:08:18,725 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\forms\renderers.py first seen with mtime 1736168955.583032
+DEBUG 2025-01-09 15:08:18,726 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\utils\field_mapping.py first seen with mtime 1736168984.9749472
+DEBUG 2025-01-09 15:08:18,727 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\backends\base\__init__.py first seen with mtime 1736168955.4592936
+DEBUG 2025-01-09 15:08:18,728 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\lzma.py first seen with mtime 1736168226.7319648
+DEBUG 2025-01-09 15:08:18,728 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\http\__init__.py first seen with mtime 1736168955.6679647
+DEBUG 2025-01-09 15:08:18,729 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\http\multipartparser.py first seen with mtime 1736168955.6679647
+DEBUG 2025-01-09 15:08:18,729 autoreload File C:\Users\Admin\EasyMarket\marketplace\views_auth.py first seen with mtime 1736424490.5599186
+DEBUG 2025-01-09 15:08:18,731 autoreload File C:\Users\Admin\EasyMarket\staticpages\models.py first seen with mtime 1736424490.7283566
+DEBUG 2025-01-09 15:08:18,732 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\auth\admin.py first seen with mtime 1736168952.7759886
+DEBUG 2025-01-09 15:08:18,732 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\sqlparse\filters\output.py first seen with mtime 1736168939.9029682
+DEBUG 2025-01-09 15:08:18,734 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\xml\dom\xmlbuilder.py first seen with mtime 1736168231.074185
+DEBUG 2025-01-09 15:08:18,738 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\checks\security\base.py first seen with mtime 1736168955.3783777
+DEBUG 2025-01-09 15:08:18,738 autoreload File C:\Users\Admin\EasyMarket\payment\apps.py first seen with mtime 1736167952.0304055
+DEBUG 2025-01-09 15:08:18,740 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\sessions\backends\__init__.py first seen with mtime 1736168954.7966232
+DEBUG 2025-01-09 15:08:18,740 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\locks.py first seen with mtime 1736168224.3701544
+DEBUG 2025-01-09 15:08:18,741 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\util.py first seen with mtime 1736168230.9041822
+DEBUG 2025-01-09 15:08:18,743 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\mime\base.py first seen with mtime 1736168224.9573438
+DEBUG 2025-01-09 15:08:18,744 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\response.py first seen with mtime 1736168230.959854
+DEBUG 2025-01-09 15:08:18,745 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\queue.py first seen with mtime 1736168226.9960525
+DEBUG 2025-01-09 15:08:18,745 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\views\autocomplete.py first seen with mtime 1736168952.4925683
+DEBUG 2025-01-09 15:08:18,752 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\sqlite3\dbapi2.py first seen with mtime 1736168230.624188
+DEBUG 2025-01-09 15:08:18,755 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\encodings\utf_8.py first seen with mtime 1736168225.1910622
+DEBUG 2025-01-09 15:08:18,755 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py first seen with mtime 1736168224.560348
+DEBUG 2025-01-09 15:08:18,756 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django_daraja\__init__.py first seen with mtime 1736168989.3453503
+DEBUG 2025-01-09 15:08:18,756 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\cache\utils.py first seen with mtime 1736168955.3555908
+DEBUG 2025-01-09 15:08:18,758 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\DLLs\_sqlite3.pyd first seen with mtime 1736168223.195568
+DEBUG 2025-01-09 15:08:18,760 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\backends\utils.py first seen with mtime 1736168955.458298
+DEBUG 2025-01-09 15:08:18,762 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\importlib\metadata\_text.py first seen with mtime 1736168226.312369
+DEBUG 2025-01-09 15:08:18,765 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\multiprocessing\__init__.py first seen with mtime 1736168226.8255577
+DEBUG 2025-01-09 15:08:18,767 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\livereload\__init__.py first seen with mtime 1736169308.8769102
+DEBUG 2025-01-09 15:08:18,768 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\cache\backends\filebased.py first seen with mtime 1736168955.3595805
+DEBUG 2025-01-09 15:08:18,770 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\datetime.py first seen with mtime 1736168224.6546862
+DEBUG 2025-01-09 15:08:18,771 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\importlib\metadata\_itertools.py first seen with mtime 1736168226.312369
+DEBUG 2025-01-09 15:08:18,772 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\formats.py first seen with mtime 1736168955.74647
+DEBUG 2025-01-09 15:08:18,772 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\datastructures.py first seen with mtime 1736168955.7372632
+DEBUG 2025-01-09 15:08:18,773 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\xml\dom\NodeFilter.py first seen with mtime 1736168231.0721805
+DEBUG 2025-01-09 15:08:18,773 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\test\signals.py first seen with mtime 1736168955.718935
+DEBUG 2025-01-09 15:08:18,774 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\pyotp\compat.py first seen with mtime 1736168942.0126631
+DEBUG 2025-01-09 15:08:18,775 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\signing.py first seen with mtime 1736168955.3516023
+DEBUG 2025-01-09 15:08:18,775 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\templatetags\log.py first seen with mtime 1736168952.4905736
+DEBUG 2025-01-09 15:08:18,776 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\options.py first seen with mtime 1736168955.5411973
+DEBUG 2025-01-09 15:08:18,776 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\backends\signals.py first seen with mtime 1736168955.4572995
+DEBUG 2025-01-09 15:08:18,777 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\string.py first seen with mtime 1736168230.6432633
+DEBUG 2025-01-09 15:08:18,777 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\views\generic\edit.py first seen with mtime 1736168955.7945364
+DEBUG 2025-01-09 15:08:18,778 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\checks\security\__init__.py first seen with mtime 1736168955.3773801
+DEBUG 2025-01-09 15:08:18,779 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\sites\__init__.py first seen with mtime 1736168955.0671277
+DEBUG 2025-01-09 15:08:18,781 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\template\response.py first seen with mtime 1736168955.6936107
+DEBUG 2025-01-09 15:08:18,782 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\DLLs\_decimal.pyd first seen with mtime 1736168223.157145
+DEBUG 2025-01-09 15:08:18,783 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\importlib\resources\_itertools.py first seen with mtime 1736168226.3440344
+DEBUG 2025-01-09 15:08:18,784 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\ssl_.py first seen with mtime 1736168938.1463244
+DEBUG 2025-01-09 15:08:18,787 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\staticfiles\views.py first seen with mtime 1736168955.3318067
+DEBUG 2025-01-09 15:08:18,787 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\__init__.py first seen with mtime 1736168955.7292202
+DEBUG 2025-01-09 15:08:18,788 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\mime\__init__.py first seen with mtime 1736168218.4349005
+DEBUG 2025-01-09 15:08:18,789 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\compat.py first seen with mtime 1736168984.7154243
+DEBUG 2025-01-09 15:08:18,789 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\utils\timesince.py first seen with mtime 1736168955.765362
+DEBUG 2025-01-09 15:08:18,790 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\files\storage\base.py first seen with mtime 1736168955.3909018
+DEBUG 2025-01-09 15:08:18,790 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\utils\encoders.py first seen with mtime 1736168984.973949
+DEBUG 2025-01-09 15:08:18,790 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\utils\mediatypes.py first seen with mtime 1736168984.979949
+DEBUG 2025-01-09 15:08:18,792 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\PIL\_imaging.cp311-win_amd64.pyd first seen with mtime 1736168943.4268506
+DEBUG 2025-01-09 15:08:18,793 autoreload File C:\Users\Admin\EasyMarket\marketplace\serializers_marketplace.py first seen with mtime 1736167951.9059477
+DEBUG 2025-01-09 15:08:18,793 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\xml\__init__.py first seen with mtime 1736168231.160788
+DEBUG 2025-01-09 15:08:18,794 autoreload File C:\Users\Admin\EasyMarket\marketplace\models.py first seen with mtime 1736167951.905019
+DEBUG 2025-01-09 15:08:18,794 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py first seen with mtime 1736168230.9583895
+DEBUG 2025-01-09 15:08:18,794 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\cache.py first seen with mtime 1736168955.7826438
+DEBUG 2025-01-09 15:08:18,795 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py first seen with mtime 1736168230.624188
+DEBUG 2025-01-09 15:08:18,795 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\hashlib.py first seen with mtime 1736168225.5925038
+DEBUG 2025-01-09 15:08:18,796 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\argparse.py first seen with mtime 1736168224.350799
+DEBUG 2025-01-09 15:08:18,797 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\charset_normalizer\md__mypyc.cp311-win_amd64.pyd first seen with mtime 1736168946.3428967
+DEBUG 2025-01-09 15:08:18,799 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\base64mime.py first seen with mtime 1736168224.9424334
+DEBUG 2025-01-09 15:08:18,801 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\backends\sqlite3\operations.py first seen with mtime 1736168955.5073304
+DEBUG 2025-01-09 15:08:18,803 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\url.py first seen with mtime 1736168938.1498253
+DEBUG 2025-01-09 15:08:18,803 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\core\files\images.py first seen with mtime 1736168955.3827732
+DEBUG 2025-01-09 15:08:18,807 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py first seen with mtime 1736168984.7443833
+DEBUG 2025-01-09 15:08:18,808 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\models.py first seen with mtime 1736168951.8454967
+DEBUG 2025-01-09 15:08:18,809 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\email\headerregistry.py first seen with mtime 1736168224.953029
+DEBUG 2025-01-09 15:08:18,809 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\views\defaults.py first seen with mtime 1736168955.7796483
+DEBUG 2025-01-09 15:08:18,810 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\util.py first seen with mtime 1736168938.1508224
+DEBUG 2025-01-09 15:08:18,810 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\schemas\openapi.py first seen with mtime 1736168984.8535924
+DEBUG 2025-01-09 15:08:18,811 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\contrib\admin\utils.py first seen with mtime 1736168951.8501823
+DEBUG 2025-01-09 15:08:18,811 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\urllib3\util\response.py first seen with mtime 1736168938.1442678
+DEBUG 2025-01-09 15:08:18,812 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\inspect.py first seen with mtime 1736168226.4029472
+DEBUG 2025-01-09 15:08:18,812 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\colorama\ansitowin32.py first seen with mtime 1736168946.204555
+DEBUG 2025-01-09 15:08:18,813 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\views\i18n.py first seen with mtime 1736168955.7796483
+DEBUG 2025-01-09 15:08:18,815 autoreload File C:\Users\Admin\EasyMarket\products\admin.py first seen with mtime 1736167952.0445354
+DEBUG 2025-01-09 15:08:18,835 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\fields\files.py first seen with mtime 1736168955.548269
+DEBUG 2025-01-09 15:08:18,868 autoreload File C:\Users\Admin\env\.env\Lib\site-packages\django\conf\global_settings.py first seen with mtime 1736168951.3482516
+DEBUG 2025-01-09 15:08:18,876 autoreload File C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\importlib\metadata\_adapters.py first seen with mtime 1736168226.312369
+WARNING 2025-01-14 08:41:40,425 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 08:41:40,438 log Unauthorized: /marketplace/api/wishlist/
+ERROR 2025-01-14 08:41:40,830 log Internal Server Error: /products/api/products/featured/
+Traceback (most recent call last):
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\EasyMarket\products\views.py", line 256, in featured
+    response_data = serializer.data
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 131, in __iter__
+    setattr(obj, attr_name, row[col_pos])
+AttributeError: property 'review_count' of 'Product' object has no setter
+ERROR 2025-01-14 08:41:40,830 log Internal Server Error: /products/api/products/trending/
+Traceback (most recent call last):
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\EasyMarket\products\views.py", line 272, in trending
+    ).annotate(
+      ^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1630, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1680, in _annotate
+    clone.query.add_annotation(
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1194, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 756, in resolve_expression
+    rhs = self.rhs.resolve_expression(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 753, in resolve_expression
+    lhs = self.lhs.resolve_expression(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 895, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 2010, in resolve_ref
+    join_info = self.setup_joins(
+                ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1863, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1768, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'average_rating' into field. Choices are: avg_rating, cart, cartitem, category, category_id, condition, created_at, description, featured, id, image, is_active, last_sale_date, last_stock_update, orderitem, price, reserved_stock, review_count, reviews, slug, stock, student, student_id, title, total_revenue, total_sales, total_sales_amount, updated_at, variants, views_count, wishlists

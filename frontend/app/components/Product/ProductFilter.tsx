@@ -34,7 +34,7 @@ export default function ProductFilter({
 
 
     return (
-        <div className="space-y-6 fixed w-1/4  left-0 bg-background-secondary py-4 px-6 z-10">
+        <div className="space-y-6  w-1/4  left-0 bg-background-secondary py-4 px-6 z-10 absolute">
             {/* Price Range */}
             <div className="space-y-2">
                 <Label>Price Range</Label>

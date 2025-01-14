@@ -81,7 +81,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                                 alt={product.title}
                                 sx={{
                                 width: '100%',
-                                height: 'auto',
+                                height: 'coverheight',
                                 borderRadius: 2,
                                 boxShadow: 3,
                                 }}
