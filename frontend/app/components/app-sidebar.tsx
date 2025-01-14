@@ -3,10 +3,59 @@
 import { useState } from "react";
 import { cn } from "@/lib/útils";
 import { Button } from "@/components/ui/button";
-import { Home, Settings, Users, BarChart3, Files, Calendar, MessagesSquare, LogOut, Menu } from "lucide-react";
+import { 
+  Home, 
+  Settings, 
+  Users, 
+  BarChart3, 
+  Files, 
+  Calendar, 
+  MessagesSquare, 
+  LogOut, 
+  Menu 
+} from "lucide-react";
 import { NavLink } from "./nav-link";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+const navigationLinks = [
+  { href: "/", icon: <Home className="mr-2 h-5 w-5" />, label: "Home" },
+  { href: "/analytics", icon: <BarChart3 className="mr-2 h-5 w-5" />, label: "Analytics" },
+  { href: "/customers", icon: <Users className="mr-2 h-5 w-5" />, label: "Customers" },
+  { href: "/documents", icon: <Files className="mr-2 h-5 w-5" />, label: "Documents" },
+  { href: "/messages", icon: <MessagesSquare className="mr-2 h-5 w-5" />, label: "Messages" },
+  { href: "/calendar", icon: <Calendar className="mr-2 h-5 w-5" />, label: "Calendar" },
+];
+
+const settingsLinks = [
+  { href: "/settings", icon: <Settings className="mr-2 h-5 w-5" />, label: "Settings" },
+];
+
+const SidebarHeader = () => (
+  <div className="flex items-center px-4 py-6">
+    <BarChart3 className="h-6 w-6 text-primary" />
+    <h2 className="ml-3 text-xl font-semibold tracking-tight">Dashboard</h2>
+  </div>
+);
+
+const NavigationLinks = ({ links }: { links: typeof navigationLinks }) => (
+  <nav className="mt-4 space-y-1">
+    {links.map((link) => (
+      <NavLink key={link.href} href={link.href} icon={link.icon}>
+        {link.label}
+      </NavLink>
+    ))}
+  </nav>
+);
+
+const SidebarFooter = () => (
+  <div className="px-4 mt-6">
+    <Button variant="secondary" className="w-full justify-start">
+      <LogOut className="mr-2 h-5 w-5" />
+      Logout
+    </Button>
+  </div>
+);
 
 export function Sidebar({ className }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,56 +72,23 @@ export function Sidebar({ className }: SidebarProps) {
       {/* Sidebar */}
       <div
         className={cn(
-          "absolute top-0 left-0 z-40 h-screen w-64  text-black transition-transform sm:translate-x-0",
+          "absolute top-0 left-0 z-40 h-screen w-64 bg-white text-black transition-transform sm:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full",
-          className
+          className=""
         )}
       >
         <div className="flex flex-col justify-between h-full pb-6">
           {/* Header */}
           <div>
-            <div className="flex items-center px-4 py-6">
-              <BarChart3 className="h-6 w-6 text-primary" />
-              <h2 className="ml-3 text-xl font-semibold tracking-tight">Dashboard</h2>
-            </div>
-
-            {/* Navigation Links */}
-            <nav className="mt-4 space-y-1">
-              <NavLink href="/" icon={<Home className="mr-2 h-5 w-5" />}>
-                Home
-              </NavLink>
-              <NavLink href="/analytics" icon={<BarChart3 className="mr-2 h-5 w-5" />}>
-                Analytics
-              </NavLink>
-              <NavLink href="/customers" icon={<Users className="mr-2 h-5 w-5" />}>
-                Customers
-              </NavLink>
-              <NavLink href="/documents" icon={<Files className="mr-2 h-5 w-5" />}>
-                Documents
-              </NavLink>
-              <NavLink href="/messages" icon={<MessagesSquare className="mr-2 h-5 w-5" />}>
-                Messages
-              </NavLink>
-              <NavLink href="/calendar" icon={<Calendar className="mr-2 h-5 w-5" />}>
-                Calendar
-              </NavLink>
-            </nav>
+            <SidebarHeader />
+            <NavigationLinks links={navigationLinks} />
           </div>
 
           {/* Footer */}
           <div>
             <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Settings</h2>
-            <nav className="space-y-1">
-              <NavLink href="/settings" icon={<Settings className="mr-2 h-5 w-5" />}>
-                Settings
-              </NavLink>
-            </nav>
-            <div className="px-4 mt-6">
-              <Button variant="secondary" className="w-full justify-start">
-                <LogOut className="mr-2 h-5 w-5" />
-                Logout
-              </Button>
-            </div>
+            <NavigationLinks links={settingsLinks} />
+            <SidebarFooter />
           </div>
         </div>
       </div>
@@ -80,7 +96,7 @@ export function Sidebar({ className }: SidebarProps) {
       {/* Overlay for Mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-30 bg-opacity-50 sm:hidden"
+          className="fixed inset-0 z-30 bg-black bg-opacity-50 sm:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}

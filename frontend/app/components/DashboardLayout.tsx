@@ -15,7 +15,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Sidebar */}
       <aside
         className={`transition-all ${
-          isSidebarOpen ? "w-64" : "w-16"
+          isSidebarOpen ? "" : "w-16"
         } bg-gray-100`}
       >
         <Sidebar />

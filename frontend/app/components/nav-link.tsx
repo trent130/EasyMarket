@@ -17,8 +17,8 @@ export function NavLink({ href, children, icon, className }: NavLinkProps) {
       variant={isActive ? "secondary" : "ghost"}
       className={cn(
         "w-full justify-start",
-        isActive && "bg-muted",
-        className
+        isActive ? "bg-muted": "",
+        className=""
       )}
       asChild
     >
