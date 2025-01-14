@@ -52,7 +52,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         The included annotations are:
 
         - avg_rating: the average rating of the product
-        - review_count: the number of reviews the product has
         - total_sales_amount: the total amount of money the product has made in sales
         """
         queryset = Product.objects.select_related(
@@ -67,7 +66,6 @@ class ProductViewSet(viewsets.ModelViewSet):
             'variants'
         ).annotate(
             avg_rating=Avg('reviews__rating'),
-            review_count=Count('reviews'),
             total_sales_amount=Sum(F('price') * F('total_sales'), output_field=models.DecimalField())
         )
 
@@ -111,8 +109,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             cache_key = get_cache_key('detail', slug)
             cached_results = cache.get(cache_key)
 
-            """ if cached_results is not None:
-                return Response(cached_results) """
+            if cached_results is not None:
+                return Response(cached_results)
 
             # Use get_object_or_404 with the slug
             product = self.get_object()
@@ -121,9 +119,9 @@ class ProductViewSet(viewsets.ModelViewSet):
             # Serialize and return the product
             serializer = self.get_serializer(product)
 
-            # cache the serialized data for 1 hour
+            # Cache the serialized data for 1 hour
             logger.debug(f"Caching product data: {serializer.data}")
-            cache.set(cached_results, serializer.data, timeout=3600)
+            cache.set(cache_key, serializer.data, timeout=3600)
             return Response(serializer.data)
         except Product.DoesNotExist:
             return Response({
@@ -160,8 +158,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         # Initialize statistics
         product.total_sales = 0
         product.total_revenue = 0
-        product.average_rating = 0
-        product.review_count = 0
+        product.reviews.count()
         product.save()
         # Clear relevant caches
         cache.delete_pattern(f'{CACHE_PREFIX}list:*')
@@ -266,14 +263,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         if cached_results is not None:
             return Response(cached_results)
 
-        # Get products with high view counts, sales and ratings
+        # Get products with high view counts, sales, and ratings
         queryset = self.get_queryset().filter(
             stock__gt=F('reserved_stock')
         ).annotate(
             popularity_score=(
                 F('views_count') * 0.3 +  # 30% weight to views
                 F('total_sales') * 0.4 +  # 40% weight to sales
-                F('average_rating') * 0.3  # 30% weight to ratings
+                F('avg_rating') * 0.3  # 30% weight to ratings
             )
         ).order_by('-popularity_score')[:8]
 
