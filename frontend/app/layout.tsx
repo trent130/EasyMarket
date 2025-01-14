@@ -6,7 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import Navigation from './components/Navigation'
 import { AppProvider } from './AppContext'
 import { Providers } from './providers'
-import Layout from './components/layout'
+import Layout from './components/Layout'
 import DashboardLayout from './components/DashboardLayout'
 import { usePathname } from 'next/navigation'
 
