@@ -9363,3 +9363,466 @@ WARNING 2025-01-14 09:29:10,156 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-14 09:29:10,203 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-14 09:30:11,003 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-14 09:30:11,022 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:41:47,690 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:41:47,741 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:42:42,032 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:42:42,058 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:42:55,735 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:42:55,751 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:43:12,879 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:43:12,884 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:43:21,201 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:43:21,215 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:47:08,648 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:47:08,682 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:48:22,242 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:48:22,275 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:48:39,017 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:48:39,052 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:48:49,971 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:48:49,981 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:50:21,858 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:50:21,884 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:50:26,716 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:50:26,731 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:50:48,832 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:50:48,879 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:51:04,490 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:51:04,516 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:51:07,769 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:51:07,813 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:51:32,973 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:51:33,014 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:23,798 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:23,824 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:49,300 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:49,318 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:52,100 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:52,125 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:54,314 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:54,348 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:55,976 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:55,999 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:58,424 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:52:58,449 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:53:01,885 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:53:01,898 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:53:05,085 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:53:05,126 log Unauthorized: /marketplace/api/wishlist/
+ERROR 2025-01-14 09:53:09,092 log Internal Server Error: /products/api/products/featured/
+Traceback (most recent call last):
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\EasyMarket\products\views.py", line 256, in featured
+    response_data = serializer.data
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 131, in __iter__
+    setattr(obj, attr_name, row[col_pos])
+AttributeError: property 'review_count' of 'Product' object has no setter
+ERROR 2025-01-14 09:53:09,139 log Internal Server Error: /products/api/products/trending/
+Traceback (most recent call last):
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\EasyMarket\products\views.py", line 272, in trending
+    ).annotate(
+      ^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1630, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1680, in _annotate
+    clone.query.add_annotation(
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1194, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 756, in resolve_expression
+    rhs = self.rhs.resolve_expression(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 753, in resolve_expression
+    lhs = self.lhs.resolve_expression(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 895, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 2010, in resolve_ref
+    join_info = self.setup_joins(
+                ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1863, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1768, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'average_rating' into field. Choices are: avg_rating, cart, cartitem, category, category_id, condition, created_at, description, featured, id, image, is_active, last_sale_date, last_stock_update, orderitem, price, reserved_stock, review_count, reviews, slug, stock, student, student_id, title, total_revenue, total_sales, total_sales_amount, updated_at, variants, views_count, wishlists
+WARNING 2025-01-14 09:53:09,162 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:53:09,171 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:53:17,001 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:53:17,019 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:08,475 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:08,524 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:27,950 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:27,971 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:34,031 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:34,040 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:45,762 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:45,785 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:55,257 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:55,271 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:59,284 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:54:59,297 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:55:23,955 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:55:24,010 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:55:33,955 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:55:33,974 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:55:56,973 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 09:55:57,013 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:04:03,364 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:04:03,404 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:04:25,047 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:04:25,058 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:04:47,126 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:04:47,160 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:04:57,759 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:04:57,825 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:07:39,866 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:07:39,883 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:09:03,702 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:09:03,723 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:09:19,163 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:09:19,184 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:11:30,036 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:11:30,085 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:11:40,362 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:11:40,385 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:13:00,228 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:13:00,247 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:13:07,125 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:13:07,172 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:13:42,987 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:13:43,008 log Unauthorized: /marketplace/api/wishlist/
+ERROR 2025-01-14 10:13:55,284 log Internal Server Error: /products/api/products/trending/
+Traceback (most recent call last):
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\EasyMarket\products\views.py", line 272, in trending
+    ).annotate(
+      ^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1630, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1680, in _annotate
+    clone.query.add_annotation(
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1194, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 756, in resolve_expression
+    rhs = self.rhs.resolve_expression(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 753, in resolve_expression
+    lhs = self.lhs.resolve_expression(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 895, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 2010, in resolve_ref
+    join_info = self.setup_joins(
+                ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1863, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1768, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'average_rating' into field. Choices are: avg_rating, cart, cartitem, category, category_id, condition, created_at, description, featured, id, image, is_active, last_sale_date, last_stock_update, orderitem, price, reserved_stock, review_count, reviews, slug, stock, student, student_id, title, total_revenue, total_sales, total_sales_amount, updated_at, variants, views_count, wishlists
+ERROR 2025-01-14 10:13:55,309 log Internal Server Error: /products/api/products/featured/
+Traceback (most recent call last):
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\EasyMarket\products\views.py", line 256, in featured
+    response_data = serializer.data
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 131, in __iter__
+    setattr(obj, attr_name, row[col_pos])
+AttributeError: property 'review_count' of 'Product' object has no setter
+ERROR 2025-01-14 10:13:55,379 log Internal Server Error: /products/api/products/trending/
+Traceback (most recent call last):
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\EasyMarket\products\views.py", line 272, in trending
+    ).annotate(
+      ^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1630, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1680, in _annotate
+    clone.query.add_annotation(
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1194, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 756, in resolve_expression
+    rhs = self.rhs.resolve_expression(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 753, in resolve_expression
+    lhs = self.lhs.resolve_expression(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\expressions.py", line 895, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 2010, in resolve_ref
+    join_info = self.setup_joins(
+                ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1863, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\sql\query.py", line 1768, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'average_rating' into field. Choices are: avg_rating, cart, cartitem, category, category_id, condition, created_at, description, featured, id, image, is_active, last_sale_date, last_stock_update, orderitem, price, reserved_stock, review_count, reviews, slug, stock, student, student_id, title, total_revenue, total_sales, total_sales_amount, updated_at, variants, views_count, wishlists
+ERROR 2025-01-14 10:13:55,381 log Internal Server Error: /products/api/products/featured/
+Traceback (most recent call last):
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\EasyMarket\products\views.py", line 256, in featured
+    response_data = serializer.data
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\rest_framework\serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\env\.env\Lib\site-packages\django\db\models\query.py", line 131, in __iter__
+    setattr(obj, attr_name, row[col_pos])
+AttributeError: property 'review_count' of 'Product' object has no setter
+WARNING 2025-01-14 10:17:03,038 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-14 10:17:03,708 log Unauthorized: /marketplace/api/wishlist/
