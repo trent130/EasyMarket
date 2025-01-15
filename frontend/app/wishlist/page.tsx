@@ -5,11 +5,13 @@ import { useAppContext } from '../AppContext';
 import { Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Button } from '@mui/material';
 import { Delete, ShoppingCart } from '@mui/icons-material';
 import Layout from '../layout';
+import {  wishlist } from '../AppContext';
+
 
 export default function WishlistPage() {
   const { wishlist, removeFromWishlist, addToCart } = useAppContext();
 
-  const handleAddToCart = (item) => {
+  const handleAddToCart = (item: wishlist) => {
     addToCart(item);
     removeFromWishlist(item.id);
   };
