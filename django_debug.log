@@ -125,3 +125,5 @@ WARNING 2025-01-15 15:46:26,000 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-15 15:46:26,061 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-15 15:46:29,582 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-15 15:46:29,652 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-15 15:46:50,403 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-15 15:46:50,499 log Unauthorized: /marketplace/api/wishlist/
