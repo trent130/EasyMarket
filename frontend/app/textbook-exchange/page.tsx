@@ -15,7 +15,7 @@ export default function TextbookExchange() {
   const [textbooks, setTextbooks] = useState(initialTextbooks);
   const [newTextbook, setNewTextbook] = useState({ title: '', author: '', condition: '', price: '', contact: '' });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setNewTextbook({ ...newTextbook, [name]: value });
   };
@@ -24,7 +24,7 @@ export default function TextbookExchange() {
  * Handles the submission of a new textbook listing by adding it to the list of textbooks and clearing out the form.
  * @param {React.FormEvent} e - The form event
  */
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     const textbookToAdd = {
       ...newTextbook,
