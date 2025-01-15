@@ -2,9 +2,31 @@
 
 import React, { useState } from 'react';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
-import type { CalendarEvent } from '../types';
+import  {CalendarEvent} from '@/types/calendar';
 import DashboardLayout from '@/components/DashboardLayout';
 
+/**
+ * A calendar component that shows a grid of days in a month
+ * and marks the days that have events with a colored dot.
+ *
+ * @remarks
+ * This component is a simplified version of a calendar component.
+ * It assumes that the events data is an array of objects with the following shape:
+ *
+ * {
+ *   id: string;
+ *   title: string;
+ *   description: string;
+ *   date: Date;
+ *   type: 'product_launch' | 'sale' | 'promotion';
+ *   productId?: string;
+ * }
+ *
+ * The component will render a grid of days in a month, with the days that have
+ * events marked with a colored dot. The color of the dot depends on the type of
+ * event. The component also renders a legend that shows the meaning of each
+ * color.
+ **/
 export default function CalendarView() {
   const [currentDate, setCurrentDate] = useState(new Date());
   
