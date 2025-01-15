@@ -11,14 +11,14 @@ import {
   addProductToWishlist,
   removeProductFromWishlist
 } from '../app/services/api';
-import { Wishlist } from './types/api';
+import { Wishlist, Product } from './types/api';
 
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-}
+// interface Product {
+//   id: number;
+//   name: string;
+//   price: number;
+// }
 
 
 interface CartItem extends Product {
@@ -78,6 +78,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     // Subscribe to real-time updates
     ws.subscribe<{ products: Product[] }>(WebSocketMessageType.PRODUCT_UPDATE, (data) => {
       const updatedProducts = data.products;
+      // Update cart items with updated product data
       setCart(prevCart => 
         prevCart.map(item => {
           const updatedProduct = updatedProducts.find((p: Product) => p.id === item.id);
@@ -197,7 +198,7 @@ useEffect(() => {
       const orderData = {
         items: cart.map(item => ({
           id: item.id,
-          product: item.name,
+          product: { id: item.id, name: item.name, price: item.price, description: item.description }, // Corrected 'desciption' to 'description'
           quantity: item.quantity,
           price: item.price,
         }))
@@ -211,6 +212,7 @@ useEffect(() => {
       throw error;
     }
   };
+
 
   const value = {
     cart,

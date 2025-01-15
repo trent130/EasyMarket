@@ -118,7 +118,7 @@ export default function SecurityQuestions() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {[0, 1, 2].map((index) => (
             <div key={index}>
-              <select
+              <select aria-label="Select a question"
                 value={questions[index]}
                 onChange={(e) => setQuestions(questions.map((q, i) => i === index ? e.target.value : q))}
                 className="w-full p-2 border rounded"

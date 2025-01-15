@@ -1,7 +1,7 @@
 import apiClient from '../../lib/api-client';
 import { 
   Cart, 
-  WishList, 
+  Wishlist, 
   Order, 
   LoginCredentials, 
   AuthTokens,
@@ -36,7 +36,7 @@ const isApiError = (error: unknown): error is { response?: { data?: { message?: 
 export const login = async (credentials: LoginCredentials): Promise<AuthTokens> => {
   try {
     const response = await apiClient.post<AuthTokens>('/token/', credentials);
-    return response.data; // Assuming the API returns the tokens directly
+    return response; // Assuming the API returns the tokens directly
   } catch (error) {
     if (isApiError(error)) {
       throw handleApiError(error);
@@ -49,7 +49,7 @@ export const login = async (credentials: LoginCredentials): Promise<AuthTokens> 
 export const refreshToken = async (refreshToken: string): Promise<AuthTokens> => {
   try {
     const response = await apiClient.post<AuthTokens>('/token/refresh/', { refresh: refreshToken });
-    return response.data; // Assuming the API returns the tokens directly
+    return response; // Assuming the API returns the tokens directly
   } catch (error) {
     if (isApiError(error)) {
       throw handleApiError(error);
@@ -132,9 +132,9 @@ export const fetchOrders = async (): Promise<Order[]> => {
 };
 
 // Wishlists
-export const fetchWishlists = async (): Promise<WishList[]> => {
+export const fetchWishlists = async (): Promise<Wishlist[]> => {
   try {
-    const response = await apiClient.get<WishList[]>('/marketplace/api/wishlist/');
+    const response = await apiClient.get<Wishlist[]>('/marketplace/api/wishlist/');
     return response; // Return the list of wishlists directly
   } catch (error) {
     if (isApiError(error)) {
@@ -145,9 +145,9 @@ export const fetchWishlists = async (): Promise<WishList[]> => {
   }
 };
 
-export const addProductToWishlist = async (wishlistId: number, productId: number): Promise<WishList> => {
+export const addProductToWishlist = async (wishlistId: number, productId: number): Promise<Wishlist> => {
   try {
-    const response = await apiClient.post<WishList>(`/marketplace/wishlist/${wishlistId}/add_product/`, {
+    const response = await apiClient.post<Wishlist>(`/marketplace/wishlist/${wishlistId}/add_product/`, {
       product_id: productId
     });
     return response; // Return the updated wishlist directly
@@ -160,9 +160,9 @@ export const addProductToWishlist = async (wishlistId: number, productId: number
   }
 };
 
-export const removeProductFromWishlist = async (wishlistId: number, productId: number): Promise<WishList> => {
+export const removeProductFromWishlist = async (wishlistId: number, productId: number): Promise<Wishlist> => {
   try {
-    const response = await apiClient.post<WishList>(`/marketplace/api/wishlist/${wishlistId}/remove_product/`, {
+    const response = await apiClient.post<Wishlist>(`/marketplace/api/wishlist/${wishlistId}/remove_product/`, {
       product_id: productId
     });
     return response; // Return the updated wishlist directly

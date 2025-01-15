@@ -5,8 +5,8 @@ import { Container, Fab } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatUI from './chat/ChatUI';
 import ClientLayout from './ClientLayout';
-import DashboardLayout from './DashboardLayout';
-import { SidebarProvider } from './ui/sidebar';
+// import DashboardLayout from './DashboardLayout';
+// import { SidebarProvider } from './ui/sidebar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isChatOpen, setIsChatOpen] = useState(false);

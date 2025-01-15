@@ -49,7 +49,7 @@ export interface ProductBase {
     created_at: string;
 }
 
-export interface ProductDetail extends Omit<ProductBase, 'category' | 'category_name'> {
+export interface ProductDetail extends Omit<ProductBase, 'category' | 'category_name' | 'student'> {
     description: string;
     category: Category;
     student: ProductStudent;
