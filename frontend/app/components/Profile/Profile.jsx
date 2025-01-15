@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Box, Avatar, Button, TextField, Typography, Alert } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
-import api from '../../services/api';
+// import api from '@/services/api';
 import './styles.css';
 
 const Profile = () => {

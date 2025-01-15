@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import SearchBar from './search/SearchBar';
+// import { getSession } from '@/utils/sessionManager'
 
 const Navigation = () => {
   const { data: session } = useSession();
@@ -120,7 +121,8 @@ const Navigation = () => {
           {session ? (
             <div className="flex items-center">
               <Typography variant="body1" className="mr-2">
-                Welcome, {session.user?.name}
+                Welcome, 
+                <a href="/user/profile">{session.user?.name}</a>
               </Typography>
               <button
                 className="bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"

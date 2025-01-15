@@ -8,7 +8,7 @@ const authenticatorStore = new Map<string, any[]>();
 
 export const generateRegistrationOptionsHelper = (userId: string, userName: string, userDisplayName: string) => {
   const opts: GenerateRegistrationOptionsOpts = {
-    rpName: 'Your App Name',
+    rpName: 'EasyMarket',
     rpID: 'localhost',
     userID: userId,
     userName,

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { profileApi } from '../../../app/services/api/profileApi';
 import { User } from '../../../app/types/common';
 import { handleApiError } from '../../../app/utils/errorHandling';
-import { Profile } from '../../../app/components/Profile/Profile';
+import  Profile  from '../../components/Profile/Profile';
 import React from 'react';
 
 export default function UserProfile() {
@@ -39,7 +39,7 @@ export default function UserProfile() {
     }
 
     if (error) {
-        return <div className="error-message">{error}</div>;
+        <div className="error-message">{error}</div>;
     }
 
     return (

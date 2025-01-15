@@ -47,6 +47,7 @@
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.4",
     "@simplewebauthn/browser": "^13.0.0",
+    "@simplewebauthn/server": "^13.1.0",
     "@simplewebauthn/types": "^12.0.0",
     "@simplewebauthn/typescript-types": "^8.3.4",
     "@types/qrcode": "^1.5.5",
@@ -58,6 +59,7 @@
     "embla-carousel-react": "^8.3.0",
     "eslint": "^9.0.0",
     "firebase": "^11.0.2",
+    "formik": "^2.4.6",
     "glob": "^11.0.0",
     "idna-uts46": "^1.1.0",
     "lodash": "^4.17.21",
@@ -82,6 +84,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tr46": "^5.0.0",
     "vaul": "^1.1.0",
+    "yup": "^1.6.1",
     "zod": "^3.23.8",
     "zxcvbn": "^4.4.2"
   },
