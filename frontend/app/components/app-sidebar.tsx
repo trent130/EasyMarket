@@ -16,7 +16,10 @@ import {
 } from "lucide-react";
 import { NavLink } from "./nav-link";
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  isSidebarOpen: boolean;
+  onToggleSidebar: (isOpen: boolean) => void;
+}
 
 const navigationLinks = [
   { href: "/", icon: <Home className="mr-2 h-5 w-5" />, label: "Home" },
@@ -58,13 +61,13 @@ const SidebarFooter = () => (
   </div>
 );
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       {/* Hamburger Menu for Mobile */}
-      <div className="sm:hidden fixed top-4 left-4 z-50">
+      <div className="sm:hidden absolute top-4 left-4 z-50">
         <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className="p-2">
           <Menu className="h-6 w-6 text-primary" />
         </Button>

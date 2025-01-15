@@ -27,14 +27,14 @@ const Navigation = () => {
   }, []); */
 
   return (
-    <nav className="bg-gray-800 static text-white p-4 z-10">
+    <nav className="static text-black bg-white shadow-lg border-gray-200 p-4 z-10">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <Typography
           variant="h6"
           component={Link}
           href="/"
-          className="text-lg font-bold"
+          className="text-lg font-bold hover:text-gray-800"
         >
           EasyMarket
         </Typography>
@@ -46,7 +46,7 @@ const Navigation = () => {
 
         {/* Hamburger Menu */}
         <button aria-label='Menu'
-          className="md:hidden text-white focus:outline-none"
+          className="md:hidden text-black hover:bg-black hover:rounded hover:text-white focus:outline-none"
           onClick={toggleMenu}
         >
           <svg
@@ -66,24 +66,24 @@ const Navigation = () => {
         </button>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-4 text-black">
           <Link href="/">
-            <button className="bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <button className="bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4 rounded duration-300">
               Home
             </button>
           </Link>
           <Link href="/product">
-            <button className="bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <button className="bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4 rounded duration-300">
               Products
             </button>
           </Link>
           <Link href="/textbook-exchange">
-            <button className="bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <button className="bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4 rounded duration-300">
               Dashboard
             </button>
           </Link>
           <Link href="/cart">
-            <button type='button' className="relative bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" aria-label='Cart'>
+            <button type='button' className="relative bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4 rounded duration-300" aria-label='Cart'>
               <svg
                 className="w-6 h-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +101,7 @@ const Navigation = () => {
             </button>
           </Link>
           <Link href="/wishlist">
-            <button type="button" aria-label='Wishlist' className="relative bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <button type="button" aria-label='Wishlist' className="relative bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4 rounded duration-300">
               <svg
                 className="w-6 h-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +125,7 @@ const Navigation = () => {
                 <a href="/user/profile">{session.user?.name}</a>
               </Typography>
               <button
-                className="bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4 rounded duration-300"
                 onClick={() => signOut()}
               >
                 Logout
@@ -133,7 +133,7 @@ const Navigation = () => {
             </div>
           ) : (
             <button
-              className="bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4 rounded duration-300"
               onClick={() => signIn()}
             >
               Sign In
@@ -144,42 +144,42 @@ const Navigation = () => {
 
       {/* Mobile Navigation Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-gray-900 text-white py-4">
+        <div className="md:hidden bg-gray-900 text-white hover:text-black py-4">
           <Link href="/">
-            <button className="block w-full text-left bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4">
+            <button className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4">
               Home
             </button>
           </Link>
           <Link href="/product">
-            <button className="block w-full text-left bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4">
+            <button className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white  font-bold py-2 px-4">
               Products
             </button>
           </Link>
           <Link href="/textbook-exchange">
-            <button className="block w-full text-left bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4">
+            <button className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4">
               Textbook Exchange
             </button>
           </Link>
           <Link href="/cart">
-            <button className="block w-full text-left bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4">
+            <button className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4">
               Cart
             </button>
           </Link>
           <Link href="/wishlist">
-            <button className="block w-full text-left bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4">
+            <button className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4">
               Wishlist
             </button>
           </Link>
           {session /* && isLogggedIn */? (
             <button
-              className="block w-full text-left bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4"
+              className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4"
               onClick={() => signOut()}
             >
               Logout
             </button>
           ) : (
             <button
-              className="block w-full text-left bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4"
+              className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4"
               onClick={() => signIn()}
             >
               Sign In
