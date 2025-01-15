@@ -2,7 +2,7 @@ from django.http import HttpResponseForbidden
 
 
 class RoleMiddleware:
-    def __init__(self, get_responsse):
+    def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
@@ -11,4 +11,3 @@ class RoleMiddleware:
                 return HttpResponseForbidden("You don't have permission to access this page.")
 
         """ response = self.get_response(request) """
-

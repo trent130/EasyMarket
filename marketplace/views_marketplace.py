@@ -1,12 +1,13 @@
 from rest_framework import status, viewsets
-from rest_framework.decorators import api_view, permission_classes, action
+from rest_framework.decorators import api_view, action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
-from django.db import models
+# from django.shortcuts import get_object_or_404
+# from django.db import models
 from django.db.models import Count, Avg, Q
-from .models import Cart, CartItem, WishList, Review, Student
+from .models import Cart, CartItem, WishList, Review  # Student
 from products.models import Product
 from .serializers_marketplace import (
     CartSerializer,
@@ -14,13 +15,14 @@ from .serializers_marketplace import (
     WishListSerializer,
     ReviewSerializer,
     ProductSerializer,
-    CategorySerializer,
+    # CategorySerializer,
     SearchResultSerializer
 )
 
+
 class CartViewSet(viewsets.ModelViewSet):
     serializer_class = CartSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return Cart.objects.filter(user=self.request.user)
@@ -56,6 +58,7 @@ class CartViewSet(viewsets.ModelViewSet):
         cart = self.get_object()
         cart.cartitem_set.all().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class WishListViewSet(viewsets.ModelViewSet):
     serializer_class = WishListSerializer
@@ -95,6 +98,7 @@ class WishListViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
@@ -107,6 +111,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(reviewer=self.request.user)
+
 
 class SearchView(APIView):
     def get(self, request):
@@ -164,6 +169,7 @@ class SearchView(APIView):
         })
 
         return Response(serializer.data)
+
 
 @api_view(['GET'])
 def get_recommendations(request):

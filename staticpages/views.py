@@ -93,7 +93,7 @@ class FAQViewSet(viewsets.ModelViewSet):
         """Search FAQs"""
         query = request.query_params.get('q', '')
         if not query:
-            return Response([])  
+            return Response([])
         faqs = FAQ.objects.filter(
             is_published=True
         ).filter(

@@ -45,16 +45,15 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_related_profiles(sender, instance, created, **kwargs):
-   
     """
     Signal receiver that creates user-related profiles upon User creation.
 
-    This function is triggered when a User instance is saved. If a new User 
-    is created, it automatically creates a UserProfile associated with that 
-    User. Additionally, it attempts to create a Student profile only if the 
-    email does not already exist in the Student model. If the email already 
-    exists, it logs a message indicating that a Student with that email 
-    already exists. For existing Users, it ensures that the UserProfile is 
+    This function is triggered when a User instance is saved. If a new User
+    is created, it automatically creates a UserProfile associated with that
+    User. Additionally, it attempts to create a Student profile only if the
+    email does not already exist in the Student model. If the email already
+    exists, it logs a message indicating that a Student with that email
+    already exists. For existing Users, it ensures that the UserProfile is
     saved if it exists.
     """
     if created:
@@ -99,7 +98,6 @@ class Reaction(models.Model):
         ('sad', 'Sad'),
         ('angry', 'Angry')
     ]
-    
     reaction_type = models.CharField(
         max_length=10, choices=REACTION_CHOICES)
     message = models.ForeignKey('Message', on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
@@ -146,7 +144,7 @@ class Review(models.Model):
 #     while slug:
 #         if Cart.objects.filter(slug == slug).exists():
 #             pass
-#         slug = ''.join(random.choices(characters), k=length)   
+#         slug = ''.join(random.choices(characters), k=length)
 #     return slug
 
 
@@ -165,7 +163,6 @@ class Cart(models.Model):
         Returns:
             str: The string representation of the cart.
         """
-    
         return f"Cart for {self.user.username}"
 
     def total_items(self):
@@ -190,7 +187,7 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     added_at = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         """
         Returns a string representation of the cart item, which includes
@@ -219,7 +216,6 @@ class CustomUser(AbstractUser):
         ('premium', 'Premium'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='basic')
-        
     # Define a unique related_name for the user_permissions relationship
     groups = models.ManyToManyField(Group, related_name='custom_users')
     user_permissions = models.ManyToManyField(Permission, related_name='custom_users')
@@ -237,7 +233,6 @@ class WishList(models.Model):
         """
         Returns a string representation of the wishlist, which is the username of the associated user concatenated with
         the string wishlist".
-        
         Returns:
             str: The string representation of the wishlist.
         """
