@@ -140,6 +140,7 @@ class AuthService {
         username,
         password,
     });
+    localStorage.setItem('authToken', response.data.token);
     return response.data;
   }
 

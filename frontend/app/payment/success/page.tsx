@@ -122,7 +122,7 @@ export default function PaymentSuccessPage() {
                 View Orders
               </button>
               <button
-                onClick={() => router.push('/')}
+                onClick={() => router.push('/products')}
                 className="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200"
               >
                 Continue Shopping

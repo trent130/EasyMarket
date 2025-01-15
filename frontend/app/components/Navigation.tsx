@@ -11,9 +11,22 @@ const Navigation = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+ /*  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('authToken');
+
+    if (token) {
+      /* signIn('credentials', {
+        token,
+        callbackUrl: window.location.href,
+      }); 
+      setIsLoggedIn(true);
+    }
+  }, []); */
 
   return (
-    <nav className="bg-gray-800 text-white p-4 z-10">
+    <nav className="bg-gray-800 static text-white p-4 z-10">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <Typography
@@ -31,7 +44,7 @@ const Navigation = () => {
         </div>
 
         {/* Hamburger Menu */}
-        <button
+        <button aria-label='Menu'
           className="md:hidden text-white focus:outline-none"
           onClick={toggleMenu}
         >
@@ -69,7 +82,7 @@ const Navigation = () => {
             </button>
           </Link>
           <Link href="/cart">
-            <button className="relative bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <button type='button' className="relative bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" aria-label='Cart'>
               <svg
                 className="w-6 h-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +100,7 @@ const Navigation = () => {
             </button>
           </Link>
           <Link href="/wishlist">
-            <button className="relative bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <button type="button" aria-label='Wishlist' className="relative bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
               <svg
                 className="w-6 h-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +168,7 @@ const Navigation = () => {
               Wishlist
             </button>
           </Link>
-          {session ? (
+          {session /* && isLogggedIn */? (
             <button
               className="block w-full text-left bg-transparent hover:bg-gray-700 text-white font-bold py-2 px-4"
               onClick={() => signOut()}

@@ -22,7 +22,7 @@ const navigationLinks = [
   { href: "/", icon: <Home className="mr-2 h-5 w-5" />, label: "Home" },
   { href: "/analytics", icon: <BarChart3 className="mr-2 h-5 w-5" />, label: "Analytics" },
   { href: "/customers", icon: <Users className="mr-2 h-5 w-5" />, label: "Customers" },
-  { href: "/documents", icon: <Files className="mr-2 h-5 w-5" />, label: "Documents" },
+  { href: "/my-product", icon: <Files className="mr-2 h-5 w-5" />, label: "My Products" },
   { href: "/messages", icon: <MessagesSquare className="mr-2 h-5 w-5" />, label: "Messages" },
   { href: "/calendar", icon: <Calendar className="mr-2 h-5 w-5" />, label: "Calendar" },
 ];
