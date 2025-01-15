@@ -41,7 +41,7 @@ class TwoFactorStatusSerializer(serializers.ModelSerializer):
 
 class TwoFactorDisableSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=6, min_length=6)
-    
+
     def validate_token(self, value):
         if not value.isdigit():
             raise serializers.ValidationError("Token must contain only digits")

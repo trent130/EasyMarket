@@ -18,7 +18,7 @@ Add 'marketplace.middleware.TwoFactorMiddleware' to MIDDLEWARE in settings.py.
 ## API Endpoints
 
 ### Enable 2FA
-- URL: `/api/auth/enable-2fa/`
+- URL: ` /api/auth/enable-2fa/ `
 - Method: POST
 - Authentication: Required
 - Response: Returns secret key and QR code URL
