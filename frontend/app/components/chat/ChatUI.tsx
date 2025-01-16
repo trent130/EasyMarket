@@ -3,10 +3,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Paper } from '@mui/material';
+import { ProductSeller } from '@/types';
 
 interface ChatUIProps {
   productId: number | string | undefined;
-  sellerId: number | string;
+  sellerId: ProductSeller;
   productName: string;
 }
 

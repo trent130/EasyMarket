@@ -28,7 +28,7 @@ import {
 } from '../../../lib/utils';
 // import { fetchProductBySlug } from '../../../lib/api-client';
 import type { Product } from '../../types/product';
-import { productApi } from '../../services/api/products';
+import { productsApi }  from '../../services/api/productApi';
 import { isValidSlug } from '../../utils/validation';
 import { handleApiError, logError } from '../../utils/errorHandling';
 
@@ -134,6 +134,7 @@ const loadProduct = async () => {
     }
 
     // Fetch product details
+    console.log('productsApi:', productsApi);
     const data = await productsApi.getProductDetails(slug);
     
     // Validate fetched data

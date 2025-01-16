@@ -43,7 +43,7 @@ const SidebarHeader = () => (
 );
 
 const NavigationLinks = ({ links }: { links: typeof navigationLinks }) => (
-  <nav className="mt-4 space-y-1">
+  <nav className="mt-4 space-y-1 ml-0">
     {links.map((link) => (
       <NavLink key={link.href} href={link.href} icon={link.icon}>
         <div className="flex items-center">

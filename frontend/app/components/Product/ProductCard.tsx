@@ -1,20 +1,21 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { Heart, MessageCircle, ShoppingCart } from "lucide-react";
-import type { ProductBase } from "../../types/product";
+// import type { ProductBase } from "@/types/common";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { cn } from "../../../lib/utils";
 import { useAppContext } from "../../AppContext";
 import ChatUI from "../chat/ChatUI";
-import { Box, Grid } from "@mui/material";
+import { Product } from "@/types";
+// import { Box, Grid } from "@mui/material";
 
 interface ProductCardProps {
-  product: ProductBase;
+  product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {

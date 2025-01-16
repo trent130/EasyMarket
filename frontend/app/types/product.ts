@@ -39,8 +39,8 @@ export interface ProductBase {
     price: number;
     category: number;
     category_name: string;
-    image_url: string | null;
-    student: number;
+    image_url: string;
+    is_active: boolean;
     student_name: string;
     average_rating: number;
     is_wishlisted: boolean;
@@ -48,6 +48,23 @@ export interface ProductBase {
     condition: ProductCondition;
     created_at: string;
 }
+
+
+export interface Product extends ProductBase {
+    description: string;
+    image_url: string;
+    category_name: string;
+    average_rating: number;
+    available_stock: number;
+    has_variants: boolean;
+    total_sales: number;
+    variants?: ProductVariant[];
+    updated_at: string;
+    statistics: ProductStatistics;
+    student: ProductSeller;
+    reviews: ProductReviews;
+}
+  
 
 export interface ProductDetail extends Omit<ProductBase, 'category' | 'category_name' | 'student'> {
     description: string;
@@ -142,25 +159,4 @@ export interface ProductVariant {
     recent: ProductReview[];
   }
   
-  export interface Product {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    image_url: string;
-    category_name: string;
-    average_rating: number;
-    available_stock: number;
-    has_variants: boolean;
-    total_sales: number;
-    condition: string;
-    variants?: ProductVariant[];
-    slug: string;
-    created_at: string;
-    updated_at: string;
-    is_wishlisted: boolean;
-    statistics: ProductStatistics;
-    student: ProductSeller;
-    reviews: ProductReviews;
-  }
-  
+
