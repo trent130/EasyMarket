@@ -26,7 +26,7 @@ const topProducts = [
 function App() {
   return (
     <DashboardLayout>
-      <div className="flex flex-col bg-gray-50">
+      <div className="flex flex-col sm:h-[100vh] sm:w-[100vw] overflow-auto bg-gray-50">
 
         {/* Main Content */}
         <div className="flex-1 mt-0">

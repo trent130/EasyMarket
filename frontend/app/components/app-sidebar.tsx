@@ -67,10 +67,10 @@ export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarPr
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-   <div className="fixed sm:flex sm:flex-col sm:w-0 mt-6 sm:z-auto">
+   <div className="relative sm:100vh 100vh bg-slate-600 sm:flex sm:flex-col sm:w-0 mt-6 sm:z-auto">
      <>
       {/* Hamburger Menu for Mobile */}
-      <div className="sm:hidden relative top-4 left-4 z-50 sm:absolute">
+      <div className="sm:hidden relative top-4 left-4 z-10 sm:static">
         <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className="p-2">
           <Menu className="h-6 w-6 text-primary" />
         </Button>
