@@ -1,11 +1,11 @@
 import { User } from "next-auth";
-import { Order } from "./orders";
+import { Orders } from "./orders";
 
 export interface AdminDashboardData {
     totalUsers: number;
     totalOrders: number;
     totalRevenue: number;
-    recentOrders: Order[];
+    recentOrders: Orders[];
     userStats: UserStats;
 }
 

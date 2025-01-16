@@ -32,7 +32,7 @@ const navigationLinks = [
 ];
 
 const settingsLinks = [
-  { href: "/settings", icon: <Settings className="mr-2 h-5 w-5" />, label: "Settings" },
+  { href: "/settings", icon: <Settings className="mr-2 h-5 w-5 " />, label: "Settings" },
 ];
 
 const SidebarHeader = () => (
@@ -46,20 +46,22 @@ const NavigationLinks = ({ links }: { links: typeof navigationLinks }) => (
   <nav className="mt-4 space-y-1">
     {links.map((link) => (
       <NavLink key={link.href} href={link.href} icon={link.icon}>
-        {link.label}
+        <div className="flex items-center">
+          {link.label}
+        </div>
       </NavLink>
     ))}
   </nav>
 );
 
-const SidebarFooter = () => (
-  <div className="px-4 mt-6 lg:mb-14">
-    <Button variant="secondary" className="w-full justify-start">
-      <LogOut className="mr-2 h-5 w-5" />
-      Logout
-    </Button>
-  </div>
-);
+// const SidebarFooter = () => (
+//   <div className="px-4 mt-6 lg:mb-14">
+//     <Button variant="secondary" className="w-full justify-start">
+//       <LogOut className="mr-2 h-5 w-5" />
+//       Logout
+//     </Button>
+//   </div>
+// );
 
 export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,10 +92,9 @@ export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarPr
           </div>
 
           {/* Footer */}
-          <div className="border-t px-4 py-6">
+          <div className="border-t px-4 py-6 mb-24">
             <h2 className="mb-2 text-lg font-semibold tracking-tight">Settings</h2>
             <NavigationLinks links={settingsLinks} />
-            <SidebarFooter />
           </div>
         </div>
       </div>

@@ -4,12 +4,12 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { WebSocketService, WebSocketMessageType } from '../lib/websocket';
 import { 
  /*  fetchProducts,  */
-  fetchWishlists,
-  addProductToWishlist as apiAddToWishlist,
-  removeProductFromWishlist as apiRemoveFromWishlist,
+  // fetchWishlists,
+  // addProductToWishlist as apiAddToWishlist,
+  // removeProductFromWishlist as apiRemoveFromWishlist,
   createOrder as apiCreateOrder,
-  addProductToWishlist,
-  removeProductFromWishlist
+  /* addProductToWishlist,
+  removeProductFromWishlist */
 } from '../app/services/api';
 import { Wishlist, Product } from './types/api';
 

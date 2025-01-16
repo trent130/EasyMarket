@@ -2,8 +2,32 @@ import apiClient from '../api-client';
 import  { Product }  from '../../types/product'; // Ensure correct import
 // import { fetchWrapper } from '../../utils/fetchWrapper';
 // import { MarketplaceListing } from '../../types/marketplace';
-import { WishlistItem } from '../../types/api';
+import { ApiError, WishlistItem } from '../../types/api';
 import { Category, Review, CartItem }  from '../../types/marketplace';
+
+// Error handler
+const handleApiError = (error: { response?: { data?: { message?: string }; status?: number } }): never => {
+  const apiError: ApiError = {
+    message: error.response?.data?.message || 'An error occurred',
+    status: error.response?.status || 500
+  };
+
+  if(isApiError(error)) {
+    apiError.message = error.response?.data?.message || 'An error occurred';
+    apiError.status = error.response?.status || apiError.status;
+  }
+  throw apiError;
+};
+
+/**
+ * Checks if an error is an ApiError.
+ *
+ * @param error - The error to check.
+ * @returns True if the error is an ApiError, false otherwise.
+ */
+const isApiError = (error: unknown): error is { response?: { data?: { message?: string }; status?: number } } => {
+  return typeof error === 'object' && error !== null && 'response' in error;
+};
 
 export const marketplaceApi = {
   // Categories
@@ -24,40 +48,92 @@ export const marketplaceApi = {
   },
 
   // Wishlist
-  getWishlist: async () => {
-    const response = await apiClient.get<WishlistItem[]>('/marketplace/api/wishlist/');
-    return response; // Adjusted to return the correct data structure
+  getWishlist: async (): Promise<WishlistItem[]> => {
+    try {
+      const response = await apiClient.get<WishlistItem[]>('/marketplace/api/wishlist/');
+      return response;
+    } catch (error) {
+      if (isApiError(error)) {
+        throw handleApiError(error);
+      } else {
+        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+      }
+    }
   },
 
-  addToWishlist: async (productId: number) => {
-    const response = await apiClient.post<WishlistItem>('/marketplace/api/wishlist/productId/add/', {
-      product_id: productId
-    });
-    return response; // Adjusted to return the correct data structure
+  addToWishlist: async (productId: number): Promise<WishlistItem> => {
+    try {
+      const response = await apiClient.post<WishlistItem>('/marketplace/api/wishlist/productId/add/', { product_id: productId });
+      return response;
+    } catch (error) {
+      if (isApiError(error)) {
+        throw handleApiError(error);
+      } else {
+        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+      }
+    }
   },
 
-  removeFromWishlist: async (productId: number) => {
-    await apiClient.post('/marketplace/api/wishlist/productId/remove/', {
-      product_id: productId
-    });
+  removeFromWishlist: async (productId: number): Promise<void> => {
+    try {
+      await apiClient.post('/marketplace/api/wishlist/productId/remove/', { product_id: productId });
+    } catch (error) {
+      if (isApiError(error)) {
+        throw handleApiError(error);
+      } else {
+        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+      }
+    }
   },
 
   // Cart
-  getCart: async () => {
-    const response = await apiClient.get<{
-      items: CartItem[];
-      total_items: number;
-      total_amount: number;
-    }>('/marketplace/cart/');
-    return response; // Adjusted to return the correct data structure
+  getCart: async (): Promise<{
+    items: CartItem[];
+    total_items: number;
+    total_amount: number;
+  }> => {
+    try {
+      const response = await apiClient.get<{
+        items: CartItem[];
+        total_items: number;
+        total_amount: number;
+      }>('/marketplace/cart/');
+      return response;
+    } catch (error) {
+      if (isApiError(error)) {
+        throw handleApiError(error);
+      } else {
+        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+      }
+    }
   },
 
-  addToCart: async (productId: number, quantity: number = 1) => {
-    const response = await apiClient.post<CartItem>('/marketplace/cart/add/', {
-      product_id: productId,
-      quantity
-    });
-    return response; // Adjusted to return the correct data structure
+  addToCart: async (productId: number, quantity: number = 1): Promise<CartItem> => {
+    try {
+      const response = await apiClient.post<CartItem>('/marketplace/cart/add/', {
+        product_id: productId,
+        quantity
+      });
+      return response;
+    } catch (error) {
+      if (isApiError(error)) {
+        throw handleApiError(error);
+      } else {
+        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+      }
+    }
+  },
+
+  removeFromCart: async (itemId: number): Promise<void> => {
+    try {
+      await apiClient.delete(`/marketplace/cart/items/${itemId}/`);
+    } catch (error) {
+      if (isApiError(error)) {
+        throw handleApiError(error);
+      } else {
+        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+      }
+    }
   },
 
   updateCartItem: async (itemId: number, quantity: number) => {
@@ -65,10 +141,6 @@ export const marketplaceApi = {
       quantity
     });
     return response; // Adjusted to return the correct data structure
-  },
-
-  removeFromCart: async (itemId: number) => {
-    await apiClient.delete(`/marketplace/cart/items/${itemId}/`);
   },
 
   clearCart: async () => {

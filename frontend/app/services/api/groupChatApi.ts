@@ -80,4 +80,4 @@ export const groupChatApi = {
 
 export type GroupChatApi = typeof groupChatApi;
 
-// implimentation of the backend generally needed here for the urls and soin the marketplace app
+// implimentation of the backend generally needed here for the urls and so in the marketplace app

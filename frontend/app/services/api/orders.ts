@@ -1,9 +1,34 @@
 import { fetchWrapper } from "@/utils/fetchWrapper";
 import apiClient from "../api-client";
 import { OrderStatus } from "@/types/orders";
-import { Order } from "@/types/api";
+import { ApiError, Order } from "@/types/api";
+// import { handleApiError } from "@/utils/errorHandling";
+// import { handleApiError } from "@/utils/errorHandling";
 // import { fetchWrapper } from '../../utils/fetchWrapper';
 // import { Orders  } from '../../types/orders'; //OrderStatus
+
+const handleApiError = (error: { response?: { data?: { message?: string }; status?: number } }): never => {
+  const apiError: ApiError = {
+    message: error.response?.data?.message || 'An error occurred',
+    status: error.response?.status || 500
+  };
+
+  if(isApiError(error)) {
+    apiError.message = error.response?.data?.message || 'An error occurred';
+    apiError.status = error.response?.status || apiError.status;
+  }
+  throw apiError;
+};
+
+/**
+ * Checks if an error is an ApiError.
+ *
+ * @param error - The error to check.
+ * @returns True if the error is an ApiError, false otherwise.
+ */
+const isApiError = (error: unknown): error is { response?: { data?: { message?: string }; status?: number } } => {
+  return typeof error === 'object' && error !== null && 'response' in error;
+};
 
 export interface CreateOrderInput {
   items: { product_id: number; quantity: number }[];
@@ -16,18 +41,35 @@ export const ordersApi = {
     const response = await apiClient.get<Order[]>("/orders/orders/");
     return response.data;
   },
-  getOrders: (params?: Record<string, string | number>) =>
-    fetchWrapper<Order[]>("/api/orders", { params }),
+  getOrders: async (params?: Record<string, string | number>): Promise<Order[]> => {
+    try {
+      const response = await apiClient.get<Order[]>('/api/orders', { params });
+      return response;
+    } catch (error) {
+      if (isApiError(error)) {
+        throw handleApiError(error);
+      } else {
+        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+      }
+    }
+  },
+
+  create: async (data: CreateOrderInput): Promise<Order> => {
+    try {
+      const response = await apiClient.post<Order>('/orders/orders/', data);
+      return response;
+    } catch (error) {
+      if (isApiError(error)) {
+        throw handleApiError(error);
+      } else {
+        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
+      }
+    }
+  },
 
   // Get single order by ID
   getById: async (id: number) => {
     const response = await apiClient.get<Order>(`/orders/orders/${id}/`);
-    return response.data;
-  },
-
-  // Create new order
-  create: async (data: CreateOrderInput) => {
-    const response = await apiClient.post<Order>("/orders/orders/", data);
     return response.data;
   },
 

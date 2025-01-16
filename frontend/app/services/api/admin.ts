@@ -1,7 +1,9 @@
-import apiClient from '../api-client';
-import { Student } from './students';
-import { Product } from '../../types/product';
-import { Order } from './orders';
+import apiClient from "../api-client";
+import { Student } from "./students";
+import { Product } from "../../types/product";
+import { Orders } from "./orders";
+import { AdminDashboardData } from "@/types/admin";
+import { fetchWrapper } from "@/utils/fetchWrapper";
 
 export interface AdminStats {
   total_users: number;
@@ -20,8 +22,8 @@ export interface AdminStats {
 }
 
 export interface UserManagementFilters {
-  role?: 'student' | 'admin' | 'moderator';
-  status?: 'active' | 'suspended' | 'pending';
+  role?: "student" | "admin" | "moderator";
+  status?: "active" | "suspended" | "pending";
   verified?: boolean;
   search?: string;
   page?: number;
@@ -30,9 +32,17 @@ export interface UserManagementFilters {
 export const adminApi = {
   // Dashboard Statistics
   getDashboardStats: async () => {
-    const response = await apiClient.get<AdminStats>('/admin/dashboard/stats/');
+    const response = await apiClient.get<AdminStats>("/admin/dashboard/stats/");
     return response.data;
   },
+  getDashboardData: () =>
+    fetchWrapper<AdminDashboardData>("/api/admin/dashboard"),
+
+  updateUserStatus: (userId: number, status: string) =>
+    fetchWrapper(`/api/admin/users/${userId}/status`, {
+      method: "PUT",
+      body: JSON.stringify({ status }),
+    }),
 
   // User Management
   getUsers: async (filters?: UserManagementFilters) => {
@@ -41,12 +51,14 @@ export const adminApi = {
       total: number;
       page: number;
       total_pages: number;
-    }>('/admin/users/', { params: filters });
+    }>("/admin/users/", { params: filters });
     return response.data;
   },
 
   suspendUser: async (userId: number, reason: string) => {
-    const response = await apiClient.post(`/admin/users/${userId}/suspend/`, { reason });
+    const response = await apiClient.post(`/admin/users/${userId}/suspend/`, {
+      reason,
+    });
     return response.data;
   },
 
@@ -57,7 +69,7 @@ export const adminApi = {
 
   // Product Management
   getProducts: async (params?: {
-    status?: 'active' | 'reported' | 'suspended';
+    status?: "active" | "reported" | "suspended";
     category?: string;
     search?: string;
     page?: number;
@@ -66,7 +78,7 @@ export const adminApi = {
       results: Product[];
       total: number;
       page: number;
-    }>('/admin/products/', { params });
+    }>("/admin/products/", { params });
     return response.data;
   },
 
@@ -76,52 +88,66 @@ export const adminApi = {
 
   // Order Management
   getOrders: async (params?: {
-    status?: Order['status'];
-    payment_status?: 'pending' | 'completed' | 'failed';
+    status?: Orders["status"];
+    payment_status?: "pending" | "completed" | "failed";
     start_date?: string;
     end_date?: string;
     page?: number;
   }) => {
     const response = await apiClient.get<{
-      results: Order[];
+      results: Orders[];
       total: number;
       page: number;
-    }>('/admin/orders/', { params });
+    }>("/admin/orders/", { params });
     return response.data;
   },
 
   // Verification Requests
   getVerificationRequests: async (params?: {
-    status?: 'pending' | 'approved' | 'rejected';
+    status?: "pending" | "approved" | "rejected";
     page?: number;
   }) => {
-    const response = await apiClient.get('/admin/verifications/', { params });
+    const response = await apiClient.get("/admin/verifications/", { params });
     return response.data;
   },
 
-  handleVerificationRequest: async (requestId: number, action: 'approve' | 'reject', reason?: string) => {
-    const response = await apiClient.post(`/admin/verifications/${requestId}/${action}/`, { reason });
+  handleVerificationRequest: async (
+    requestId: number,
+    action: "approve" | "reject",
+    reason?: string
+  ) => {
+    const response = await apiClient.post(
+      `/admin/verifications/${requestId}/${action}/`,
+      { reason }
+    );
     return response.data;
   },
 
   // Reports Management
   getReports: async (params?: {
-    type?: 'user' | 'product' | 'review';
-    status?: 'pending' | 'resolved';
+    type?: "user" | "product" | "review";
+    status?: "pending" | "resolved";
     page?: number;
   }) => {
-    const response = await apiClient.get('/admin/reports/', { params });
+    const response = await apiClient.get("/admin/reports/", { params });
     return response.data;
   },
 
-  handleReport: async (reportId: number, action: 'resolve' | 'dismiss', notes?: string) => {
-    const response = await apiClient.post(`/admin/reports/${reportId}/${action}/`, { notes });
+  handleReport: async (
+    reportId: number,
+    action: "resolve" | "dismiss",
+    notes?: string
+  ) => {
+    const response = await apiClient.post(
+      `/admin/reports/${reportId}/${action}/`,
+      { notes }
+    );
     return response.data;
   },
 
   // System Settings
   getSystemSettings: async () => {
-    const response = await apiClient.get('/admin/settings/');
+    const response = await apiClient.get("/admin/settings/");
     return response.data;
   },
 
@@ -132,7 +158,7 @@ export const adminApi = {
     allowed_file_types?: string[];
     notification_settings?: Record<string, boolean>;
   }) => {
-    const response = await apiClient.put('/admin/settings/', settings);
+    const response = await apiClient.put("/admin/settings/", settings);
     return response.data;
   },
 
@@ -144,35 +170,35 @@ export const adminApi = {
     end_date?: string;
     page?: number;
   }) => {
-    const response = await apiClient.get('/admin/audit-logs/', { params });
+    const response = await apiClient.get("/admin/audit-logs/", { params });
     return response.data;
   },
 
   // Analytics
   getAnalytics: async (params: {
-    metric: 'users' | 'orders' | 'revenue' | 'products';
-    period: 'day' | 'week' | 'month' | 'year';
+    metric: "users" | "orders" | "revenue" | "products";
+    period: "day" | "week" | "month" | "year";
     start_date?: string;
     end_date?: string;
   }) => {
-    const response = await apiClient.get('/admin/analytics/', { params });
+    const response = await apiClient.get("/admin/analytics/", { params });
     return response.data;
   },
 
   // System Health
   getSystemHealth: async () => {
-    const response = await apiClient.get('/admin/system/health/');
+    const response = await apiClient.get("/admin/system/health/");
     return response.data;
   },
 
   // Backup Management
   createBackup: async () => {
-    const response = await apiClient.post('/admin/system/backup/');
+    const response = await apiClient.post("/admin/system/backup/");
     return response.data;
   },
 
   restoreBackup: async (backupId: string) => {
     const response = await apiClient.post(`/admin/system/restore/${backupId}/`);
     return response.data;
-  }
+  },
 };

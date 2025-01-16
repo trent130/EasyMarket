@@ -430,3 +430,9 @@ WARNING 2025-01-16 09:57:57,810 log Unauthorized: /products/api/categories/
 WARNING 2025-01-16 09:58:29,216 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-16 09:58:29,227 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-16 10:00:08,431 log Not Found: /favicon.ico
+WARNING 2025-01-16 10:07:19,495 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-16 10:07:19,544 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-01-16 10:50:49,696 log Unauthorized: /products/api/categories/
+WARNING 2025-01-16 10:50:49,826 log Unauthorized: /products/api/categories/
+WARNING 2025-01-16 11:36:52,770 log Unauthorized: /products/api/categories/
+WARNING 2025-01-16 11:36:52,799 log Unauthorized: /products/api/categories/

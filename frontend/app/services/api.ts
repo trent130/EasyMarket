@@ -1,7 +1,5 @@
 import apiClient from '../../lib/api-client';
 import { 
-  Cart, 
-  Wishlist, 
   Order, 
   LoginCredentials, 
   AuthTokens,
@@ -59,51 +57,6 @@ export const refreshToken = async (refreshToken: string): Promise<AuthTokens> =>
   }
 };
 
-// Cart
-export const fetchCart = async (): Promise<Cart> => {
-  try {
-    const response = await apiClient.get<Cart>('/carts/');
-    return response; // Return the cart directly
-  } catch (error) {
-    if (isApiError(error)) {
-      throw handleApiError(error);
-    } else {
-      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-    }
-  }
-};
-
-export const addToCart = async (cartId: number, productId: number, quantity: number = 1): Promise<Cart> => {
-  try {
-    const response = await apiClient.post<Cart>(`/carts/${cartId}/add_item/`, {
-      product_id: productId,
-      quantity
-    });
-    return response; // Return the updated cart directly
-  } catch (error) {
-    if (isApiError(error)) {
-      throw handleApiError(error);
-    } else {
-      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-    }
-  }
-};
-
-export const removeFromCart = async (cartId: number, cartItemId: number): Promise<Cart> => {
-  try {
-    const response = await apiClient.post<Cart>(`/carts/${cartId}/remove_item/`, {
-      cart_item_id: cartItemId
-    });
-    return response; // Return the updated cart directly
-  } catch (error) {
-    if (isApiError(error)) {
-      throw handleApiError(error);
-    } else {
-      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-    }
-  }
-};
-
 // Orders
 export const createOrder = async (orderData: Partial<Order>): Promise<Order> => {
   try {
@@ -122,50 +75,6 @@ export const fetchOrders = async (): Promise<Order[]> => {
   try {
     const response = await apiClient.get<Order[]>('/orders/');
     return response; // Return the list of orders directly
-  } catch (error) {
-    if (isApiError(error)) {
-      throw handleApiError(error);
-    } else {
-      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-    }
-  }
-};
-
-// Wishlists
-export const fetchWishlists = async (): Promise<Wishlist[]> => {
-  try {
-    const response = await apiClient.get<Wishlist[]>('/marketplace/api/wishlist/');
-    return response; // Return the list of wishlists directly
-  } catch (error) {
-    if (isApiError(error)) {
-      throw handleApiError(error);
-    } else {
-      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-    }
-  }
-};
-
-export const addProductToWishlist = async (wishlistId: number, productId: number): Promise<Wishlist> => {
-  try {
-    const response = await apiClient.post<Wishlist>(`/marketplace/wishlist/${wishlistId}/add_product/`, {
-      product_id: productId
-    });
-    return response; // Return the updated wishlist directly
-  } catch (error) {
-    if (isApiError(error)) {
-      throw handleApiError(error);
-    } else {
-      throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-    }
-  }
-};
-
-export const removeProductFromWishlist = async (wishlistId: number, productId: number): Promise<Wishlist> => {
-  try {
-    const response = await apiClient.post<Wishlist>(`/marketplace/api/wishlist/${wishlistId}/remove_product/`, {
-      product_id: productId
-    });
-    return response; // Return the updated wishlist directly
   } catch (error) {
     if (isApiError(error)) {
       throw handleApiError(error);
