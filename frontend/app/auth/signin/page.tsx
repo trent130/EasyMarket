@@ -10,15 +10,20 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Alert, AlertDescription } from "../../components/ui/alert";
 import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
+import  useVisibility  from "@/components/useVisibility"
 
 const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"), ////.email('Invalid username address'),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
+
+
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function SignInPage() {
+  const { isVisible, toggleVisibility } = useVisibility();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
@@ -77,16 +82,33 @@ export default function SignInPage() {
         </div>
 
         <div className="space-y-2">
-          <Input
-            {...register("password")}
-            type="password"
-            placeholder="Password"
-            className={errors.password ? "border-red-500" : ""}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
-          )}
-        </div>
+    <div className="space-y-2 flex items-center">
+      <Input
+        {...register("password")}
+        type={isVisible ? "text" : "password"} // Toggle between text and password
+        id="password"
+        placeholder="Password"
+        className={errors.password ? "border-red-500" : ""}
+      />
+      <button
+        type="button"
+        onClick={toggleVisibility}
+        aria-label={isVisible ? "Hide password" : "Show password"}
+        aria-pressed={isVisible}
+        className="ml-2 focus:outline-none "
+      >
+        {isVisible ? (
+          <EyeOff size={16} strokeWidth={2} aria-hidden="true" />
+        ) : (
+          <Eye size={16} strokeWidth={2} aria-hidden="true" />
+        )}
+      </button>
+    </div>
+    {errors.password && (
+      <p className="text-red-500 text-sm">{errors.password.message}</p>
+    )}
+  </div>
+
 
         {/* Submit Button */}
         <div>

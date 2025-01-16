@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import SearchBar from './search/SearchBar';
+import NotificationPopup from './NotificationPopup';
 // import { getSession } from '@/utils/sessionManager'
 
 const Navigation = () => {
@@ -118,6 +119,7 @@ const Navigation = () => {
               </svg>
             </button>
           </Link>
+          <NotificationPopup />
           {session ? (
             <div className="flex items-center">
               <Typography variant="body1" className="mr-2">
@@ -170,6 +172,7 @@ const Navigation = () => {
               Wishlist
             </button>
           </Link>
+          <NotificationPopup />
           {session /* && isLogggedIn */? (
             <button
               className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4"
