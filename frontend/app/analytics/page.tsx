@@ -4,24 +4,24 @@ import { BarChart3, DollarSign, ShoppingCart, Users, TrendingUp, Package, ArrowU
 import DashboardLayout from '@/components/DashboardLayout';
 
 const stats = [
-  { title: 'Total Revenue', value: '$84,254.00', change: '+12.5%', isPositive: true, icon: DollarSign },
+  { title: 'Total Revenue', value: 'ksh84,254.00', change: '+12.5%', isPositive: true, icon: DollarSign },
   { title: 'Total Orders', value: '1,432', change: '+8.2%', isPositive: true, icon: ShoppingCart },
   { title: 'Active Customers', value: '3,842', change: '+5.4%', isPositive: true, icon: Users },
   { title: 'Conversion Rate', value: '2.4%', change: '-0.8%', isPositive: false, icon: TrendingUp },
 ];
 
 const recentOrders = [
-  { id: '#ORD-1234', product: 'Wireless Headphones', amount: '$129.99', status: 'Completed' },
-  { id: '#ORD-1235', product: 'Smart Watch', amount: '$299.99', status: 'Processing' },
-  { id: '#ORD-1236', product: 'Laptop Stand', amount: '$49.99', status: 'Completed' },
-  { id: '#ORD-1237', product: 'USB-C Hub', amount: '$79.99', status: 'Pending' },
+  { id: '#ORD-1234', product: 'Wireless Headphones', amount: 'ksh129.99', status: 'Completed' },
+  { id: '#ORD-1235', product: 'Smart Watch', amount: 'ksh299.99', status: 'Processing' },
+  { id: '#ORD-1236', product: 'Laptop Stand', amount: 'ksh49.99', status: 'Completed' },
+  { id: '#ORD-1237', product: 'USB-C Hub', amount: 'ksh79.99', status: 'Pending' },
 ];
 
 const topProducts = [
-  { name: 'Wireless Earbuds Pro', sales: 324, revenue: '$45,360' },
-  { name: 'Smart Watch Elite', sales: 256, revenue: '$76,800' },
-  { name: 'Ultra HD Monitor', sales: 186, revenue: '$55,800' },
-  { name: 'Ergonomic Keyboard', sales: 145, revenue: '$14,500' },
+  { name: 'Wireless Earbuds Pro', sales: 324, revenue: 'ksh45,360' },
+  { name: 'Smart Watch Elite', sales: 256, revenue: 'ksh76,800' },
+  { name: 'Ultra HD Monitor', sales: 186, revenue: 'ksh55,800' },
+  { name: 'Ergonomic Keyboard', sales: 145, revenue: 'ksh14,500' },
 ];
 
 function App() {

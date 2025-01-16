@@ -65,7 +65,8 @@ export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarPr
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+   <div className="fixed sm:flex sm:flex-col sm:w-0 mt-6 ">
+     <>
       {/* Hamburger Menu for Mobile */}
       <div className="sm:hidden absolute top-4 left-4 z-50">
         <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className="p-2">
@@ -76,7 +77,7 @@ export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarPr
       {/* Sidebar */}
       <div
         className={cn(
-          "absolute top-0 left-0 z-40 h-screen w-64 bg-white text-black transition-transform sm:translate-x-0",
+          "relative top-0 left-0 z-40 h-screen w-64 bg-white text-black transition-transform sm:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full",
           className=""
         )}
@@ -105,5 +106,6 @@ export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarPr
         />
       )}
     </>
+   </div>
   );
 }
