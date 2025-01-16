@@ -61,3 +61,19 @@ export interface StatusCacheEntry {
   status: PaymentStatus;
   timestamp: number;
 }
+
+export interface PaymentIntent {
+  clientSecret: string;
+  paymentIntentId: string;
+}
+
+export interface Payment {
+  id: number;
+  orderId: number;
+  amount: number;
+  currency: string;
+  status: PaymentStatus;
+  paymentMethod: string;
+  createdAt: string;
+  updatedAt: string;
+}

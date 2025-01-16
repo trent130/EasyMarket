@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Product } from '../../types/product';
+import type { Product, ProductBase } from '../../types/product';
 import type { ApiResponse, SingleResponse, SearchParams } from '../../types/common';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/products/api';
@@ -62,6 +62,42 @@ export const fetchFeaturedProducts = async (): Promise<Product[]> => {
 export const fetchTrendingProducts = async (): Promise<Product[]> => {
   const { data } = await apiClient.get<ApiResponse<Product>>('/products/trending/');
   return data.results || [];
+};
+
+// Categories
+export const fetchCategories = async (): Promise<Category[]> => {
+  const { data } = await apiClient.get<Category[]>('/categories/');
+  return data;
+};
+
+// Create Product
+export const createProduct = async (data: Partial<Product>): Promise<Product> => {
+  const { data: responseData } = await apiClient.post<SingleResponse<Product>>('/products/', data);
+  return responseData.data;
+};
+
+// Update Product
+export const updateProduct = async (id: number, data: Partial<Product>): Promise<Product> => {
+  const { data: responseData } = await apiClient.put<SingleResponse<Product>>(`/products/${id}/`, data);
+  return responseData.data;
+};
+
+// Delete Product
+export const deleteProduct = async (id: number): Promise<void> => {
+  await apiClient.delete(`/products/${id}/`);
+};
+
+// Get Product Details
+export const getProductDetails = async (slug: string): Promise<Product> => {
+  try {
+    const response = await apiClient.get<Product>(`/products/${slug}/`);
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 404) {
+      throw new Error('Product not found');
+    }
+    throw error;
+  }
 };
 
 export default apiClient;

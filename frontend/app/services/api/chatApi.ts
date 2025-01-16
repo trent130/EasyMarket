@@ -1,23 +1,5 @@
 import { fetchWrapper } from '../../utils/fetchWrapper';
-import { User } from '../../types/common';
-
-interface Message {
-    id: number;
-    senderId: number;
-    receiverId: number;
-    content: string;
-    attachments?: string[];
-    read: boolean;
-    createdAt: string;
-}
-
-interface Conversation {
-    id: number;
-    participants: User[];
-    lastMessage: Message;
-    unreadCount: number;
-    updatedAt: string;
-}
+import { Conversation, Message, User } from '../../types/common';
 
 interface ChatParams {
     page?: number;

@@ -28,7 +28,7 @@ import {
 } from '../../../lib/utils';
 // import { fetchProductBySlug } from '../../../lib/api-client';
 import type { Product } from '../../types/product';
-import { productsApi } from '../../services/api/productsApi';
+import { productApi } from '../../services/api/products';
 import { isValidSlug } from '../../utils/validation';
 import { handleApiError, logError } from '../../utils/errorHandling';
 

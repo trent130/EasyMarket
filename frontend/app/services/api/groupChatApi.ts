@@ -1,33 +1,8 @@
 import { fetchWrapper } from '../../utils/fetchWrapper';
-import { User } from '../../types/common';
+import { GroupChat, GroupMessage } from '../../types/common';
 import { WebSocketService, WebSocketMessageType } from '../../../lib/websocket';
 
-interface GroupChat {
-    id: number;
-    name: string;
-    description?: string;
-    avatar?: string;
-    members: User[];
-    admins: User[];
-    createdAt: string;
-    updatedAt: string;
-}
 
-interface GroupMessage {
-    id: number;
-    groupId: number;
-    sender: User;
-    content: string;
-    attachments?: string[];
-    reactions: MessageReaction[];
-    createdAt: string;
-}
-
-interface MessageReaction {
-    userId: number;
-    emoji: string;
-    createdAt: string;
-}
 
 // interface GroupChatParams {
 //     page?: number;
@@ -93,12 +68,13 @@ export const groupChatApi = {
 
     // Real-time features using WebSocket
     subscribeToGroupUpdates: (groupId: number, wsService: WebSocketService) => {
-        wsService.subscribe(WebSocketMessageType.CHAT_MESSAGE, (message: GroupMessage) => {
-            if (message.groupId === groupId) {
-                // Handle new message
-                console.log('New group message:', message);
+        wsService.subscribe(WebSocketMessageType.CHAT_MESSAGE, (message: unknown) => {
+            const groupMessage = message as GroupMessage;
+            if (groupMessage.groupId === groupId) {
+              // Handle new message
+              console.log('New group message:', groupMessage);
             }
-        });
+          });
     }
 };
 

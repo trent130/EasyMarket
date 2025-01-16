@@ -105,5 +105,6 @@ export const securityApi = {
         })
 };
 
-export type SecurityApi = typeof securityApi; 
+export type SecurityApi = typeof securityApi;
+
 // Note: The following URLs are not implemented in the backend, so this is a work in progress.

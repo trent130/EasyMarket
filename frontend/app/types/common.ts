@@ -10,6 +10,16 @@ export interface User {
     role: UserRole;
     status: UserStatus;
 }
+export interface Review {
+  id: number;
+  productId: number;
+  user: User;
+  rating: number;
+  comment: string;
+  images?: string[];
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface ApiResponse<T> {
     results: T[];
@@ -72,3 +82,78 @@ export interface SingleResponse<T> {
     sort_by?: SortOption;
   }
   
+  export interface SecurityLog {
+    id: string;
+    userId: number;
+    action: string;
+    ipAddress: string;
+    userAgent: string;
+    location: string;
+    timestamp: string;
+    status: 'success' | 'failure';
+    details?: Record<string, unknown>; // Updated to use 'unknown' instead of 'any'
+}
+
+export interface SecuritySettings {
+    twoFactorEnabled: boolean;
+    loginNotifications: boolean;
+    trustedDevices: boolean;
+    passwordLastChanged: string;
+    securityQuestionsSet: boolean;
+}
+
+export interface Student {
+  id: number;
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  course: string;
+  year: number;
+  status: 'active' | 'inactive' | 'graduated';
+}
+
+export interface Message {
+    id: number;
+    senderId: number;
+    receiverId: number;
+    content: string;
+    attachments?: string[];
+    read: boolean;
+    createdAt: string;
+}
+
+export interface Conversation {
+    id: number;
+    participants: User[];
+    lastMessage: Message;
+    unreadCount: number;
+    updatedAt: string;
+}
+
+export interface GroupChat {
+    id: number;
+    name: string;
+    description?: string;
+    avatar?: string;
+    members: User[];
+    admins: User[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface GroupMessage {
+    id: number;
+    groupId: number;
+    sender: User;
+    content: string;
+    attachments?: string[];
+    reactions: MessageReaction[];
+    createdAt: string;
+}
+
+export interface MessageReaction {
+    userId: number;
+    emoji: string;
+    createdAt: string;
+}

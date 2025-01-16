@@ -1,8 +1,10 @@
-import  apiClient  from '../api-client';
+import { fetchWrapper } from "@/utils/fetchWrapper";
+import apiClient from "../api-client";
+import { Payment, PaymentIntent } from "@/types/payment";
 
 export interface PaymentMethod {
   id: number;
-  type: 'mpesa' | 'card' | 'bank';
+  type: "mpesa" | "card" | "bank";
   is_default: boolean;
   details: {
     last4?: string;
@@ -17,7 +19,7 @@ export interface Transaction {
   order_id: number;
   amount: number;
   currency: string;
-  status: 'pending' | 'completed' | 'failed';
+  status: "pending" | "completed" | "failed";
   payment_method: string;
   transaction_id: string;
   created_at: string;
@@ -26,7 +28,7 @@ export interface Transaction {
 
 export interface InitiatePaymentInput {
   order_id: number;
-  payment_method: 'mpesa' | 'card' | 'bank';
+  payment_method: "mpesa" | "card" | "bank";
   payment_details: {
     phone_number?: string;
     card_token?: string;
@@ -37,17 +39,20 @@ export interface InitiatePaymentInput {
 export const paymentApi = {
   // Get saved payment methods
   getPaymentMethods: async () => {
-    const response = await apiClient.get<PaymentMethod[]>('/payment/methods/');
+    const response = await apiClient.get<PaymentMethod[]>("/payment/methods/");
     return response.data;
   },
 
   // Add new payment method
   addPaymentMethod: async (data: {
-    type: PaymentMethod['type'];
-    details: PaymentMethod['details'];
+    type: PaymentMethod["type"];
+    details: PaymentMethod["details"];
     is_default?: boolean;
   }) => {
-    const response = await apiClient.post<PaymentMethod>('/payment/methods/', data);
+    const response = await apiClient.post<PaymentMethod>(
+      "/payment/methods/",
+      data
+    );
     return response.data;
   },
 
@@ -70,14 +75,14 @@ export const paymentApi = {
       transaction_id: string;
       checkout_url?: string;
       mpesa_prompt?: boolean;
-    }>('/payment/initiate/', data);
+    }>("/payment/initiate/", data);
     return response.data;
   },
 
   // Verify payment status
   verifyPayment: async (transactionId: string) => {
     const response = await apiClient.get<{
-      status: Transaction['status'];
+      status: Transaction["status"];
       message: string;
     }>(`/payment/verify/${transactionId}/`);
     return response.data;
@@ -85,7 +90,7 @@ export const paymentApi = {
 
   // Get payment history
   getTransactionHistory: async (params?: {
-    status?: Transaction['status'];
+    status?: Transaction["status"];
     start_date?: string;
     end_date?: string;
     page?: number;
@@ -95,24 +100,29 @@ export const paymentApi = {
       total: number;
       page: number;
       total_pages: number;
-    }>('/payment/transactions/', { params });
+    }>("/payment/transactions/", { params });
     return response.data;
   },
 
   // Get transaction details
   getTransactionDetails: async (id: string) => {
-    const response = await apiClient.get<Transaction>(`/payment/transactions/${id}/`);
+    const response = await apiClient.get<Transaction>(
+      `/payment/transactions/${id}/`
+    );
     return response.data;
   },
 
   // Request refund
-  requestRefund: async (transactionId: string, data: {
-    reason: string;
-    amount?: number;
-  }) => {
+  requestRefund: async (
+    transactionId: string,
+    data: {
+      reason: string;
+      amount?: number;
+    }
+  ) => {
     const response = await apiClient.post<{
       refund_id: string;
-      status: 'pending' | 'approved' | 'rejected';
+      status: "pending" | "approved" | "rejected";
       amount: number;
     }>(`/payment/transactions/${transactionId}/refund/`, data);
     return response.data;
@@ -121,7 +131,7 @@ export const paymentApi = {
   // Get refund status
   getRefundStatus: async (refundId: string) => {
     const response = await apiClient.get<{
-      status: 'pending' | 'approved' | 'rejected';
+      status: "pending" | "approved" | "rejected";
       amount: number;
       processed_at?: string;
       reason?: string;
@@ -131,9 +141,12 @@ export const paymentApi = {
 
   // Generate payment receipt
   generateReceipt: async (transactionId: string) => {
-    const response = await apiClient.get(`/payment/transactions/${transactionId}/receipt/`, {
-      responseType: 'blob'
-    });
+    const response = await apiClient.get(
+      `/payment/transactions/${transactionId}/receipt/`,
+      {
+        responseType: "blob",
+      }
+    );
     return response.data;
   },
 
@@ -142,9 +155,28 @@ export const paymentApi = {
     const response = await apiClient.post<{
       valid: boolean;
       formatted_number?: string;
-    }>('/payment/validate-mpesa/', { phone_number: phoneNumber });
+    }>("/payment/validate-mpesa/", { phone_number: phoneNumber });
     return response.data;
-  }
+  },
+
+  getPayments: (params?: Record<string, string | number>) =>
+    fetchWrapper<Payment[]>("/api/payments", { params }),
+
+  getPaymentDetails: (id: number) =>
+    fetchWrapper<Payment>(`/api/payments/${id}`),
+  createPaymentIntent: (orderId: number, amount: number, currency: string) =>
+    fetchWrapper<PaymentIntent>("/api/payments/create-intent", {
+      method: "POST",
+      body: JSON.stringify({ orderId, amount, currency }),
+    }),
+
+  processRefund: (paymentId: number, amount?: number) =>
+    fetchWrapper(`/api/payments/${paymentId}/refund`, {
+      method: "POST",
+      body: JSON.stringify({ amount }),
+    }),
 };
 
+
+export type PaymentApi = typeof paymentApi;
 // Add any additional functions or logic as needed
