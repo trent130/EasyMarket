@@ -53,7 +53,7 @@ const NavigationLinks = ({ links }: { links: typeof navigationLinks }) => (
 );
 
 const SidebarFooter = () => (
-  <div className="px-4 mt-6">
+  <div className="px-4 mt-6 lg:mb-14">
     <Button variant="secondary" className="w-full justify-start">
       <LogOut className="mr-2 h-5 w-5" />
       Logout
@@ -65,10 +65,10 @@ export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarPr
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-   <div className="fixed sm:flex sm:flex-col sm:w-0 mt-6 ">
+   <div className="fixed sm:flex sm:flex-col sm:w-0 mt-6 sm:z-auto">
      <>
       {/* Hamburger Menu for Mobile */}
-      <div className="sm:hidden absolute top-4 left-4 z-50">
+      <div className="sm:hidden relative top-4 left-4 z-50 sm:absolute">
         <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className="p-2">
           <Menu className="h-6 w-6 text-primary" />
         </Button>
@@ -77,26 +77,27 @@ export function Sidebar({ className, isSidebarOpen, onToggleSidebar }: SidebarPr
       {/* Sidebar */}
       <div
         className={cn(
-          "relative top-0 left-0 z-40 h-screen w-64 bg-white text-black transition-transform sm:translate-x-0",
+          "absolute top-0 left-0 z-40 h-screen w-64 bg-white text-black transition-transform sm:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full",
-          className=""
+          className = ''
         )}
       >
-        <div className="flex flex-col justify-between h-full pb-6">
+        <div className="flex flex-col justify-between h-full">
           {/* Header */}
-          <div>
+          <div className="px-4 py-6">
             <SidebarHeader />
             <NavigationLinks links={navigationLinks} />
           </div>
 
           {/* Footer */}
-          <div>
-            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Settings</h2>
+          <div className="border-t px-4 py-6">
+            <h2 className="mb-2 text-lg font-semibold tracking-tight">Settings</h2>
             <NavigationLinks links={settingsLinks} />
             <SidebarFooter />
           </div>
         </div>
       </div>
+
 
       {/* Overlay for Mobile */}
       {isOpen && (

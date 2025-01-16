@@ -11,11 +11,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
   return (
-    <div className=" flex h-screen">
+    <div className="flex h-screen">
       {/* Sidebar */}
       <aside
         className={`transition-all duration-300 bg-gray-100 ${
-          isSidebarOpen ? "w-64" : "w-16"
+          isSidebarOpen ? "lg:w-64 xl:w-80" : "sm:z-50"
         }`}
       >
         <Sidebar isSidebarOpen={isSidebarOpen} onToggleSidebar={setIsSidebarOpen} />
@@ -24,7 +24,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Main Content */}
       <main
         className={`flex-1 bg-white min-h-screen transition-all duration-300 ${
-          isSidebarOpen ? "ml-10" : "ml-0"
+          isSidebarOpen ? "" : "z-0"
         }`}
       >
         <div className="p-4 pt-16">{children}</div>

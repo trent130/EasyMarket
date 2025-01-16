@@ -42,12 +42,12 @@ export default function ProductForm() {
         </div>
 
         <div>
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="price" className=" text-sm font-medium text-gray-700">
             Price
           </label>
-          <div className="relative mt-1">
+          <div className="mt-1">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <span className="text-gray-500 sm:text-sm mr-1">K</span>
+              <span className="text-gray-500 sm:text-sm mr-1"></span>
             </div>
             <input
               type="number"
@@ -55,7 +55,7 @@ export default function ProductForm() {
               id="price"
               step="0.01"
               className="block w-full rounded-md border border-gray-300 pl-7 pr-12 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              placeholder="0.00"
+              placeholder="ksh 0.00"
               required
             />
           </div>

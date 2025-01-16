@@ -144,7 +144,7 @@ const Navigation = () => {
 
       {/* Mobile Navigation Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-gray-900 text-white hover:text-black py-4">
+        <div className="md:hidden bg-white text-black hover:text-black py-4">
           <Link href="/">
             <button className="block w-full text-left bg-transparent hover:bg-gray-700 hover:text-white font-bold py-2 px-4">
               Home
