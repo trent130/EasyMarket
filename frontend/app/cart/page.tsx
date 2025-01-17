@@ -41,7 +41,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="cart-page mt-10">
+    <div className="cart-page lg:mt-20">
       <Typography variant="h4" gutterBottom>
         Your Shopping Cart
       </Typography>

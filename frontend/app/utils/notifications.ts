@@ -1,4 +1,4 @@
-import { User } from '../../lib/models/user';
+import { User } from '/Users/Admin/EasyMarket/backend/src/models/User';
 
 // In a real application, you would use a proper email service or push notification system
 async function sendNotification(user: User, message: string) {

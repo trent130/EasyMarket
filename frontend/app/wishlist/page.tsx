@@ -11,7 +11,7 @@ import Layout from '../layout';
 export default function WishlistPage() {
   const { wishlist, removeFromWishlist, addToCart } = useAppContext();
 
-  const handleAddToCart = (item) => {
+  const handleAddToCart = (item: any) => {
     addToCart(item);
     removeFromWishlist(item.id);
   };

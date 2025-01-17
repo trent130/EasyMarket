@@ -195,3 +195,6 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+
+// fix the notification dusplay on mobile devices to stop being and icon and just be a word notifications
