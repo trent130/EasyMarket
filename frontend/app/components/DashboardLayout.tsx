@@ -14,7 +14,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     <div className="flex h-screen">
       {/* Sidebar */}
       <aside
-        className={`transition-all duration-300 bg-gray-100 ${
+        className={`transition-all duration-300 bg-gray-100 static lg:relative lg:flex-shrink-0 h-[100vh] ${
           isSidebarOpen ? "lg:w-64 xl:w-80" : "sm:z-50"
         }`}
       >

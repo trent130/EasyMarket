@@ -2,20 +2,37 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useId, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-function InputDemo() {
+export default function Component() {
+  const id = useId();
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const loginSchema = z.object({
+    username: z.string().min(3, "Username must be at least 3 characters"), ////.email('Invalid username address'),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+  });
+  type LoginForm = z.infer<typeof loginSchema>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
   return (
-    <div className="space-y-2 w-[300px]">
-      <Label htmlFor="input-23">Show/hide password input</Label>
+    <div className="space-y-2">
       <div className="relative">
         <Input
-          id="input-23"
+          {...register("password")}
+          id="password"
           className="pe-9"
           placeholder="Password"
           type={isVisible ? "text" : "password"}
@@ -38,5 +55,3 @@ function InputDemo() {
     </div>
   );
 }
-
-export { InputDemo };

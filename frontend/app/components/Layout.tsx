@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </>
         </>
       </Container>
-      <Fab 
+      {/* <Fab 
         color="primary" 
         aria-label="chat"
         style={{ position: 'fixed', bottom: 16, right: 16 }}
@@ -33,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div style={{ position: 'fixed', bottom: 80, right: 16, zIndex: 1000 }}>
           <ChatUI productId={''} sellerId={''} productName={''} />
         </div>
-      )}
+      )} */}
     </>
   );
 }
