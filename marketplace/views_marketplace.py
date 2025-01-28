@@ -18,6 +18,9 @@ from .serializers_marketplace import (
     # CategorySerializer,
     SearchResultSerializer
 )
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CartViewSet(viewsets.ModelViewSet):
@@ -65,6 +68,7 @@ class WishListViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        logger.info(f"Fetching wishlist for user: {self.request.user}")
         return WishList.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
