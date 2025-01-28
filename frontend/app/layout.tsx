@@ -1,7 +1,7 @@
 'use client'
 
 import './globals.css'
-import { Inter } from 'next/font/google'
+// import { Inter } from 'next/font/google'
 import { SessionProvider } from 'next-auth/react'
 import Navigation from './components/Navigation'
 import { AppProvider } from './AppContext'
@@ -10,7 +10,7 @@ import Layout from './components/Layout'
 import DashboardLayout from './components/DashboardLayout'
 import { usePathname } from 'next/navigation';
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
   children,
@@ -23,26 +23,26 @@ export default function RootLayout({
   const isDashboard = pathname.startsWith('/dashboard');
 
   return (
-    <>
-      <html lang="en">
-        <body className={inter.className}>
-          <SessionProvider>
-            <Providers>
-              <AppProvider>
+    <html lang="en">
+      <body className={isDashboard ? 'bg-gray-100' : ''}>
+        <SessionProvider>
+          <Providers>
+            <AppProvider>
+              <div className="mb-4">
                 <Navigation />
-                <main className="mx-auto mt-2">
-                  {/* conditional rendering of layouts */}
-                  {isDashboard ? (
-                    <DashboardLayout>{children}</DashboardLayout>
-                  ) : (
-                    <Layout>{children}</Layout>
-                  )}
-                </main>
-              </AppProvider>
-            </Providers>
-          </SessionProvider>
-        </body>
-      </html>
-    </>
+              </div>
+              <main className="mx-auto mt-2">
+                {/* conditional rendering of layouts */}
+                {isDashboard ? (
+                  <DashboardLayout>{children}</DashboardLayout>
+                ) : (
+                  <Layout>{children}</Layout>
+                )}
+              </main>
+            </AppProvider>
+          </Providers>
+        </SessionProvider>
+      </body>
+    </html>
   );
 }

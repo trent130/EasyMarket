@@ -66,7 +66,7 @@ export function useAppContext() {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<Product[]>([]);
-  const [wishlistId, setWishlistId] = useState<number | null>(null);
+  // const [wishlistId, setWishlistId] = useState<number | null>(null);
   const [wsService, setWsService] = useState<WebSocketService | null>(null);
 
   // Initialize WebSocket connection
@@ -152,9 +152,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   // Checkout function
   const checkout = async () => {
     try {
-      // Example: Convert cart items to order and clear cart
-      // This should be replaced with actual API call to create an order
-      setCart([]);
+      //TODO: create the checkout api call from the marketplace
       wsService?.send(WebSocketMessageType.ORDER_UPDATE, { status: 'created' });
     } catch (error) {
       console.error('Checkout failed:', error);
