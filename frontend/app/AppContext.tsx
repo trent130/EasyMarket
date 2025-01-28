@@ -12,6 +12,7 @@ import {
   removeProductFromWishlist */
 } from '../app/services/api';
 import { Wishlist, Product } from './types/api';
+import {  marketplaceApi } from './services/api/marketplace';
 
 
 // interface Product {
@@ -28,13 +29,12 @@ interface CartItem extends Product {
 interface AppContextType {
   cart: CartItem[];
   wishlist: Product[];
-  wishlistId: number | null;
   addToWishlist: (product: Product) => Promise<void>;
   removeFromWishlist: (productId: number) => Promise<void>;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: number) => void;
   checkout: () => Promise<void>;
-};
+}
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -75,13 +75,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     ws.connect();
     setWsService(ws);
 
-    // Subscribe to real-time updates
     ws.subscribe<{ products: Product[] }>(WebSocketMessageType.PRODUCT_UPDATE, (data) => {
       const updatedProducts = data.products;
-      // Update cart items with updated product data
       setCart(prevCart => 
         prevCart.map(item => {
-          const updatedProduct = updatedProducts.find((p: Product) => p.id === item.id);
+          const updatedProduct = updatedProducts.find(p => p.id === item.id);
           return updatedProduct ? { ...updatedProduct, quantity: item.quantity } : item;
         })
       );
@@ -90,83 +88,51 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => ws.disconnect();
   }, []);
 
-  // Initialize wishlist from backend
-// Assuming the API response structure includes a list of wishlists, each containing a list of products
-useEffect(() => {
-  /**
-   * Initializes the wishlist state by fetching the wishlist data from the backend.
-   * 
-   * @returns {Promise<void>} A promise that resolves when the data is fetched and the state is updated.
-   * @throws {Error} If the API request fails. The error is logged to the console.
-   */
-  const initializeData = async () => {
-    try {
-      // Fetch user's wishlists
-      const wishlists: Wishlist[] = await fetchWishlists();
-      
-      // Use the first wishlist or create a default one
-      if (wishlists.length > 0) {
-        const primaryWishlist = wishlists[0];
-        setWishlistId(primaryWishlist.id);
-        
-        // Extract products from wishlist items
-        const wishlistProducts = primaryWishlist.items.map(item => item.product);
-        setWishlist(wishlistProducts);
-      } else {
-        // Handle case where no wishlist exists
-        setWishlistId(null);
+  useEffect(() => {
+    const initializeWishlist = async () => {
+      try {
+        const wishlistItems = await marketplaceApi.getWishlist();
+        const products = wishlistItems.map(item => item.product);
+        setWishlist(products);
+      } catch (error) {
+        console.error('Failed to fetch wishlist:', error);
         setWishlist([]);
       }
-    } catch (error) {
-      console.error('Failed to fetch wishlist:', error);
-      setWishlistId(null);
-      setWishlist([]);
-    }
-  };
-  initializeData();
-}, []);
+    };
+    initializeWishlist();
+  }, []);
 
   /**
    * Adds a product to the cart or increments its quantity if it already exists
    * @param {Product} product The product to add
    */
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
-  };
+ // Cart functions (to be synced with API)
+ const addToCart = (product: Product) => {
+  setCart(prevCart => {
+    const existingItem = prevCart.find(item => item.id === product.id);
+    if (existingItem) {
+      return prevCart.map(item =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+    }
+    return [...prevCart, { ...product, quantity: 1 }];
+  });
+};
 
   /**
    * Removes a product from the cart by its ID
    * @param {number} productId The ID of the product to remove
    */
   const removeFromCart = (productId: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+    setCart(prevCart => prevCart.filter(item => item.id !== productId));
   };
 
+  // Wishlist functions
   const addToWishlist = async (product: Product) => {
     try {
-      // Ensure we have a valid wishlist ID
-      if (!wishlistId) {
-        throw new Error('No wishlist available');
-      }
-
-      // Check if product is already in wishlist
-      if (wishlist.some(item => item.id === product.id)) {
-        return;
-      }
-
-      // Add product to wishlist via API
-      await addProductToWishlist(wishlistId, product.id);
-      
-      // Update local state
-      setWishlist(prevWishlist => [...prevWishlist, product]);
+      if (wishlist.some(item => item.id === product.id)) return;
+      await marketplaceApi.addToWishlist(product.id);
+      setWishlist(prev => [...prev, product]);
     } catch (error) {
       console.error('Failed to add to wishlist:', error);
       throw error;
@@ -175,37 +141,20 @@ useEffect(() => {
 
   const removeFromWishlist = async (productId: number) => {
     try {
-      // Ensure we have a valid wishlist ID
-      if (!wishlistId) {
-        throw new Error('No wishlist available');
-      }
-
-      // Remove product from wishlist via API
-      await removeProductFromWishlist(wishlistId, productId);
-      
-      // Update local state
-      setWishlist(prevWishlist => 
-        prevWishlist.filter(item => item.id !== productId)
-      );
+      await marketplaceApi.removeFromWishlist(productId);
+      setWishlist(prev => prev.filter(item => item.id !== productId));
     } catch (error) {
       console.error('Failed to remove from wishlist:', error);
       throw error;
     }
   };
 
+  // Checkout function
   const checkout = async () => {
     try {
-      const orderData = {
-        items: cart.map(item => ({
-          id: item.id,
-          product: { id: item.id, name: item.name, price: item.price, description: item.description }, // Corrected 'desciption' to 'description'
-          quantity: item.quantity,
-          price: item.price,
-        }))
-      };
-      await apiCreateOrder(orderData);
-      setCart([]); // Clear cart after successful checkout
-      // Notify websocket about order
+      // Example: Convert cart items to order and clear cart
+      // This should be replaced with actual API call to create an order
+      setCart([]);
       wsService?.send(WebSocketMessageType.ORDER_UPDATE, { status: 'created' });
     } catch (error) {
       console.error('Checkout failed:', error);
@@ -213,6 +162,7 @@ useEffect(() => {
     }
   };
 
+  
 
   const value = {
     cart,
@@ -221,9 +171,10 @@ useEffect(() => {
     removeFromCart,
     addToWishlist,
     removeFromWishlist,
-    wishlistId,
-    checkout
+    checkout,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
+
+

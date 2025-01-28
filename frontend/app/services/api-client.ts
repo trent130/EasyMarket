@@ -8,48 +8,49 @@ const apiClient: AxiosInstance = axios.create({
   },
 });
 
-// Add a request interceptor to add the auth token to requests
+// Request Interceptor: Add Bearer Token
 apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  (config) => {
     const token = localStorage.getItem('token');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },
-  (error: any) => {
-    return Promise.reject(error);
-  }
-
+  (error) => Promise.reject(error)
 );
 
-// Add a response interceptor to handle token refresh
+// Response Interceptor: Handle 401 and Refresh Tokens
 apiClient.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  async (error: any) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig;
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
-    // If the error is 401 and we haven't retried yet
-    if (error.response?.status === 401 && !originalRequest._sretry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      try {
-        const refreshToken = localStorage.getItem('refreshToken');
-        const response = await axios.post<{ access: string }>('/marketplace/api/token/refresh/', {
-          refresh: refreshToken,
-        });
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (!refreshToken) {
+        console.warn('No refresh token. Redirecting to login.');
+        handleLogout();
+        return Promise.reject(error);
+      }
 
-        const { access } = response;
+      try {
+        const response = await axios.post<{ access: string }>(
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/marketplace/api/token/refresh/`,
+          { refresh: refreshToken }
+        );
+
+        const { access } = response.data;
         localStorage.setItem('token', access);
 
-        // Retry the original request with the new token
-        originalRequest.headers.Authorization = `Bearer ${access}`;
+        // Retry original request
+        originalRequest.headers['Authorization'] = `Bearer ${access}`;
         return apiClient(originalRequest);
       } catch (refreshError) {
-        // If refresh token fails, logout user
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        window.location.href = '/marketplace/signin/';
+        console.error('Token refresh failed. Redirecting to login.', refreshError);
+        handleLogout();
         return Promise.reject(refreshError);
       }
     }
@@ -57,5 +58,12 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Utility: Handle Logout
+function handleLogout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
+  window.location.href = '/auth/signin/';
+}
 
 export default apiClient;

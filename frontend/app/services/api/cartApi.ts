@@ -1,20 +1,8 @@
 import { fetchWrapper } from '../../utils/fetchWrapper';
 import { Product } from '../../types/common';
+import { Cart } from '@/types/api';
 
-interface CartItem {
-    id: number;
-    product: Product;
-    quantity: number;
-    price: number;
-}
 
-interface Cart {
-    id: number;
-    items: CartItem[];
-    totalItems: number;
-    totalAmount: number;
-    userId: number;
-}
 
 export const cartApi = {
     getCart: () => 

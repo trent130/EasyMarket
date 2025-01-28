@@ -12,14 +12,15 @@ export interface CartItem {
   id: number;
   product: Product;
   quantity: number;
-  cart: number;
+  price: number;
 }
 
 export interface Cart {
   id: number;
   items: CartItem[];
-  total: number;
-  user: number;
+  totalItems: number;
+  totalAmount: number;
+  userId: number;
 }
 
 export interface WishlistItem {

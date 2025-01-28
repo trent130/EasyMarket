@@ -4,20 +4,9 @@ import  { Product }  from '../../types/product'; // Ensure correct import
 // import { MarketplaceListing } from '../../types/marketplace';
 import { ApiError, WishlistItem } from '../../types/api';
 import { Category, Review, CartItem }  from '../../types/marketplace';
+import { handleApiError } from '@/utils/errorHandling';
 
-// Error handler
-const handleApiError = (error: { response?: { data?: { message?: string }; status?: number } }): never => {
-  const apiError: ApiError = {
-    message: error.response?.data?.message || 'An error occurred',
-    status: error.response?.status || 500
-  };
 
-  if(isApiError(error)) {
-    apiError.message = error.response?.data?.message || 'An error occurred';
-    apiError.status = error.response?.status || apiError.status;
-  }
-  throw apiError;
-};
 
 /**
  * Checks if an error is an ApiError.
@@ -31,12 +20,9 @@ const isApiError = (error: unknown): error is { response?: { data?: { message?: 
 
 export const marketplaceApi = {
   // Categories
-  getCategories: async (params?: {
-    parent_id?: number;
-    include_children?: boolean;
-  }) => {
+  getCategories: async (params?: { parent_id?: number; include_children?: boolean }) => {
     const response = await apiClient.get<Category[]>('/marketplace/categories/', { params });
-    return response; // Adjusted to return the correct data structure
+    return response.data; // Return only the data
   },
 
   getCategoryDetails: async (slug: string) => {
@@ -44,67 +30,48 @@ export const marketplaceApi = {
       subcategories: Category[];
       featured_products: Product[];
     }>(`/marketplace/categories/${slug}/`);
-    return response; // Adjusted to return the correct data structure
+    return response.data; // Return only the data
   },
+
 
   // Wishlist
   getWishlist: async (): Promise<WishlistItem[]> => {
     try {
       const response = await apiClient.get<WishlistItem[]>('/marketplace/api/wishlist/');
-      return response;
+      return response.data; // Fix return type
     } catch (error) {
-      if (isApiError(error)) {
-        throw handleApiError(error);
-      } else {
-        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-      }
+      handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } }); // Centralized error handling
     }
   },
 
   addToWishlist: async (productId: number): Promise<WishlistItem> => {
     try {
-      const response = await apiClient.post<WishlistItem>('/marketplace/api/wishlist/productId/add/', { product_id: productId });
-      return response;
+      const response = await apiClient.post<WishlistItem>(`/marketplace/api/wishlist/${productId}/add/`);
+      return response.data;
     } catch (error) {
-      if (isApiError(error)) {
-        throw handleApiError(error);
-      } else {
-        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-      }
+      handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
     }
   },
 
   removeFromWishlist: async (productId: number): Promise<void> => {
     try {
-      await apiClient.post('/marketplace/api/wishlist/productId/remove/', { product_id: productId });
+      await apiClient.post(`/marketplace/api/wishlist/${productId}/remove/`);
     } catch (error) {
-      if (isApiError(error)) {
-        throw handleApiError(error);
-      } else {
-        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-      }
+      handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
     }
   },
 
   // Cart
-  getCart: async (): Promise<{
-    items: CartItem[];
-    total_items: number;
-    total_amount: number;
-  }> => {
+  getCart: async () => {
     try {
       const response = await apiClient.get<{
         items: CartItem[];
         total_items: number;
         total_amount: number;
       }>('/marketplace/cart/');
-      return response;
+      return response.data;
     } catch (error) {
-      if (isApiError(error)) {
-        throw handleApiError(error);
-      } else {
-        throw handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
-      }
+      handleApiError({ response: { data: { message: 'Unexpected error occurred' }, status: 500 } });
     }
   },
 

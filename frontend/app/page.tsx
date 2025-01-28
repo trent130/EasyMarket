@@ -21,13 +21,13 @@ import {
   fetchTrendingProducts,
 } from "./services/api/products";
 import ProductCard from "./components/Product/ProductCard";
-import type { ProductBase } from "./types/product";
+import type { Product } from "./types/product";
 import Footer from "./components/Footer";
 // import { Height } from '@mui/icons-material';
 
 export default function HomePage() {
-  const [featuredProducts, setFeaturedProducts] = useState<ProductBase[]>([]);
-  const [trendingProducts, setTrendingProducts] = useState<ProductBase[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [trendingProducts, setTrendingProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -248,7 +248,7 @@ export default function HomePage() {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-blue-600 text-white py-16">
+      <section className=" text-black py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Start Buying and Selling Today
@@ -267,7 +267,7 @@ export default function HomePage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="text-white border-white"
+                className="text-black border-black"
               >
                 Browse Marketplace
               </Button>
