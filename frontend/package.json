@@ -17,7 +17,6 @@
     "@mui/icons-material": "^6.1.8",
     "@mui/material": "^6.1.8",
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@next/font": "^14.2.15",
     "@prisma/client": "^6.0.0",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-alert-dialog": "^1.1.2",
@@ -90,6 +89,7 @@
     "zod": "^3.23.8",
     "zxcvbn": "^4.4.2"
   },
+  "type": "module",
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.2",
@@ -98,10 +98,8 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/react-google-recaptcha": "^2.1.9",
-    "@types/tailwindcss": "^3.0.11",
     "@types/uuid": "^10.0.0",
     "@types/zxcvbn": "^4.4.5",
-    "autoprefixer": "^10.4.20",
     "axios": "^1.7.8",
     "eslint-config-next": "15.1.6",
     "postcss": "^8.5.1",

@@ -1,7 +1,6 @@
 'use client'
 
-import './globals.css'
-// import { Inter } from 'next/font/google'
+import './globals.css';
 import { SessionProvider } from 'next-auth/react'
 import Navigation from './components/Navigation'
 import { AppProvider } from './AppContext'
@@ -9,8 +8,6 @@ import { Providers } from './providers'
 import Layout from './components/Layout'
 import DashboardLayout from './components/DashboardLayout'
 import { usePathname } from 'next/navigation';
-
-// const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
   children,
@@ -38,7 +35,7 @@ export default function RootLayout({
                 ) : (
                   <Layout>{children}</Layout>
                 )}
-              </main>
+              </main> 
             </AppProvider>
           </Providers>
         </SessionProvider>

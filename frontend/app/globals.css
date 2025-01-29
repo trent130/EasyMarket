@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/preflight";
+@import "tailwindcss";
+/* @import "./typography.css"; */
 
 
 :root {
@@ -92,12 +92,12 @@ body {
   }
 }
 
-@layer base {
+@layer components {
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground bg-background;
   }
 }
 
