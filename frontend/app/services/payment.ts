@@ -50,7 +50,7 @@ export const paymentService = {
       const response = await apiClient.post<PaymentResponse>('/payment/api/payment/verify/', data);
       return response.data;
     } catch (error: any) {
-i      throw new Error(error.response?.data?.error || ERROR_MESSAGES.VERIFICATION_FAILED);
+   throw new Error(error.response?.data?.error || ERROR_MESSAGES.VERIFICATION_FAILED);
     }
   },
 
