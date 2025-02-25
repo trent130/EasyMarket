@@ -6886,3 +6886,1459 @@ WARNING 2025-02-25 04:12:38,924 log Not Found: /static/rest_framework/js/load-aj
 WARNING 2025-02-25 04:12:39,225 log Not Found: /favicon.ico
 WARNING 2025-02-25 04:27:12,105 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-02-25 04:43:38,666 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 14:35:10,554 log Unauthorized: /marketplace/api/wishlist/
+ERROR 2025-02-25 14:35:10,704 log Internal Server Error: /products/api/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: products_product
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 282, in trending
+    response_data = serializer.data
+                    ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 400, in __iter__
+    self._fetch_all()
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: products_product
+ERROR 2025-02-25 14:35:10,706 log Internal Server Error: /products/api/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: products_product
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 253, in featured
+    response_data = serializer.data
+                    ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/serializers.py", line 795, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/serializers.py", line 249, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/serializers.py", line 713, in to_representation
+    return [
+           ^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 400, in __iter__
+    self._fetch_all()
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: products_product
+WARNING 2025-02-25 14:35:37,575 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 14:35:57,697 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 14:36:22,086 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 14:51:59,948 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 14:51:59,949 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 14:52:19,251 log Unauthorized: /marketplace/api/wishlist/
+ERROR 2025-02-25 14:52:47,083 log Internal Server Error: /marketplace/signup/
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: auth_user
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/marketplace/views_auth.py", line 80, in signup
+    if User.objects.filter(username=username).exists():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 1288, in exists
+    return self.query.has_results(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/sql/query.py", line 660, in has_results
+    return compiler.has_results()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1542, in has_results
+    return bool(self.execute_sql(SINGLE))
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: auth_user
+DEBUG 2025-02-25 14:54:47,038 schema CREATE TABLE "django_migrations" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "app" varchar(255) NOT NULL, "name" varchar(255) NOT NULL, "applied" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,048 schema CREATE TABLE "django_content_type" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(100) NOT NULL, "app_label" varchar(100) NOT NULL, "model" varchar(100) NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,052 schema CREATE UNIQUE INDEX "django_content_type_app_label_model_76bd3d3b_uniq" ON "django_content_type" ("app_label", "model"); (params ())
+DEBUG 2025-02-25 14:54:47,071 schema CREATE TABLE "auth_permission" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(50) NOT NULL, "content_type_id" integer NOT NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "codename" varchar(100) NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,077 schema CREATE TABLE "auth_group" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(80) NOT NULL UNIQUE); (params None)
+DEBUG 2025-02-25 14:54:47,078 schema CREATE TABLE "auth_group_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED, "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,085 schema CREATE TABLE "auth_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NOT NULL, "is_superuser" bool NOT NULL, "username" varchar(30) NOT NULL UNIQUE, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "email" varchar(75) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,087 schema CREATE TABLE "auth_user_groups" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED, "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,093 schema CREATE TABLE "auth_user_user_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED, "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,094 schema CREATE UNIQUE INDEX "auth_permission_content_type_id_codename_01ab375a_uniq" ON "auth_permission" ("content_type_id", "codename"); (params None)
+DEBUG 2025-02-25 14:54:47,094 schema CREATE INDEX "auth_permission_content_type_id_2f476e4b" ON "auth_permission" ("content_type_id"); (params None)
+DEBUG 2025-02-25 14:54:47,094 schema CREATE UNIQUE INDEX "auth_group_permissions_group_id_permission_id_0cd325b0_uniq" ON "auth_group_permissions" ("group_id", "permission_id"); (params None)
+DEBUG 2025-02-25 14:54:47,094 schema CREATE INDEX "auth_group_permissions_group_id_b120cbf9" ON "auth_group_permissions" ("group_id"); (params None)
+DEBUG 2025-02-25 14:54:47,095 schema CREATE INDEX "auth_group_permissions_permission_id_84c5c92e" ON "auth_group_permissions" ("permission_id"); (params None)
+DEBUG 2025-02-25 14:54:47,095 schema CREATE UNIQUE INDEX "auth_user_groups_user_id_group_id_94350c0c_uniq" ON "auth_user_groups" ("user_id", "group_id"); (params None)
+DEBUG 2025-02-25 14:54:47,096 schema CREATE INDEX "auth_user_groups_user_id_6a12ed8b" ON "auth_user_groups" ("user_id"); (params None)
+DEBUG 2025-02-25 14:54:47,097 schema CREATE INDEX "auth_user_groups_group_id_97559544" ON "auth_user_groups" ("group_id"); (params None)
+DEBUG 2025-02-25 14:54:47,097 schema CREATE UNIQUE INDEX "auth_user_user_permissions_user_id_permission_id_14a6b632_uniq" ON "auth_user_user_permissions" ("user_id", "permission_id"); (params None)
+DEBUG 2025-02-25 14:54:47,100 schema CREATE INDEX "auth_user_user_permissions_user_id_a95ead1b" ON "auth_user_user_permissions" ("user_id"); (params None)
+DEBUG 2025-02-25 14:54:47,100 schema CREATE INDEX "auth_user_user_permissions_permission_id_1fbb5f2c" ON "auth_user_user_permissions" ("permission_id"); (params None)
+DEBUG 2025-02-25 14:54:47,160 schema CREATE TABLE "django_admin_log" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "action_time" datetime NOT NULL, "object_id" text NULL, "object_repr" varchar(200) NOT NULL, "action_flag" smallint unsigned NOT NULL CHECK ("action_flag" >= 0), "change_message" text NOT NULL, "content_type_id" integer NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,162 schema CREATE INDEX "django_admin_log_content_type_id_c4bce8eb" ON "django_admin_log" ("content_type_id"); (params None)
+DEBUG 2025-02-25 14:54:47,162 schema CREATE INDEX "django_admin_log_user_id_c564eba6" ON "django_admin_log" ("user_id"); (params None)
+DEBUG 2025-02-25 14:54:47,223 schema CREATE TABLE "new__django_admin_log" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "object_id" text NULL, "object_repr" varchar(200) NOT NULL, "action_flag" smallint unsigned NOT NULL CHECK ("action_flag" >= 0), "change_message" text NOT NULL, "content_type_id" integer NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED, "action_time" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,229 schema INSERT INTO "new__django_admin_log" ("id", "object_id", "object_repr", "action_flag", "change_message", "content_type_id", "user_id", "action_time") SELECT "id", "object_id", "object_repr", "action_flag", "change_message", "content_type_id", "user_id", "action_time" FROM "django_admin_log"; (params ())
+DEBUG 2025-02-25 14:54:47,231 schema DROP TABLE "django_admin_log"; (params ())
+DEBUG 2025-02-25 14:54:47,232 schema ALTER TABLE "new__django_admin_log" RENAME TO "django_admin_log"; (params ())
+DEBUG 2025-02-25 14:54:47,234 schema CREATE INDEX "django_admin_log_content_type_id_c4bce8eb" ON "django_admin_log" ("content_type_id"); (params ())
+DEBUG 2025-02-25 14:54:47,238 schema CREATE INDEX "django_admin_log_user_id_c564eba6" ON "django_admin_log" ("user_id"); (params ())
+DEBUG 2025-02-25 14:54:47,292 schema CREATE TABLE "new__django_content_type" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "app_label" varchar(100) NOT NULL, "model" varchar(100) NOT NULL, "name" varchar(100) NULL); (params None)
+DEBUG 2025-02-25 14:54:47,294 schema INSERT INTO "new__django_content_type" ("id", "app_label", "model", "name") SELECT "id", "app_label", "model", "name" FROM "django_content_type"; (params ())
+DEBUG 2025-02-25 14:54:47,294 schema DROP TABLE "django_content_type"; (params ())
+DEBUG 2025-02-25 14:54:47,295 schema ALTER TABLE "new__django_content_type" RENAME TO "django_content_type"; (params ())
+DEBUG 2025-02-25 14:54:47,296 schema CREATE UNIQUE INDEX "django_content_type_app_label_model_76bd3d3b_uniq" ON "django_content_type" ("app_label", "model"); (params ())
+DEBUG 2025-02-25 14:54:47,311 schema ALTER TABLE "django_content_type" DROP COLUMN "name"; (params ())
+DEBUG 2025-02-25 14:54:47,333 schema CREATE TABLE "new__auth_permission" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content_type_id" integer NOT NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "codename" varchar(100) NOT NULL, "name" varchar(255) NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,334 schema INSERT INTO "new__auth_permission" ("id", "content_type_id", "codename", "name") SELECT "id", "content_type_id", "codename", "name" FROM "auth_permission"; (params ())
+DEBUG 2025-02-25 14:54:47,334 schema DROP TABLE "auth_permission"; (params ())
+DEBUG 2025-02-25 14:54:47,339 schema ALTER TABLE "new__auth_permission" RENAME TO "auth_permission"; (params ())
+DEBUG 2025-02-25 14:54:47,341 schema CREATE UNIQUE INDEX "auth_permission_content_type_id_codename_01ab375a_uniq" ON "auth_permission" ("content_type_id", "codename"); (params ())
+DEBUG 2025-02-25 14:54:47,341 schema CREATE INDEX "auth_permission_content_type_id_2f476e4b" ON "auth_permission" ("content_type_id"); (params ())
+DEBUG 2025-02-25 14:54:47,363 schema CREATE TABLE "new__auth_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NOT NULL, "is_superuser" bool NOT NULL, "username" varchar(30) NOT NULL UNIQUE, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "email" varchar(254) NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,364 schema INSERT INTO "new__auth_user" ("id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "is_staff", "is_active", "date_joined", "email") SELECT "id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "is_staff", "is_active", "date_joined", "email" FROM "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,364 schema DROP TABLE "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,365 schema ALTER TABLE "new__auth_user" RENAME TO "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,402 schema CREATE TABLE "new__auth_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "is_superuser" bool NOT NULL, "username" varchar(30) NOT NULL UNIQUE, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "last_login" datetime NULL); (params None)
+DEBUG 2025-02-25 14:54:47,402 schema INSERT INTO "new__auth_user" ("id", "password", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "last_login") SELECT "id", "password", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "last_login" FROM "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,403 schema DROP TABLE "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,404 schema ALTER TABLE "new__auth_user" RENAME TO "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,448 schema CREATE TABLE "new__auth_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "username" varchar(150) NOT NULL UNIQUE); (params None)
+DEBUG 2025-02-25 14:54:47,449 schema INSERT INTO "new__auth_user" ("id", "password", "last_login", "is_superuser", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "username") SELECT "id", "password", "last_login", "is_superuser", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "username" FROM "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,449 schema DROP TABLE "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,449 schema ALTER TABLE "new__auth_user" RENAME TO "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,464 schema CREATE TABLE "new__auth_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "first_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "last_name" varchar(150) NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,465 schema INSERT INTO "new__auth_user" ("id", "password", "last_login", "is_superuser", "username", "first_name", "email", "is_staff", "is_active", "date_joined", "last_name") SELECT "id", "password", "last_login", "is_superuser", "username", "first_name", "email", "is_staff", "is_active", "date_joined", "last_name" FROM "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,465 schema DROP TABLE "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,465 schema ALTER TABLE "new__auth_user" RENAME TO "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,495 schema CREATE TABLE "new__auth_group" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(150) NOT NULL UNIQUE); (params None)
+DEBUG 2025-02-25 14:54:47,497 schema INSERT INTO "new__auth_group" ("id", "name") SELECT "id", "name" FROM "auth_group"; (params ())
+DEBUG 2025-02-25 14:54:47,499 schema DROP TABLE "auth_group"; (params ())
+DEBUG 2025-02-25 14:54:47,499 schema ALTER TABLE "new__auth_group" RENAME TO "auth_group"; (params ())
+DEBUG 2025-02-25 14:54:47,540 schema CREATE TABLE "new__auth_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "last_name" varchar(150) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "first_name" varchar(150) NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,542 schema INSERT INTO "new__auth_user" ("id", "password", "last_login", "is_superuser", "username", "last_name", "email", "is_staff", "is_active", "date_joined", "first_name") SELECT "id", "password", "last_login", "is_superuser", "username", "last_name", "email", "is_staff", "is_active", "date_joined", "first_name" FROM "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,544 schema DROP TABLE "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,545 schema ALTER TABLE "new__auth_user" RENAME TO "auth_user"; (params ())
+DEBUG 2025-02-25 14:54:47,562 schema CREATE TABLE "django_daraja_accesstoken" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "token" varchar(30) NOT NULL, "created_at" date NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,576 schema CREATE TABLE "new__django_daraja_accesstoken" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "token" varchar(30) NOT NULL, "created_at" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,577 schema INSERT INTO "new__django_daraja_accesstoken" ("id", "token", "created_at") SELECT "id", "token", "created_at" FROM "django_daraja_accesstoken"; (params ())
+DEBUG 2025-02-25 14:54:47,577 schema DROP TABLE "django_daraja_accesstoken"; (params ())
+DEBUG 2025-02-25 14:54:47,578 schema ALTER TABLE "new__django_daraja_accesstoken" RENAME TO "django_daraja_accesstoken"; (params ())
+DEBUG 2025-02-25 14:54:47,586 schema CREATE TABLE "new__django_daraja_accesstoken" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "token" varchar(30) NOT NULL, "created_at" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,587 schema INSERT INTO "new__django_daraja_accesstoken" ("token", "created_at", "id") SELECT "token", "created_at", "id" FROM "django_daraja_accesstoken"; (params ())
+DEBUG 2025-02-25 14:54:47,587 schema DROP TABLE "django_daraja_accesstoken"; (params ())
+DEBUG 2025-02-25 14:54:47,587 schema ALTER TABLE "new__django_daraja_accesstoken" RENAME TO "django_daraja_accesstoken"; (params ())
+DEBUG 2025-02-25 14:54:47,599 schema CREATE TABLE "custom_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "first_name" varchar(150) NOT NULL, "last_name" varchar(150) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "is_basic" bool NOT NULL, "is_legacy" bool NOT NULL, "is_admin" bool NOT NULL, "is_students" bool NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,601 schema CREATE TABLE "marketplace_message" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content" text NOT NULL, "timestamp" datetime NOT NULL, "read" bool NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,604 schema CREATE TABLE "marketplace_reaction" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reaction_type" varchar(10) NOT NULL, "created_at" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,607 schema CREATE TABLE "marketplace_review" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "rating" integer unsigned NOT NULL CHECK ("rating" >= 0), "comment" text NOT NULL, "timestamp" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,610 schema CREATE TABLE "marketplace_student" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "first_name" varchar(50) NOT NULL, "last_name" varchar(50) NOT NULL, "email" varchar(50) NOT NULL UNIQUE, "bio" text NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,614 schema CREATE TABLE "marketplace_userprofile" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "avatar" varchar(100) NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,615 schema CREATE TABLE "marketplace_wishlist" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "auto_now" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,629 schema CREATE TABLE "marketplace_cart" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "slug" varchar(50) NOT NULL, "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,637 schema CREATE TABLE "marketplace_cartitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "added_at" datetime NOT NULL, "cart_id" bigint NOT NULL REFERENCES "marketplace_cart" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,638 schema CREATE INDEX "marketplace_cart_slug_9f54ab98" ON "marketplace_cart" ("slug"); (params None)
+DEBUG 2025-02-25 14:54:47,639 schema CREATE INDEX "marketplace_cartitem_cart_id_524937bc" ON "marketplace_cartitem" ("cart_id"); (params None)
+DEBUG 2025-02-25 14:54:47,662 schema CREATE TABLE "products_category" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(50) NOT NULL UNIQUE, "description" text NOT NULL, "image" varchar(100) NULL, "slug" varchar(60) NOT NULL UNIQUE, "is_active" bool NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,664 schema CREATE TABLE "products_productvariant" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(100) NOT NULL, "sku" varchar(50) NOT NULL UNIQUE, "price_adjustment" decimal NOT NULL, "stock" integer unsigned NOT NULL CHECK ("stock" >= 0), "reserved_stock" integer unsigned NOT NULL CHECK ("reserved_stock" >= 0), "is_active" bool NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:47,671 schema CREATE TABLE "products_product" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(100) NOT NULL, "description" text NOT NULL, "price" decimal NOT NULL, "condition" varchar(10) NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "is_active" bool NOT NULL, "image" varchar(100) NOT NULL, "slug" varchar(200) NOT NULL UNIQUE, "stock" integer unsigned NOT NULL CHECK ("stock" >= 0), "reserved_stock" integer unsigned NOT NULL CHECK ("reserved_stock" >= 0), "views_count" integer unsigned NOT NULL CHECK ("views_count" >= 0), "featured" bool NOT NULL, "last_stock_update" datetime NOT NULL, "total_sales" integer unsigned NOT NULL CHECK ("total_sales" >= 0), "total_revenue" decimal NOT NULL, "last_sale_date" datetime NULL, "category_id" bigint NOT NULL REFERENCES "products_category" ("id") DEFERRABLE INITIALLY DEFERRED, "student_id" bigint NOT NULL REFERENCES "marketplace_student" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,672 schema CREATE TABLE "products_product_variants" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED, "productvariant_id" bigint NOT NULL REFERENCES "products_productvariant" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,676 schema CREATE INDEX "products_product_category_id_9b594869" ON "products_product" ("category_id"); (params None)
+DEBUG 2025-02-25 14:54:47,678 schema CREATE INDEX "products_product_student_id_809a8569" ON "products_product" ("student_id"); (params None)
+DEBUG 2025-02-25 14:54:47,678 schema CREATE INDEX "products_pr_title_7d8124_idx" ON "products_product" ("title"); (params None)
+DEBUG 2025-02-25 14:54:47,679 schema CREATE INDEX "products_pr_slug_3edc0c_idx" ON "products_product" ("slug"); (params None)
+DEBUG 2025-02-25 14:54:47,679 schema CREATE INDEX "products_pr_created_52f0d7_idx" ON "products_product" ("created_at"); (params None)
+DEBUG 2025-02-25 14:54:47,680 schema CREATE INDEX "products_pr_price_9b1a5f_idx" ON "products_product" ("price"); (params None)
+DEBUG 2025-02-25 14:54:47,680 schema CREATE INDEX "products_pr_stock_4d23d5_idx" ON "products_product" ("stock"); (params None)
+DEBUG 2025-02-25 14:54:47,680 schema CREATE UNIQUE INDEX "products_product_variants_product_id_productvariant_id_d0bc89f3_uniq" ON "products_product_variants" ("product_id", "productvariant_id"); (params None)
+DEBUG 2025-02-25 14:54:47,680 schema CREATE INDEX "products_product_variants_product_id_e4bf0043" ON "products_product_variants" ("product_id"); (params None)
+DEBUG 2025-02-25 14:54:47,680 schema CREATE INDEX "products_product_variants_productvariant_id_128b2c64" ON "products_product_variants" ("productvariant_id"); (params None)
+DEBUG 2025-02-25 14:54:47,721 schema CREATE TABLE "new__marketplace_cartitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "added_at" datetime NOT NULL, "cart_id" bigint NOT NULL REFERENCES "marketplace_cart" ("id") DEFERRABLE INITIALLY DEFERRED, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,722 schema INSERT INTO "new__marketplace_cartitem" ("id", "quantity", "added_at", "cart_id", "product_id") SELECT "id", "quantity", "added_at", "cart_id", NULL FROM "marketplace_cartitem"; (params ())
+DEBUG 2025-02-25 14:54:47,724 schema DROP TABLE "marketplace_cartitem"; (params ())
+DEBUG 2025-02-25 14:54:47,724 schema ALTER TABLE "new__marketplace_cartitem" RENAME TO "marketplace_cartitem"; (params ())
+DEBUG 2025-02-25 14:54:47,726 schema CREATE INDEX "marketplace_cartitem_cart_id_524937bc" ON "marketplace_cartitem" ("cart_id"); (params ())
+DEBUG 2025-02-25 14:54:47,726 schema CREATE INDEX "marketplace_cartitem_product_id_e85a97af" ON "marketplace_cartitem" ("product_id"); (params ())
+DEBUG 2025-02-25 14:54:47,746 schema CREATE TABLE "new__marketplace_cart" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "slug" varchar(50) NOT NULL, "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,747 schema INSERT INTO "new__marketplace_cart" ("id", "created_at", "updated_at", "slug", "user_id") SELECT "id", "created_at", "updated_at", "slug", "user_id" FROM "marketplace_cart"; (params ())
+DEBUG 2025-02-25 14:54:47,747 schema DROP TABLE "marketplace_cart"; (params ())
+DEBUG 2025-02-25 14:54:47,747 schema ALTER TABLE "new__marketplace_cart" RENAME TO "marketplace_cart"; (params ())
+DEBUG 2025-02-25 14:54:47,749 schema CREATE INDEX "marketplace_cart_slug_9f54ab98" ON "marketplace_cart" ("slug"); (params ())
+DEBUG 2025-02-25 14:54:47,807 schema CREATE TABLE "custom_user_groups" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "customuser_id" bigint NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED, "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,838 schema CREATE TABLE "custom_user_user_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "customuser_id" bigint NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED, "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,865 schema CREATE TABLE "new__marketplace_message" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content" text NOT NULL, "timestamp" datetime NOT NULL, "read" bool NOT NULL, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,866 schema INSERT INTO "new__marketplace_message" ("id", "content", "timestamp", "read", "user_id") SELECT "id", "content", "timestamp", "read", NULL FROM "marketplace_message"; (params ())
+DEBUG 2025-02-25 14:54:47,866 schema DROP TABLE "marketplace_message"; (params ())
+DEBUG 2025-02-25 14:54:47,866 schema ALTER TABLE "new__marketplace_message" RENAME TO "marketplace_message"; (params ())
+DEBUG 2025-02-25 14:54:47,868 schema CREATE UNIQUE INDEX "custom_user_groups_customuser_id_group_id_ea14f886_uniq" ON "custom_user_groups" ("customuser_id", "group_id"); (params ())
+DEBUG 2025-02-25 14:54:47,869 schema CREATE INDEX "custom_user_groups_customuser_id_8e3d0338" ON "custom_user_groups" ("customuser_id"); (params ())
+DEBUG 2025-02-25 14:54:47,870 schema CREATE INDEX "custom_user_groups_group_id_02874f21" ON "custom_user_groups" ("group_id"); (params ())
+DEBUG 2025-02-25 14:54:47,870 schema CREATE UNIQUE INDEX "custom_user_user_permissions_customuser_id_permission_id_f9232336_uniq" ON "custom_user_user_permissions" ("customuser_id", "permission_id"); (params ())
+DEBUG 2025-02-25 14:54:47,870 schema CREATE INDEX "custom_user_user_permissions_customuser_id_ec2da4cb" ON "custom_user_user_permissions" ("customuser_id"); (params ())
+DEBUG 2025-02-25 14:54:47,871 schema CREATE INDEX "custom_user_user_permissions_permission_id_f82b5e3f" ON "custom_user_user_permissions" ("permission_id"); (params ())
+DEBUG 2025-02-25 14:54:47,871 schema CREATE INDEX "marketplace_message_user_id_38f1bce8" ON "marketplace_message" ("user_id"); (params ())
+DEBUG 2025-02-25 14:54:47,895 schema ALTER TABLE "marketplace_reaction" ADD COLUMN "message_id" bigint NULL REFERENCES "marketplace_message" ("id") DEFERRABLE INITIALLY DEFERRED; (params None)
+DEBUG 2025-02-25 14:54:47,916 schema CREATE TABLE "new__marketplace_reaction" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reaction_type" varchar(10) NOT NULL, "created_at" datetime NOT NULL, "message_id" bigint NULL REFERENCES "marketplace_message" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,916 schema INSERT INTO "new__marketplace_reaction" ("id", "reaction_type", "created_at", "message_id", "user_id") SELECT "id", "reaction_type", "created_at", "message_id", NULL FROM "marketplace_reaction"; (params ())
+DEBUG 2025-02-25 14:54:47,916 schema DROP TABLE "marketplace_reaction"; (params ())
+DEBUG 2025-02-25 14:54:47,917 schema ALTER TABLE "new__marketplace_reaction" RENAME TO "marketplace_reaction"; (params ())
+DEBUG 2025-02-25 14:54:47,920 schema CREATE INDEX "marketplace_reaction_message_id_4230c617" ON "marketplace_reaction" ("message_id"); (params ())
+DEBUG 2025-02-25 14:54:47,921 schema CREATE INDEX "marketplace_reaction_user_id_11cd74a7" ON "marketplace_reaction" ("user_id"); (params ())
+DEBUG 2025-02-25 14:54:47,945 schema CREATE TABLE "new__marketplace_review" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "rating" integer unsigned NOT NULL CHECK ("rating" >= 0), "comment" text NOT NULL, "timestamp" datetime NOT NULL, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,945 schema INSERT INTO "new__marketplace_review" ("id", "rating", "comment", "timestamp", "product_id") SELECT "id", "rating", "comment", "timestamp", NULL FROM "marketplace_review"; (params ())
+DEBUG 2025-02-25 14:54:47,946 schema DROP TABLE "marketplace_review"; (params ())
+DEBUG 2025-02-25 14:54:47,946 schema ALTER TABLE "new__marketplace_review" RENAME TO "marketplace_review"; (params ())
+DEBUG 2025-02-25 14:54:47,947 schema CREATE INDEX "marketplace_review_product_id_7cfa7df8" ON "marketplace_review" ("product_id"); (params ())
+DEBUG 2025-02-25 14:54:47,969 schema CREATE TABLE "new__marketplace_review" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "rating" integer unsigned NOT NULL CHECK ("rating" >= 0), "comment" text NOT NULL, "timestamp" datetime NOT NULL, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED, "reviewer_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,970 schema INSERT INTO "new__marketplace_review" ("id", "rating", "comment", "timestamp", "product_id", "reviewer_id") SELECT "id", "rating", "comment", "timestamp", "product_id", NULL FROM "marketplace_review"; (params ())
+DEBUG 2025-02-25 14:54:47,970 schema DROP TABLE "marketplace_review"; (params ())
+DEBUG 2025-02-25 14:54:47,970 schema ALTER TABLE "new__marketplace_review" RENAME TO "marketplace_review"; (params ())
+DEBUG 2025-02-25 14:54:47,973 schema CREATE INDEX "marketplace_review_product_id_7cfa7df8" ON "marketplace_review" ("product_id"); (params ())
+DEBUG 2025-02-25 14:54:47,973 schema CREATE INDEX "marketplace_review_reviewer_id_b90e91d7" ON "marketplace_review" ("reviewer_id"); (params ())
+DEBUG 2025-02-25 14:54:47,996 schema CREATE TABLE "new__marketplace_student" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "first_name" varchar(50) NOT NULL, "last_name" varchar(50) NOT NULL, "email" varchar(50) NOT NULL UNIQUE, "bio" text NOT NULL, "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:47,998 schema INSERT INTO "new__marketplace_student" ("id", "first_name", "last_name", "email", "bio", "user_id") SELECT "id", "first_name", "last_name", "email", "bio", NULL FROM "marketplace_student"; (params ())
+DEBUG 2025-02-25 14:54:47,999 schema DROP TABLE "marketplace_student"; (params ())
+DEBUG 2025-02-25 14:54:47,999 schema ALTER TABLE "new__marketplace_student" RENAME TO "marketplace_student"; (params ())
+DEBUG 2025-02-25 14:54:48,020 schema CREATE TABLE "new__marketplace_userprofile" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "avatar" varchar(100) NOT NULL, "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:48,020 schema INSERT INTO "new__marketplace_userprofile" ("id", "avatar", "user_id") SELECT "id", "avatar", NULL FROM "marketplace_userprofile"; (params ())
+DEBUG 2025-02-25 14:54:48,020 schema DROP TABLE "marketplace_userprofile"; (params ())
+DEBUG 2025-02-25 14:54:48,021 schema ALTER TABLE "new__marketplace_userprofile" RENAME TO "marketplace_userprofile"; (params ())
+DEBUG 2025-02-25 14:54:48,047 schema CREATE TABLE "marketplace_wishlist_products" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "wishlist_id" bigint NOT NULL REFERENCES "marketplace_wishlist" ("id") DEFERRABLE INITIALLY DEFERRED, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:48,078 schema CREATE TABLE "new__marketplace_wishlist" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "auto_now" datetime NOT NULL, "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:48,078 schema INSERT INTO "new__marketplace_wishlist" ("id", "auto_now", "user_id") SELECT "id", "auto_now", NULL FROM "marketplace_wishlist"; (params ())
+DEBUG 2025-02-25 14:54:48,078 schema DROP TABLE "marketplace_wishlist"; (params ())
+DEBUG 2025-02-25 14:54:48,079 schema ALTER TABLE "new__marketplace_wishlist" RENAME TO "marketplace_wishlist"; (params ())
+DEBUG 2025-02-25 14:54:48,080 schema CREATE UNIQUE INDEX "marketplace_wishlist_products_wishlist_id_product_id_e42179d6_uniq" ON "marketplace_wishlist_products" ("wishlist_id", "product_id"); (params ())
+DEBUG 2025-02-25 14:54:48,080 schema CREATE INDEX "marketplace_wishlist_products_wishlist_id_42682988" ON "marketplace_wishlist_products" ("wishlist_id"); (params ())
+DEBUG 2025-02-25 14:54:48,080 schema CREATE INDEX "marketplace_wishlist_products_product_id_f7c9b021" ON "marketplace_wishlist_products" ("product_id"); (params ())
+DEBUG 2025-02-25 14:54:48,095 schema CREATE UNIQUE INDEX "marketplace_review_product_id_reviewer_id_e5936e60_uniq" ON "marketplace_review" ("product_id", "reviewer_id"); (params ())
+DEBUG 2025-02-25 14:54:48,119 schema ALTER TABLE "custom_user" RENAME COLUMN "is_students" TO "is_premium"; (params ())
+DEBUG 2025-02-25 14:54:48,140 schema ALTER TABLE "custom_user" DROP COLUMN "is_admin"; (params ())
+DEBUG 2025-02-25 14:54:48,152 schema ALTER TABLE "custom_user" DROP COLUMN "is_basic"; (params ())
+DEBUG 2025-02-25 14:54:48,165 schema ALTER TABLE "custom_user" DROP COLUMN "is_legacy"; (params ())
+DEBUG 2025-02-25 14:54:48,177 schema ALTER TABLE "custom_user" DROP COLUMN "is_premium"; (params ())
+DEBUG 2025-02-25 14:54:48,189 schema CREATE TABLE "new__custom_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "first_name" varchar(150) NOT NULL, "last_name" varchar(150) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "role" varchar(10) NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:48,191 schema INSERT INTO "new__custom_user" ("id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "role") SELECT "id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", 'basic' FROM "custom_user"; (params ())
+DEBUG 2025-02-25 14:54:48,192 schema DROP TABLE "custom_user"; (params ())
+DEBUG 2025-02-25 14:54:48,192 schema ALTER TABLE "new__custom_user" RENAME TO "custom_user"; (params ())
+DEBUG 2025-02-25 14:54:48,234 schema CREATE TABLE "orders_order" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reference" varchar(20) NOT NULL UNIQUE, "total_amount" decimal NOT NULL, "status" varchar(20) NOT NULL, "payment_method" varchar(20) NOT NULL, "payment_status" bool NOT NULL, "notes" text NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:48,255 schema CREATE TABLE "orders_orderitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "price" decimal NOT NULL, "order_id" bigint NOT NULL REFERENCES "orders_order" ("id") DEFERRABLE INITIALLY DEFERRED, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:48,283 schema CREATE TABLE "orders_shippingaddress" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "first_name" varchar(100) NOT NULL, "last_name" varchar(100) NOT NULL, "email" varchar(254) NOT NULL, "phone" varchar(15) NOT NULL, "address" varchar(255) NOT NULL, "city" varchar(100) NOT NULL, "postal_code" varchar(20) NOT NULL, "is_default" bool NOT NULL, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:48,309 schema CREATE TABLE "new__orders_order" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reference" varchar(20) NOT NULL UNIQUE, "total_amount" decimal NOT NULL, "status" varchar(20) NOT NULL, "payment_method" varchar(20) NOT NULL, "payment_status" bool NOT NULL, "notes" text NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED, "shipping_address_id" bigint NOT NULL REFERENCES "orders_shippingaddress" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:48,310 schema INSERT INTO "new__orders_order" ("id", "reference", "total_amount", "status", "payment_method", "payment_status", "notes", "created_at", "updated_at", "user_id", "shipping_address_id") SELECT "id", "reference", "total_amount", "status", "payment_method", "payment_status", "notes", "created_at", "updated_at", "user_id", NULL FROM "orders_order"; (params ())
+DEBUG 2025-02-25 14:54:48,310 schema DROP TABLE "orders_order"; (params ())
+DEBUG 2025-02-25 14:54:48,310 schema ALTER TABLE "new__orders_order" RENAME TO "orders_order"; (params ())
+DEBUG 2025-02-25 14:54:48,312 schema CREATE INDEX "orders_orderitem_order_id_fe61a34d" ON "orders_orderitem" ("order_id"); (params ())
+DEBUG 2025-02-25 14:54:48,312 schema CREATE INDEX "orders_orderitem_product_id_afe4254a" ON "orders_orderitem" ("product_id"); (params ())
+DEBUG 2025-02-25 14:54:48,312 schema CREATE INDEX "orders_shippingaddress_user_id_179363b0" ON "orders_shippingaddress" ("user_id"); (params ())
+DEBUG 2025-02-25 14:54:48,313 schema CREATE INDEX "orders_order_user_id_e9b59eb1" ON "orders_order" ("user_id"); (params ())
+DEBUG 2025-02-25 14:54:48,313 schema CREATE INDEX "orders_order_shipping_address_id_c4f8227a" ON "orders_order" ("shipping_address_id"); (params ())
+DEBUG 2025-02-25 14:54:48,375 schema CREATE TABLE "payment_transaction" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "transaction_id" varchar(100) NOT NULL UNIQUE, "merchant_request_id" varchar(100) NULL, "payment_method" varchar(20) NOT NULL, "amount" decimal NOT NULL, "phone_number" varchar(15) NOT NULL, "reference" varchar(50) NOT NULL UNIQUE, "description" varchar(100) NOT NULL, "checkout_request_id" varchar(50) NOT NULL UNIQUE, "status" varchar(20) NOT NULL, "timestamp" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-02-25 14:54:48,376 schema CREATE INDEX "payment_transaction_user_id_9e60d11b" ON "payment_transaction" ("user_id"); (params None)
+DEBUG 2025-02-25 14:54:48,417 schema CREATE TABLE "django_session" ("session_key" varchar(40) NOT NULL PRIMARY KEY, "session_data" text NOT NULL, "expire_date" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:48,418 schema CREATE INDEX "django_session_expire_date_a5c62663" ON "django_session" ("expire_date"); (params None)
+DEBUG 2025-02-25 14:54:48,442 schema CREATE TABLE "staticpages_contactmessage" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(100) NOT NULL, "email" varchar(254) NOT NULL, "message" text NOT NULL, "created_at" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:48,444 schema CREATE TABLE "staticpages_faq" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "question" varchar(200) NOT NULL, "answer" text NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "is_published" bool NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:48,446 schema CREATE TABLE "staticpages_staticpage" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "content" text NOT NULL, "slug" varchar(50) NOT NULL UNIQUE, "is_published" bool NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL); (params None)
+DEBUG 2025-02-25 14:54:48,449 schema CREATE TABLE "staticpages_testimonial" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "author" varchar(100) NOT NULL, "content" text NOT NULL, "created_at" datetime NOT NULL, "is_featured" bool NOT NULL); (params None)
+ERROR 2025-02-25 14:55:10,436 log Internal Server Error: /marketplace/signup/
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: marketplace_student.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/marketplace/views_auth.py", line 84, in signup
+    Student.objects.create(user=user)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/base.py", line 892, in save
+    self.save_base(
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/base.py", line 998, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/base.py", line 1161, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/base.py", line 1202, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: marketplace_student.user_id
+WARNING 2025-02-25 14:58:31,211 log Bad Request: /marketplace/signup/
+WARNING 2025-02-25 15:01:08,069 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 15:12:56,809 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 15:22:20,466 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 15:36:27,703 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 15:37:54,690 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 15:37:54,924 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 16:06:13,670 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 16:15:39,527 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:27:28,938 log Unauthorized: /products/api/products/trending/
+WARNING 2025-02-25 17:27:28,947 log Unauthorized: /products/api/products/featured/
+WARNING 2025-02-25 17:27:29,210 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:27:29,220 log Not Found: /user/profile
+WARNING 2025-02-25 17:27:29,271 log Not Found: /marketplace/api/token/refresh/
+WARNING 2025-02-25 17:27:29,271 log Not Found: /marketplace/api/token/refresh/
+WARNING 2025-02-25 17:28:01,184 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:28:08,406 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:28:20,795 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:28:27,942 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:28:33,140 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:28:37,483 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:28:46,370 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:28:57,183 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:09,478 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:14,311 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:20,178 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:23,093 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:26,418 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:29,444 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:33,203 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:35,713 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:39,171 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:42,276 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:46,421 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:48,897 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:51,833 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:53,997 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:29:57,432 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:00,044 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:02,785 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:05,062 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:09,018 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:11,057 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:14,477 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:17,588 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:19,521 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:24,080 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:25,894 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:29,312 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:31,516 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:34,538 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:36,736 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:40,529 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:43,178 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:46,813 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:48,910 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:52,319 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:54,984 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:30:58,103 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:00,948 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:05,736 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:08,746 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:10,961 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:14,406 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:18,912 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:22,306 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:25,615 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:28,672 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:33,736 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:36,128 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:40,237 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:44,162 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:49,773 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:53,519 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:56,907 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:31:59,963 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:03,231 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:06,458 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:09,041 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:12,495 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:15,097 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:18,058 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:20,143 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:24,307 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:26,521 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:30,610 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:34,142 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:38,674 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:41,787 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:45,228 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:47,470 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:50,807 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:53,056 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:56,188 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:32:58,575 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:01,873 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:03,690 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:06,955 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:09,906 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:12,783 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:15,073 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:17,855 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:20,043 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:22,993 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:24,686 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:27,474 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:30,057 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:33,305 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:36,275 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:40,481 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:44,260 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:47,550 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:50,735 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:52,901 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:55,468 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:33:58,478 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:01,783 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:04,368 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:07,330 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:10,144 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:12,643 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:14,506 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:17,693 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:19,962 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:23,134 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:26,015 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:28,707 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:32,459 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:34,473 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:37,040 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:39,766 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:43,658 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:46,574 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:49,578 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:51,744 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:54,587 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:34:56,789 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:00,217 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:02,595 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:05,259 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:07,312 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:10,967 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:13,500 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:15,433 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:17,950 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:19,948 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:22,403 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:24,400 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:26,911 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:29,272 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:32,669 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:35,859 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:37,791 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:40,425 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:43,296 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:46,410 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:49,121 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:50,863 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:53,551 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:55,731 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:35:59,211 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:01,139 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:04,685 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:06,650 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:09,610 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:11,263 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:13,987 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:15,685 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:18,407 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:20,096 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:23,033 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:24,951 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:27,587 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:29,510 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:32,071 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:34,171 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:36,718 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:38,799 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:42,749 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:45,188 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:47,694 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:49,538 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:52,354 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:54,315 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:56,686 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:36:58,897 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:01,960 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:03,977 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:06,709 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:08,615 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:11,522 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:13,648 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:16,295 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:18,164 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:20,916 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:22,447 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:25,787 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:27,549 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:30,237 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:31,931 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:35,025 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:37,063 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:39,811 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:42,095 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:45,302 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:47,221 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:50,511 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:52,139 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:55,264 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:37:57,334 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:00,007 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:03,223 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:04,996 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:08,463 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:10,207 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:13,254 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:15,359 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:18,189 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:19,792 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:22,696 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:24,336 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:27,109 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:28,799 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:32,113 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:35,349 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:37,083 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:39,858 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:42,008 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:45,025 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:47,012 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:49,624 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:51,294 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:54,656 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:56,502 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:38:59,254 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:01,366 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:04,057 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:06,274 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:10,422 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:12,208 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:15,023 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:17,076 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:19,854 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:21,561 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:24,057 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:26,205 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:28,792 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:30,703 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:33,366 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:35,305 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:37,834 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:40,781 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:44,038 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:47,197 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:49,700 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:51,607 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:54,045 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:55,973 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:39:58,958 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:01,073 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:03,666 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:05,795 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:09,935 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:11,835 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:14,807 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:16,818 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:19,603 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:21,823 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:24,897 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:27,065 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:29,756 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:31,536 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:34,331 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:36,569 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:39,680 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:41,943 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:46,103 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:47,951 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:50,411 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:52,735 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:55,433 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:40:57,540 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:00,562 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:02,587 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:05,105 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:06,887 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:09,400 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:11,262 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:13,699 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:15,603 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:19,146 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:21,090 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:24,153 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:25,783 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:28,718 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:30,623 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:33,104 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:35,069 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:38,484 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:40,274 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:43,392 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:45,327 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:48,173 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:49,754 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:52,481 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:54,622 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:57,236 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:41:59,089 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:01,721 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:03,287 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:06,072 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:08,559 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:11,301 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:13,007 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:15,735 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:17,778 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:20,526 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:22,171 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:25,053 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:27,253 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:30,120 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:32,592 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:35,273 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:36,832 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:39,693 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:41,447 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:44,590 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:46,494 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:49,229 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:50,907 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:54,130 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:55,748 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:42:58,501 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:00,343 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:02,769 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:04,492 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:06,994 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:09,485 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:12,581 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:15,474 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:17,152 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:19,924 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:21,878 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:24,562 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:26,528 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:30,122 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:32,662 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:36,629 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:40,064 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:42,829 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:45,935 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:48,817 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:50,742 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:53,336 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:55,314 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:57,989 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:43:59,683 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:02,550 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:04,515 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:07,209 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:09,219 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:12,201 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:14,299 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:16,968 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:18,777 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:21,502 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:23,197 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:26,159 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:29,003 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:31,043 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:33,660 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:35,463 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:38,007 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:40,158 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:43,940 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:46,338 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:49,119 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:50,767 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:53,689 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:55,700 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:44:58,602 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:03,401 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:06,232 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:07,852 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:10,822 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:13,002 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:16,218 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:19,839 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:21,736 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:24,644 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:26,283 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:29,115 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:32,237 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:34,880 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:37,159 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:40,654 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:43,144 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:45,696 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:48,300 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:51,081 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:53,160 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:55,826 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:45:57,679 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:00,324 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:02,274 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:04,865 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:06,883 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:09,830 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:11,901 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:14,482 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:16,638 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:19,626 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:22,418 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:24,056 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:26,882 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:28,512 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:31,328 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:33,549 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:36,370 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:39,392 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:43,005 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:45,713 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:47,436 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:50,397 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:52,537 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:55,927 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:46:57,927 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:00,494 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:02,398 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:04,829 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:06,754 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:09,754 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:11,993 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:15,053 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:16,867 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:19,445 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:21,614 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:24,295 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:26,276 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:29,383 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:31,157 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:33,946 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:36,935 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:38,899 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:41,579 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:43,823 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:47,041 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:49,164 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:52,017 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:53,794 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:56,923 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:47:59,160 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:02,183 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:04,514 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:07,670 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:09,532 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:12,695 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:14,413 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:17,046 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:19,069 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:21,802 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:23,604 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:26,646 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:29,934 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:31,771 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:34,345 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:36,252 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:38,754 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:40,680 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:44,067 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:46,118 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:49,105 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:50,706 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:53,550 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:55,365 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:48:58,246 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:00,697 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:03,577 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:05,439 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:08,313 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:09,925 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:12,801 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:15,112 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:17,928 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:19,900 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:22,726 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:24,366 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:27,075 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:28,769 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:31,937 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:34,239 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:37,464 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:39,393 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:42,439 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:44,775 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:47,593 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:49,222 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:52,197 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:54,184 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:56,727 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:49:58,902 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:01,322 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:03,449 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:06,325 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:08,335 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:12,079 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:14,356 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:17,663 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:19,492 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:22,663 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:26,500 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:28,326 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:31,203 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:33,066 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:35,725 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:37,872 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:41,065 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:44,378 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:46,078 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:49,803 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:51,984 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:54,743 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:56,899 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:50:59,496 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:01,507 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:03,906 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:07,059 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:09,161 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:11,849 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:14,181 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:18,203 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:19,897 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:22,855 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:24,872 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:27,895 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:30,192 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:32,985 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:34,766 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:37,412 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:39,368 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:42,428 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:45,979 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:47,911 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:50,615 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:52,661 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:55,256 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:57,317 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:51:59,969 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:01,707 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:04,394 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:06,551 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:09,409 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:11,250 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:14,101 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:15,666 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:18,585 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:20,984 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:24,752 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:27,762 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:29,788 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:33,085 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:34,649 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:38,020 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:40,044 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:43,705 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:45,698 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:48,817 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:51,972 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:53,986 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:56,934 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:52:58,934 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:01,705 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:03,715 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:06,891 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:08,700 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:11,737 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:13,655 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:16,552 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:18,160 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:21,059 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:24,018 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:25,984 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:29,469 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:31,460 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:34,868 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:39,192 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:41,320 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:45,073 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:48,099 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:49,790 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:52,594 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:54,411 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:57,000 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:53:58,901 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:01,663 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:03,511 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:06,368 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:08,023 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:11,027 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:12,863 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:15,691 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:17,269 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:20,378 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:22,190 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:24,766 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:26,713 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:29,318 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:31,583 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:35,103 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:38,593 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:40,280 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:43,550 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:45,396 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:48,495 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:50,064 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:52,868 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:54,481 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:57,376 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:54:59,461 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:02,244 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:03,876 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:06,659 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:09,735 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:11,902 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:15,089 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:17,253 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:20,886 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:22,691 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:25,266 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:27,113 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:29,711 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:31,666 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:34,893 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:36,934 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:40,209 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:43,820 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:45,560 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:48,471 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:50,589 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:53,655 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:56,627 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:55:58,374 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:01,225 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:02,903 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:06,302 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:09,298 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:11,115 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:14,033 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:15,615 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:18,509 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:20,123 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:23,050 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:24,663 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:27,533 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:29,322 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:32,067 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:33,725 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:36,500 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:39,823 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:41,941 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:45,734 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:48,409 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:51,001 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:53,423 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:56,503 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:56:59,762 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:03,515 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:05,684 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:08,604 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:10,452 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:13,095 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:14,875 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:18,199 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:20,106 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:22,836 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:25,062 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:28,021 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:30,102 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:32,923 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:34,661 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:37,564 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:39,322 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:42,900 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:45,302 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:48,057 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:50,469 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:53,871 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:56,092 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:57:59,080 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:00,765 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:03,625 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:05,576 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:08,310 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:10,167 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:13,421 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:16,184 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:18,238 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:21,069 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:22,771 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:25,700 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:27,472 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:30,238 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:32,026 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:34,648 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:36,722 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:39,581 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:41,372 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:44,904 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:47,699 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:49,536 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:52,386 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:54,495 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:57,649 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:58:59,982 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:02,871 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:04,951 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:07,478 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:09,212 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:11,895 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:14,077 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:16,915 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:18,526 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:21,628 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:25,008 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:26,774 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:29,943 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:33,043 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:36,200 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:39,041 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:40,798 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:43,840 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:46,199 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:49,225 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:51,198 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:53,988 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:55,510 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 17:59:58,585 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:00,224 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:03,291 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:05,113 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:08,431 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:10,608 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:13,703 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:16,784 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:18,869 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:21,559 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:23,400 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:25,985 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:28,107 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:31,351 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:33,086 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:35,970 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:39,643 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:41,415 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:44,886 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:46,540 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:49,432 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:51,079 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:54,017 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:55,995 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:00:58,910 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:00,743 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:03,613 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:05,559 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:09,064 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:10,727 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:13,908 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:15,936 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:19,578 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:21,735 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:24,670 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:26,658 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:29,501 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:32,119 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:35,010 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:36,987 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:39,513 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:41,792 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:45,798 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:48,947 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:51,694 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:53,666 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:56,442 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:01:58,201 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:00,957 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:02,777 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:05,611 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:07,326 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:10,711 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:13,594 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:15,755 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:18,379 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:20,513 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:23,067 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:25,311 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:28,423 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:32,251 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:34,480 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:37,507 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:39,442 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:42,442 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:47,033 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:48,866 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:51,923 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:53,852 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:56,538 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:02:58,509 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:01,149 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:03,272 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:06,108 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:08,147 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:11,407 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:14,381 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:16,036 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:18,831 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:20,618 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:24,042 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:27,732 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:30,413 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:33,850 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:37,378 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:39,263 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:42,130 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:44,211 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:47,259 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:48,980 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:52,052 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:03:56,954 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:00,040 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:05,899 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:09,807 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:12,425 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:16,915 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:20,396 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:22,579 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:27,058 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:31,352 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:40,227 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:49,411 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:04:57,622 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:01,035 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:06,632 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:12,626 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:16,322 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:20,357 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:23,950 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:27,842 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:30,541 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:34,484 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:37,658 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:39,361 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:43,008 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:47,609 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:05:53,732 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:01,722 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:10,478 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:20,980 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:26,045 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:31,154 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:34,401 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:46,859 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:50,949 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:54,206 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:06:58,697 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:02,085 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:06,275 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:11,614 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:15,089 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:20,073 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:23,152 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:29,387 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:32,912 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:38,779 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:46,268 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:48,419 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:51,535 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:53,775 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:07:57,758 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:03,322 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:08,002 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:11,819 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:17,158 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:21,367 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:26,500 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:30,229 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:35,102 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:37,117 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:39,712 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:43,054 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:47,046 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:51,386 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:08:54,428 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:01,122 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:10,123 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:17,467 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:22,601 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:26,261 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:28,656 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:34,319 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:38,498 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:42,898 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:46,762 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:49,286 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:09:56,226 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:10:08,660 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 18:11:33,997 log Not Found: /user/profile
+WARNING 2025-02-25 18:11:54,092 log Unauthorized: /products/api/categories/
+WARNING 2025-02-25 18:11:54,206 log Bad Request: /products/api/products/search/
+WARNING 2025-02-25 18:11:54,217 log Bad Request: /products/api/products/search/
+WARNING 2025-02-25 18:11:54,217 log Unauthorized: /products/api/categories/
+WARNING 2025-02-25 18:22:05,502 log Bad Request: /marketplace/signin/
+WARNING 2025-02-25 18:57:21,994 log Not Found: /user/profile
