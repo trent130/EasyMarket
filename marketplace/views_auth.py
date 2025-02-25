@@ -72,19 +72,26 @@ def signin(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup(request):
-    """Sign up a new user"""
+    """Sign up a user"""
     username = request.data.get('username')
-    password = request.data.get('password')
     email = request.data.get('email')
+    password = request.data.get('password')
+
+    if not username or not email or not password:
+        return Response({'error': 'Please provide username, email, and password'}, status=status.HTTP_400_BAD_REQUEST)
 
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = User.objects.create_user(username=username, password=password, email=email)
-    Student.objects.create(user=user)
+    if User.objects.filter(email=email).exists():
+        return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response({'message': 'Sign up successful'}, status=status.HTTP_201_CREATED)
+    user = User.objects.create_user(username=username, email=email, password=password)
+    # Check if a Student object already exists for this user
+    if not Student.objects.filter(user=user).exists():
+        Student.objects.create(user=user) #This line should not exist if there is a student
 
+    return Response({'message': 'User created successfully. Redirecting to login...'}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
