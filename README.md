@@ -14,6 +14,7 @@ EasyMarket is a student marketplace where students can buy and sell items within
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
+- git config --global http.postBuffer 524288000
 
 - python django
 - sql
