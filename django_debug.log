@@ -6654,3 +6654,235 @@ WARNING 2025-01-28 16:38:04,327 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-28 16:38:04,350 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-28 16:45:13,187 log Unauthorized: /marketplace/api/wishlist/
 WARNING 2025-01-28 16:45:13,204 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 03:37:55,519 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 03:54:14,845 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 03:56:08,712 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 04:05:20,337 log Method Not Allowed: /marketplace/signin/
+WARNING 2025-02-25 04:05:20,788 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2025-02-25 04:05:20,788 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:05:20,793 log Not Found: /static/rest_framework/css/default.css
+WARNING 2025-02-25 04:05:20,796 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2025-02-25 04:05:20,799 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2025-02-25 04:05:20,796 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2025-02-25 04:05:20,928 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:05:20,929 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:05:20,930 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:05:20,935 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:05:20,941 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:05:21,207 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:05:21,298 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:05:21,355 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:05:21,602 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:05:21,911 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:05:22,111 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:05:22,645 log Not Found: /favicon.ico
+WARNING 2025-02-25 04:05:28,702 log Method Not Allowed: /marketplace/signin/
+WARNING 2025-02-25 04:05:28,990 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2025-02-25 04:05:29,008 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2025-02-25 04:05:29,018 log Not Found: /static/rest_framework/css/default.css
+WARNING 2025-02-25 04:05:29,019 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2025-02-25 04:05:29,041 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:05:29,019 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2025-02-25 04:05:29,111 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:05:29,126 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:05:29,130 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:05:29,132 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:05:29,139 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:05:29,221 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:05:29,276 log Not Found: /static/rest_framework/js/load-ajax-form.js
+ERROR 2025-02-25 04:06:14,113 log Internal Server Error: /marketplace/signin/
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/marketplace/views_auth.py", line 53, in signin
+    if '@' in username_or_email:
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+WARNING 2025-02-25 04:07:57,557 log Method Not Allowed: /marketplace/signin/
+WARNING 2025-02-25 04:07:59,381 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2025-02-25 04:07:59,385 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2025-02-25 04:07:59,392 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2025-02-25 04:07:59,392 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:07:59,392 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2025-02-25 04:07:59,426 log Not Found: /static/rest_framework/css/default.css
+WARNING 2025-02-25 04:07:59,622 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:07:59,637 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:07:59,638 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:07:59,639 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:07:59,685 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:08:00,087 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:08:00,254 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:08:00,395 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:08:00,564 log Not Found: /static/rest_framework/js/load-ajax-form.js
+ERROR 2025-02-25 04:08:02,747 log Internal Server Error: /marketplace/signin/
+Traceback (most recent call last):
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/spider_env/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/marketplace/views_auth.py", line 53, in signin
+    if not username_or_email or not password:
+       ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+WARNING 2025-02-25 04:08:33,369 log Method Not Allowed: /marketplace/signin/
+WARNING 2025-02-25 04:08:33,588 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2025-02-25 04:08:33,596 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2025-02-25 04:08:33,596 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2025-02-25 04:08:33,601 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2025-02-25 04:08:33,601 log Not Found: /static/rest_framework/css/default.css
+WARNING 2025-02-25 04:08:33,602 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:08:33,688 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:08:33,700 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:08:33,701 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:08:33,720 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:08:33,723 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:08:33,827 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:08:33,906 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:08:34,000 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:08:34,052 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:08:34,118 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:08:34,166 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:08:39,103 log Bad Request: /marketplace/signin/
+WARNING 2025-02-25 04:08:39,375 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:08:39,376 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2025-02-25 04:08:39,377 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2025-02-25 04:08:39,376 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2025-02-25 04:08:39,385 log Not Found: /static/rest_framework/css/default.css
+WARNING 2025-02-25 04:08:39,376 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2025-02-25 04:08:39,467 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:08:39,467 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:08:39,468 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:08:39,468 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:08:39,468 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:08:39,590 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:08:39,642 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:08:39,722 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:08:39,810 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:08:39,852 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:08:39,904 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:08:50,823 log Bad Request: /marketplace/signin/
+WARNING 2025-02-25 04:08:51,138 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:08:51,140 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2025-02-25 04:08:51,141 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2025-02-25 04:08:51,142 log Not Found: /static/rest_framework/css/default.css
+WARNING 2025-02-25 04:08:51,142 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2025-02-25 04:08:51,140 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2025-02-25 04:08:51,226 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:08:51,227 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:08:51,231 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:08:51,231 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:08:51,235 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:08:51,333 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:08:51,370 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:08:51,402 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:08:51,440 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:08:51,473 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:08:51,510 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:09:15,968 log Bad Request: /marketplace/signin/
+WARNING 2025-02-25 04:09:16,257 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2025-02-25 04:09:16,257 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2025-02-25 04:09:16,257 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2025-02-25 04:09:16,264 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:09:16,264 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2025-02-25 04:09:16,264 log Not Found: /static/rest_framework/css/default.css
+WARNING 2025-02-25 04:09:16,356 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:09:16,363 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:09:16,365 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:09:16,368 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:09:16,370 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:09:16,541 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:09:16,614 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:09:16,658 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:09:16,691 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:12:19,792 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 04:12:36,283 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 04:12:36,615 log Not Found: /static/rest_framework/css/prettify.css
+WARNING 2025-02-25 04:12:36,616 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:12:36,617 log Not Found: /static/rest_framework/css/bootstrap.min.css
+WARNING 2025-02-25 04:12:36,625 log Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+WARNING 2025-02-25 04:12:36,626 log Not Found: /static/rest_framework/css/default.css
+WARNING 2025-02-25 04:12:36,627 log Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+WARNING 2025-02-25 04:12:36,729 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:12:36,729 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:12:36,729 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:12:36,729 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:12:36,730 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:12:37,849 log Not Found: /static/rest_framework/js/ajax-form.js
+WARNING 2025-02-25 04:12:37,988 log Not Found: /static/rest_framework/js/csrf.js
+WARNING 2025-02-25 04:12:38,132 log Not Found: /static/rest_framework/js/bootstrap.min.js
+WARNING 2025-02-25 04:12:38,345 log Not Found: /static/rest_framework/js/prettify-min.js
+WARNING 2025-02-25 04:12:38,727 log Not Found: /static/rest_framework/js/default.js
+WARNING 2025-02-25 04:12:38,924 log Not Found: /static/rest_framework/js/load-ajax-form.js
+WARNING 2025-02-25 04:12:39,225 log Not Found: /favicon.ico
+WARNING 2025-02-25 04:27:12,105 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 04:43:38,666 log Unauthorized: /marketplace/api/wishlist/
