@@ -47,8 +47,11 @@ def enable_2fa(request):
 @permission_classes([AllowAny])
 def signin(request):
     """Sign in a user"""
-    username_or_email = request.data.get('username_or_email')
+    username_or_email = request.data.get('username')# changed this username
     password = request.data.get('password')
+
+    if not username_or_email or not password:
+        return Response({'error': 'Please provide both username and password'}, status=status.HTTP_400_BAD_REQUEST)
 
     if '@' in username_or_email:
         try:
@@ -62,7 +65,7 @@ def signin(request):
 
     if user is not None:
         refresh = RefreshToken.for_user(user)
-        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
+        return Response({'refresh': str(refresh), 'access': str(refresh.access_token), 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
 
