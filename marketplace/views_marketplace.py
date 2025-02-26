@@ -19,6 +19,9 @@ from .serializers_marketplace import (
     SearchResultSerializer
 )
 import logging
+from rest_framework.parsers import MultiPartParser, FormParser
+from .models import UserProfile
+from .serializers import UserProfileSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -202,3 +205,34 @@ def get_recommendations(request):
 
     serializer = ProductSerializer(recommended, many=True)
     return Response(serializer.data)
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for managing user profiles.
+    Supports retrieving and updating user profile information.
+    """
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can access this
+    parser_classes = (MultiPartParser, FormParser)  # Allow file uploads
+
+    def get_queryset(self):
+        """
+        Restricts the returned profiles to the logged-in user.
+        """
+        return UserProfile.objects.filter(user=self.request.user)
+
+    def perform_update(self, serializer):
+        """
+        Ensures that the user can only update their own profile.
+        """
+        serializer.save(user=self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve the authenticated user's profile.
+        """
+        instance = self.get_queryset().first()  # Get the current user's profile
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)

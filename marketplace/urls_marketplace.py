@@ -9,6 +9,7 @@ router = DefaultRouter()
 router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
 router.register(r'wishlist', views_marketplace.WishListViewSet, basename='wishlist')
 router.register(r'reviews', views_marketplace.ReviewViewSet, basename='review')
+router.register(r'profile', views_marketplace.UserProfileViewSet, basename='user-profile')
 
 urlpatterns = [
     # Router URLs
