@@ -8342,3 +8342,27 @@ WARNING 2025-02-25 18:11:54,217 log Bad Request: /products/api/products/search/
 WARNING 2025-02-25 18:11:54,217 log Unauthorized: /products/api/categories/
 WARNING 2025-02-25 18:22:05,502 log Bad Request: /marketplace/signin/
 WARNING 2025-02-25 18:57:21,994 log Not Found: /user/profile
+WARNING 2025-02-25 20:54:40,163 log Unauthorized: /products/api/products/featured/
+WARNING 2025-02-25 20:54:40,167 log Unauthorized: /products/api/products/trending/
+WARNING 2025-02-25 20:54:40,192 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 20:54:40,276 log Not Found: /user/profile
+WARNING 2025-02-25 20:54:51,988 log Not Found: /marketplace/api/token/refresh/
+WARNING 2025-02-25 20:54:51,989 log Not Found: /marketplace/api/token/refresh/
+WARNING 2025-02-25 20:54:51,996 log Not Found: /marketplace/api/token/refresh/
+WARNING 2025-02-25 20:55:18,673 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 21:15:32,205 log Not Found: /user/profile
+WARNING 2025-02-25 23:05:52,771 log Unauthorized: /marketplace/signin/
+WARNING 2025-02-25 23:05:52,971 log Not Found: /marketplace/api/token/refresh/
+WARNING 2025-02-25 23:08:16,708 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:08:17,540 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:08:54,796 log Not Found: /user/profile
+WARNING 2025-02-25 23:30:28,281 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:30:28,293 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:30:43,139 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:32:59,448 log Not Found: /marketplace/profile
+WARNING 2025-02-25 23:33:46,067 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:33:58,740 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:34:13,913 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:50:46,878 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-02-25 23:52:09,817 log Not Found: /marketplace/profile
+WARNING 2025-02-25 23:52:10,116 log Not Found: /marketplace/profile

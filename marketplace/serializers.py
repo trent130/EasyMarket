@@ -2,7 +2,7 @@ import string
 from rest_framework import serializers
 from .models import Student, User
 import pyotp
-
+from .models import UserProfile
 
 class TwoFactorEnableSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
@@ -150,6 +150,15 @@ class SignUpSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['user', 'avatar']
+        extra_kwargs = {
+            'user': {'read_only': True}  # Prevent users from modifying the associated user
+        }
 
 
 class ForgotPasswordSerializer(serializers.Serializer):
