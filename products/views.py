@@ -81,7 +81,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         cache_key = f'product_view_{product.id}_{request.user.id}'
         if not cache.get(cache_key):
             Product.objects.filter(id=product.id).update(views_count=F('views_count') + 1)
-            # Set a cache to prevent frequent updates
+            # cache to prevent frequent updates
             cache.set(cache_key, True, 3600)  # 1 hour cooldown per user
 
     def get_object(self):

@@ -184,7 +184,7 @@ SIMPLE_JWT = {
 # SECURE_HSTS_PRELOAD = True
 # SESSION_COOKIE_SAMESITE = 'strict'
 
-ASGI_APPLICATION = 'marketplace.routing.application'
+ASGI_APPLICATION = 'students.asgi.application'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [

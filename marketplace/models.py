@@ -6,8 +6,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, Permission
 from products.models import Product
-# import string
-# import random
 
 
 class Student(models.Model):
