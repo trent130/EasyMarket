@@ -77,7 +77,7 @@ class NewsletterSubscriptionSerializer(serializers.Serializer):
     )
 
     def validate_email(self, value):
-        # Add custom email validation if needed
+        # TODO: implement a custom email validator
         return value.lower()
 
 

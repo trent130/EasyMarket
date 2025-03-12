@@ -1,6 +1,4 @@
-I understand what you're getting at. You want to know if there's a way for a user to prove their eligibility for a specific role, such as a student role, without having to implement a complex verification process like GitHub's student program.
-
-One possible approach is to use a simple verification process that relies on user input, such as:
+a simple verification process that relies on user input, such as:
 
 1. **Self-identification**: Allow users to self-identify as students, admins, or legacy users through a form or profile update process. This approach relies on users being honest about their status.
 2. **Verification code**: Provide a verification code or token that users can enter to prove their eligibility for a specific role. For example, students could receive a verification code from their educational institution, which they can enter to gain access to student-specific features.

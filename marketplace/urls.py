@@ -1,5 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
+from marketplace.consumers import MarketplaceConsumer
 from . import views_marketplace
 # from .views import CustomTokenObtainPairView
 from . import views_auth
@@ -13,6 +15,13 @@ router = DefaultRouter()
 router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
 router.register(r'wishlist', views_marketplace.WishListViewSet, basename='wishlist')
 router.register(r'reviews', views_marketplace.ReviewViewSet, basename='review')
+router.register(r'profile', views_marketplace.UserProfileViewSet, basename='user_profile')
+
+# WebSocket URL patterns
+websocket_urlpatterns = [
+    path('ws/marketplace/', MarketplaceConsumer.as_asgi()),
+    # Add other WebSocket paths if needed
+]
 
 urlpatterns = [
      # Router URLs
@@ -28,7 +37,11 @@ urlpatterns = [
      path('api/cart/<int:cart_id>/clear/',
           views_marketplace.CartViewSet.as_view({'post': 'clear'}),
           name='cart-clear'),
-
+     # user profile
+     path('api/profile/<int:pk>/',
+         views_marketplace.UserProfileViewSet.as_view({'get': 'view profile'}),
+         name='user_profile'),
+         
      # Wishlist operations
      path('api/wishlist/<int:wishlist_id>/add/',
           views_marketplace.WishListViewSet.as_view({'post': 'add_product'}),
@@ -71,16 +84,6 @@ urlpatterns = [
      path('signup/', views_auth.signup, name='signup'),
      path('logout/', views_auth.signout, name='logout'),
      path('forgot_password/', views_auth.forgot_password, name='forgot_password'),
+     path('reset_password', views_auth.reset_password, name="reset_password")
 ]
 
-# URL patterns for authentication views are in urls.py
-# URL patterns for product views are in products/urls.py
-# urlpatterns = [
-#     # JWT Authentication endpoints
-
-#     # API endpoints
-#     path('', include(router.urls)),
-# ]
-
-
-# impliment the reset password auth functionality

@@ -43,5 +43,5 @@ class TwoFactorMiddleware:
         return self.get_response(request)
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        # Additional view-specific checks can be added here
+        # TODO: implement additional logic here
         return None
