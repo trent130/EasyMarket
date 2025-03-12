@@ -1,173 +1,139 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+from channels.generic.websocket import AsyncWebsocketConsumer, WebsocketConsumer
+from channels.db import database_sync_to_async
+from django.contrib.auth.models import AnonymousUser
 
-
-class MarketplaceConsumer(AsyncWebsocketConsumer):
+class BaseConsumer(AsyncWebsocketConsumer):
+    """Base consumer with common functionality"""
+    
     async def connect(self):
-        """
-        Handle WebSocket connection establishment.
-
-        This method is called when a WebSocket connection is initiated.
-        It adds the WebSocket to the 'marketplace' group and accepts the connection.
-
-        Attributes:
-        - `marketplace_group_name`: The group name for the marketplace WebSocket channel.
-        """
-        self.marketplace_group_name = 'marketplace'
-
-        # Join marketplace group
-        await self.channel_layer.group_add(
-            self.marketplace_group_name,
-            self.channel_name
-        )
-
+        self.user = self.scope.get('user', AnonymousUser())
         await self.accept()
-
+    
     async def disconnect(self, close_code):
-        """
-        Handle WebSocket disconnection.
-        This method is called when the WebSocket is closed. It removes
-        the WebSocket from the 'marketplace' group.
-        Args:
-        - close_code: The code indicating the reason for the WebSocket disconnection.
-        """
-        await self.channel_layer.group_discard(
-            self.marketplace_group_name,
-            self.channel_name
-        )
-
+        # Clean up logic here
+        pass
+    
     async def receive(self, text_data):
-        """
-        Handle messages received from the WebSocket.
-
-        Parses incoming JSON messages, extracts the 'message' field, and
-        broadcasts it to the 'marketplace' group.
-
-        Args:
-        - text_data: A JSON string containing the message to broadcast.
-
-        Expected Message Format:
-        {
-            "message": "Your message here"
-        }
-        """
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
-        # Broadcast message to marketplace group
-        await self.channel_layer.group_send(
-            self.marketplace_group_name,
-            {
-                'type': 'marketplace_message',
-                'message': message
-            }
-        )
-
-    async def marketplace_message(self, event):
-        """
-        Handle messages broadcast to the 'marketplace' group.
-
-        Sends the received message from the group to the WebSocket.
-
-        Args:
-        - event: A dictionary containing the 'message' field.
-
-        Example Event Format:
-        {
-            "message": "Broadcasted message"
-        }
-        """
-        await self.send(text_data=json.dumps(event))
+        try:
+            data = json.loads(text_data)
+            await self.process_message(data)
+        except json.JSONDecodeError:
+            await self.send(text_data=json.dumps({
+                'error': 'Invalid JSON format'
+            }))
+    
+    async def process_message(self, data):
+        """Override this method in child classes"""
+        pass
+    
+    async def send_json(self, data):
+        await self.send(text_data=json.dumps(data))
 
 
-class ChatConsumer(AsyncWebsocketConsumer):
+class MarketplaceConsumer(BaseConsumer):
+    """Consumer for marketplace real-time updates"""
+    
     async def connect(self):
-        """
-        Handle WebSocket connection establishment.
-
-        This method is called when a WebSocket connection is initiated.
-        It extracts the room and group details from the URL and adds the
-        WebSocket to the appropriate room group.
-
-        Attributes:
-        - `room_name`: The unique name of the chat room.
-        - `room_group_name`: The group name for the chat WebSocket channel.
-        - `seller_id`: The ID of the seller associated with the chat room.
-        - `product_id`: The ID of the product associated with the chat room.
-        """
-        self.seller_id = self.scope['url_route']['kwargs']['seller_id']
-        self.product_id = self.scope['url_route']['kwargs']['product_id']
-
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'chat_{self.room_name}'
-
+        await super().connect()
+        self.room_group_name = 'marketplace_updates'
+        
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
-
-        await self.accept()
-
+    
     async def disconnect(self, close_code):
-        """
-        Handle WebSocket disconnection.
-
-        This method is called when the WebSocket is closed. It removes
-        the WebSocket from the chat room group.
-
-        Args:
-        - close_code: The code indicating the reason for the WebSocket disconnection.
-        """
+        # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
+    
+    async def process_message(self, data):
+        message_type = data.get('type')
+        
+        if message_type == 'product_update':
+            # Handle product update
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'product_update',
+                    'product_id': data.get('product_id'),
+                    'action': data.get('action'),
+                    'data': data.get('data')
+                }
+            )
+    
+    async def product_update(self, event):
+        """Send product update to WebSocket"""
+        await self.send_json({
+            'type': 'product_update',
+            'product_id': event['product_id'],
+            'action': event['action'],
+            'data': event['data']
+        })
 
-    async def receive(self, text_data):
-        """
-        Handle messages received from the WebSocket.
 
-        Parses incoming JSON messages, extracts the 'message' field, and
-        broadcasts it to the room group.
-
-        Args:
-        - text_data: A JSON string containing the message to broadcast.
-
-        Expected Message Format:
-        {
-            "message": "Your message here"
-        }
-        """
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
+class ChatConsumer(BaseConsumer):
+    """Consumer for chat functionality"""
+    
+    async def connect(self):
+        await super().connect()
+        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = f'chat_{self.room_name}'
+        
+        # Join room group
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+    
+    async def disconnect(self, close_code):
+        # Leave room group
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+    
+    async def process_message(self, data):
+        message = data.get('message', '')
+        
+        # Store message in database
+        if self.user.is_authenticated:
+            await self.save_message(message)
+        
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': message,
+                'username': self.user.username if self.user.is_authenticated else 'Anonymous'
             }
         )
-
+    
     async def chat_message(self, event):
-        """
-        Handle messages broadcast to the chat room group.
+        """Send message to WebSocket"""
+        await self.send_json({
+            'type': 'chat_message',
+            'message': event['message'],
+            'username': event['username']
+        })
+    
+    @database_sync_to_async
+    def save_message(self, message):
+        # TODO: Implement message saving logic here
+        pass
 
-        Sends the received message from the group to the WebSocket.
 
-        Args:
-        - event: A dictionary containing the 'message' field.
-
-        Example Event Format:
-        {
-            "message": "Broadcasted message"
-        }
-        """
-        message = event['message']
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
+class SimpleConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+        
+    def disconnect(self, close_code):
+        pass
+        
+    def receive(self, text_data):
+        self.send(text_data="Hello, world!")

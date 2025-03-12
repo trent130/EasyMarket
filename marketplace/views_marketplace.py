@@ -22,6 +22,9 @@ import logging
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import UserProfile
 from .serializers import UserProfileSerializer
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -205,6 +208,12 @@ def get_recommendations(request):
 
     serializer = ProductSerializer(recommended, many=True)
     return Response(serializer.data)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):

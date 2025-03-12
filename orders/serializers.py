@@ -87,8 +87,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
     def get_tracking_url(self, obj):
         if obj.tracking_number:
-            # Replace with actual tracking URL generation
-            return f"https://tracking.example.com/{obj.tracking_number}"
+            return f"https://tracking.easymarket.com/{obj.tracking_number}"
         return None
 
 
