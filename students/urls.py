@@ -5,20 +5,16 @@ from django.conf.urls.static import static
 from django.views.static import serve
 
 urlpatterns = [
-    re_path(
-        r"^static/(?P<path>.*)", serve,
-        {'document_root': settings.STATIC_ROOT}
-        ),
-    re_path(r'^media/(?P<path>.*)', serve,  {'document_root': settings.MEDIA_ROOT}),
+    re_path(r"^static/(?P<path>.*)", serve, {'document_root': settings.STATIC_ROOT}),
+    re_path(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT}),
     path('admin/', admin.site.urls),
-    # path('api/', include('backend.api.urls')),  # Add API URLs
     path('', include('staticpages.urls')),
-    path('marketplace/', include('marketplace.urls')),
-    path('products/', include('products.urls', namespace='products')),
-    path('orders/', include('orders.urls')),
-    path('payment/', include('payment.urls')),
-    path('adminapp/', include('adminapp.urls')),
-    path('users/', include('users.urls')),
+    path('api/v1/marketplace/', include('marketplace.urls')),
+    path('api/v1/products/', include('products.urls', namespace='products')),
+    path('api/v1/orders/', include('orders.urls')),
+    path('api/v1/payment/', include('payment.urls')),
+    path('api/v1/admin/', include('adminapp.urls')),
+    path('api/v1/users/', include('users.urls')),
 ]
 
 if settings.DEBUG:
