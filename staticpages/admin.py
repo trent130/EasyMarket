@@ -71,11 +71,11 @@ class StaticPageAdmin(admin.ModelAdmin):
         'title',
         'created_at',
     ]
-    readonly_fields = [
-        'created_at',
-        'is_published',
-        'updated_at'
-    ]
+    # readonly_fields = [
+    #     'created_at',
+    #     'is_published',
+    #     'updated_at'
+    # ]
 admin.site.register(StaticPage, StaticPageAdmin)
 
 # @admin.register(Footer)
