@@ -4,7 +4,6 @@ import pyotp
 from .models import UserProfile, Student, CustomUser
 
 
-
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -18,7 +17,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-
 
 
 class StudentProfileSerializer(serializers.ModelSerializer):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StaticPage, FAQ, ContactMessage, Testimonial
+from .models import StaticPage, Faq, ContactMessage, Testimonial
 from django.core.validators import EmailValidator
 
 
@@ -10,15 +10,15 @@ class StaticPageSerializer(serializers.ModelSerializer):
         read_only_fields = ['slug', 'updated_at']
 
 
-class FAQSerializer(serializers.ModelSerializer):
+class FaqSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FAQ
+        model = Faq
         fields = ['id', 'question', 'answer', 'category', 'order', 'is_published']
 
 
-class FAQCategorySerializer(serializers.Serializer):
+class FaqCategorySerializer(serializers.Serializer):
     category = serializers.CharField()
-    faqs = FAQSerializer(many=True, read_only=True)
+    faqs = FaqSerializer(many=True, read_only=True)
 
 
 class ContactMessageSerializer(serializers.ModelSerializer):

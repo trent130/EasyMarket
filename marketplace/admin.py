@@ -34,7 +34,7 @@ admin.site.register(CartItem, CartItemAdmin)
 
 
 class ReactionAdmin(admin.ModelAdmin):
-    list_display = ['reaction_type', 'user', 'message', 'created_at']
+    list_display = ['reaction_type', 'user', 'message_sent', 'created_at']
     list_filter = ['reaction_type', 'created_at']
     search_fields = ['user__username', 'message__content']
     ordering = ['-created_at']
@@ -42,7 +42,7 @@ class ReactionAdmin(admin.ModelAdmin):
 
 class ReactionInline(admin.TabularInline):
     model = Reaction
-    fk_name = 'message'
+    fk_name = 'message_sent'
     extra = 1
 
 

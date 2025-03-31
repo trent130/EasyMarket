@@ -2,7 +2,7 @@ from django.shortcuts import render
 import secrets
 import string
 import time
-from rest_framework import status
+from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, logout
@@ -27,6 +27,10 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.utils import timezone  # Import timezone
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.parsers import MultiPartParser, FormParser
+
 
 logger = logging.getLogger(__name__)
 RATE_LIMIT_STORE = []
@@ -42,6 +46,7 @@ redis_client = redis.Redis(
     db=REDIS_DB,
    # decode_string=True
 )
+from .serializers import UserProfileSerializer
 
 # Create your views here.
 @receiver(post_save, sender=CustomUser)

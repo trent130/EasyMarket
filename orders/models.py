@@ -6,6 +6,21 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
+
+class ShippingAddress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=15)
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    is_default = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = 'Shipping addresses'
+        
 class Order(models.Model):
     STATUS_CHOICES = (
         ('processing', 'PROCESSING'),
@@ -22,7 +37,7 @@ class Order(models.Model):
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     reference = models.CharField(max_length=20, unique=True)
-    shipping_address = models.ForeignKey('ShippingAddress', on_delete=models.PROTECT)
+    shipping_address = models.ForeignKey(ShippingAddress, on_delete=models.PROTECT)
     total_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -49,16 +64,4 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
 
-class ShippingAddress(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = models.CharField(max_length=15)
-    address = models.CharField(max_length=255)
-    city = models.CharField(max_length=100)
-    postal_code = models.CharField(max_length=20)
-    is_default = models.BooleanField(default=False)
 
-    class Meta:
-        verbose_name_plural = 'Shipping addresses'

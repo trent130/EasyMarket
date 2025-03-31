@@ -8,10 +8,8 @@ from django.contrib.auth.models import AbstractUser, Permission
 from products.models import Product
 from django.conf import settings
 
-User = settings.AUTH_USER_MODEL
-
 class Message(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
@@ -39,8 +37,8 @@ class Reaction(models.Model):
     ]
     reaction_type = models.CharField(
         max_length=10, choices=REACTION_CHOICES)
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message_sent = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -56,7 +54,7 @@ class Reaction(models.Model):
 
 class Review(models.Model):
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE, related_name='reviews')
-    reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    reviewer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -88,7 +86,7 @@ class Review(models.Model):
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     items = models.ManyToManyField(Product, through='marketplace.CartItem')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -148,7 +146,7 @@ class CartItem(models.Model):
 
 
 class WishList(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, related_name="wishlists")
     auto_now = models.DateTimeField(auto_now_add=True)
 

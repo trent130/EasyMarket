@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import StaticPage, Footer, Testimonial, ContactMessage, FAQ, Footer
+from .models import StaticPage, Footer, Testimonial, ContactMessage, Faq, Footer
 
 # Register your models here.
-@admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = [
         'name',
@@ -18,9 +17,9 @@ class ContactMessageAdmin(admin.ModelAdmin):
     readonly_fields = [
         'created_at',
     ]
+admin.site.register(ContactMessage, ContactMessageAdmin)
 
-@admin.register(FAQ)
-class FAQAdmin(admin.ModelAdmin):
+class FaqAdmin(admin.ModelAdmin):
     list_display = [
         'question',
         'answer',
@@ -38,8 +37,8 @@ class FAQAdmin(admin.ModelAdmin):
         'updated_at',
         'is_published'
     ]
+admin.site.register(Faq, FaqAdmin)
 
-@admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
     list_display = [
         'author',
@@ -56,8 +55,8 @@ class TestimonialAdmin(admin.ModelAdmin):
         'created_at',
         'is_featured'
     ]
+admin.site.register(Testimonial, TestimonialAdmin)
 
-@admin.register(StaticPage)
 class StaticPageAdmin(admin.ModelAdmin):
     list_display = [
         'title',
@@ -77,6 +76,7 @@ class StaticPageAdmin(admin.ModelAdmin):
         'is_published',
         'updated_at'
     ]
+admin.site.register(StaticPage, StaticPageAdmin)
 
 # @admin.register(Footer)
 # class FooterAdmin(admin.ModelAdmin):
