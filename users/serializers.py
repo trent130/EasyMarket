@@ -1,7 +1,38 @@
-import string
 from rest_framework import serializers
-from .models import Student, User
+import string
 import pyotp
+from .models import UserProfile, Student, CustomUser
+
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'first_name',  'email', 'password'] #'first_name', 'last_name',
+        read_only_fields = ['id']
+
+    def create(self, validated_data):
+        user = CustomUser(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+
+
+class StudentProfileSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(source='user.id')
+    username = serializers.CharField(source='user.username')
+    email = serializers.EmailField()
+    avatar = serializers.ImageField(source='userprofile.avatar')
+
+    class Meta:
+        model = Student
+        fields = [
+            'id', 'user_id', 'username', 'first_name', 'last_name',
+            'email', 'bio', 'avatar', 'two_factor_enabled'
+        ]
 
 
 class TwoFactorEnableSerializer(serializers.Serializer):
@@ -133,7 +164,7 @@ class SignUpSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'email', 'password']
 
     def create(self, validated_data):
@@ -146,10 +177,19 @@ class SignUpSerializer(serializers.ModelSerializer):
         Returns:
             User: The newly created user.
         """
-        user = User(**validated_data)
+        user = CustomUser(**validated_data)
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['user', 'avatar']
+        extra_kwargs = {
+            'user': {'read_only': True}  # Prevent users from modifying the associated user
+        }
 
 
 class ForgotPasswordSerializer(serializers.Serializer):
@@ -171,3 +211,5 @@ class ForgotPasswordSerializer(serializers.Serializer):
         if not User.objects.filter(email=value).exists():
             raise serializers.ValidationError("User with this email does not exist.")
         return value
+
+

@@ -1,18 +1,20 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
+from marketplace.consumers import MarketplaceConsumer
 from . import views_marketplace
-# from .views import CustomTokenObtainPairView
-from . import views_auth
-# from . import consumers
-from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-)
+
 
 # Create a router and register our viewset with it.
 router = DefaultRouter()
 router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
 router.register(r'wishlist', views_marketplace.WishListViewSet, basename='wishlist')
 router.register(r'reviews', views_marketplace.ReviewViewSet, basename='review')
+
+# WebSocket URL patterns
+websocket_urlpatterns = [
+    path('ws/marketplace/', MarketplaceConsumer.as_asgi()),
+]
 
 urlpatterns = [
      # Router URLs
@@ -29,6 +31,7 @@ urlpatterns = [
           views_marketplace.CartViewSet.as_view({'post': 'clear'}),
           name='cart-clear'),
 
+         
      # Wishlist operations
      path('api/wishlist/<int:wishlist_id>/add/',
           views_marketplace.WishListViewSet.as_view({'post': 'add_product'}),
@@ -57,30 +60,5 @@ urlpatterns = [
                'delete': 'destroy'
           }),
           name='review-detail'),
-
-     path('token/', views_auth.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-     path('enable-2fa/', views_auth.enable_2fa, name='enable_2fa'),
-     path('verify-2fa/', views_auth.verify_2fa, name='verify_2fa'),
-     path('2fa-status/', views_auth.get_2fa_status, name='get_2fa_status'),
-     path('disable-2fa/', views_auth.disable_2fa, name='disable_2fa'),
-     path('validate-2fa/', views_auth.validate_backup_code, name='validate_backup_code'),
-     path('regenerate-2-fa/', views_auth.regenerate_backup_codes, name='regenerate_backup_codes'),
-     # path('2fa-setup/', views.setup_2fa, name='setup_2fa'),
-     path('signin/', views_auth.signin, name='signin'),
-     path('signup/', views_auth.signup, name='signup'),
-     path('logout/', views_auth.signout, name='logout'),
-     path('forgot_password/', views_auth.forgot_password, name='forgot_password'),
 ]
 
-# URL patterns for authentication views are in urls.py
-# URL patterns for product views are in products/urls.py
-# urlpatterns = [
-#     # JWT Authentication endpoints
-
-#     # API endpoints
-#     path('', include(router.urls)),
-# ]
-
-
-# impliment the reset password auth functionality

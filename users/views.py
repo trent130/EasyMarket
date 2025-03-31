@@ -1,11 +1,14 @@
+from django.shortcuts import render
+import secrets
+import string
+import time
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, logout
-from django.contrib.auth.models import User
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import Student
+from .models import Student, CustomUser, UserProfile
 from .serializers import (
     # TwoFactorEnableSerializer,
     TwoFactorVerifySerializer,
@@ -14,14 +17,68 @@ from .serializers import (
     BackupCodesSerializer,
     ValidateBackupCodeSerializer
 )
+from django.conf import settings 
+import redis
 import logging
 import pyotp
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.utils import timezone  # Import timezone
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
 logger = logging.getLogger(__name__)
+RATE_LIMIT_STORE = []
+RATE_LIMIT_WINDOW = 60 * 60
+RATE_LIMIT_MAX_REQUESTS = 5
+RATE_LIMIT_PREFIX = "password_reset_rate_limit:"
+REDIS_HOST = settings.REDIS_HOST if hasattr(settings, "REDIS_HOST") else 'localhost'
+REDIS_PORT = settings.REDIS_PORT if hasattr(settings, "REDIS_PORT") else '6379'
+REDIS_DB = settings.REDIS_DB if hasattr(settings, "REDIS_DB") else 0
+redis_client = redis.Redis(
+    host=REDIS_HOST,
+    port=REDIS_PORT, 
+    db=REDIS_DB,
+   # decode_string=True
+)
+
+# Create your views here.
+@receiver(post_save, sender=CustomUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created and not instance.is_superuser:  # Prevent duplicate profiles for superusers
+        UserProfile.objects.get_or_create(user=instance)  # Ensures no duplicate profiles
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for managing user profiles.
+    Supports retrieving and updating user profile information.
+    """
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can access this
+    parser_classes = (MultiPartParser, FormParser)  # Allow file uploads
+
+    def get_queryset(self):
+        """
+        Restricts the returned profiles to the logged-in user.
+        """
+        return UserProfile.objects.filter(user=self.request.user)
+
+    def perform_update(self, serializer):
+        """
+        Ensures that the user can only update their own profile.
+        """
+        serializer.save(user=self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        Retrieve the authenticated user's profile.
+        """
+        instance = self.get_queryset().first()  # Get the current user's profile
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 @api_view(['POST'])
@@ -47,8 +104,11 @@ def enable_2fa(request):
 @permission_classes([AllowAny])
 def signin(request):
     """Sign in a user"""
-    username_or_email = request.data.get('username_or_email')
+    username_or_email = request.data.get('username')# changed this username
     password = request.data.get('password')
+
+    if not username_or_email or not password:
+        return Response({'error': 'Please provide both username and password'}, status=status.HTTP_400_BAD_REQUEST)
 
     if '@' in username_or_email:
         try:
@@ -62,26 +122,33 @@ def signin(request):
 
     if user is not None:
         refresh = RefreshToken.for_user(user)
-        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
+        return Response({'refresh': str(refresh), 'access': str(refresh.access_token), 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup(request):
-    """Sign up a new user"""
+    """Sign up a user"""
     username = request.data.get('username')
-    password = request.data.get('password')
     email = request.data.get('email')
+    password = request.data.get('password')
+
+    if not username or not email or not password:
+        return Response({'error': 'Please provide username, email, and password'}, status=status.HTTP_400_BAD_REQUEST)
 
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = User.objects.create_user(username=username, password=password, email=email)
-    Student.objects.create(user=user)
+    if User.objects.filter(email=email).exists():
+        return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response({'message': 'Sign up successful'}, status=status.HTTP_201_CREATED)
+    user = User.objects.create_user(username=username, email=email, password=password)
+    # Check if a Student object already exists for this user
+    if not Student.objects.filter(user=user).exists():
+        Student.objects.create(user=user) #This line should not exist if there is a student
 
+    return Response({'message': 'User created successfully. Redirecting to login...'}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -128,6 +195,55 @@ def disable_2fa(request):
     return Response({'message': 'Two-factor authentication has been disabled'})
 
 
+def rate_limit(email):
+    '''
+    applying redis based rate limiting for requests:
+        False for not allowed and True for allowed
+    '''
+    key = f"{RATE_LIMIT_PREFIX}{email}"
+    now = int(time.time())
+
+    pipe = redis_client.pipeline()
+    pipe.zremrangebyscore(key, 0, now - RATE_LIMIT_WINDOW)
+    pipe.zcard(key)
+
+    pipe.zadd(key, {now: now})
+    pipe.expire(key, RATE_LIMIT_WINDOW)
+
+    count, _, _ = pipe.execute()
+
+    if count >= RATE_LIMIT_MAX_REQUESTS:
+        return False
+    return True
+
+
+async def send_password_reset_email(email, reset_token):
+    subject = "Password Reset Request"
+    reset_link = f"{settings.FRONTEND_URL}/reset-password?token={reset_token}"
+
+    html_message = render_to_string('emails/password_reset_email.html', {
+        'reset_link': reset_link,
+        'email': email
+    })
+    plain_message = render_to_string( 'emails/password_reset_email.html', {
+    'reset_link': reset_link,
+    'email': email
+    })
+
+    try:
+        send_mail(
+            subject,
+            plain_message,
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+            html_message = html_message,
+            fail_silently = False
+        )
+        print(f"Password reset email sent to {email}")
+    except Exception as e:
+        print(f"Error sending password reset email {email}: {e}")
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 async def forgot_password(request):
@@ -140,9 +256,9 @@ async def forgot_password(request):
     if not rate_limit(email):
         return Response({'error': 'Too many requests. Please try again later.'},
                         status=status.HTTP_429_TOO_MANY_REQUESTS)
-
-    reset_token = crypto.randomBytes(20).toString('hex')
-    reset_token_expiry = timezone.now() + timezone.timedelta(hours=1)  # 1 hour from now
+    alphabet = string.ascii_letters + string.digits + string.puntuation
+    reset_token = "".join(secrets.choice(alphabet))
+    reset_token_expiry = timezone.now() + timezone.timedelta(hours=1)
 
     user = get_object_or_404(User, email=email)
     user.resetToken = reset_token

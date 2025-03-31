@@ -5,8 +5,6 @@
 ### Two-Factor Authentication (2FA)
 ```
 GET  /api/auth/2fa-status/         - Get 2FA status
-POST /api/auth/enable-2fa/         - Enable 2FA
-POST /api/auth/verify-2fa/         - Verify 2FA token
 POST /api/auth/disable-2fa/        - Disable 2FA
 POST /api/auth/validate-backup-code/- Validate backup code
 POST /api/auth/regenerate-backup-codes/ - Generate new backup codes

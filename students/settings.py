@@ -13,10 +13,9 @@ PAYMENT_VARIANTS = {
         'url': '/payment/process/',
     }),
     # 'stripe': ('payments.stripe.StripeProvider', {
-    #     'secret_key': 'your-stripe-secret-key',
-    #     'publishable_key': 'your-stripe-publishable-key',
+    #     'secret_key': 'stripe-secret-key',
+    #     'publishable_key': 'stripe-publishable-key',
     # }),
-    # Add more payment variants for different gateways
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -107,6 +106,7 @@ INSTALLED_APPS = [
     'payment.apps.PaymentConfig',
     'adminapp.apps.AdminappConfig',
     'staticpages.apps.StaticpagesConfig',
+    'users.apps.UsersConfig',
 
     # third-party apps
     'django_daraja',
@@ -184,7 +184,7 @@ SIMPLE_JWT = {
 # SECURE_HSTS_PRELOAD = True
 # SESSION_COOKIE_SAMESITE = 'strict'
 
-ASGI_APPLICATION = 'marketplace.routing.application'
+ASGI_APPLICATION = 'students.asgi.application'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
@@ -266,6 +266,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = "users.CustomUser"
 
 USE_I18N = True
 USE_TZ = True

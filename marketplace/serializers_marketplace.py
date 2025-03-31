@@ -1,30 +1,8 @@
 from rest_framework import serializers
-from .models import Student, Cart, CartItem, WishList, Review
+from .models import Cart, CartItem, WishList, Review
 from products.models import Product
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = [
-            'id', 'title', 'description', 'price', 'category',
-            'image', 'student', 'created_at', 'updated_at', 'slug'
-        ]
-
-
-class StudentProfileSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField(source='user.id')
-    username = serializers.CharField(source='user.username')
-    email = serializers.EmailField()
-    avatar = serializers.ImageField(source='userprofile.avatar')
-
-    class Meta:
-        model = Student
-        fields = [
-            'id', 'user_id', 'username', 'first_name', 'last_name',
-            'email', 'bio', 'avatar', 'two_factor_enabled'
-        ]
-
+from users.serializers import StudentProfileSerializer
+from products.serializers import ProductSerializer
 
 class ReviewSerializer(serializers.ModelSerializer):
     reviewer = StudentProfileSerializer(read_only=True)
