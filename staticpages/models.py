@@ -14,7 +14,7 @@ class StaticPage(models.Model):
         return self.title
 
 
-class FAQ(models.Model):
+class Faq(models.Model):
     question = models.CharField(max_length=200)
     answer = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

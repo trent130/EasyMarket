@@ -31,7 +31,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return value
 
 
-
 class StudentProfileSerializer(serializers.ModelSerializer):
     # User-related fields
     user_id = serializers.UUIDField(source='user.id', read_only=True)

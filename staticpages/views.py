@@ -7,11 +7,11 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from .models import StaticPage, FAQ, ContactMessage, Testimonial, FooterLinks, ContactInfo
+from .models import StaticPage, Faq, ContactMessage, Testimonial
 from .serializers import (
     StaticPageSerializer,
-    FAQSerializer,
-    FAQCategorySerializer,
+    FaqSerializer,
+    FaqCategorySerializer,
     ContactMessageSerializer,
     TestimonialSerializer,
     SiteSettingsSerializer,
@@ -67,23 +67,23 @@ class StaticPageViewSet(viewsets.ModelViewSet):
 
 
 class FAQViewSet(viewsets.ModelViewSet):
-    queryset = FAQ.objects.filter(is_published=True)
-    serializer_class = FAQSerializer
+    queryset = Faq.objects.filter(is_published=True)
+    serializer_class = FaqSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @action(detail=False, methods=['get'])
     def by_category(self, request):
         """Get FAQs grouped by category"""
-        categories = FAQ.objects.values_list(
+        categories = Faq.objects.values_list(
             'category', flat=True
         ).distinct()
         result = []
         for category in categories:
-            faqs = FAQ.objects.filter(
+            faqs = Faq.objects.filter(
                 category=category,
                 is_published=True
             )
-            serializer = FAQCategorySerializer({
+            serializer = FaqCategorySerializer({
                 'category': category,
                 'faqs': faqs
             })
@@ -96,7 +96,7 @@ class FAQViewSet(viewsets.ModelViewSet):
         query = request.query_params.get('q', '')
         if not query:
             return Response([])
-        faqs = FAQ.objects.filter(
+        faqs = Faq.objects.filter(
             is_published=True
         ).filter(
             question__icontains=query

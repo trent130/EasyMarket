@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-# from orders.models import Order
 from django.http import HttpResponseNotAllowed
 from .forms import AddToCartForm, UpdateCartForm
 from products.models import Product
 from .models import WishList
+from rest_framework.parsers import MultiPartParser, FormParser
+
 
 # def cart_cleared(request):
 #     return render(request, 'marketplace/cart_cleared.html')

@@ -51,28 +51,28 @@ def clear_page_cache(slug):
 
 def get_cached_faqs(category=None):
     """Get FAQs from cache or database"""
-    cache_key = FAQ_CACHE_KEY.format(category=category or 'all')
+    cache_key = Faq_CACHE_KEY.format(category=category or 'all')
     faqs_data = cache.get(cache_key)
     if faqs_data is None:
-        from .models import FAQ
-        queryset = FAQ.objects.filter(is_published=True)
+        from .models import Faq
+        queryset = Faq.objects.filter(is_published=True)
         if category:
             queryset = queryset.filter(category=category)
         faqs_data = list(queryset.values(
             'question', 'answer', 'category', 'order'
         ))
-        cache.set(cache_key, faqs_data, FAQ_CACHE_TIMEOUT)
+        cache.set(cache_key, faqs_data, Faq_CACHE_TIMEOUT)
     return faqs_data
 
 
 def clear_faq_cache(category=None):
-    """Clear FAQ cache"""
+    """Clear Faq cache"""
     if category:
-        cache_key = FAQ_CACHE_KEY.format(category=category)
+        cache_key = Faq_CACHE_KEY.format(category=category)
         cache.delete(cache_key)
     else:
-        # Clear all FAQ caches
-        cache.delete_pattern(FAQ_CACHE_KEY.format(category='*'))
+        # Clear all Faq caches
+        cache.delete_pattern(Faq_CACHE_KEY.format(category='*'))
 
 
 def get_site_settings():
