@@ -3,6 +3,24 @@ import string
 import pyotp
 from .models import UserProfile, Student, CustomUser
 
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'first_name',  'email', 'password'] #'first_name', 'last_name',
+        read_only_fields = ['id']
+
+    def create(self, validated_data):
+        user = CustomUser(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+
+
 class StudentProfileSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='user.id')
     username = serializers.CharField(source='user.username')

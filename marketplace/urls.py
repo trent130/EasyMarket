@@ -30,10 +30,7 @@ urlpatterns = [
      path('api/cart/<int:cart_id>/clear/',
           views_marketplace.CartViewSet.as_view({'post': 'clear'}),
           name='cart-clear'),
-     # user profile
-     path('api/profile/<int:pk>/',
-         views_marketplace.UserProfileViewSet.as_view({'get': 'view profile'}),
-         name='user_profile'),
+
          
      # Wishlist operations
      path('api/wishlist/<int:wishlist_id>/add/',

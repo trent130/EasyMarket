@@ -6,10 +6,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, logout
-from django.contrib.auth.models import User
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import Student
+from .models import Student, CustomUser, UserProfile
 from .serializers import (
     # TwoFactorEnableSerializer,
     TwoFactorVerifySerializer,
@@ -45,7 +44,7 @@ redis_client = redis.Redis(
 )
 
 # Create your views here.
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
     if created and not instance.is_superuser:  # Prevent duplicate profiles for superusers
         UserProfile.objects.get_or_create(user=instance)  # Ensures no duplicate profiles
