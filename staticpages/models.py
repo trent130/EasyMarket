@@ -42,3 +42,43 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f'Testimonial by {self.author}'
+
+class FooterLinks(models.Model):
+    CHOICES = [
+        ("quick_links": "quick_links"),
+        ("categories": "categories")
+    ]
+    slug = models.SlugField(unique=True)
+    title = models.CharField(max_length=100)
+    url = models.CharField(max_length=250)
+    category = models.CharField(max_length=150, choices=CHOICES)
+
+    def __str__(self):
+        return f"Footer links {self.title}"
+
+class Address(models.Model):
+    street = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Address info {self.state}"
+
+class ContactInfo(models.Model):
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    phone = models.PhoneNumberField()
+    email = models.EmailField()
+
+    def __str__(self):
+        return f"Our contact info {self.email}"
+
+class Footer(models.Model):
+    quickLinks = models.ForeignKey(FooterLinks, on_delete=models.CASCADE)
+    categories = models.ForeignKey(FooterLinks, on_delete=models.CASCADE)
+    contactInfo = models.ForeignKey(ContactInfo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"quick links {self.quicklinks}"
+
