@@ -18,7 +18,7 @@ urlpatterns = [
     path('orders/', include('orders.urls')),
     path('payment/', include('payment.urls')),
     path('adminapp/', include('adminapp.urls')),
-    path('users/', include('users.urls')),  # Add users URLs
+    path('users/', include('users.urls')),
 ]
 
 if settings.DEBUG:

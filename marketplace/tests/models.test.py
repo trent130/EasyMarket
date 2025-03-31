@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 # from django.core.exceptions import ValidationError
-from marketplace.models import Student, UserProfile  # Message, Reaction, Review, Cart, CartItem, CustomUser, WishList
+from users.models import Student, UserProfile  # Message, Reaction, Review, Cart, CartItem, CustomUser, WishList
 from products.models import Product, Category
 
 
