@@ -1,13 +1,8 @@
 from django.contrib import admin
-from marketplace.models import Student, Cart, CartItem, Message, Reaction, Review, CustomUser, WishList
+from marketplace.models import Student, Cart, CartItem, Message, Reaction, Review, CustomUser, WishList, UserProfile
 from django.contrib.admin.exceptions import NotRegistered
 
 # Register your models here.
-
-class StudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email')
-    search_fields = ['first_name', 'last_name', 'email']
-
 
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('product', 'reviewer', 'rating', 'timestamp')
@@ -36,11 +31,6 @@ class CartAdmin(admin.ModelAdmin):
 
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartItem, CartItemAdmin)
-try:
-    admin.site.unregister(Student)
-except NotRegistered:
-    pass
-admin.site.register(Student, StudentAdmin)
 
 
 class ReactionAdmin(admin.ModelAdmin):
@@ -62,7 +52,6 @@ class MessageAdmin(admin.ModelAdmin):
     list_filter = ['user__username', 'timestamp', 'read']
     inlines = [ReactionInline]
 
-
 admin.site.register(Message, MessageAdmin)
 admin.site.register(Reaction, ReactionAdmin)
 try:
@@ -71,5 +60,4 @@ except NotRegistered:
     pass
 admin.site.register(Review, ReviewAdmin)
 
-admin.site.register(CustomUser)
 admin.site.register(WishList)

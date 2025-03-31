@@ -4,8 +4,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-# from django.shortcuts import get_object_or_404
-# from django.db import models
 from django.db.models import Count, Avg, Q
 from .models import Cart, CartItem, WishList, Review  # Student
 from products.models import Product
@@ -14,15 +12,12 @@ from .serializers_marketplace import (
     CartItemSerializer,
     WishListSerializer,
     ReviewSerializer,
-    ProductSerializer,
     # CategorySerializer,
     SearchResultSerializer
 )
+from products.serializer import ProductSerializer
 import logging
 from rest_framework.parsers import MultiPartParser, FormParser
-from .models import UserProfile
-from .serializers import UserProfileSerializer
-from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 
@@ -209,39 +204,3 @@ def get_recommendations(request):
     serializer = ProductSerializer(recommended, many=True)
     return Response(serializer.data)
 
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-
-
-class UserProfileViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint for managing user profiles.
-    Supports retrieving and updating user profile information.
-    """
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]  # Only authenticated users can access this
-    parser_classes = (MultiPartParser, FormParser)  # Allow file uploads
-
-    def get_queryset(self):
-        """
-        Restricts the returned profiles to the logged-in user.
-        """
-        return UserProfile.objects.filter(user=self.request.user)
-
-    def perform_update(self, serializer):
-        """
-        Ensures that the user can only update their own profile.
-        """
-        serializer.save(user=self.request.user)
-
-    def retrieve(self, request, *args, **kwargs):
-        """
-        Retrieve the authenticated user's profile.
-        """
-        instance = self.get_queryset().first()  # Get the current user's profile
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)

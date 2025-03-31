@@ -8,67 +8,6 @@ from django.contrib.auth.models import AbstractUser, Permission
 from products.models import Product
 
 
-class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50, unique=True)
-    bio = models.TextField(blank=True)
-
-    def __str__(self):
-        """
-        Returns a string representation of the student, which is
-        the combination of their first and last names.
-
-        Returns:
-            str: The string representation of the student.
-        """
-        return f'{self.first_name} {self.last_name}'
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.jpg')
-
-    def __str__(self):
-        """
-        Returns a string representation of the user profile, which is
-        the username of the associated user.
-
-        Returns:
-            str: The string representation of the user profile.
-        """
-        return f'{self.user.username}'  # pylint: disable=no-member
-
-
-@receiver(post_save, sender=User)
-def create_user_related_profiles(sender, instance, created, **kwargs):
-    """
-    Signal receiver that creates user-related profiles upon User creation.
-
-    This function is triggered when a User instance is saved. If a new User
-    is created, it automatically creates a UserProfile associated with that
-    User. Additionally, it attempts to create a Student profile only if the
-    email does not already exist in the Student model. If the email already
-    exists, it logs a message indicating that a Student with that email
-    already exists. For existing Users, it ensures that the UserProfile is
-    saved if it exists.
-    """
-    if created:
-        # Create UserProfile
-        UserProfile.objects.create(user=instance)
-
-        # Create Student profile only if email doesn't exist
-        if not Student.objects.filter(email=instance.email).exists():
-            Student.objects.create(user=instance, email=instance.email)
-        else:
-            print(f"Student with email {instance.email} already exists.")
-    else:
-        # Ensure UserProfile exists and save it
-        if hasattr(instance, 'userprofile'):
-            instance.userprofile.save()
-
-
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
@@ -204,22 +143,6 @@ class CartItem(models.Model):
             float: The total price of the cart item.
         """
         return self.product.price * self.quantity
-
-
-class CustomUser(AbstractUser):
-    ROLE_CHOICES = [
-        ('basic', 'Basic'),
-        ('legacy', 'Legacy'),
-        ('admin', 'Admin'),
-        ('premium', 'Premium'),
-    ]
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='basic')
-    # Define a unique related_name for the user_permissions relationship
-    groups = models.ManyToManyField(Group, related_name='custom_users')
-    user_permissions = models.ManyToManyField(Permission, related_name='custom_users')
-
-    class Meta:
-        db_table = 'custom_user'
 
 
 class WishList(models.Model):

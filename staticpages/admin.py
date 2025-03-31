@@ -1,14 +1,14 @@
 from django.contrib import admin
-from .models import StaticPage, Footer, Testimonial, ContactMessage, FAQ
+from .models import StaticPage, Footer, Testimonial, ContactMessage, FAQ, Footer
 
 # Register your models here.
-@admin.site.register(ContactMessage)
+@admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = [
         'name',
         'email',
         'message',
-        'created_at',
+        # 'created_at',
     ]
     list_filter = ['name', 'email']
     search_fields = [
@@ -19,7 +19,7 @@ class ContactMessageAdmin(admin.ModelAdmin):
         'created_at',
     ]
 
-@admin.site.register(FAQ)
+@admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
     list_display = [
         'question',
@@ -39,7 +39,7 @@ class FAQAdmin(admin.ModelAdmin):
         'is_published'
     ]
 
-@admin.site.register(Testimonial)
+@admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
     list_display = [
         'author',
@@ -57,7 +57,7 @@ class TestimonialAdmin(admin.ModelAdmin):
         'is_featured'
     ]
 
-@admin.site.register(StaticPage)
+@admin.register(StaticPage)
 class StaticPageAdmin(admin.ModelAdmin):
     list_display = [
         'title',
@@ -78,4 +78,23 @@ class StaticPageAdmin(admin.ModelAdmin):
         'updated_at'
     ]
 
-admin.site.register(Footer)
+# @admin.register(Footer)
+# class FooterAdmin(admin.ModelAdmin):
+#     list_display = [
+#         'title',
+#         'content',
+#         'created_at',
+#         'is_published',
+#         'slug',
+#         'updated_at'
+#     ]
+#     list_filter = ['created_at', 'title', 'is_published']
+#     search_fields = [
+#         'title',
+#         'created_at',
+#     ]
+#     readonly_fields = [
+#         'created_at',
+#         'is_published',
+#         'updated_at'
+#     ]

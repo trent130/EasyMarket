@@ -366,3 +366,12 @@ class ProductBulkActionSerializer(serializers.Serializer):
             )
 
         return value
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            'id', 'title', 'description', 'price', 'category',
+            'image', 'student', 'created_at', 'updated_at', 'slug'
+        ]
