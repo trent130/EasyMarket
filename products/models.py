@@ -123,7 +123,7 @@ class Product(models.Model):
         validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('999999.99'))]
     )
     student = models.ForeignKey(
-        'marketplace.Student',
+        'users.Student',
         on_delete=models.CASCADE,
         related_name='products'
     )

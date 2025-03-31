@@ -1,0 +1,551 @@
+DEBUG 2025-03-31 18:21:25,545 schema CREATE TABLE "django_migrations" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "app" varchar(255) NOT NULL, "name" varchar(255) NOT NULL, "applied" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:25,559 schema CREATE TABLE "django_content_type" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(100) NOT NULL, "app_label" varchar(100) NOT NULL, "model" varchar(100) NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:25,572 schema CREATE UNIQUE INDEX "django_content_type_app_label_model_76bd3d3b_uniq" ON "django_content_type" ("app_label", "model"); (params ())
+DEBUG 2025-03-31 18:21:25,592 schema CREATE TABLE "new__django_content_type" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "app_label" varchar(100) NOT NULL, "model" varchar(100) NOT NULL, "name" varchar(100) NULL); (params None)
+DEBUG 2025-03-31 18:21:25,593 schema INSERT INTO "new__django_content_type" ("id", "app_label", "model", "name") SELECT "id", "app_label", "model", "name" FROM "django_content_type"; (params ())
+DEBUG 2025-03-31 18:21:25,594 schema DROP TABLE "django_content_type"; (params ())
+DEBUG 2025-03-31 18:21:25,596 schema ALTER TABLE "new__django_content_type" RENAME TO "django_content_type"; (params ())
+DEBUG 2025-03-31 18:21:25,599 schema CREATE UNIQUE INDEX "django_content_type_app_label_model_76bd3d3b_uniq" ON "django_content_type" ("app_label", "model"); (params ())
+DEBUG 2025-03-31 18:21:25,607 schema ALTER TABLE "django_content_type" DROP COLUMN "name"; (params ())
+DEBUG 2025-03-31 18:21:25,629 schema CREATE TABLE "auth_permission" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(50) NOT NULL, "content_type_id" integer NOT NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "codename" varchar(100) NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:25,647 schema CREATE TABLE "auth_group" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(80) NOT NULL UNIQUE); (params None)
+DEBUG 2025-03-31 18:21:25,650 schema CREATE TABLE "auth_group_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED, "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:25,672 schema CREATE UNIQUE INDEX "auth_permission_content_type_id_codename_01ab375a_uniq" ON "auth_permission" ("content_type_id", "codename"); (params None)
+DEBUG 2025-03-31 18:21:25,673 schema CREATE INDEX "auth_permission_content_type_id_2f476e4b" ON "auth_permission" ("content_type_id"); (params None)
+DEBUG 2025-03-31 18:21:25,675 schema CREATE UNIQUE INDEX "auth_group_permissions_group_id_permission_id_0cd325b0_uniq" ON "auth_group_permissions" ("group_id", "permission_id"); (params None)
+DEBUG 2025-03-31 18:21:25,676 schema CREATE INDEX "auth_group_permissions_group_id_b120cbf9" ON "auth_group_permissions" ("group_id"); (params None)
+DEBUG 2025-03-31 18:21:25,677 schema CREATE INDEX "auth_group_permissions_permission_id_84c5c92e" ON "auth_group_permissions" ("permission_id"); (params None)
+DEBUG 2025-03-31 18:21:25,719 schema CREATE TABLE "new__auth_permission" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content_type_id" integer NOT NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "codename" varchar(100) NOT NULL, "name" varchar(255) NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:25,722 schema INSERT INTO "new__auth_permission" ("id", "content_type_id", "codename", "name") SELECT "id", "content_type_id", "codename", "name" FROM "auth_permission"; (params ())
+DEBUG 2025-03-31 18:21:25,724 schema DROP TABLE "auth_permission"; (params ())
+DEBUG 2025-03-31 18:21:25,726 schema ALTER TABLE "new__auth_permission" RENAME TO "auth_permission"; (params ())
+DEBUG 2025-03-31 18:21:25,730 schema CREATE UNIQUE INDEX "auth_permission_content_type_id_codename_01ab375a_uniq" ON "auth_permission" ("content_type_id", "codename"); (params ())
+DEBUG 2025-03-31 18:21:25,731 schema CREATE INDEX "auth_permission_content_type_id_2f476e4b" ON "auth_permission" ("content_type_id"); (params ())
+DEBUG 2025-03-31 18:21:25,942 schema CREATE TABLE "new__auth_group" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(150) NOT NULL UNIQUE); (params None)
+DEBUG 2025-03-31 18:21:25,944 schema INSERT INTO "new__auth_group" ("id", "name") SELECT "id", "name" FROM "auth_group"; (params ())
+DEBUG 2025-03-31 18:21:25,945 schema DROP TABLE "auth_group"; (params ())
+DEBUG 2025-03-31 18:21:25,947 schema ALTER TABLE "new__auth_group" RENAME TO "auth_group"; (params ())
+DEBUG 2025-03-31 18:21:26,055 schema CREATE TABLE "custom_user" ("password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "id" char(32) NOT NULL PRIMARY KEY, "email" varchar(254) NOT NULL UNIQUE, "username" varchar(50) NOT NULL UNIQUE, "first_name" varchar(50) NOT NULL, "last_name" varchar(50) NOT NULL, "user_type" varchar(10) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,058 schema CREATE TABLE "custom_user_groups" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "customuser_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED, "group_id" integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,061 schema CREATE TABLE "custom_user_user_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "customuser_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED, "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,098 schema CREATE TABLE "users_student" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "first_name" varchar(50) NOT NULL, "last_name" varchar(50) NOT NULL, "email" varchar(50) NOT NULL UNIQUE, "bio" text NOT NULL, "user_id" char(32) NOT NULL UNIQUE REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,135 schema CREATE TABLE "users_userprofile" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "avatar" varchar(100) NOT NULL, "user_id" char(32) NOT NULL UNIQUE REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,137 schema CREATE UNIQUE INDEX "custom_user_groups_customuser_id_group_id_ea14f886_uniq" ON "custom_user_groups" ("customuser_id", "group_id"); (params None)
+DEBUG 2025-03-31 18:21:26,138 schema CREATE INDEX "custom_user_groups_customuser_id_8e3d0338" ON "custom_user_groups" ("customuser_id"); (params None)
+DEBUG 2025-03-31 18:21:26,139 schema CREATE INDEX "custom_user_groups_group_id_02874f21" ON "custom_user_groups" ("group_id"); (params None)
+DEBUG 2025-03-31 18:21:26,140 schema CREATE UNIQUE INDEX "custom_user_user_permissions_customuser_id_permission_id_f9232336_uniq" ON "custom_user_user_permissions" ("customuser_id", "permission_id"); (params None)
+DEBUG 2025-03-31 18:21:26,142 schema CREATE INDEX "custom_user_user_permissions_customuser_id_ec2da4cb" ON "custom_user_user_permissions" ("customuser_id"); (params None)
+DEBUG 2025-03-31 18:21:26,144 schema CREATE INDEX "custom_user_user_permissions_permission_id_f82b5e3f" ON "custom_user_user_permissions" ("permission_id"); (params None)
+DEBUG 2025-03-31 18:21:26,214 schema CREATE TABLE "django_admin_log" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "action_time" datetime NOT NULL, "object_id" text NULL, "object_repr" varchar(200) NOT NULL, "action_flag" smallint unsigned NOT NULL CHECK ("action_flag" >= 0), "change_message" text NOT NULL, "content_type_id" integer NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,216 schema CREATE INDEX "django_admin_log_content_type_id_c4bce8eb" ON "django_admin_log" ("content_type_id"); (params None)
+DEBUG 2025-03-31 18:21:26,217 schema CREATE INDEX "django_admin_log_user_id_c564eba6" ON "django_admin_log" ("user_id"); (params None)
+DEBUG 2025-03-31 18:21:26,284 schema CREATE TABLE "new__django_admin_log" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "object_id" text NULL, "object_repr" varchar(200) NOT NULL, "action_flag" smallint unsigned NOT NULL CHECK ("action_flag" >= 0), "change_message" text NOT NULL, "content_type_id" integer NULL REFERENCES "django_content_type" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED, "action_time" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,286 schema INSERT INTO "new__django_admin_log" ("id", "object_id", "object_repr", "action_flag", "change_message", "content_type_id", "user_id", "action_time") SELECT "id", "object_id", "object_repr", "action_flag", "change_message", "content_type_id", "user_id", "action_time" FROM "django_admin_log"; (params ())
+DEBUG 2025-03-31 18:21:26,287 schema DROP TABLE "django_admin_log"; (params ())
+DEBUG 2025-03-31 18:21:26,290 schema ALTER TABLE "new__django_admin_log" RENAME TO "django_admin_log"; (params ())
+DEBUG 2025-03-31 18:21:26,295 schema CREATE INDEX "django_admin_log_content_type_id_c4bce8eb" ON "django_admin_log" ("content_type_id"); (params ())
+DEBUG 2025-03-31 18:21:26,297 schema CREATE INDEX "django_admin_log_user_id_c564eba6" ON "django_admin_log" ("user_id"); (params ())
+DEBUG 2025-03-31 18:21:26,366 schema CREATE TABLE "django_daraja_accesstoken" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "token" varchar(30) NOT NULL, "created_at" date NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,387 schema CREATE TABLE "new__django_daraja_accesstoken" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "token" varchar(30) NOT NULL, "created_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,389 schema INSERT INTO "new__django_daraja_accesstoken" ("id", "token", "created_at") SELECT "id", "token", "created_at" FROM "django_daraja_accesstoken"; (params ())
+DEBUG 2025-03-31 18:21:26,390 schema DROP TABLE "django_daraja_accesstoken"; (params ())
+DEBUG 2025-03-31 18:21:26,391 schema ALTER TABLE "new__django_daraja_accesstoken" RENAME TO "django_daraja_accesstoken"; (params ())
+DEBUG 2025-03-31 18:21:26,419 schema CREATE TABLE "new__django_daraja_accesstoken" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "token" varchar(30) NOT NULL, "created_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,421 schema INSERT INTO "new__django_daraja_accesstoken" ("token", "created_at", "id") SELECT "token", "created_at", "id" FROM "django_daraja_accesstoken"; (params ())
+DEBUG 2025-03-31 18:21:26,422 schema DROP TABLE "django_daraja_accesstoken"; (params ())
+DEBUG 2025-03-31 18:21:26,424 schema ALTER TABLE "new__django_daraja_accesstoken" RENAME TO "django_daraja_accesstoken"; (params ())
+DEBUG 2025-03-31 18:21:26,440 schema CREATE TABLE "products_category" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(50) NOT NULL UNIQUE, "description" text NOT NULL, "image" varchar(100) NULL, "slug" varchar(60) NOT NULL UNIQUE, "is_active" bool NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,447 schema CREATE TABLE "products_productvariant" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(100) NOT NULL, "sku" varchar(50) NOT NULL UNIQUE, "price_adjustment" decimal NOT NULL, "stock" integer unsigned NOT NULL CHECK ("stock" >= 0), "reserved_stock" integer unsigned NOT NULL CHECK ("reserved_stock" >= 0), "is_active" bool NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,461 schema CREATE TABLE "products_product" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(100) NOT NULL, "description" text NOT NULL, "price" decimal NOT NULL, "condition" varchar(10) NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "is_active" bool NOT NULL, "image" varchar(100) NOT NULL, "slug" varchar(200) NOT NULL UNIQUE, "stock" integer unsigned NOT NULL CHECK ("stock" >= 0), "reserved_stock" integer unsigned NOT NULL CHECK ("reserved_stock" >= 0), "views_count" integer unsigned NOT NULL CHECK ("views_count" >= 0), "featured" bool NOT NULL, "last_stock_update" datetime NOT NULL, "total_sales" integer unsigned NOT NULL CHECK ("total_sales" >= 0), "total_revenue" decimal NOT NULL, "last_sale_date" datetime NULL, "category_id" bigint NOT NULL REFERENCES "products_category" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,462 schema CREATE INDEX "products_product_category_id_9b594869" ON "products_product" ("category_id"); (params None)
+DEBUG 2025-03-31 18:21:26,477 schema CREATE TABLE "marketplace_cart" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "slug" varchar(50) NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,483 schema CREATE TABLE "marketplace_cartitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "added_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,488 schema CREATE TABLE "marketplace_message" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content" text NOT NULL, "timestamp" datetime NOT NULL, "read" bool NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,492 schema CREATE TABLE "marketplace_reaction" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reaction_type" varchar(10) NOT NULL, "created_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,504 schema CREATE TABLE "marketplace_review" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "rating" integer unsigned NOT NULL CHECK ("rating" >= 0), "comment" text NOT NULL, "timestamp" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,508 schema CREATE TABLE "marketplace_wishlist" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "auto_now" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:26,510 schema CREATE INDEX "marketplace_cart_slug_9f54ab98" ON "marketplace_cart" ("slug"); (params None)
+DEBUG 2025-03-31 18:21:26,654 schema CREATE TABLE "new__marketplace_cart" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "slug" varchar(50) NOT NULL, "user_id" char(32) NOT NULL UNIQUE REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,656 schema INSERT INTO "new__marketplace_cart" ("id", "created_at", "updated_at", "slug", "user_id") SELECT "id", "created_at", "updated_at", "slug", NULL FROM "marketplace_cart"; (params ())
+DEBUG 2025-03-31 18:21:26,657 schema DROP TABLE "marketplace_cart"; (params ())
+DEBUG 2025-03-31 18:21:26,658 schema ALTER TABLE "new__marketplace_cart" RENAME TO "marketplace_cart"; (params ())
+DEBUG 2025-03-31 18:21:26,666 schema CREATE INDEX "marketplace_cart_slug_9f54ab98" ON "marketplace_cart" ("slug"); (params ())
+DEBUG 2025-03-31 18:21:26,729 schema CREATE TABLE "new__marketplace_cartitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "added_at" datetime NOT NULL, "cart_id" bigint NOT NULL REFERENCES "marketplace_cart" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,731 schema INSERT INTO "new__marketplace_cartitem" ("id", "quantity", "added_at", "cart_id") SELECT "id", "quantity", "added_at", NULL FROM "marketplace_cartitem"; (params ())
+DEBUG 2025-03-31 18:21:26,732 schema DROP TABLE "marketplace_cartitem"; (params ())
+DEBUG 2025-03-31 18:21:26,733 schema ALTER TABLE "new__marketplace_cartitem" RENAME TO "marketplace_cartitem"; (params ())
+DEBUG 2025-03-31 18:21:26,741 schema CREATE INDEX "marketplace_cartitem_cart_id_524937bc" ON "marketplace_cartitem" ("cart_id"); (params ())
+DEBUG 2025-03-31 18:21:26,817 schema CREATE TABLE "new__marketplace_cartitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "added_at" datetime NOT NULL, "cart_id" bigint NOT NULL REFERENCES "marketplace_cart" ("id") DEFERRABLE INITIALLY DEFERRED, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,820 schema INSERT INTO "new__marketplace_cartitem" ("id", "quantity", "added_at", "cart_id", "product_id") SELECT "id", "quantity", "added_at", "cart_id", NULL FROM "marketplace_cartitem"; (params ())
+DEBUG 2025-03-31 18:21:26,821 schema DROP TABLE "marketplace_cartitem"; (params ())
+DEBUG 2025-03-31 18:21:26,822 schema ALTER TABLE "new__marketplace_cartitem" RENAME TO "marketplace_cartitem"; (params ())
+DEBUG 2025-03-31 18:21:26,827 schema CREATE INDEX "marketplace_cartitem_cart_id_524937bc" ON "marketplace_cartitem" ("cart_id"); (params ())
+DEBUG 2025-03-31 18:21:26,829 schema CREATE INDEX "marketplace_cartitem_product_id_e85a97af" ON "marketplace_cartitem" ("product_id"); (params ())
+DEBUG 2025-03-31 18:21:26,894 schema CREATE TABLE "new__marketplace_cart" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "slug" varchar(50) NOT NULL, "user_id" char(32) NOT NULL UNIQUE REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,896 schema INSERT INTO "new__marketplace_cart" ("id", "created_at", "updated_at", "slug", "user_id") SELECT "id", "created_at", "updated_at", "slug", "user_id" FROM "marketplace_cart"; (params ())
+DEBUG 2025-03-31 18:21:26,898 schema DROP TABLE "marketplace_cart"; (params ())
+DEBUG 2025-03-31 18:21:26,899 schema ALTER TABLE "new__marketplace_cart" RENAME TO "marketplace_cart"; (params ())
+DEBUG 2025-03-31 18:21:26,907 schema CREATE INDEX "marketplace_cart_slug_9f54ab98" ON "marketplace_cart" ("slug"); (params ())
+DEBUG 2025-03-31 18:21:26,983 schema CREATE TABLE "new__marketplace_message" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content" text NOT NULL, "timestamp" datetime NOT NULL, "read" bool NOT NULL, "user_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:26,985 schema INSERT INTO "new__marketplace_message" ("id", "content", "timestamp", "read", "user_id") SELECT "id", "content", "timestamp", "read", NULL FROM "marketplace_message"; (params ())
+DEBUG 2025-03-31 18:21:26,986 schema DROP TABLE "marketplace_message"; (params ())
+DEBUG 2025-03-31 18:21:26,988 schema ALTER TABLE "new__marketplace_message" RENAME TO "marketplace_message"; (params ())
+DEBUG 2025-03-31 18:21:26,994 schema CREATE INDEX "marketplace_message_user_id_38f1bce8" ON "marketplace_message" ("user_id"); (params ())
+DEBUG 2025-03-31 18:21:27,067 schema ALTER TABLE "marketplace_reaction" ADD COLUMN "message_sent_id" bigint NULL REFERENCES "marketplace_message" ("id") DEFERRABLE INITIALLY DEFERRED; (params None)
+DEBUG 2025-03-31 18:21:27,146 schema CREATE TABLE "new__marketplace_reaction" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reaction_type" varchar(10) NOT NULL, "created_at" datetime NOT NULL, "message_sent_id" bigint NULL REFERENCES "marketplace_message" ("id") DEFERRABLE INITIALLY DEFERRED, "user_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:27,148 schema INSERT INTO "new__marketplace_reaction" ("id", "reaction_type", "created_at", "message_sent_id", "user_id") SELECT "id", "reaction_type", "created_at", "message_sent_id", NULL FROM "marketplace_reaction"; (params ())
+DEBUG 2025-03-31 18:21:27,149 schema DROP TABLE "marketplace_reaction"; (params ())
+DEBUG 2025-03-31 18:21:27,150 schema ALTER TABLE "new__marketplace_reaction" RENAME TO "marketplace_reaction"; (params ())
+DEBUG 2025-03-31 18:21:27,159 schema CREATE INDEX "marketplace_reaction_message_sent_id_f7902f0f" ON "marketplace_reaction" ("message_sent_id"); (params ())
+DEBUG 2025-03-31 18:21:27,160 schema CREATE INDEX "marketplace_reaction_user_id_11cd74a7" ON "marketplace_reaction" ("user_id"); (params ())
+DEBUG 2025-03-31 18:21:27,248 schema CREATE TABLE "new__marketplace_review" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "rating" integer unsigned NOT NULL CHECK ("rating" >= 0), "comment" text NOT NULL, "timestamp" datetime NOT NULL, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:27,250 schema INSERT INTO "new__marketplace_review" ("id", "rating", "comment", "timestamp", "product_id") SELECT "id", "rating", "comment", "timestamp", NULL FROM "marketplace_review"; (params ())
+DEBUG 2025-03-31 18:21:27,251 schema DROP TABLE "marketplace_review"; (params ())
+DEBUG 2025-03-31 18:21:27,252 schema ALTER TABLE "new__marketplace_review" RENAME TO "marketplace_review"; (params ())
+DEBUG 2025-03-31 18:21:27,260 schema CREATE INDEX "marketplace_review_product_id_7cfa7df8" ON "marketplace_review" ("product_id"); (params ())
+DEBUG 2025-03-31 18:21:27,355 schema CREATE TABLE "new__marketplace_review" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "rating" integer unsigned NOT NULL CHECK ("rating" >= 0), "comment" text NOT NULL, "timestamp" datetime NOT NULL, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED, "reviewer_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:27,357 schema INSERT INTO "new__marketplace_review" ("id", "rating", "comment", "timestamp", "product_id", "reviewer_id") SELECT "id", "rating", "comment", "timestamp", "product_id", NULL FROM "marketplace_review"; (params ())
+DEBUG 2025-03-31 18:21:27,358 schema DROP TABLE "marketplace_review"; (params ())
+DEBUG 2025-03-31 18:21:27,360 schema ALTER TABLE "new__marketplace_review" RENAME TO "marketplace_review"; (params ())
+DEBUG 2025-03-31 18:21:27,369 schema CREATE INDEX "marketplace_review_product_id_7cfa7df8" ON "marketplace_review" ("product_id"); (params ())
+DEBUG 2025-03-31 18:21:27,370 schema CREATE INDEX "marketplace_review_reviewer_id_b90e91d7" ON "marketplace_review" ("reviewer_id"); (params ())
+DEBUG 2025-03-31 18:21:27,475 schema CREATE TABLE "marketplace_wishlist_products" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "wishlist_id" bigint NOT NULL REFERENCES "marketplace_wishlist" ("id") DEFERRABLE INITIALLY DEFERRED, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:27,574 schema CREATE TABLE "new__marketplace_wishlist" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "auto_now" datetime NOT NULL, "user_id" char(32) NOT NULL UNIQUE REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:27,576 schema INSERT INTO "new__marketplace_wishlist" ("id", "auto_now", "user_id") SELECT "id", "auto_now", NULL FROM "marketplace_wishlist"; (params ())
+DEBUG 2025-03-31 18:21:27,577 schema DROP TABLE "marketplace_wishlist"; (params ())
+DEBUG 2025-03-31 18:21:27,578 schema ALTER TABLE "new__marketplace_wishlist" RENAME TO "marketplace_wishlist"; (params ())
+DEBUG 2025-03-31 18:21:27,586 schema CREATE UNIQUE INDEX "marketplace_wishlist_products_wishlist_id_product_id_e42179d6_uniq" ON "marketplace_wishlist_products" ("wishlist_id", "product_id"); (params ())
+DEBUG 2025-03-31 18:21:27,588 schema CREATE INDEX "marketplace_wishlist_products_wishlist_id_42682988" ON "marketplace_wishlist_products" ("wishlist_id"); (params ())
+DEBUG 2025-03-31 18:21:27,589 schema CREATE INDEX "marketplace_wishlist_products_product_id_f7c9b021" ON "marketplace_wishlist_products" ("product_id"); (params ())
+DEBUG 2025-03-31 18:21:27,678 schema CREATE UNIQUE INDEX "marketplace_review_product_id_reviewer_id_e5936e60_uniq" ON "marketplace_review" ("product_id", "reviewer_id"); (params ())
+DEBUG 2025-03-31 18:21:27,712 schema CREATE TABLE "orders_order" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reference" varchar(20) NOT NULL UNIQUE, "total_amount" decimal NOT NULL, "status" varchar(20) NOT NULL, "payment_method" varchar(20) NOT NULL, "payment_status" bool NOT NULL, "notes" text NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:27,721 schema CREATE TABLE "orders_orderitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "price" decimal NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:27,732 schema CREATE TABLE "orders_shippingaddress" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "first_name" varchar(100) NOT NULL, "last_name" varchar(100) NOT NULL, "email" varchar(254) NOT NULL, "phone" varchar(15) NOT NULL, "address" varchar(255) NOT NULL, "city" varchar(100) NOT NULL, "postal_code" varchar(20) NOT NULL, "is_default" bool NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:27,865 schema CREATE TABLE "new__orders_order" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reference" varchar(20) NOT NULL UNIQUE, "total_amount" decimal NOT NULL, "status" varchar(20) NOT NULL, "payment_method" varchar(20) NOT NULL, "payment_status" bool NOT NULL, "notes" text NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:27,868 schema INSERT INTO "new__orders_order" ("id", "reference", "total_amount", "status", "payment_method", "payment_status", "notes", "created_at", "updated_at", "user_id") SELECT "id", "reference", "total_amount", "status", "payment_method", "payment_status", "notes", "created_at", "updated_at", NULL FROM "orders_order"; (params ())
+DEBUG 2025-03-31 18:21:27,870 schema DROP TABLE "orders_order"; (params ())
+DEBUG 2025-03-31 18:21:27,871 schema ALTER TABLE "new__orders_order" RENAME TO "orders_order"; (params ())
+DEBUG 2025-03-31 18:21:27,878 schema CREATE INDEX "orders_order_user_id_e9b59eb1" ON "orders_order" ("user_id"); (params ())
+DEBUG 2025-03-31 18:21:27,976 schema CREATE TABLE "new__orders_orderitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "price" decimal NOT NULL, "order_id" bigint NOT NULL REFERENCES "orders_order" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:27,978 schema INSERT INTO "new__orders_orderitem" ("id", "quantity", "price", "order_id") SELECT "id", "quantity", "price", NULL FROM "orders_orderitem"; (params ())
+DEBUG 2025-03-31 18:21:27,979 schema DROP TABLE "orders_orderitem"; (params ())
+DEBUG 2025-03-31 18:21:27,981 schema ALTER TABLE "new__orders_orderitem" RENAME TO "orders_orderitem"; (params ())
+DEBUG 2025-03-31 18:21:27,989 schema CREATE INDEX "orders_orderitem_order_id_fe61a34d" ON "orders_orderitem" ("order_id"); (params ())
+DEBUG 2025-03-31 18:21:28,096 schema CREATE TABLE "new__orders_orderitem" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "quantity" integer unsigned NOT NULL CHECK ("quantity" >= 0), "price" decimal NOT NULL, "order_id" bigint NOT NULL REFERENCES "orders_order" ("id") DEFERRABLE INITIALLY DEFERRED, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:28,100 schema INSERT INTO "new__orders_orderitem" ("id", "quantity", "price", "order_id", "product_id") SELECT "id", "quantity", "price", "order_id", NULL FROM "orders_orderitem"; (params ())
+DEBUG 2025-03-31 18:21:28,101 schema DROP TABLE "orders_orderitem"; (params ())
+DEBUG 2025-03-31 18:21:28,104 schema ALTER TABLE "new__orders_orderitem" RENAME TO "orders_orderitem"; (params ())
+DEBUG 2025-03-31 18:21:28,113 schema CREATE INDEX "orders_orderitem_order_id_fe61a34d" ON "orders_orderitem" ("order_id"); (params ())
+DEBUG 2025-03-31 18:21:28,115 schema CREATE INDEX "orders_orderitem_product_id_afe4254a" ON "orders_orderitem" ("product_id"); (params ())
+DEBUG 2025-03-31 18:21:28,240 schema CREATE TABLE "new__orders_shippingaddress" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "first_name" varchar(100) NOT NULL, "last_name" varchar(100) NOT NULL, "email" varchar(254) NOT NULL, "phone" varchar(15) NOT NULL, "address" varchar(255) NOT NULL, "city" varchar(100) NOT NULL, "postal_code" varchar(20) NOT NULL, "is_default" bool NOT NULL, "user_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:28,242 schema INSERT INTO "new__orders_shippingaddress" ("id", "first_name", "last_name", "email", "phone", "address", "city", "postal_code", "is_default", "user_id") SELECT "id", "first_name", "last_name", "email", "phone", "address", "city", "postal_code", "is_default", NULL FROM "orders_shippingaddress"; (params ())
+DEBUG 2025-03-31 18:21:28,243 schema DROP TABLE "orders_shippingaddress"; (params ())
+DEBUG 2025-03-31 18:21:28,245 schema ALTER TABLE "new__orders_shippingaddress" RENAME TO "orders_shippingaddress"; (params ())
+DEBUG 2025-03-31 18:21:28,254 schema CREATE INDEX "orders_shippingaddress_user_id_179363b0" ON "orders_shippingaddress" ("user_id"); (params ())
+DEBUG 2025-03-31 18:21:28,367 schema CREATE TABLE "new__orders_order" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "reference" varchar(20) NOT NULL UNIQUE, "total_amount" decimal NOT NULL, "status" varchar(20) NOT NULL, "payment_method" varchar(20) NOT NULL, "payment_status" bool NOT NULL, "notes" text NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED, "shipping_address_id" bigint NOT NULL REFERENCES "orders_shippingaddress" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:28,369 schema INSERT INTO "new__orders_order" ("id", "reference", "total_amount", "status", "payment_method", "payment_status", "notes", "created_at", "updated_at", "user_id", "shipping_address_id") SELECT "id", "reference", "total_amount", "status", "payment_method", "payment_status", "notes", "created_at", "updated_at", "user_id", NULL FROM "orders_order"; (params ())
+DEBUG 2025-03-31 18:21:28,370 schema DROP TABLE "orders_order"; (params ())
+DEBUG 2025-03-31 18:21:28,372 schema ALTER TABLE "new__orders_order" RENAME TO "orders_order"; (params ())
+DEBUG 2025-03-31 18:21:28,378 schema CREATE INDEX "orders_order_user_id_e9b59eb1" ON "orders_order" ("user_id"); (params ())
+DEBUG 2025-03-31 18:21:28,380 schema CREATE INDEX "orders_order_shipping_address_id_c4f8227a" ON "orders_order" ("shipping_address_id"); (params ())
+DEBUG 2025-03-31 18:21:28,404 schema CREATE TABLE "payment_transaction" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "transaction_id" varchar(100) NOT NULL UNIQUE, "merchant_request_id" varchar(100) NULL, "payment_method" varchar(20) NOT NULL, "amount" decimal NOT NULL, "phone_number" varchar(15) NOT NULL, "reference" varchar(50) NOT NULL UNIQUE, "description" varchar(100) NOT NULL, "checkout_request_id" varchar(50) NOT NULL UNIQUE, "status" varchar(20) NOT NULL, "timestamp" datetime NOT NULL, "updated_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:28,536 schema CREATE TABLE "new__payment_transaction" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "transaction_id" varchar(100) NOT NULL UNIQUE, "merchant_request_id" varchar(100) NULL, "payment_method" varchar(20) NOT NULL, "amount" decimal NOT NULL, "phone_number" varchar(15) NOT NULL, "reference" varchar(50) NOT NULL UNIQUE, "description" varchar(100) NOT NULL, "checkout_request_id" varchar(50) NOT NULL UNIQUE, "status" varchar(20) NOT NULL, "timestamp" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:28,538 schema INSERT INTO "new__payment_transaction" ("id", "transaction_id", "merchant_request_id", "payment_method", "amount", "phone_number", "reference", "description", "checkout_request_id", "status", "timestamp", "updated_at", "user_id") SELECT "id", "transaction_id", "merchant_request_id", "payment_method", "amount", "phone_number", "reference", "description", "checkout_request_id", "status", "timestamp", "updated_at", NULL FROM "payment_transaction"; (params ())
+DEBUG 2025-03-31 18:21:28,539 schema DROP TABLE "payment_transaction"; (params ())
+DEBUG 2025-03-31 18:21:28,542 schema ALTER TABLE "new__payment_transaction" RENAME TO "payment_transaction"; (params ())
+DEBUG 2025-03-31 18:21:28,548 schema CREATE INDEX "payment_transaction_user_id_9e60d11b" ON "payment_transaction" ("user_id"); (params ())
+DEBUG 2025-03-31 18:21:28,697 schema CREATE TABLE "new__products_product" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(100) NOT NULL, "description" text NOT NULL, "price" decimal NOT NULL, "condition" varchar(10) NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "is_active" bool NOT NULL, "image" varchar(100) NOT NULL, "slug" varchar(200) NOT NULL UNIQUE, "stock" integer unsigned NOT NULL CHECK ("stock" >= 0), "reserved_stock" integer unsigned NOT NULL CHECK ("reserved_stock" >= 0), "views_count" integer unsigned NOT NULL CHECK ("views_count" >= 0), "featured" bool NOT NULL, "last_stock_update" datetime NOT NULL, "total_sales" integer unsigned NOT NULL CHECK ("total_sales" >= 0), "total_revenue" decimal NOT NULL, "last_sale_date" datetime NULL, "category_id" bigint NOT NULL REFERENCES "products_category" ("id") DEFERRABLE INITIALLY DEFERRED, "student_id" bigint NOT NULL REFERENCES "users_student" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:28,700 schema INSERT INTO "new__products_product" ("id", "title", "description", "price", "condition", "created_at", "updated_at", "is_active", "image", "slug", "stock", "reserved_stock", "views_count", "featured", "last_stock_update", "total_sales", "total_revenue", "last_sale_date", "category_id", "student_id") SELECT "id", "title", "description", "price", "condition", "created_at", "updated_at", "is_active", "image", "slug", "stock", "reserved_stock", "views_count", "featured", "last_stock_update", "total_sales", "total_revenue", "last_sale_date", "category_id", NULL FROM "products_product"; (params ())
+DEBUG 2025-03-31 18:21:28,702 schema DROP TABLE "products_product"; (params ())
+DEBUG 2025-03-31 18:21:28,704 schema ALTER TABLE "new__products_product" RENAME TO "products_product"; (params ())
+DEBUG 2025-03-31 18:21:28,711 schema CREATE INDEX "products_product_category_id_9b594869" ON "products_product" ("category_id"); (params ())
+DEBUG 2025-03-31 18:21:28,713 schema CREATE INDEX "products_product_student_id_809a8569" ON "products_product" ("student_id"); (params ())
+DEBUG 2025-03-31 18:21:28,827 schema CREATE TABLE "products_product_variants" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "product_id" bigint NOT NULL REFERENCES "products_product" ("id") DEFERRABLE INITIALLY DEFERRED, "productvariant_id" bigint NOT NULL REFERENCES "products_productvariant" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:28,908 schema CREATE INDEX "products_pr_title_7d8124_idx" ON "products_product" ("title"); (params None)
+DEBUG 2025-03-31 18:21:28,988 schema CREATE INDEX "products_pr_slug_3edc0c_idx" ON "products_product" ("slug"); (params None)
+DEBUG 2025-03-31 18:21:29,069 schema CREATE INDEX "products_pr_created_52f0d7_idx" ON "products_product" ("created_at"); (params None)
+DEBUG 2025-03-31 18:21:29,145 schema CREATE INDEX "products_pr_price_9b1a5f_idx" ON "products_product" ("price"); (params None)
+DEBUG 2025-03-31 18:21:29,219 schema CREATE INDEX "products_pr_stock_4d23d5_idx" ON "products_product" ("stock"); (params None)
+DEBUG 2025-03-31 18:21:29,222 schema CREATE UNIQUE INDEX "products_product_variants_product_id_productvariant_id_d0bc89f3_uniq" ON "products_product_variants" ("product_id", "productvariant_id"); (params None)
+DEBUG 2025-03-31 18:21:29,223 schema CREATE INDEX "products_product_variants_product_id_e4bf0043" ON "products_product_variants" ("product_id"); (params None)
+DEBUG 2025-03-31 18:21:29,224 schema CREATE INDEX "products_product_variants_productvariant_id_128b2c64" ON "products_product_variants" ("productvariant_id"); (params None)
+DEBUG 2025-03-31 18:21:29,252 schema CREATE TABLE "django_session" ("session_key" varchar(40) NOT NULL PRIMARY KEY, "session_data" text NOT NULL, "expire_date" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:29,258 schema CREATE INDEX "django_session_expire_date_a5c62663" ON "django_session" ("expire_date"); (params None)
+DEBUG 2025-03-31 18:21:29,281 schema CREATE TABLE "staticpages_address" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "street" varchar(100) NOT NULL, "city" varchar(100) NOT NULL, "state" varchar(100) NOT NULL, "postal_code" varchar(100) NOT NULL, "country" varchar(100) NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:29,289 schema CREATE TABLE "staticpages_contactmessage" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(100) NOT NULL, "email" varchar(254) NOT NULL, "message" text NOT NULL, "created_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:29,300 schema CREATE TABLE "staticpages_faq" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "question" varchar(200) NOT NULL, "answer" text NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "is_published" bool NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:29,308 schema CREATE TABLE "staticpages_footerlinks" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "slug" varchar(50) NOT NULL UNIQUE, "title" varchar(100) NOT NULL, "url" varchar(250) NOT NULL, "category" varchar(150) NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:29,316 schema CREATE TABLE "staticpages_staticpage" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "content" text NOT NULL, "slug" varchar(50) NOT NULL UNIQUE, "is_published" bool NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:29,325 schema CREATE TABLE "staticpages_testimonial" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content" text NOT NULL, "created_at" datetime NOT NULL, "is_featured" bool NOT NULL); (params None)
+DEBUG 2025-03-31 18:21:29,343 schema CREATE TABLE "staticpages_contactinfo" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "phone" varchar(15) NOT NULL, "email" varchar(254) NOT NULL, "address_id" bigint NOT NULL REFERENCES "staticpages_address" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:29,367 schema CREATE TABLE "staticpages_footer" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "contactInfo_id" bigint NOT NULL REFERENCES "staticpages_contactinfo" ("id") DEFERRABLE INITIALLY DEFERRED, "quickLinks_id" bigint NOT NULL REFERENCES "staticpages_footerlinks" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:29,370 schema CREATE INDEX "staticpages_contactinfo_address_id_4aad32f6" ON "staticpages_contactinfo" ("address_id"); (params None)
+DEBUG 2025-03-31 18:21:29,372 schema CREATE INDEX "staticpages_footer_contactInfo_id_7ebd5d23" ON "staticpages_footer" ("contactInfo_id"); (params None)
+DEBUG 2025-03-31 18:21:29,373 schema CREATE INDEX "staticpages_footer_quickLinks_id_c18869ef" ON "staticpages_footer" ("quickLinks_id"); (params None)
+DEBUG 2025-03-31 18:21:29,519 schema CREATE TABLE "new__staticpages_testimonial" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content" text NOT NULL, "created_at" datetime NOT NULL, "is_featured" bool NOT NULL, "author_id" char(32) NOT NULL REFERENCES "custom_user" ("id") DEFERRABLE INITIALLY DEFERRED); (params None)
+DEBUG 2025-03-31 18:21:29,522 schema INSERT INTO "new__staticpages_testimonial" ("id", "content", "created_at", "is_featured", "author_id") SELECT "id", "content", "created_at", "is_featured", NULL FROM "staticpages_testimonial"; (params ())
+DEBUG 2025-03-31 18:21:29,523 schema DROP TABLE "staticpages_testimonial"; (params ())
+DEBUG 2025-03-31 18:21:29,524 schema ALTER TABLE "new__staticpages_testimonial" RENAME TO "staticpages_testimonial"; (params ())
+DEBUG 2025-03-31 18:21:29,536 schema CREATE INDEX "staticpages_testimonial_author_id_aef19f65" ON "staticpages_testimonial" ("author_id"); (params ())
+WARNING 2025-03-31 18:25:31,128 log Not Found: /favicon.ico
+DEBUG 2025-03-31 18:25:53,380 base Exception while resolving variable 'get_short_name' in template 'admin/index.html'.
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'CustomUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: trent@gmail.com>>
+WARNING 2025-03-31 18:25:53,879 log Not Found: /favicon.ico
+DEBUG 2025-03-31 18:26:00,250 base Exception while resolving variable 'get_short_name' in template 'admin/change_list.html'.
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'CustomUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: trent@gmail.com>>
+DEBUG 2025-03-31 18:26:04,003 base Exception while resolving variable 'get_short_name' in template 'admin/change_form.html'.
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'CustomUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: trent@gmail.com>>
+DEBUG 2025-03-31 18:26:35,668 base Exception while resolving variable 'get_short_name' in template 'admin/change_list.html'.
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'CustomUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: trent@gmail.com>>
+DEBUG 2025-03-31 18:26:39,635 base Exception while resolving variable 'get_short_name' in template 'admin/change_form.html'.
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'CustomUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: trent@gmail.com>>
+DEBUG 2025-03-31 18:26:51,397 base Exception while resolving variable 'get_short_name' in template 'admin/change_list.html'.
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'CustomUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: trent@gmail.com>>
+DEBUG 2025-03-31 18:27:02,853 base Exception while resolving variable 'get_short_name' in template 'admin/change_list.html'.
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'CustomUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: trent@gmail.com>>
+DEBUG 2025-03-31 18:27:06,053 base Exception while resolving variable 'get_short_name' in template 'admin/change_form.html'.
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'CustomUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'get_short_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: trent@gmail.com>>
+WARNING 2025-03-31 18:37:07,337 log Not Found: /api/footer
+WARNING 2025-03-31 18:37:07,459 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 18:37:07,518 log Not Found: /api/footer
+WARNING 2025-03-31 18:37:07,543 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 18:37:07,741 log Not Found: /api/footer
+WARNING 2025-03-31 18:37:07,742 log Not Found: /api/footer
+WARNING 2025-03-31 18:37:32,181 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:37:32,245 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:37:32,309 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:37:32,338 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:37:32,390 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:37:32,442 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:37:32,493 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:37:32,533 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:37:32,576 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:37:32,657 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:37:32,717 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:37:32,787 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:41:21,898 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:41:21,953 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:41:22,024 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:41:22,095 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:41:22,154 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:41:22,232 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:41:22,300 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:41:22,379 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:41:22,474 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:41:22,554 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:41:22,620 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:41:22,741 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:46:16,229 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:46:16,338 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:46:16,601 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:46:16,664 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:46:16,735 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:46:16,806 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:46:16,867 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:46:16,937 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:46:16,986 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:46:17,066 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:46:17,138 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:46:17,208 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:47:18,738 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 18:47:18,741 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 18:47:31,116 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:47:31,173 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:47:31,232 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:47:31,276 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:47:31,317 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:47:31,388 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:47:31,448 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:47:31,508 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:47:31,564 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:47:31,644 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:47:31,721 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:47:31,773 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:51:02,775 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:51:02,799 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:51:02,831 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:51:02,862 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:51:02,900 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:51:02,989 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:51:03,071 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:51:03,130 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:51:03,183 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:51:03,284 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:51:03,354 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:51:03,419 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:55:16,863 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:55:16,904 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:55:16,954 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:55:17,014 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:55:17,056 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:55:17,132 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:55:17,196 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:55:17,253 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:55:17,307 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:55:17,381 log Not Found: /marketplace/signin/
+WARNING 2025-03-31 18:55:17,455 log Not Found: /marketplace/token/
+WARNING 2025-03-31 18:55:17,505 log Not Found: /marketplace/token/

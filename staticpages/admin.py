@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import StaticPage, Footer, Testimonial, ContactMessage, Faq, Footer
+from .models import StaticPage, Footer, Testimonial, ContactMessage, Faq
 
 # Register your models here.
 class ContactMessageAdmin(admin.ModelAdmin):
@@ -71,11 +71,11 @@ class StaticPageAdmin(admin.ModelAdmin):
         'title',
         'created_at',
     ]
-    readonly_fields = [
-        'created_at',
-        'is_published',
-        'updated_at'
-    ]
+    # readonly_fields = [
+    #     'created_at',
+    #     'is_published',
+    #     'updated_at'
+    # ]
 admin.site.register(StaticPage, StaticPageAdmin)
 
 # @admin.register(Footer)
