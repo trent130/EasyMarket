@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 import uuid
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 
 # Custom user manager
 class CustomUserManager(BaseUserManager):
@@ -50,7 +51,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 # UserProfile model
 class UserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', default='avatars/default.jpg')
 
     def __str__(self):
@@ -58,7 +59,7 @@ class UserProfile(models.Model):
 
 # Student model
 class Student(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=50, unique=True)
@@ -68,7 +69,7 @@ class Student(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 # Signal to create profiles automatically
-@receiver(post_save, sender=CustomUser)
+@receiver(post_save, sender=Csettings.AUTH_USER_MODEL)
 def create_user_related_profiles(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)

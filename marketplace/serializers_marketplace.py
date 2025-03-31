@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from .models import Student, Cart, CartItem, WishList, Review
+from .models import Cart, CartItem, WishList, Review
 from products.models import Product
+from users.serializers import StudentProfileSerializer
+from products.serializers import ProductSerializer
 
 class ReviewSerializer(serializers.ModelSerializer):
     reviewer = StudentProfileSerializer(read_only=True)

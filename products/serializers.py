@@ -2,9 +2,10 @@ from rest_framework import serializers
 # from django.core.exceptions import ValidationError
 # from django.utils.text import slugify
 from .models import Product, Category, ProductVariant
-from marketplace.models import Student, Review
+from marketplace.models import Review
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
+from users.models import Student
 from django.db.models import Avg
 from django.db.models import Count
 

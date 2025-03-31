@@ -7778,3 +7778,163 @@ Traceback (most recent call last):
     raise ConnectionError(self._error_message(e))
 redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
 WARNING 2025-03-31 08:47:07,272 log Not Found: /favicon.ico
+WARNING 2025-03-31 10:35:55,077 log Not Found: /api/footer
+WARNING 2025-03-31 10:35:55,242 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 10:35:55,308 log Not Found: /api/footer
+WARNING 2025-03-31 10:35:55,347 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 10:35:55,484 log Not Found: /api/footer
+WARNING 2025-03-31 10:35:55,485 log Not Found: /api/footer
+WARNING 2025-03-31 10:36:24,436 log Unauthorized: /marketplace/api/profile/
+WARNING 2025-03-31 10:36:35,613 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 10:36:35,624 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 10:36:35,681 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 10:36:35,682 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 10:36:35,908 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 10:36:35,932 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 10:36:35,938 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 10:36:35,975 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 10:54:15,784 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 10:54:15,786 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 10:54:39,058 log Bad Request: /marketplace/signin/
+WARNING 2025-03-31 10:54:40,866 log Bad Request: /marketplace/signin/
+WARNING 2025-03-31 10:54:42,982 log Bad Request: /marketplace/signin/
+WARNING 2025-03-31 10:54:45,044 log Bad Request: /marketplace/signin/
+WARNING 2025-03-31 10:54:45,075 log Bad Request: /marketplace/signin/
+WARNING 2025-03-31 10:54:45,134 log Bad Request: /marketplace/signin/
+WARNING 2025-03-31 10:54:52,542 log Unauthorized: /marketplace/api/profile/
+WARNING 2025-03-31 10:55:05,658 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 10:55:05,801 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 10:55:05,842 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 10:55:05,870 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 10:55:05,962 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 10:55:06,044 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 10:55:06,072 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 10:55:06,087 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 10:57:14,312 log Not Found: /marketplace/textbooks/search/
+WARNING 2025-03-31 10:57:14,313 log Not Found: /marketplace/textbooks/search/
+WARNING 2025-03-31 10:57:14,389 log Not Found: /marketplace/textbooks/search/
+WARNING 2025-03-31 10:57:14,403 log Not Found: /marketplace/textbooks/search/
+WARNING 2025-03-31 10:58:23,881 log Not Found: /api/calendar/events
+WARNING 2025-03-31 10:58:23,899 log Not Found: /api/calendar/events
+WARNING 2025-03-31 10:58:23,975 log Not Found: /api/calendar/events
+WARNING 2025-03-31 10:58:23,984 log Not Found: /api/calendar/events
+WARNING 2025-03-31 11:35:06,531 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 11:35:06,532 log Unauthorized: /marketplace/api/wishlist/
+WARNING 2025-03-31 11:35:22,392 log Unauthorized: /marketplace/api/profile/
+WARNING 2025-03-31 11:35:33,519 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 11:35:33,570 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 11:35:33,592 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 11:35:33,598 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 11:35:33,668 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 11:35:33,709 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 11:35:33,740 log Not Found: /api/analytics/dashboard
+WARNING 2025-03-31 11:35:33,748 log Not Found: /marketplace/orders/
+WARNING 2025-03-31 11:35:44,514 log Not Found: /marketplace/me//settings/
+WARNING 2025-03-31 11:35:44,519 log Not Found: /marketplace/me//settings/
+WARNING 2025-03-31 11:35:44,595 log Not Found: /marketplace/me//settings/
+WARNING 2025-03-31 11:35:44,606 log Not Found: /marketplace/me//settings/
+WARNING 2025-03-31 11:35:49,903 log Not Found: /api/calendar/events
+WARNING 2025-03-31 11:35:49,906 log Not Found: /api/calendar/events
+WARNING 2025-03-31 11:35:50,009 log Not Found: /api/calendar/events
+WARNING 2025-03-31 11:35:50,022 log Not Found: /api/calendar/events
+WARNING 2025-03-31 11:35:57,622 log Not Found: /marketplace/textbooks/search/
+WARNING 2025-03-31 11:35:57,629 log Not Found: /marketplace/textbooks/search/
+WARNING 2025-03-31 11:35:57,745 log Not Found: /marketplace/textbooks/search/
+WARNING 2025-03-31 11:35:57,757 log Not Found: /marketplace/textbooks/search/
+WARNING 2025-03-31 11:36:06,841 log Not Found: /customers
+WARNING 2025-03-31 11:36:06,845 log Not Found: /customers
+WARNING 2025-03-31 11:36:06,912 log Not Found: /customers
+WARNING 2025-03-31 11:36:06,939 log Not Found: /customers
+WARNING 2025-03-31 11:36:17,242 log Not Found: /api/orders
+WARNING 2025-03-31 11:36:17,243 log Not Found: /api/orders
+WARNING 2025-03-31 11:36:17,299 log Not Found: /api/orders
+WARNING 2025-03-31 11:36:17,350 log Not Found: /api/orders
+WARNING 2025-03-31 11:37:19,585 log Not Found: /api/footer
+WARNING 2025-03-31 11:37:19,589 log Not Found: /api/footer
+WARNING 2025-03-31 11:37:19,812 log Not Found: /api/footer
+WARNING 2025-03-31 11:37:19,826 log Not Found: /api/footer
+WARNING 2025-03-31 11:46:29,741 log Unauthorized: /marketplace/logout/
+ERROR 2025-03-31 11:48:01,626 log Internal Server Error: /marketplace/signup/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/marketplace/views_auth.py", line 95, in signup
+AttributeError: 'str' object has no attribute 'get'
+ERROR 2025-03-31 11:48:01,727 log Internal Server Error: /marketplace/signup/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/marketplace/views_auth.py", line 95, in signup
+AttributeError: 'str' object has no attribute 'get'

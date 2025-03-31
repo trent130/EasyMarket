@@ -21,7 +21,7 @@ from .serializers import (
     CategorySerializer
 )
 from .search import search_products
-from marketplace.models import Student
+from users.models import Student
 import logging
 
 logger = logging.getLogger(__name__)

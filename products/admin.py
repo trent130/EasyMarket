@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.contrib.admin.exceptions import NotRegistered
 from .models import Product, Category, ProductVariant
 # from orders.models import Order
-# from marketplace.models import Student
 # from django.contrib.auth.models import User
 # from django.contrib.auth.admin import UserAdmin
 # from django.utils.translation import gettext_lazy as _

@@ -5,7 +5,7 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Count, Avg, Q
-from .models import Cart, CartItem, WishList, Review  # Student
+from .models import Cart, CartItem, WishList, Review
 from products.models import Product
 from .serializers_marketplace import (
     CartSerializer,
@@ -15,7 +15,7 @@ from .serializers_marketplace import (
     # CategorySerializer,
     SearchResultSerializer
 )
-from products.serializer import ProductSerializer
+from products.serializers import ProductSerializer
 import logging
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.dispatch import receiver

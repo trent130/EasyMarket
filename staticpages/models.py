@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class StaticPage(models.Model):
@@ -41,7 +42,7 @@ class Testimonial(models.Model):
     '''
     /* static pages model to store the Testimonial related information */
     '''
-    author = models.CharField(max_length=100)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_featured = models.BooleanField(default=False)
