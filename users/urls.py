@@ -28,6 +28,12 @@ urlpatterns = [
      path('signup/', views.signup, name='signup'),
      path('logout/', views.signout, name='logout'),
      path('forgot_password/', views.forgot_password, name='forgot_password'),
-     path('reset_password', views.reset_password, name="reset_password")
+     path('reset_password', views.reset_password, name="reset_password"),
+
+
+    # user profile
+    path('api/profile/<int:pk>/',
+        views.UserProfileViewSet.as_view({'get': 'view profile'}),
+        name='user_profile'),
 ]
 

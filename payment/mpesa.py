@@ -1,6 +1,5 @@
 import requests
 import base64
-# import json
 from datetime import datetime
 from requests.auth import HTTPBasicAuth
 from django.conf import settings

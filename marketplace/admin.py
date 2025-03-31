@@ -1,5 +1,5 @@
 from django.contrib import admin
-from marketplace.models import Student, Cart, CartItem, Message, Reaction, Review, CustomUser, WishList, UserProfile
+from marketplace.models import  Cart, CartItem, Message, Reaction, Review, WishList
 from django.contrib.admin.exceptions import NotRegistered
 
 # Register your models here.

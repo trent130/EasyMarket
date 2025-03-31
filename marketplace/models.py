@@ -1,12 +1,14 @@
 from django.db import models
 # from django.urls import reverse
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, Permission
 from products.models import Product
+from django.conf import settings
 
+User = settings.AUTH_USER_MODEL
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,7 +39,7 @@ class Reaction(models.Model):
     ]
     reaction_type = models.CharField(
         max_length=10, choices=REACTION_CHOICES)
-    message = models.ForeignKey('Message', on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='reactions', null=True, default=None)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -87,7 +89,7 @@ class Review(models.Model):
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField(Product, through='CartItem')
+    items = models.ManyToManyField(Product, through='marketplace.CartItem')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     slug = models.SlugField()
