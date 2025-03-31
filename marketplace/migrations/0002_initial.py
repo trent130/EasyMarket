@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='reaction',
-            name='message',
+            name='message_sent',
             field=models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='reactions', to='marketplace.message'),
         ),
         migrations.AddField(
