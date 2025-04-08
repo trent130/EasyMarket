@@ -8,13 +8,13 @@ urlpatterns = [
     re_path(r"^static/(?P<path>.*)", serve, {'document_root': settings.STATIC_ROOT}),
     re_path(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT}),
     path('admin/', admin.site.urls),
-    path('', include('staticpages.urls')),
-    path('api/v1/marketplace/', include('marketplace.urls')),
-    path('api/v1/products/', include('products.urls', namespace='products')),
-    path('api/v1/orders/', include('orders.urls')),
-    path('api/v1/payment/', include('payment.urls')),
-    path('api/v1/admin/', include('adminapp.urls')),
-    path('api/v1/users/', include('users.urls')),
+    path('api/', include('staticpages.urls')),
+    path('api/marketplace/', include('marketplace.urls')),
+    path('api/products/', include('products.urls', namespace='products')),
+    path('api/orders/', include('orders.urls')),
+    path('api/payment/', include('payment.urls')),
+    path('api/admin/', include('adminapp.urls')),
+    path('api/users/', include('users.urls'))
 ]
 
 if settings.DEBUG:

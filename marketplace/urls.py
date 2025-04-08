@@ -20,41 +20,41 @@ websocket_urlpatterns = [
 
 urlpatterns = [
      # Router URLs
-     path('api/', include(router.urls)),
+     path('', include(router.urls)),
 
      # Cart operations
-     path('api/cart/<int:cart_id>/add/',
+     path('cart/<int:cart_id>/add/',
           views_marketplace.CartViewSet.as_view({'post': 'add_item'}),
           name='cart-add-item'),
-     path('api/cart/<int:cart_id>/remove/',
+     path('cart/<int:cart_id>/remove/',
           views_marketplace.CartViewSet.as_view({'post': 'remove_item'}),
           name='cart-remove-item'),
-     path('api/cart/<int:cart_id>/clear/',
+     path('cart/<int:cart_id>/clear/',
           views_marketplace.CartViewSet.as_view({'post': 'clear'}),
           name='cart-clear'),
 
          
      # Wishlist operations
-     path('api/wishlist/<int:wishlist_id>/add/',
+     path('wishlist/<int:wishlist_id>/add/',
           views_marketplace.WishListViewSet.as_view({'post': 'add_product'}),
           name='wishlist-add-product'),
-     path('api/wishlist/<int:wishlist_id>/remove/',
+     path('wishlist/<int:wishlist_id>/remove/',
           views_marketplace.WishListViewSet.as_view({'post': 'remove_product'}),
           name='wishlist-remove-product'),
 
      # Search and recommendations
-     path('api/search/',
+     path('search/',
           views_marketplace.SearchView.as_view(),
           name='search'),
-     path('api/recommendations/',
+     path('recommendations/',
           views_marketplace.get_recommendations,
           name='recommendations'),
 
      # Reviews
-     path('api/products/<int:product_id>/reviews/',
+     path('products/<int:product_id>/reviews/',
           views_marketplace.ReviewViewSet.as_view({'get': 'list', 'post': 'create'}),
           name='product-reviews'),
-     path('api/reviews/<int:pk>/',
+     path('reviews/<int:pk>/',
           views_marketplace.ReviewViewSet.as_view({
                'get': 'retrieve',
                'put': 'update',
