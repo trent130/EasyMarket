@@ -11,93 +11,93 @@ router.register(r'testimonials', views.TestimonialViewSet, basename='testimonial
 
 urlpatterns = [
     # Router URLs
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 
     # Static Pages
-    path('api/pages/home/',
+    path('pages/home/',
          views.StaticPageViewSet.as_view({'get': 'home'}),
          name='home-page'),
-    path('api/pages/<slug:slug>/meta/',
+    path('pages/<slug:slug>/meta/',
          views.StaticPageViewSet.as_view({'get': 'meta'}),
          name='page-meta'),
 
     # FAQs
-    path('api/faqs/categories/',
+    path('faqs/categories/',
          views.FAQViewSet.as_view({'get': 'by_category'}),
          name='faq-categories'),
-    path('api/faqs/search/',
+    path('faqs/search/',
          views.FAQViewSet.as_view({'get': 'search'}),
          name='faq-search'),
 
     # Site Settings
-    path('api/settings/',
+    path('settings/',
          views.SiteSettingsViewSet.as_view({'get': 'list'}),
          name='site-settings'),
 
     # Newsletter
-    path('api/newsletter/subscribe/',
+    path('newsletter/subscribe/',
          views.NewsletterViewSet.as_view({'post': 'create'}),
          name='newsletter-subscribe'),
 
     # Feedback
-    path('api/feedback/',
+    path('feedback/',
          views.FeedbackViewSet.as_view({'post': 'create'}),
          name='submit-feedback'),
 
     # Content Management
-    path('api/pages/preview/<slug:slug>/',
+    path('pages/preview/<slug:slug>/',
          views.StaticPageViewSet.as_view({'get': 'preview'}),
          name='preview-page'),
-    path('api/pages/publish/<slug:slug>/',
+    path('pages/publish/<slug:slug>/',
          views.StaticPageViewSet.as_view({'post': 'publish'}),
          name='publish-page'),
-    path('api/pages/unpublish/<slug:slug>/',
+    path('pages/unpublish/<slug:slug>/',
          views.StaticPageViewSet.as_view({'post': 'unpublish'}),
          name='unpublish-page'),
 
     # Testimonials Management
-    path('api/testimonials/featured/',
+    path('testimonials/featured/',
          views.TestimonialViewSet.as_view({'get': 'featured'}),
          name='featured-testimonials'),
-    path('api/testimonials/approve/<int:pk>/',
+    path('testimonials/approve/<int:pk>/',
          views.TestimonialViewSet.as_view({'post': 'approve'}),
          name='approve-testimonial'),
-    path('api/testimonials/reject/<int:pk>/',
+    path('testimonials/reject/<int:pk>/',
          views.TestimonialViewSet.as_view({'post': 'reject'}),
          name='reject-testimonial'),
 
     # Contact Form
-    path('api/contact/departments/',
+    path('contact/departments/',
          views.ContactMessageViewSet.as_view({'get': 'departments'}),
          name='contact-departments'),
-    path('api/contact/support/',
+    path('contact/support/',
          views.ContactMessageViewSet.as_view({'post': 'support'}),
          name='contact-support'),
 
     # SEO Management
-    path('api/seo/sitemap/',
+    path('seo/sitemap/',
          views.StaticPageViewSet.as_view({'get': 'sitemap'}),
          name='sitemap'),
-    path('api/seo/robots/',
+    path('seo/robots/',
          views.StaticPageViewSet.as_view({'get': 'robots'}),
          name='robots'),
-    path('api/seo/meta-tags/',
+    path('seo/meta-tags/',
          views.StaticPageViewSet.as_view({'get': 'meta_tags'}),
          name='meta-tags'),
 
     # Cache Management
-    path('api/cache/clear/',
+    path('cache/clear/',
          views.SiteSettingsViewSet.as_view({'post': 'clear_cache'}),
          name='clear-cache'),
-    path('api/cache/warm/',
+    path('cache/warm/',
          views.SiteSettingsViewSet.as_view({'post': 'warm_cache'}),
          name='warm-cache'),
 
     # Analytics
-    path('api/analytics/page-views/',
+    path('analytics/page-views/',
          views.StaticPageViewSet.as_view({'get': 'page_views'}),
          name='page-views'),
-    path('api/analytics/popular-pages/',
+    path('analytics/popular-pages/',
          views.StaticPageViewSet.as_view({'get': 'popular_pages'}),
          name='popular-pages'),
 ]

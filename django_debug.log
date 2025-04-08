@@ -549,3 +549,8 @@ WARNING 2025-03-31 18:55:17,307 log Not Found: /marketplace/signin/
 WARNING 2025-03-31 18:55:17,381 log Not Found: /marketplace/signin/
 WARNING 2025-03-31 18:55:17,455 log Not Found: /marketplace/token/
 WARNING 2025-03-31 18:55:17,505 log Not Found: /marketplace/token/
+WARNING 2025-04-06 06:49:10,321 log Not Found: /api/pages/home/
+WARNING 2025-04-06 06:49:12,202 log Not Found: /favicon.ico
+WARNING 2025-04-06 06:52:42,740 log Not Found: /api/payment/transactions
+WARNING 2025-04-06 06:53:00,365 log Not Found: /api/payment/mpesa
+WARNING 2025-04-06 06:53:33,770 log Not Found: /api/payment/history/
