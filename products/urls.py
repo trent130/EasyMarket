@@ -23,7 +23,9 @@ urlpatterns = [
          views.ProductViewSet.as_view({'post': 'bulk_action'}),
          name='product-bulk-action'),
 
-    # My Products
+    # fetch categories
+    path('categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
+         name='categories'),
     path('products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),
          name='my-products'),
