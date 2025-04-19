@@ -28,5 +28,6 @@ urlpatterns = [
     path('auth/reset-password/', views.reset_password, name='reset_password'),
     path('auth/me/', views.get_current_user, name='get_current_user'),
     path('auth/student-profile/', views.update_student_profile, name='update_student_profile'),
+    path('auth/change-password/', views.change_password, name='change_password'),
 ]
 
