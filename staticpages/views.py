@@ -214,3 +214,6 @@ class FeedbackViewSet(viewsets.ViewSet):
                 {'error': 'Submission failed'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+class FooterViewSet(viewsets.ViewSet):
+    pass

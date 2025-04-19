@@ -295,6 +295,13 @@ async def reset_password(request):
 
     return Response({'message': 'Password has been reset successfully'})
 
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+async def change_password(request):
+    """Change password using the change password token"""
+    # TODO: implement a functionality to change password
+
+    return Response({'message': 'Password has been changed successfully'})
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

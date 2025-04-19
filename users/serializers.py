@@ -210,4 +210,25 @@ class ForgotPasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("User with this email does not exist.")
         return value
 
+class ChangePasswordSerializer(serializers.Serializer):
+    #email = serializers.EmailField()
+
+    def validate_user(self, value):
+        """
+        Validate that the given email address exists in the database 
+        while the user is authenticated.
+        
+
+        Args:
+            value (str): The email address to be validated.
+
+        Returns:
+            str: The validated email address if it exists.
+
+        Raises:
+            serializers.ValidationError: If the email address does not exist.
+        """
+        
+        pass
+        #: TODO: implement the right functionality for the change password functions 
 

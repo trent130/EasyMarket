@@ -8,6 +8,7 @@ router.register(r'pages', views.StaticPageViewSet, basename='page')
 router.register(r'faqs', views.FAQViewSet, basename='faq')
 router.register(r'contact', views.ContactMessageViewSet, basename='contact')
 router.register(r'testimonials', views.TestimonialViewSet, basename='testimonial')
+router.register(r'footer', views.FooterViewSet, basename='footer')
 
 urlpatterns = [
     # Router URLs
@@ -100,6 +101,7 @@ urlpatterns = [
     path('analytics/popular-pages/',
          views.StaticPageViewSet.as_view({'get': 'popular_pages'}),
          name='popular-pages'),
+     
 ]
 
 # Add debug patterns if in debug mode

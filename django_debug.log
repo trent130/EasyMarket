@@ -554,3 +554,174 @@ WARNING 2025-04-06 06:49:12,202 log Not Found: /favicon.ico
 WARNING 2025-04-06 06:52:42,740 log Not Found: /api/payment/transactions
 WARNING 2025-04-06 06:53:00,365 log Not Found: /api/payment/mpesa
 WARNING 2025-04-06 06:53:33,770 log Not Found: /api/payment/history/
+WARNING 2025-04-08 06:58:41,898 log Not Found: /
+WARNING 2025-04-08 06:58:42,456 log Not Found: /favicon.ico
+WARNING 2025-04-08 06:58:50,339 log Not Found: /favicon.ico
+ERROR 2025-04-08 07:00:02,419 log Internal Server Error: /admin/login/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 138, in has_key
+    return self.client.has_key(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 670, in has_key
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/contrib/admin/sites.py", line 444, in login
+    return LoginView.as_view(**defaults)(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/contrib/auth/views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/edit.py", line 151, in post
+    return self.form_valid(form)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/contrib/auth/views.py", line 108, in form_valid
+    auth_login(self.request, form.get_user())
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 126, in login
+    request.session.cycle_key()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 432, in cycle_key
+    self.create()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/contrib/sessions/backends/cache.py", line 55, in create
+    self._session_key = self._get_new_session_key()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 196, in _get_new_session_key
+    if not self.exists(session_key):
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/contrib/sessions/backends/cache.py", line 117, in exists
+    bool(session_key) and (self.cache_key_prefix + session_key) in self._cache
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/cache/backends/base.py", line 300, in __contains__
+    return self.has_key(key)
+           ^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 668, in has_key
+    return client.exists(key) == 1
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1729, in exists
+    return self.execute_command("EXISTS", *names, keys=names)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+WARNING 2025-04-19 05:40:02,038 log Not Found: /products/api/products/trending/
+WARNING 2025-04-19 05:40:02,039 log Not Found: /products/api/products/featured/
+WARNING 2025-04-19 05:40:02,041 log Not Found: /products/api/products/trending/
+WARNING 2025-04-19 05:40:02,043 log Not Found: /marketplace/api/wishlist/
+WARNING 2025-04-19 05:40:02,045 log Not Found: /products/api/products/featured/
+WARNING 2025-04-19 05:40:02,094 log Not Found: /marketplace/api/wishlist/
+WARNING 2025-04-19 05:40:02,165 log Not Found: /products/api/products/trending/
+WARNING 2025-04-19 05:40:02,259 log Not Found: /marketplace/api/wishlist/
+WARNING 2025-04-19 05:40:02,261 log Not Found: /products/api/products/featured/
+WARNING 2025-04-19 05:40:02,261 log Not Found: /products/api/products/featured/
+WARNING 2025-04-19 05:40:02,262 log Not Found: /products/api/products/trending/
+WARNING 2025-04-19 05:40:02,282 log Not Found: /marketplace/api/wishlist/
+WARNING 2025-04-19 05:40:02,310 log Not Found: /api/pages/footer/
+WARNING 2025-04-19 05:40:02,347 log Not Found: /api/pages/footer/
+WARNING 2025-04-19 05:40:02,654 log Not Found: /api/pages/footer/
+WARNING 2025-04-19 05:40:02,656 log Not Found: /api/pages/footer/
+WARNING 2025-04-19 05:40:15,560 log Not Found: /products/api/categories/
+WARNING 2025-04-19 05:40:15,560 log Not Found: /products/api/categories/
+WARNING 2025-04-19 05:40:15,609 log Not Found: /products/api/categories/
+WARNING 2025-04-19 05:40:15,611 log Not Found: /products/api/categories/
+WARNING 2025-04-19 05:40:15,942 log Not Found: /marketplace/search/
+WARNING 2025-04-19 05:40:16,095 log Not Found: /marketplace/search/
+WARNING 2025-04-19 05:40:24,974 log Not Found: /products/api/categories/
+WARNING 2025-04-19 05:40:24,975 log Not Found: /marketplace/search/
+WARNING 2025-04-19 05:40:24,976 log Not Found: /products/api/categories/
+WARNING 2025-04-19 05:40:24,978 log Not Found: /marketplace/search/
+WARNING 2025-04-19 05:40:25,089 log Not Found: /products/api/categories/
+WARNING 2025-04-19 05:40:25,091 log Not Found: /marketplace/search/
+WARNING 2025-04-19 05:40:25,093 log Not Found: /products/api/categories/
+WARNING 2025-04-19 05:40:25,097 log Not Found: /marketplace/search/
+WARNING 2025-04-19 05:40:42,409 log Not Found: /marketplace/cart/
+WARNING 2025-04-19 05:40:42,413 log Not Found: /marketplace/cart/
+WARNING 2025-04-19 05:40:42,468 log Not Found: /marketplace/cart/
+WARNING 2025-04-19 05:40:42,493 log Not Found: /marketplace/cart/
+WARNING 2025-04-19 05:40:49,710 log Not Found: /marketplace/api/wishlist/
+WARNING 2025-04-19 05:40:49,710 log Not Found: /marketplace/api/wishlist/
+WARNING 2025-04-19 05:40:49,761 log Not Found: /marketplace/api/wishlist/
+WARNING 2025-04-19 05:40:49,778 log Not Found: /marketplace/api/wishlist/
+WARNING 2025-04-19 05:40:55,986 log Not Found: /api/notifications
+WARNING 2025-04-19 05:40:56,009 log Not Found: /api/notifications
+WARNING 2025-04-19 05:41:02,993 log Not Found: /users/signin/
+WARNING 2025-04-19 05:41:03,011 log Not Found: /users/signin/
+WARNING 2025-04-19 05:41:03,031 log Not Found: /users/token/
+WARNING 2025-04-19 05:41:03,050 log Not Found: /users/token/
+WARNING 2025-04-19 05:41:03,065 log Not Found: /users/signin/
+WARNING 2025-04-19 05:41:03,082 log Not Found: /users/signin/
+WARNING 2025-04-19 05:41:03,109 log Not Found: /users/token/
+WARNING 2025-04-19 05:41:03,130 log Not Found: /users/token/
+WARNING 2025-04-19 05:41:03,159 log Not Found: /users/signin/
+WARNING 2025-04-19 05:41:03,195 log Not Found: /users/signin/
+WARNING 2025-04-19 05:41:03,228 log Not Found: /users/token/
+WARNING 2025-04-19 05:41:03,255 log Not Found: /users/token/
