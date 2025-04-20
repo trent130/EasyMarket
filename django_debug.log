@@ -3917,3 +3917,17 @@ Traceback (most recent call last):
   File "/home/trent/Documents/global/lib/python3.12/site-packages/django/template/base.py", line 906, in _resolve_lookup
     raise VariableDoesNotExist(
 django.template.base.VariableDoesNotExist: Failed lookup for key [get_short_name] in <SimpleLazyObject: <CustomUser: gifted@easymarket.com>>
+WARNING 2025-04-20 13:56:51,301 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 13:56:51,323 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 13:56:51,369 log Not Found: /api/marketplace/api/wishlist/
+WARNING 2025-04-20 13:56:51,369 log Not Found: /api/marketplace/api/wishlist/
+WARNING 2025-04-20 13:56:51,426 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 13:56:51,464 log Not Found: /api/marketplace/api/wishlist/
+WARNING 2025-04-20 13:56:51,465 log Not Found: /api/marketplace/api/wishlist/
+WARNING 2025-04-20 13:56:51,486 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 13:57:51,862 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-20 13:57:51,876 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-20 13:57:52,511 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-20 13:57:53,067 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-20 13:57:53,077 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-20 13:57:53,099 log Bad Request: /api/users/auth/signin/
