@@ -3,7 +3,7 @@ import requests
 def fetch_data():
     url = "https://live.betika.com/v1/uo/sports"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+        "CustomUser-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
         "Accept": "application/json"
     }
     response = requests.get(url, headers=headers)

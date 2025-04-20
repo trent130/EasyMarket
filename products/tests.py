@@ -1,13 +1,13 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User
+from users.model import CustomUser
 from .models import Product, Category, Image
 
 
 class ProductViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(username='testuser', password='12345')
+        self.user = CustomUser.objects.create_user(username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
         self.category = Category.objects.create(name='Test Category')
         self.user_id = 1

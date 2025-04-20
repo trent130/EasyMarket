@@ -11,12 +11,12 @@ These approaches can be simpler to implement than a full-fledged verification pr
 
 Uploading a verification document is a great way to add an extra layer of security to the student role verification process. Here's an updated implementation:
 
-**Updated `User` Model**:
-Add a `verification_document` field to the `User` model to store the uploaded document.
+**Updated `CustomUser` Model**:
+Add a `verification_document` field to the `CustomUser` model to store the uploaded document.
 ```python
 from django.db import models
 
-class User(AbstractUser):
+class CustomUser(AbstractUser):
     # ... other fields ...
     verification_document = models.FileField(upload_to='verification_documents/', blank=True, null=True)
     is_student_verified = models.BooleanField(default=False)
@@ -29,7 +29,7 @@ class SignUpForm(UserCreationForm):
     # ... other fields ...
 ```
 **Updated `register` View**:
-Modify the `register` view to handle the uploaded verification document and store it in the `User` model.
+Modify the `register` view to handle the uploaded verification document and store it in the `CustomUser` model.
 ```python
 def register(request):
     if request.method == 'POST':
@@ -53,7 +53,7 @@ def register(request):
 Create a new view to handle the verification process. This view will allow administrators to review and approve uploaded verification documents.
 ```python
 def verify_student(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+    user = get_object_or_404(CustomUser, id=user_id)
     if request.method == 'POST':
         if user.verification_document:
             # Verify the document manually
@@ -73,7 +73,7 @@ Create a new template to display the uploaded verification document and allow ad
 ```html
 <!-- verify_student.html -->
 <h1>Verify Student</h1>
-<p>User: {{ user.username }}</p>
+<p>CustomUser: {{ user.username }}</p>
 <p>Document: {{ user.verification_document }}</p>
 <form method="post">
     {% csrf_token %}

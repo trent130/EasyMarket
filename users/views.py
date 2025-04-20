@@ -48,6 +48,8 @@ redis_client = redis.Redis(
 )
 from .serializers import UserProfileSerializer
 
+CustomUser = CustomUser
+
 # Create your views here.
 @receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -90,7 +92,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 @permission_classes([IsAuthenticated])
 def enable_2fa(request):
     """Enable 2FA for a user"""
-    user = get_object_or_404(User, id=request.data.get('user_id'))
+    user = get_object_or_404(CustomUser, id=request.data.get('user_id'))
 
     if user.isTwoFactorEnabled:
         return Response({'error': 'Two-factor authentication is already enabled'}, status=status.HTTP_400_BAD_REQUEST)
@@ -117,10 +119,10 @@ def signin(request):
 
     if '@' in username_or_email:
         try:
-            user = User.objects.get(email=username_or_email)
+            user = CustomUser.objects.get(email=username_or_email)
             username = user.username
-        except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'CustomUser not found'}, status=status.HTTP_404_NOT_FOUND)
     else:
         username = username_or_email
     user = authenticate(request, username=username, password=password)
@@ -142,18 +144,18 @@ def signup(request):
     if not username or not email or not password:
         return Response({'error': 'Please provide username, email, and password'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if User.objects.filter(username=username).exists():
+    if CustomUser.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if User.objects.filter(email=email).exists():
+    if CustomUser.objects.filter(email=email).exists():
         return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = User.objects.create_user(username=username, email=email, password=password)
+    user = CustomUser.objects.create_user(username=username, email=email, password=password)
     # Check if a Student object already exists for this user
     if not Student.objects.filter(user=user).exists():
         Student.objects.create(user=user) #This line should not exist if there is a student
 
-    return Response({'message': 'User created successfully. Redirecting to login...'}, status=status.HTTP_201_CREATED)
+    return Response({'message': 'CustomUser created successfully. Redirecting to login...'}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -188,7 +190,7 @@ def get_2fa_status(request):
 @permission_classes([IsAuthenticated])
 def disable_2fa(request):
     """Disable 2FA for a user"""
-    user = get_object_or_404(User, id=request.user.id)
+    user = get_object_or_404(CustomUser, id=request.user.id)
 
     if not user.isTwoFactorEnabled:
         return Response({'error': 'Two-factor authentication is not enabled'}, status=status.HTTP_400_BAD_REQUEST)
@@ -265,7 +267,7 @@ async def forgot_password(request):
     reset_token = "".join(secrets.choice(alphabet))
     reset_token_expiry = timezone.now() + timezone.timedelta(hours=1)
 
-    user = get_object_or_404(User, email=email)
+    user = get_object_or_404(CustomUser, email=email)
     user.resetToken = reset_token
     user.resetTokenExpiry = reset_token_expiry
     user.save()
@@ -285,7 +287,7 @@ async def reset_password(request):
     if not token or not new_password:
         return Response({'error': 'Token and new password are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = get_object_or_404(User, resetToken=token, resetTokenExpiry__gt=timezone.now())
+    user = get_object_or_404(CustomUser, resetToken=token, resetTokenExpiry__gt=timezone.now())
 
     hashed_password = await hash(new_password, 10)
     user.password = hashed_password

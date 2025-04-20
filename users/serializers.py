@@ -152,7 +152,7 @@ class SignInSerializer(serializers.Serializer):
         Raises:
             serializers.ValidationError: If the username and password are invalid.
         """
-        user = User.objects.filter(username=data['username']).first()
+        user = CustomUser.objects.filter(username=data['username']).first()
         if user is None or not user.check_password(data['password']):
             raise serializers.ValidationError("Invalid credentials")
         return data
@@ -173,7 +173,7 @@ class SignUpSerializer(serializers.ModelSerializer):
             validated_data (dict): Dictionary containing the username, email and password.
 
         Returns:
-            User: The newly created user.
+            CustomUser: The newly created user.
         """
         user = CustomUser(**validated_data)
         user.set_password(validated_data['password'])
@@ -206,8 +206,8 @@ class ForgotPasswordSerializer(serializers.Serializer):
         Raises:
             serializers.ValidationError: If the email address does not exist.
         """
-        if not User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("User with this email does not exist.")
+        if not CustomUser.objects.filter(email=value).exists():
+            raise serializers.ValidationError("CustomUser with this email does not exist.")
         return value
 
 class ChangePasswordSerializer(serializers.Serializer):
