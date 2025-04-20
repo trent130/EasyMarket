@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API usage examples in multiple programming languages
 - Troubleshooting guide for common issues
 
-## [1.0.0] - 2023-05-15
+## [1.0.0] - 2025-04-15
 
 ### Added
 - CustomUser authentication system with email and password
@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive logging and monitoring
 
 ### Changed
-- Upgraded to Next.js 13 for improved performance
+- Upgraded to Next.js 15 for improved performance
 - Switched from MongoDB to PostgreSQL for better data integrity
 
 ### Security
@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CSRF protection on all forms
 - Enabled HTTP Strict Transport Security (HSTS)
 
-## [0.5.0] - 2023-03-01
+## [0.5.0] - 2024-12-12
 
 ### Added
 - Basic user registration and login
@@ -48,15 +48,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Resolved issue with email verification links expiring too quickly
 
-## [0.1.0] - 2023-01-15
+## [0.1.0] - 2023-10-15
 
 ### Added
 - Initial project setup
 - Basic Next.js configuration
 - CI/CD pipeline with GitHub Actions
 
-[Unreleased]: https://github.com/yourusername/your-repo/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/yourusername/your-repo/compare/v0.5.0...v1.0.0
-[0.5.0]: https://github.com/yourusername/your-repo/compare/v0.1.0...v0.5.0
-[0.1.0]: https://github.com/yourusername/your-repo/releases/tag/v0.1.0
+[Unreleased]: https://github.com/trent130/easymarket/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/trent130/easymarket/compare/v0.5.0...v1.0.0
+[0.5.0]: https://github.com/trent130/easymarket/compare/v0.1.0...v0.5.0
+[0.1.0]: https://github.com/trent130/easymarket/releases/tag/v0.1.0
 

@@ -54,7 +54,6 @@ redis_client = redis.Redis(
 )
 from .serializers import UserProfileSerializer
 
-CustomUser = CustomUser
 
 # Create your views here.
 @receiver(post_save, sender=CustomUser)
