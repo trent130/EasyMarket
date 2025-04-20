@@ -4,7 +4,7 @@ EasyMarket is a student marketplace where students can buy and sell items within
 
 ## Features
 
-- User Registration: Students can create an account to start buying or selling.
+- CustomUser Registration: Students can create an account to start buying or selling.
 - Item Listing: Sellers can list their items with details and images.
 - Search and Filter: Buyers can search for items and filter results based on categories.
 - Secure Transactions: The platform ensures secure transactions between buyers and sellers.

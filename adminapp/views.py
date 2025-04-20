@@ -1,34 +1,35 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import Group, Permission
 from django.contrib.admin.models import LogEntry
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from .forms import UserRoleForm
+from users.models import CustomUser
 
 
 @login_required
 class UserList(ListView):
-    model = User
+    model = CustomUser
     template_name = 'pages/adminapp/user_list.html'
 
 
 @login_required
 class UserDetailView(DetailView):
-    model = User
+    model = CustomUser
     template_name = 'pages/adminapp/user_detail.html'
 
 
 @login_required
 class UserDeleteView(DeleteView):
-    model = User
+    model = CustomUser
     template_name = 'pages/adminapp/user_delete.html'
     success_url = reverse_lazy('user_list')
 
 
 @login_required
 def assign_role(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+    user = get_object_or_404(CustomUser, id=user_id)
     if request.method == 'POST':
         form = UserRoleForm(request.POST)
         if form.is_valid():
@@ -69,7 +70,7 @@ def user_activity_logs(request):
 
 @login_required
 def user_permissions(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+    user = get_object_or_404(CustomUser, id=user_id)
     permissions = Permission.objects.filter(user=user)
     return render(request, 'pages/adminapp/user_permissions.html', {'user': user, 'permissions': permissions})
 

@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User
+from users.model import CustomUser
 from ..models import Student
 from ..utils.two_factor import (
     # generate_totp_secret,
@@ -16,7 +16,7 @@ class TwoFactorAuthenticationTests(TestCase):
     def setUp(self):
         self.client = Client()
         # Create test user
-        self.user = User.objects.create_user(
+        self.user = CustomUser.objects.create_user(
             username='testuser',
             password='testpass123',
             email='test@example.com'

@@ -54,6 +54,8 @@ redis_client = redis.Redis(
 )
 from .serializers import UserProfileSerializer
 
+CustomUser = CustomUser
+
 # Create your views here.
 @receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -340,9 +342,8 @@ async def forgot_password(request):
     reset_token_expiry = timezone.now() + timezone.timedelta(hours=1)
 
     user = get_object_or_404(CustomUser, email=email)
-    # Note: CustomUser doesn't have resetToken fields, we'll need to add them or use a different approach
-    # For now, we'll store the token in a separate model or use Redis
-    # This is a placeholder - you may want to create a PasswordResetToken model
+    user.resetToken = reset_token
+    user.resetTokenExpiry = reset_token_expiry
     user.save()
 
     await send_password_reset_email(email, reset_token)
@@ -360,10 +361,13 @@ async def reset_password(request):
     if not token or not new_password:
         return Response({'error': 'Token and new password are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Note: This needs to be implemented with proper token storage
-    # For now, this is a placeholder - you may want to create a PasswordResetToken model
-    # or use Redis to store reset tokens
-    return Response({'error': 'Password reset functionality needs proper token storage implementation'}, status=status.HTTP_501_NOT_IMPLEMENTED)
+    user = get_object_or_404(CustomUser, resetToken=token, resetTokenExpiry__gt=timezone.now())
+
+    hashed_password = await hash(new_password, 10)
+    user.password = hashed_password
+    user.resetToken = None
+    user.resetTokenExpiry = None
+    user.save()
 
     return Response({'message': 'Password has been reset successfully'})
 

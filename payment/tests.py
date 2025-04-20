@@ -4,13 +4,13 @@
 # from payment.forms import PaymentForm
 # from .models import Transaction
 
-# User = get_user_model()
+# CustomUser = get_user_model()
 
 
 # class PaymentAppViewTest(TestCase):
 #     def setUp(self):
 #         self.client = Client()
-#         self.user = User.objects.create_user(username='testuser', password='12345')
+#         self.user = CustomUser.objects.create_user(username='testuser', password='12345')
 #         self.client.login(username='testuser', password='12345')
 #         self.transaction = Transaction.objects.create(user=self.user, amount=10.00)
 

@@ -15,10 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2023-05-15
 
 ### Added
-- User authentication system with email and password
+- CustomUser authentication system with email and password
 - OAuth2 social login (Google, GitHub)
 - Two-factor authentication (TOTP and WebAuthn)
-- User profile management
+- CustomUser profile management
 - Password reset functionality
 - Account lockout protection
 - Data export feature for GDPR compliance
