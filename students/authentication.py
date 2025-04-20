@@ -22,9 +22,9 @@ class PersistentAuthMiddleware(BaseMiddleware):
         # Retrieve user ID from session
         user_id = session.get('_auth_user_id')
         if user_id:
-            User = get_user_model()
+            CustomUser = get_user_model()
             try:
-                return User.objects.get(pk=user_id)
-            except User.DoesNotExist:
+                return CustomUser.objects.get(pk=user_id)
+            except CustomUser.DoesNotExist:
                 return AnonymousUser()
         return AnonymousUser()

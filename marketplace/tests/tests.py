@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth.models import User
+from users.model import CustomUser
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
 from marketplace.models import Product, Cart, CartItem
@@ -15,7 +15,7 @@ class AddToCartViewTest(TestCase):
         Also log the test user in.
         """
         self.factory = RequestFactory()
-        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpassword')
+        self.user = CustomUser.objects.create_user(username='testuser', email='test@example.com', password='testpassword')
         self.product = Product.objects.create(title='Test Product', description='Test Description', price=10)
         self.cart = Cart.objects.create(user=self.user)
         self.client.login(username='testuser', password='testpassword')

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from users.model import CustomUser
 # from django.core.exceptions import ValidationError
 from users.models import Student, UserProfile  # Message, Reaction, Review, Cart, CartItem, CustomUser, WishList
 from products.models import Product, Category
@@ -17,7 +17,7 @@ class MarketplaceModelsTest(TestCase):
         of 'Test Description', a price of 10.00, and is associated with the
         test category.
         """
-        self.user = User.objects.create_user(username='testuser', password='12345')
+        self.user = CustomUser.objects.create_user(username='testuser', password='12345')
         self.category = Category.objects.create(name='Test Category')
         self.product = Product.objects.create(
             title='Test Product',
@@ -28,13 +28,13 @@ class MarketplaceModelsTest(TestCase):
 
     def test_create_user_profile(self):
         """
-        Test the creation of a UserProfile upon User creation.
+        Test the creation of a UserProfile upon CustomUser creation.
 
         This test verifies that a UserProfile instance is automatically created
-        when a new User is created. It checks that the UserProfile is associated
-        with the correct User and that the default avatar is set correctly.
+        when a new CustomUser is created. It checks that the UserProfile is associated
+        with the correct CustomUser and that the default avatar is set correctly.
         """
-        user = User.objects.create_user(username='testuser2', email='testuser2@example.com', password='testpass123')
+        user = CustomUser.objects.create_user(username='testuser2', email='testuser2@example.com', password='testpass123')
         self.assertTrue(UserProfile.objects.filter(user=user).exists())
         user_profile = UserProfile.objects.get(user=user)
         self.assertEqual(user_profile.user, user)
@@ -43,14 +43,14 @@ class MarketplaceModelsTest(TestCase):
     # Test that UserProfile is also created
     def test_create_student_profile_on_user_creation(self):
         """
-        Test the creation of a Student profile upon User creation.
+        Test the creation of a Student profile upon CustomUser creation.
 
         This test verifies that a Student instance is automatically created
-        when a new User is created. It checks that the Student is associated
-        with the correct User, that the email is set correctly, and that the
+        when a new CustomUser is created. It checks that the Student is associated
+        with the correct CustomUser, that the email is set correctly, and that the
         string representation of the Student is correct.
         """
-        new_user = User.objects.create_user(username='newuser', email='newuser@example.com', password='password123')
+        new_user = CustomUser.objects.create_user(username='newuser', email='newuser@example.com', password='password123')
         self.assertTrue(Student.objects.filter(user=new_user).exists())
         student = Student.objects.get(user=new_user)
         self.assertEqual(student.email, 'newuser@example.com')
@@ -60,12 +60,12 @@ class MarketplaceModelsTest(TestCase):
 
     def test_no_student_creation_for_existing_email(self):
         """
-        Test that a Student instance is not created when a new User is created with
+        Test that a Student instance is not created when a new CustomUser is created with
         an email that is already associated with a Student.
 
-        This test verifies that when a new User is created with an email that is
+        This test verifies that when a new CustomUser is created with an email that is
         already associated with an existing Student, that Student is not
-        associated with the new User. A new UserProfile is created as expected
+        associated with the new CustomUser. A new UserProfile is created as expected
         since the signal receiver does not check the email when creating a new
         UserProfile. The test also verifies that the existing Student is not
         deleted or modified in any way.
@@ -77,7 +77,7 @@ class MarketplaceModelsTest(TestCase):
             last_name='Student',
             email=existing_email
         )
-        new_user = User.objects.create_user(
+        new_user = CustomUser.objects.create_user(
             username='newuser',
             email=existing_email,
             password='password123'

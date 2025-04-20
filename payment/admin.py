@@ -37,7 +37,7 @@ class TransactionAdmin(admin.ModelAdmin):
                 'payment_method'
             )
         }),
-        ('User Information', {
+        ('CustomUser Information', {
             'fields': (
                 'user',
                 'phone_number',
@@ -55,7 +55,7 @@ class TransactionAdmin(admin.ModelAdmin):
 
     def user_info(self, obj):
         return f"{obj.user.username} ({obj.user.email})"
-    user_info.short_description = "User"
+    user_info.short_description = "CustomUser"
 
     def status_badge(self, obj):
         colors = {
@@ -79,7 +79,7 @@ class TransactionAdmin(admin.ModelAdmin):
             obj.user.email,
             obj.phone_number
         )
-    user_details.short_description = "User Details"
+    user_details.short_description = "CustomUser Details"
 
     def payment_details(self, obj):
         return format_html(

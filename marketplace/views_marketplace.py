@@ -19,7 +19,7 @@ from products.serializers import ProductSerializer
 import logging
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.dispatch import receiver
-from django.contrib.auth.models import User
+from users.model import CustomUser
 
 logger = logging.getLogger(__name__)
 

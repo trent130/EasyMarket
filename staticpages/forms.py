@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from users.model import CustomUser
 from products.models import Category
 from marketplace.models import UserProfile
 
@@ -21,7 +21,7 @@ class SignUpForm(UserCreationForm):
     role = forms.ChoiceField(label="Role", choices=role_choices)
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'email', 'password1', 'password2', 'role']
         labels = {
             'username': 'Username',
@@ -47,7 +47,7 @@ class UserProfileForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'first_name', 'last_name', 'email']
         labels = {
             'username': 'Username',
