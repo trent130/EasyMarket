@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 from users.model import CustomUser
 from marketplace.models import WishList
 
-
 class Command(BaseCommand):
     help = "Find dublicate wishlist objects"
 
