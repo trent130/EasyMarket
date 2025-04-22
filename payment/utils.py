@@ -170,3 +170,11 @@ def generate_payment_receipt(transaction: Transaction) -> dict:
         'merchant_name': settings.BUSINESS_NAME,
         'merchant_contact': settings.BUSINESS_CONTACT
     }
+
+# TODO: implement the following functionalities
+'''
+1. validate_currency_conversion
+2. send_push_notification
+3. send_email_notification
+4. send_sms_notification
+'''
