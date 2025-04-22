@@ -21,6 +21,7 @@ urlpatterns = [
     path('pages/<slug:slug>/meta/',
          views.StaticPageViewSet.as_view({'get': 'meta'}),
          name='page-meta'),
+     path('footer/', views.FooterViewSet, name='footer'),
 
     # FAQs
     path('faqs/categories/',

@@ -264,7 +264,7 @@ async def forgot_password(request):
                         status=status.HTTP_429_TOO_MANY_REQUESTS)
     alphabet = string.ascii_letters + string.digits + string.puntuation
     reset_token = "".join(secrets.choice(alphabet))
-    reset_token_expiry = timezone.now() + timezone.timedelta(hours=1)
+    reset_token_expiry = timezone.now() + timezone.timedelta(hours=0.5)
 
     user = get_object_or_404(CustomUser, email=email)
     user.resetToken = reset_token
@@ -428,3 +428,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 'error': 'Authentication failed',
                 'details': str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# TODO: 1: implement the change password functionality, look at the user types and start aggregating them per 
+# account type and permissions also
+# TODO: 2: issues with the signup functionality, something to do with 'str' does not have a 'get' method.

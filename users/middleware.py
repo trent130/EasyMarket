@@ -21,7 +21,7 @@ class TwoFactorMiddleware:
 
         # Skip middleware for 2FA-related endpoints to avoid circular dependencies
         current_path = resolve(request.path_info).route
-        if current_path.startswith('api/auth/2fa'):
+        if current_path.startswith('api/users/auth/2fa'):
             return self.get_response(request)
 
         # Check if path requires 2FA
@@ -45,3 +45,6 @@ class TwoFactorMiddleware:
     def process_view(self, request, view_func, view_args, view_kwargs):
         # TODO: implement additional logic here
         return None
+
+
+# TODO: implement additional logic for the middleware

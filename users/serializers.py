@@ -232,3 +232,4 @@ class ChangePasswordSerializer(serializers.Serializer):
         pass
         #: TODO: implement the right functionality for the change password functions 
 
+# TODO: the change password functionality not implemented

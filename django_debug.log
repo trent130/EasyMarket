@@ -3931,3 +3931,1720 @@ WARNING 2025-04-20 13:57:52,511 log Bad Request: /api/users/auth/signin/
 WARNING 2025-04-20 13:57:53,067 log Bad Request: /api/users/auth/signin/
 WARNING 2025-04-20 13:57:53,077 log Bad Request: /api/users/auth/signin/
 WARNING 2025-04-20 13:57:53,099 log Bad Request: /api/users/auth/signin/
+ERROR 2025-04-20 15:12:07,481 log Internal Server Error: /api/products/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 261, in trending
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:12:07,483 log Internal Server Error: /api/products/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 261, in trending
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:12:07,484 log Internal Server Error: /api/products/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 238, in featured
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+WARNING 2025-04-20 15:12:07,492 log Not Found: /api/marketplaces/wishlist/
+ERROR 2025-04-20 15:12:07,495 log Internal Server Error: /api/products/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 238, in featured
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+WARNING 2025-04-20 15:12:07,505 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:12:07,834 log Not Found: /api/marketplaces/wishlist/
+ERROR 2025-04-20 15:12:07,841 log Internal Server Error: /api/products/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 261, in trending
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:12:07,844 log Internal Server Error: /api/products/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 238, in featured
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:12:07,848 log Internal Server Error: /api/products/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 261, in trending
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+WARNING 2025-04-20 15:12:07,868 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 15:12:07,871 log Not Found: /api/pages/footer/
+ERROR 2025-04-20 15:12:07,881 log Internal Server Error: /api/products/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 238, in featured
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+WARNING 2025-04-20 15:12:07,923 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:12:08,376 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 15:12:08,833 log Not Found: /api/pages/footer/
+ERROR 2025-04-20 15:12:31,929 log Internal Server Error: /api/products/categories/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 116, in view
+    handler = getattr(self, action)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CategoryViewSet' object has no attribute 'categories'
+ERROR 2025-04-20 15:12:31,930 log Internal Server Error: /api/products/categories/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 116, in view
+    handler = getattr(self, action)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CategoryViewSet' object has no attribute 'categories'
+ERROR 2025-04-20 15:12:31,971 log Internal Server Error: /api/products/categories/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 116, in view
+    handler = getattr(self, action)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CategoryViewSet' object has no attribute 'categories'
+ERROR 2025-04-20 15:12:31,974 log Internal Server Error: /api/products/categories/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 116, in view
+    handler = getattr(self, action)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CategoryViewSet' object has no attribute 'categories'
+WARNING 2025-04-20 15:12:32,259 log Unauthorized: /api/marketplace/search/
+WARNING 2025-04-20 15:12:43,722 log Unauthorized: /api/marketplace/cart/
+WARNING 2025-04-20 15:12:43,723 log Unauthorized: /api/marketplace/cart/
+WARNING 2025-04-20 15:12:50,778 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:12:50,778 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:12:50,813 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:12:50,817 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:12:56,876 log Not Found: /api/api/notifications
+WARNING 2025-04-20 15:12:56,896 log Not Found: /api/api/notifications
+WARNING 2025-04-20 15:13:10,763 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:13:10,763 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:13:10,920 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:13:10,922 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:14:30,096 log Not Found: /api/marketplaces/wishlist/
+ERROR 2025-04-20 15:14:30,102 log Internal Server Error: /api/products/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 238, in featured
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:14:30,111 log Internal Server Error: /api/products/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 261, in trending
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:14:30,140 log Internal Server Error: /api/products/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 238, in featured
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:14:30,144 log Internal Server Error: /api/products/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 261, in trending
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+WARNING 2025-04-20 15:14:30,216 log Not Found: /api/marketplaces/wishlist/
+ERROR 2025-04-20 15:14:30,394 log Internal Server Error: /api/products/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 238, in featured
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:14:30,402 log Internal Server Error: /api/products/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 261, in trending
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+WARNING 2025-04-20 15:14:30,406 log Not Found: /api/marketplaces/wishlist/
+ERROR 2025-04-20 15:14:30,414 log Internal Server Error: /api/products/products/trending/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 261, in trending
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+ERROR 2025-04-20 15:14:30,414 log Internal Server Error: /api/products/products/featured/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 29, in _decorator
+    return method(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 99, in _get
+    return self.client.get(key, default=default, version=version, client=client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 260, in get
+    raise ConnectionInterrupted(connection=client) from e
+django_redis.exceptions.ConnectionInterrupted: Redis ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/products/views.py", line 238, in featured
+    cached_results = cache.get(cache_key)
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 92, in get
+    value = self._get(key, default, version, client)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/cache.py", line 36, in _decorator
+    raise e.__cause__
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django_redis/client/default.py", line 258, in get
+    value = client.get(key)
+            ^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/commands/core.py", line 1822, in get
+    return self.execute_command("GET", name, keys=[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 559, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/client.py", line 565, in _execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 1422, in get_connection
+    connection.connect()
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/redis/connection.py", line 363, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:6379. Connection refused.
+WARNING 2025-04-20 15:14:30,467 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-20 15:14:30,676 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 15:14:30,681 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 15:14:30,729 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 15:14:30,742 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 15:15:51,286 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 15:17:03,726 log Not Found: /api/pages/footer/
+WARNING 2025-04-20 15:17:14,602 log Not Found: /api/pages/footer/
+ERROR 2025-04-20 15:17:33,040 log Internal Server Error: /api/footer/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+WARNING 2025-04-22 05:06:19,278 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:06:19,284 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:06:19,432 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:06:19,441 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:07:29,769 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:07:29,770 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:07:30,248 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:07:30,255 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:09:27,410 log Not Found: /
+WARNING 2025-04-22 05:09:27,963 log Not Found: /favicon.ico
+WARNING 2025-04-22 05:11:34,327 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:11:34,410 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:11:35,057 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:11:35,070 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:13:28,142 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:13:28,195 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:13:30,367 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:13:32,093 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:13:32,135 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:13:32,197 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:22:51,906 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:22:51,928 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:22:52,080 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:22:52,089 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:22:52,154 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:22:52,154 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:22:52,314 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:22:52,315 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:23:15,007 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:23:15,034 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:23:17,184 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:23:18,924 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:23:18,956 log Bad Request: /api/users/auth/signin/
+WARNING 2025-04-22 05:23:18,998 log Bad Request: /api/users/auth/signin/
+ERROR 2025-04-22 05:23:54,176 log Internal Server Error: /api/users/auth/signup/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/users/views.py", line 139, in signup
+    username = request.data.get('username')
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+ERROR 2025-04-22 05:23:54,245 log Internal Server Error: /api/users/auth/signup/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/users/views.py", line 139, in signup
+    username = request.data.get('username')
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+ERROR 2025-04-22 05:25:59,169 log Internal Server Error: /api/users/auth/signup/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/users/views.py", line 139, in signup
+    username = request.get_object_or_404('username')
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+ERROR 2025-04-22 05:25:59,211 log Internal Server Error: /api/users/auth/signup/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/EasyMarket/users/views.py", line 139, in signup
+    username = request.get_object_or_404('username')
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+WARNING 2025-04-22 05:31:01,069 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:31:01,242 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:31:01,784 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:31:02,022 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:31:03,312 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:31:03,327 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:31:03,883 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:31:03,906 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:31:36,112 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:31:36,284 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:31:36,810 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:31:36,812 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:31:58,648 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:31:58,652 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:31:58,846 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:31:58,855 log Not Found: /api/pages/footer/
+ERROR 2025-04-22 05:35:45,655 log Internal Server Error: /api/products/categories/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 116, in view
+    handler = getattr(self, action)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CategoryViewSet' object has no attribute 'categories'
+ERROR 2025-04-22 05:35:45,658 log Internal Server Error: /api/products/categories/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 116, in view
+    handler = getattr(self, action)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CategoryViewSet' object has no attribute 'categories'
+ERROR 2025-04-22 05:35:46,002 log Internal Server Error: /api/products/categories/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 116, in view
+    handler = getattr(self, action)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CategoryViewSet' object has no attribute 'categories'
+ERROR 2025-04-22 05:35:46,028 log Internal Server Error: /api/products/categories/
+Traceback (most recent call last):
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/core/handlers/base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/asgiref/sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/trent/Documents/global/lib/python3.12/site-packages/rest_framework/viewsets.py", line 116, in view
+    handler = getattr(self, action)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CategoryViewSet' object has no attribute 'categories'
+WARNING 2025-04-22 05:35:46,070 log Unauthorized: /api/marketplace/search/
+WARNING 2025-04-22 05:35:53,718 log Unauthorized: /api/marketplace/search/
+WARNING 2025-04-22 05:35:57,084 log Unauthorized: /api/marketplace/search/
+WARNING 2025-04-22 05:35:59,302 log Unauthorized: /api/marketplace/search/
+WARNING 2025-04-22 05:36:03,625 log Unauthorized: /api/marketplace/search/
+WARNING 2025-04-22 05:42:30,698 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:42:30,705 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:42:30,932 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:42:30,944 log Not Found: /api/marketplaces/wishlist/
+WARNING 2025-04-22 05:42:31,065 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:42:31,076 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:42:31,618 log Not Found: /api/pages/footer/
+WARNING 2025-04-22 05:42:31,629 log Not Found: /api/pages/footer/
