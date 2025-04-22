@@ -82,7 +82,7 @@ class RefundSerializer(serializers.Serializer):
         max_digits=10,
         decimal_places=2,
         required=False,
-        validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('999999.99'))]
+        validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('99999.99'))]
     )
     reason = serializers.CharField()
 
