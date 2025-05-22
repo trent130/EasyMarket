@@ -3,6 +3,7 @@ import string
 import pyotp
 from django.contrib.auth import get_user_model
 from .models import UserProfile, Student
+from django.contrib.auth import authenticate
 CustomUser = get_user_model()
 
 
@@ -138,25 +139,27 @@ class ValidateBackupCodeSerializer(serializers.Serializer):
 
 
 class SignInSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=50)
+    username_or_email = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
         """
-        Validate that the given username and password are valid.
-
-        Args:
-            data (dict): Dictionary containing the username and password.
-
-        Returns:
-            dict: The validated data if the username and password are valid.
-
-        Raises:
-            serializers.ValidationError: If the username and password are invalid.
+        Validate that the given username/email and password are valid.
         """
-        user = CustomUser.objects.filter(username=data['username']).first()
-        if user is None or not user.check_password(data['password']):
+        username_or_email = data['username_or_email']
+        password = data['password']
+
+        # Use authenticate() which will utilize our custom backend
+        user = authenticate(
+            request=self.context.get('request'),
+            username=username_or_email,
+            password=password
+        )
+
+        if not user:
             raise serializers.ValidationError("Invalid credentials")
+
+        data['user'] = user
         return data
 
 
