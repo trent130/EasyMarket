@@ -26,7 +26,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
+            'format': '{levelname} {asctime} {module} {message} {pathname} {lineno}',
             'style': '{',
         },
         'simple': {
@@ -38,7 +38,7 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
-            'stream': sys.stdout,
+            'level': 'DEBUG',
         },
         'file': {
             'level': 'DEBUG',
@@ -53,10 +53,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'myapp': {
+        'users': {  # Add specific logger for users app
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
-            'propagate': False,
+            'propagate': True,
         },
     },
 }
@@ -81,11 +81,12 @@ LANGUAGE_CODE = 'en-us'
 SECRET_KEY = 'django-insecure-w%r6m-g^uf&+077us1j$y-+m5+v_fk5b)$3=)id!15+(o!&f9d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # Set to True for development
+DEBUG = True  # Temporarily enable debug for troubleshooting
 
 ALLOWED_HOSTS = ['*']  # for now the django app is running on a local machine so it allows all the hosts to connect
 
 AUTHENTICATION_BACKENDS = [
+    'users.authentication.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 

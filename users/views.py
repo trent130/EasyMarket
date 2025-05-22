@@ -3,8 +3,9 @@ import secrets
 import string
 import json
 import time
+import json
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework import status, viewsets, permissions
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, logout
 from rest_framework.response import Response
@@ -19,13 +20,9 @@ from .serializers import (
     TwoFactorDisableSerializer,
     BackupCodesSerializer,
     ValidateBackupCodeSerializer,
-    UserProfileSerializer,
-    SignUpSerializer,
-    SignInSerializer,
-    AuthResponseSerializer,
-    StudentProfileSerializer,
-    CustomUserSerializer
+    SignInSerializer
 )
+from django.contrib.auth import authenticate
 from django.conf import settings 
 import redis
 import logging
@@ -116,53 +113,50 @@ def enable_2fa(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
+@parser_classes([JSONParser])  # Add JSONParser to handle JSON data properly
 def signin(request):
-    """Sign in a user with improved error handling and response"""
-    serializer = SignInSerializer(data=request.data)
-    
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    username_or_email = serializer.validated_data['username']
-    password = serializer.validated_data['password']
-
-    # Handle both username and email login
-    if '@' in username_or_email:
-        # If it's an email, authenticate directly with email
-        user = authenticate(request, username=username_or_email, password=password)
-    else:
-        # If it's a username, find the user and authenticate with their email
-        try:
-            user_obj = CustomUser.objects.get(username=username_or_email)
-            user = authenticate(request, username=user_obj.email, password=password)
-        except CustomUser.DoesNotExist:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-
-    if user is not None:
-        refresh = RefreshToken.for_user(user)
+    """Handle user signin with enhanced error logging and proper response formatting"""
+    try:
+        # Ensure request.data is a dict
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)
+            
+        logger.debug(f"Signin attempt with data: {data}")
+        serializer = SignInSerializer(data=data, context={'request': request})
         
-        # Prepare response data
+        if not serializer.is_valid():
+            logger.warning(f"SignIn validation failed: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user = serializer.validated_data['user']
+        logger.info(f"User {user.username} signed in successfully")
+        
+        refresh = RefreshToken.for_user(user)
         response_data = {
-            'access': str(refresh.access_token),
             'refresh': str(refresh),
-            'user': CustomUserSerializer(user).data
+            'access': str(refresh.access_token),
+            'user_id': str(user.id),  # Convert UUID to string
+            'email': user.email,
+            'username': user.username
         }
         
-        # Add student profile if user is a student
-        try:
-            student_profile = Student.objects.get(user=user)
-            response_data['student_profile'] = StudentProfileSerializer(student_profile).data
-        except Student.DoesNotExist:
-            pass
-        
+        logger.debug(f"Sending successful signin response for user {user.username}")
         return Response(response_data, status=status.HTTP_200_OK)
-    
-    return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+    except json.JSONDecodeError as e:
+        logger.warning(f"Failed to parse JSON data: {str(e)}")
+        return Response({'error': 'Invalid JSON data'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        logger.error(f"Unexpected error in signin: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Internal server error'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-# @parser_classes([JSONParser])
 def signup(request):
     """Sign up a user with improved validation and response"""
     serializer = SignUpSerializer(data=request.data)

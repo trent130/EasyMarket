@@ -1,9 +1,10 @@
 from rest_framework import serializers
 import string
 import pyotp
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError as DjangoValidationError
-from .models import UserProfile, Student, CustomUser
+from django.contrib.auth import get_user_model
+from .models import UserProfile, Student
+from django.contrib.auth import authenticate
+CustomUser = get_user_model()
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -161,32 +162,27 @@ class ValidateBackupCodeSerializer(serializers.Serializer):
 
 
 class SignInSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=50)
+    username_or_email = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
         """
         Validate that the given username/email and password are valid.
-
-        Args:
-            data (dict): Dictionary containing the username/email and password.
-
-        Returns:
-            dict: The validated data if the username/email and password are valid.
-
-        Raises:
-            serializers.ValidationError: If the username/email and password are invalid.
         """
-        username_or_email = data['username']
-        
-        # Check if it's an email or username
-        if '@' in username_or_email:
-            user = CustomUser.objects.filter(email=username_or_email).first()
-        else:
-            user = CustomUser.objects.filter(username=username_or_email).first()
-            
-        if user is None or not user.check_password(data['password']):
+        username_or_email = data['username_or_email']
+        password = data['password']
+
+        # Use authenticate() which will utilize our custom backend
+        user = authenticate(
+            request=self.context.get('request'),
+            username=username_or_email,
+            password=password
+        )
+
+        if not user:
             raise serializers.ValidationError("Invalid credentials")
+
+        data['user'] = user
         return data
 
 
