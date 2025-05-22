@@ -64,6 +64,8 @@ class Student(models.Model):
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=50, unique=True)
     bio = models.TextField(blank=True)
+    two_factor_enabled  = models.BooleanField(default=False, null=True, blank=True)
+    two_factor_verified = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import secrets
 import string
+import json
 import time
 from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
@@ -30,7 +31,7 @@ from django.core.mail import send_mail
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from rest_framework.parsers import JSONParser
 
 logger = logging.getLogger(__name__)
 RATE_LIMIT_STORE = []
@@ -110,18 +111,18 @@ def enable_2fa(request):
 @permission_classes([AllowAny])
 def signin(request):
     """Sign in a user"""
-    username_or_email = request.data.get('username')# changed this username
+    username_or_email = request.data.get('username') or request.data.get('email')
     password = request.data.get('password')
 
     if not username_or_email or not password:
-        return Response({'error': 'Please provide both username and password'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Please provide both username/email and password'}, status=status.HTTP_400_BAD_REQUEST)
 
     if '@' in username_or_email:
         try:
             user = CustomUser.objects.get(email=username_or_email)
             username = user.username
         except CustomUser.DoesNotExist:
-            return Response({'error': 'CustomUser not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     else:
         username = username_or_email
     user = authenticate(request, username=username, password=password)
@@ -134,8 +135,20 @@ def signin(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
+# @parser_classes([JSONParser])
 def signup(request):
     """Sign up a user"""
+    print("Register view called")
+
+    try:
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)  # convert from string to dict if necessary
+    except json.JSONDecodeError:
+        return Response({'error': 'Invalid JSON'}, status=status.HTTP_400_BAD_REQUEST)
+
+    print("Request data:", request.data)
+
     username = request.data.get('username')
     email = request.data.get('email')
     password = request.data.get('password')
