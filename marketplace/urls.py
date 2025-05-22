@@ -35,6 +35,9 @@ urlpatterns = [
 
          
      # Wishlist operations
+     path('wishlist', 
+          views_marketplace.WishListViewSet.as_view({'get': 'get_queryset'}),
+          name='wishlist'),
      path('wishlist/<int:wishlist_id>/add/',
           views_marketplace.WishListViewSet.as_view({'post': 'add_product'}),
           name='wishlist-add-product'),
