@@ -113,6 +113,8 @@ def signin(request):
     """Sign in a user"""
     username_or_email = request.data.get('username') or request.data.get('email')
     password = request.data.get('password')
+    print(password)
+    print(username_or_email)
 
     if not username_or_email or not password:
         return Response({'error': 'Please provide both username/email and password'}, status=status.HTTP_400_BAD_REQUEST)
