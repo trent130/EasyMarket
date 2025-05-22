@@ -121,11 +121,14 @@ def signin(request):
 
     if '@' in username_or_email:
         try:
+            print("email called")
             user = CustomUser.objects.get(email=username_or_email)
             username = user.username
         except CustomUser.DoesNotExist:
+            print("email not called")
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     else:
+        print("username called")
         username = username_or_email
     user = authenticate(request, username=username, password=password)
 
