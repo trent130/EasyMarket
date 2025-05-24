@@ -1,7 +1,9 @@
 from rest_framework import serializers
 import string
 import pyotp
-from .models import UserProfile, Student, CustomUser
+from django.contrib.auth import get_user_model
+from .models import UserProfile, Student
+CustomUser = get_user_model()
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -34,7 +36,7 @@ class StudentProfileSerializer(serializers.ModelSerializer):
 
 
 class TwoFactorEnableSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
+    user_id = serializers.CharField()
 
     def validate(self, data):
         """
@@ -136,7 +138,7 @@ class ValidateBackupCodeSerializer(serializers.Serializer):
 
 
 class SignInSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=150)
+    username = serializers.CharField(max_length=50)
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):

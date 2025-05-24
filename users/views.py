@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import secrets
 import string
+import json
 import time
 from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
@@ -30,7 +31,7 @@ from django.core.mail import send_mail
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from rest_framework.parsers import JSONParser
 
 logger = logging.getLogger(__name__)
 RATE_LIMIT_STORE = []
@@ -134,8 +135,20 @@ def signin(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
+# @parser_classes([JSONParser])
 def signup(request):
     """Sign up a user"""
+    print("Register view called")
+
+    try:
+        data = request.data
+        if isinstance(data, str):
+            data = json.loads(data)  # convert from string to dict if necessary
+    except json.JSONDecodeError:
+        return Response({'error': 'Invalid JSON'}, status=status.HTTP_400_BAD_REQUEST)
+
+    print("Request data:", request.data)
+
     username = request.data.get('username')
     email = request.data.get('email')
     password = request.data.get('password')
