@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import secrets
 import string
+import json
 import time
 from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
@@ -161,6 +162,7 @@ def signin(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
+# @parser_classes([JSONParser])
 def signup(request):
     """Sign up a user with improved validation and response"""
     serializer = SignUpSerializer(data=request.data)
