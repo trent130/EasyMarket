@@ -3,6 +3,7 @@ import string
 import pyotp
 from django.contrib.auth import get_user_model
 from .models import UserProfile, Student
+from django.contrib.auth import authenticate
 CustomUser = get_user_model()
 
 
@@ -139,7 +140,7 @@ class ValidateBackupCodeSerializer(serializers.Serializer):
 
 
 class SignInSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=50)
+    username_or_email = serializers.CharField(max_length=50)
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
