@@ -24,7 +24,7 @@ urlpatterns = [
          name='product-bulk-action'),
 
     # fetch categories
-    path('categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
+    path('categories/', views.CategoryViewSet.as_view({'get': 'get_queryset'}),
          name='categories'),
     path('products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),
