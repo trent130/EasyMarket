@@ -37,6 +37,7 @@ class StudentProfileSerializer(serializers.ModelSerializer):
 
 class TwoFactorEnableSerializer(serializers.Serializer):
     user_id = serializers.CharField()
+    user_id = serializers.CharField()
 
     def validate(self, data):
         """
@@ -143,20 +144,22 @@ class SignInSerializer(serializers.Serializer):
 
     def validate(self, data):
         """
-        Validate that the given username and password are valid.
-
-        Args:
-            data (dict): Dictionary containing the username and password.
-
-        Returns:
-            dict: The validated data if the username and password are valid.
-
-        Raises:
-            serializers.ValidationError: If the username and password are invalid.
+        Validate that the given username/email and password are valid.
         """
-        user = CustomUser.objects.filter(username=data['username']).first()
-        if user is None or not user.check_password(data['password']):
+        username_or_email = data['username_or_email']
+        password = data['password']
+
+        # Use authenticate() which will utilize our custom backend
+        user = authenticate(
+            request=self.context.get('request'),
+            username=username_or_email,
+            password=password
+        )
+
+        if not user:
             raise serializers.ValidationError("Invalid credentials")
+
+        data['user'] = user
         return data
 
 
@@ -235,3 +238,4 @@ class ChangePasswordSerializer(serializers.Serializer):
         #: TODO: implement the right functionality for the change password functions 
 
 # TODO: the change password functionality not implemented
+
