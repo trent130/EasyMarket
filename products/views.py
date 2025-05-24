@@ -344,6 +344,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     lookup_field = 'slug'
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         """Get categories with caching"""
