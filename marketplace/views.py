@@ -6,12 +6,14 @@ from .forms import AddToCartForm, UpdateCartForm
 from products.models import Product
 from .models import WishList
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import permission_classes
 
 
 # def cart_cleared(request):
 #     return render(request, 'marketplace/cart_cleared.html')
 
-
+@permission_classes([AllowAny])
 def search(request):
     if request.method != 'GET':
         return HttpResponseNotAllowed['GET']

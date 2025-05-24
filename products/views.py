@@ -347,6 +347,11 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
             cache.set(cache_key, queryset, CACHE_TTL)
         
         return queryset
+    
+    # def categories(self, request):
+    #     category = request.
+
+    #     return Response(category)
 
     @action(detail=True, methods=['get'])
     def products(self, request, slug=None):
