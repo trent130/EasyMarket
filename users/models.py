@@ -69,7 +69,7 @@ class Student(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 # Signal to create profiles automatically
-@receiver(post_save, sender=Csettings.AUTH_USER_MODEL)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_related_profiles(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
