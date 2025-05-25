@@ -7938,3 +7938,21 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^
   File "/home/trent/Documents/EasyMarket/marketplace/views_auth.py", line 95, in signup
 AttributeError: 'str' object has no attribute 'get'
+WARNING 2025-05-24 14:42:07,771 log Not Found: /api/products/products/featured/
+WARNING 2025-05-24 14:42:07,771 log Not Found: /api/marketplace/wishlist/
+WARNING 2025-05-24 14:42:07,774 log Not Found: /api/products/products/trending/
+WARNING 2025-05-24 14:42:07,790 log Not Found: /api/products/products/featured/
+WARNING 2025-05-24 14:42:07,790 log Not Found: /api/products/products/trending/
+WARNING 2025-05-24 14:42:07,792 log Not Found: /api/marketplace/wishlist/
+WARNING 2025-05-24 14:42:07,800 log Not Found: /api/pages/footer/
+WARNING 2025-05-24 14:42:07,810 log Not Found: /api/pages/footer/
+WARNING 2025-05-24 14:44:03,094 log Not Found: /api/users/auth/signup/
+WARNING 2025-05-24 14:44:03,112 log Not Found: /api/users/auth/signup/
+WARNING 2025-05-24 17:23:33,318 log Not Found: /api/pages/footer/
+WARNING 2025-05-24 17:23:33,333 log Not Found: /api/pages/footer/
+WARNING 2025-05-24 17:23:33,346 log Not Found: /api/products/products/featured/
+WARNING 2025-05-24 17:23:33,346 log Not Found: /api/products/products/trending/
+WARNING 2025-05-24 17:23:33,357 log Not Found: /api/products/products/featured/
+WARNING 2025-05-24 17:23:33,357 log Not Found: /api/products/products/trending/
+WARNING 2025-05-25 09:07:41,251 log Not Found: /api/users/auth/signin/
+WARNING 2025-05-25 09:07:41,262 log Not Found: /api/users/auth/signin/
