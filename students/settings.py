@@ -197,7 +197,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # If using whitenoise
-    'marketplace.middleware.TwoFactorMiddleware',
+    'users.middleware.TwoFactorMiddleware',
     'livereload.middleware.LiveReloadScript'
 ]
 
