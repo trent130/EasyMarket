@@ -7,6 +7,7 @@ app_name = 'products'
 
 router = SimpleRouter()
 router.register(r'products', views.ProductViewSet, basename='product')
+router.register(r'categories', views.CategoryViewSet, basename='category')
 # router.register(r'categories', views.CategoryViewSet, basename='category')
 
 urlpatterns = [
@@ -24,8 +25,8 @@ urlpatterns = [
          name='product-bulk-action'),
 
     # fetch categories
-    path('categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
-         name='categories'),
+#     path('categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
+#          name='categories'),
     path('products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),
          name='my-products'),
