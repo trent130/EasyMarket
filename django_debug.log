@@ -7956,3 +7956,17 @@ WARNING 2025-05-24 17:23:33,357 log Not Found: /api/products/products/featured/
 WARNING 2025-05-24 17:23:33,357 log Not Found: /api/products/products/trending/
 WARNING 2025-05-25 09:07:41,251 log Not Found: /api/users/auth/signin/
 WARNING 2025-05-25 09:07:41,262 log Not Found: /api/users/auth/signin/
+WARNING 2025-05-26 08:57:41,441 log Not Found: /api/products/products/trending/
+WARNING 2025-05-26 08:57:41,443 log Not Found: /api/marketplace/wishlist/
+WARNING 2025-05-26 08:57:41,444 log Not Found: /api/products/products/featured/
+WARNING 2025-05-26 08:57:41,490 log Not Found: /api/products/products/trending/
+WARNING 2025-05-26 08:57:41,491 log Not Found: /api/marketplace/wishlist/
+WARNING 2025-05-26 08:57:41,491 log Not Found: /api/products/products/featured/
+WARNING 2025-05-26 08:57:41,504 log Not Found: /api/pages/footer/
+WARNING 2025-05-26 08:57:41,533 log Not Found: /api/pages/footer/
+WARNING 2025-05-26 08:57:51,509 log Not Found: /api/users/auth/signin/
+WARNING 2025-05-26 08:57:51,527 log Not Found: /api/users/auth/signin/
+WARNING 2025-05-26 09:01:22,638 log Not Found: /api/marketplace/wishlist/
+WARNING 2025-05-26 09:01:22,650 log Not Found: /api/marketplace/wishlist/
+WARNING 2025-05-26 09:01:23,819 log Not Found: /api/users/auth/signin/
+WARNING 2025-05-26 09:01:23,843 log Not Found: /api/users/auth/signin/
