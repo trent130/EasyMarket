@@ -129,8 +129,3 @@ if settings.DEBUG:
              views.ProductViewSet.as_view({'post': 'test_bulk_create'}),
              name='test-bulk-create'),
     ]
-
-'''
-#TODO:
-# implement a proper categories views instead of the get_queryset or optimize it to be used as such
-'''
