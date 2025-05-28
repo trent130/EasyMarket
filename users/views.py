@@ -399,6 +399,12 @@ def signout(request):
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def check_authentication(request):
+    if request.user.is_authenticated:
+        return Response({"authenticated":True, "username": request.user.username})
+    return Response({"authenticated": False})
+
 # @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
 # def regenerate_backup_codes(request):
