@@ -306,34 +306,10 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=False, methods=['get'])
-    def my_products(self, request):
-        """Get current user's products"""
-        try:
-            # Try to get student profile, return empty list if not found
-            try:
-                student = Student.objects.get(user=request.user)
-                queryset = self.get_queryset().filter(student=student)
-            except Student.DoesNotExist:
-                # User is not a student (customer or admin), return empty list
-                return Response([])
-            
-            page = self.paginate_queryset(queryset)
-            if page is not None:
-                serializer = ProductListSerializer(page, many=True, context={'request': request})
-                return self.get_paginated_response(serializer.data)
-            
-            serializer = ProductListSerializer(queryset, many=True, context={'request': request})
-            return Response(serializer.data)
-        except Exception as e:
-            logger.error(f'Error in my_products: {str(e)}')
-            return Response({'error': 'Failed to fetch products'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     lookup_field = 'slug'
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         """Get categories with caching"""
@@ -347,11 +323,6 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
             cache.set(cache_key, queryset, CACHE_TTL)
         
         return queryset
-    
-    # def categories(self, request):
-    #     category = request.
-
-    #     return Response(category)
 
     @action(detail=True, methods=['get'])
     def products(self, request, slug=None):
