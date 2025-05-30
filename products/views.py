@@ -340,12 +340,10 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# TODO: implement a fix for the categories not in the viewset
-# exound on the use case of get_queryset method
+
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     lookup_field = 'slug'
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         """Get categories with caching"""
@@ -359,11 +357,6 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
             cache.set(cache_key, queryset, CACHE_TTL)
 
         return queryset
-    
-    # def categories(self, request):
-    #     category = request.
-
-    #     return Response(category)
 
     @action(detail=True, methods=['get'])
     def products(self, request, slug=None):
