@@ -75,8 +75,8 @@ class WishListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WishList
-        fields = ['id', 'user', 'products', 'product_ids', 'auto_now']
-        read_only_fields = ['user', 'auto_now']
+        fields = ['id', 'user', 'products', 'product_ids', 'created_at']
+        read_only_fields = ['user', 'created_at']
 
     def create(self, validated_data):
         """
@@ -86,12 +86,48 @@ class WishListSerializer(serializers.ModelSerializer):
         Returns:
             WishList: The newly created wishlist.
         """
+        request = self.context.get('request')
+        user = request.user if request else None
+        validated_data['user'] = user
+
+        existing = Wishlist.objects.filter(user=user).first()
+        if existing:
+            raise serializers.ValidationError("Wishlist already exists for this user.")
+
+        # Pop product IDs from validated data
         product_ids = validated_data.pop('product_ids', [])
+        # Create wishlist
         wishlist = WishList.objects.create(**validated_data)
+
+        # Add products to wishlist
         if product_ids:
             products = Product.objects.filter(id__in=product_ids)
             wishlist.products.set(products)
         return wishlist
+    
+    def update(self, instance, validated_data):
+        """
+        Update the wishlist and add/remove the given product IDs.
+        Args:
+            instance (WishList): The wishlist to update.
+            validated_data (dict): The validated data from the serializer.
+        Returns:
+            WishList: The updated wishlist.
+        """
+        # Pop product IDs from validated data
+        product_ids = validated_data.pop('product_ids', None)
+
+        validated_data.pop('user', None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        
+        if product_ids is not None:
+            products = Product.objects.filter(id__in=product_ids)
+            instance.products.set(products)
+
+        instance.save()
+        return instance
 
 
 class CategorySerializer(serializers.Serializer):
