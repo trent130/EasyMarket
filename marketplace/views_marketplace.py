@@ -37,12 +37,97 @@ class CartViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def add_item(self, request, pk=None):
+        """Add item to cart - updates quantity if item already exists"""
         cart = self.get_object()
-        serializer = CartItemSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(cart=cart)
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        product_id = request.data.get('product')
+        quantity = request.data.get('quantity', 1)
+
+        if not product_id:
+            return Response(
+                {'error': 'product is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            # Validate quantity
+            quantity = int(quantity)
+            if quantity <= 0:
+                return Response(
+                    {'error': 'quantity must be greater than 0'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Get the product
+            try:
+                product = Product.objects.get(id=product_id, is_active=True)
+            except Product.DoesNotExist:
+                return Response(
+                    {'error': 'Product not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Check if item already exists in cart
+            existing_item = cart.cartitem_set.filter(product=product).first()
+
+            if existing_item:
+                # Update existing item quantity
+                existing_item.quantity += quantity
+
+                # Check stock availability
+                if existing_item.quantity > product.stock:
+                    return Response(
+                        {
+                            'error': f'Not enough stock. Available: {product.stock}, Requested: {existing_item.quantity}',
+                            'available_stock': product.stock,
+                            'current_quantity': existing_item.quantity - quantity
+                        },
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+                existing_item.save()
+                serializer = CartItemSerializer(existing_item)
+
+                return Response({
+                    'message': 'Item quantity updated successfully',
+                    'item': serializer.data,
+                    'action': 'updated'
+                })
+            else:
+                # Create new cart item
+                # Check stock availability
+                if quantity > product.stock:
+                    return Response(
+                        {
+                            'error': f'Not enough stock. Available: {product.stock}, Requested: {quantity}',
+                            'available_stock': product.stock
+                        },
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+                cart_item = CartItem.objects.create(
+                    cart=cart,
+                    product=product,
+                    quantity=quantity
+                )
+                serializer = CartItemSerializer(cart_item)
+
+                return Response({
+                    'message': 'Item added to cart successfully',
+                    'item': serializer.data,
+                    'action': 'created'
+                })
+
+        except ValueError:
+            return Response(
+                {'error': 'Invalid quantity value'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            logger.error(f"Error adding item to cart: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while adding item to cart'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     @action(detail=True, methods=['post'])
     def remove_item(self, request, pk=None):
@@ -63,6 +148,216 @@ class CartViewSet(viewsets.ModelViewSet):
         cart = self.get_object()
         cart.cartitem_set.all().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=['post'])
+    def add(self, request):
+        """Add item to user's cart - updates quantity if item already exists"""
+        try:
+            # Get or create user's cart
+            cart, created = Cart.objects.get_or_create(user=request.user)
+
+            product_id = request.data.get('product_id')
+            quantity = request.data.get('quantity', 1)
+
+            if not product_id:
+                return Response(
+                    {'error': 'product_id is required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Validate quantity
+            try:
+                quantity = int(quantity)
+                if quantity <= 0:
+                    return Response(
+                        {'error': 'quantity must be greater than 0'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            except ValueError:
+                return Response(
+                    {'error': 'Invalid quantity value'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Get the product
+            try:
+                product = Product.objects.get(id=product_id, is_active=True)
+            except Product.DoesNotExist:
+                return Response(
+                    {'error': 'Product not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Check if item already exists in cart
+            existing_item = cart.cartitem_set.filter(product=product).first()
+
+            if existing_item:
+                # Update existing item quantity
+                new_quantity = existing_item.quantity + quantity
+
+                # Check stock availability
+                if new_quantity > product.stock:
+                    return Response(
+                        {
+                            'error': f'Not enough stock. Available: {product.stock}, Current in cart: {existing_item.quantity}, Requested: {quantity}',
+                            'available_stock': product.stock,
+                            'current_quantity': existing_item.quantity,
+                            'requested_quantity': quantity
+                        },
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+                existing_item.quantity = new_quantity
+                existing_item.save()
+                serializer = CartItemSerializer(existing_item)
+
+                logger.info(f"Updated cart item quantity for user {request.user.username}: Product {product.id}, New quantity: {new_quantity}")
+
+                return Response({
+                    'message': 'Item quantity updated successfully',
+                    'item': serializer.data,
+                    'action': 'updated',
+                    'previous_quantity': existing_item.quantity - quantity,
+                    'new_quantity': new_quantity
+                })
+            else:
+                # Create new cart item
+                # Check stock availability
+                if quantity > product.stock:
+                    return Response(
+                        {
+                            'error': f'Not enough stock. Available: {product.stock}, Requested: {quantity}',
+                            'available_stock': product.stock
+                        },
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+                cart_item = CartItem.objects.create(
+                    cart=cart,
+                    product=product,
+                    quantity=quantity
+                )
+                serializer = CartItemSerializer(cart_item)
+
+                logger.info(f"Added new item to cart for user {request.user.username}: Product {product.id}, Quantity: {quantity}")
+
+                return Response({
+                    'message': 'Item added to cart successfully',
+                    'item': serializer.data,
+                    'action': 'created',
+                    'quantity': quantity
+                }, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            logger.error(f"Error adding item to cart: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while adding item to cart'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['post'])
+    def update_quantity(self, request):
+        """Update the quantity of an item in the cart"""
+        try:
+            # Get user's cart
+            try:
+                cart = Cart.objects.get(user=request.user)
+            except Cart.DoesNotExist:
+                return Response(
+                    {'error': 'Cart not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            product_id = request.data.get('product_id')
+            new_quantity = request.data.get('quantity')
+
+            if not product_id:
+                return Response(
+                    {'error': 'product_id is required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            if new_quantity is None:
+                return Response(
+                    {'error': 'quantity is required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Validate quantity
+            try:
+                new_quantity = int(new_quantity)
+                if new_quantity < 0:
+                    return Response(
+                        {'error': 'quantity cannot be negative'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            except ValueError:
+                return Response(
+                    {'error': 'Invalid quantity value'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Get the product
+            try:
+                product = Product.objects.get(id=product_id, is_active=True)
+            except Product.DoesNotExist:
+                return Response(
+                    {'error': 'Product not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Find the cart item
+            try:
+                cart_item = cart.cartitem_set.get(product=product)
+            except CartItem.DoesNotExist:
+                return Response(
+                    {'error': 'Item not found in cart'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # If quantity is 0, remove the item
+            if new_quantity == 0:
+                cart_item.delete()
+                return Response({
+                    'message': 'Item removed from cart',
+                    'action': 'removed',
+                    'product_id': product_id
+                })
+
+            # Check stock availability
+            if new_quantity > product.stock:
+                return Response(
+                    {
+                        'error': f'Not enough stock. Available: {product.stock}, Requested: {new_quantity}',
+                        'available_stock': product.stock,
+                        'current_quantity': cart_item.quantity
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Update quantity
+            old_quantity = cart_item.quantity
+            cart_item.quantity = new_quantity
+            cart_item.save()
+
+            serializer = CartItemSerializer(cart_item)
+
+            logger.info(f"Updated cart item quantity for user {request.user.username}: Product {product.id}, Old: {old_quantity}, New: {new_quantity}")
+
+            return Response({
+                'message': 'Item quantity updated successfully',
+                'item': serializer.data,
+                'action': 'updated',
+                'previous_quantity': old_quantity,
+                'new_quantity': new_quantity
+            })
+
+        except Exception as e:
+            logger.error(f"Error updating cart item quantity: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while updating item quantity'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class WishListViewSet(viewsets.ModelViewSet):
