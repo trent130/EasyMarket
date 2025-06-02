@@ -7,7 +7,6 @@ app_name = 'products'
 
 router = SimpleRouter()
 router.register(r'products', views.ProductViewSet, basename='product')
-router.register(r'categories', views.CategoryViewSet, basename='category')
 # router.register(r'categories', views.CategoryViewSet, basename='category')
 
 urlpatterns = [
@@ -19,14 +18,19 @@ urlpatterns = [
          views.ProductViewSet.as_view({'get': 'search'}),
          name='product-search'),
 
+    # Product by slug (alternative URL pattern)
+    path('products/<slug:slug>/',
+         views.ProductViewSet.as_view({'get': 'retrieve_by_slug'}),
+         name='product-by-slug'),
+
     # Product Management
     path('products/bulk-action/',
          views.ProductViewSet.as_view({'post': 'bulk_action'}),
          name='product-bulk-action'),
 
     # fetch categories
-#     path('categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
-#          name='categories'),
+    path('categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
+         name='categories'),
     path('products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),
          name='my-products'),
@@ -112,8 +116,34 @@ urlpatterns = [
          views.ProductViewSet.as_view({'post': 'validate_product'}),
          name='validate-product'),
 
-    # Product detail by slug
-    path('products/<slug:slug>/', views.ProductViewSet.as_view({'get': 'retrieve'}), name='product-detail'),
+    # Draft Management URLs
+    path('products/my-products/validate/',
+         views.ProductViewSet.as_view({'post': 'validate_product'}),
+         name='my-products-validate'),
+    path('products/my-products/draft/',
+         views.ProductViewSet.as_view({'post': 'save_draft'}),
+         name='my-products-save-draft'),
+    path('products/my-products/draft/<int:pk>/',
+         views.ProductViewSet.as_view({
+             'get': 'manage_draft',
+             'patch': 'manage_draft',
+             'delete': 'manage_draft'
+         }),
+         name='my-products-manage-draft'),
+    path('products/my-products/draft/<int:pk>/publish/',
+         views.ProductViewSet.as_view({'post': 'publish_draft'}),
+         name='my-products-publish-draft'),
+
+    # Image Management URLs
+    path('products/my-products/upload-image/',
+         views.ProductViewSet.as_view({'post': 'upload_image'}),
+         name='my-products-upload-image'),
+    path('products/my-products/delete-image/',
+         views.ProductViewSet.as_view({'delete': 'delete_image'}),
+         name='my-products-delete-image'),
+
+    # Product by slug - moved up to avoid conflicts
+    path('products/slug/<slug:slug>/', views.ProductViewSet.as_view({'get': 'retrieve_by_slug'}), name='product-detail-by-slug'),
 ]
 
 
