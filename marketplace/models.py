@@ -158,3 +158,13 @@ class WishList(models.Model):
             str: The string representation of the wishlist.
         """
         return f"{self.user.username}'s wishlist"
+
+# Signal to create wishlist automatically when user is created
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_user_wishlist(sender, instance, created, **kwargs):
+    """
+    Create a wishlist for newly created users.
+    This ensures every user has a wishlist to avoid RelatedObjectDoesNotExist errors.
+    """
+    if created:
+        WishList.objects.create(user=instance)

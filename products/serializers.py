@@ -92,7 +92,10 @@ class ProductListSerializer(serializers.ModelSerializer):
         """
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            return request.user.wishlist.products.filter(id=obj.id).exists()
+            try:
+                return request.user.wishlist.products.filter(id=obj.id).exists()
+            except request.user.wishlist.RelatedObjectDoesNotExist:
+                return False
         return False
 
     def get_image_url(self, obj):
@@ -165,7 +168,10 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     def get_is_wishlisted(self, obj):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            return request.user.wishlist.products.filter(id=obj.id).exists()
+            try:
+                return request.user.wishlist.products.filter(id=obj.id).exists()
+            except request.user.wishlist.RelatedObjectDoesNotExist:
+                return False
         return False
 
     def get_image_url(self, obj):
