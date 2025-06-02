@@ -74,10 +74,10 @@ class WishListViewSet(viewsets.ModelViewSet):
         return WishList.objects.filter(user=self.request.user)
 
     def list(self, request):
-        """Get user's wishlist with products"""
+        """Get user's wishlist with products and seller information"""
         try:
             wishlist, created = WishList.objects.get_or_create(user=request.user)
-            serializer = self.get_serializer(wishlist)
+            serializer = self.get_serializer(wishlist, context={'request': request})
             return Response(serializer.data)
         except Exception as e:
             logger.error(f"Error fetching wishlist: {str(e)}")
@@ -118,6 +118,54 @@ class WishListViewSet(viewsets.ModelViewSet):
             )
 
     @action(detail=False, methods=['post'])
+    def add_product(self, request):
+        """Add product to user's wishlist by product ID"""
+        try:
+            # Get or create user's wishlist
+            wishlist, created = WishList.objects.get_or_create(user=request.user)
+
+            # Get product ID from request data
+            product_id = request.data.get('product_id')
+            if not product_id:
+                return Response(
+                    {'error': 'product_id is required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Get product by ID
+            try:
+                product = Product.objects.get(id=product_id, is_active=True)
+            except Product.DoesNotExist:
+                return Response(
+                    {'error': 'Product not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Check if product is already in wishlist
+            if wishlist.products.filter(id=product.id).exists():
+                return Response(
+                    {'message': 'Product already in wishlist'},
+                    status=status.HTTP_200_OK
+                )
+
+            # Add product to wishlist
+            wishlist.products.add(product)
+
+            logger.info(f"Product {product.id} added to wishlist for user {request.user.username}")
+
+            return Response(
+                {'message': 'Product added to wishlist successfully'},
+                status=status.HTTP_201_CREATED
+            )
+
+        except Exception as e:
+            logger.error(f"Error adding product to wishlist: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while adding product to wishlist'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['post'])
     def add_product_by_slug(self, request, product_slug=None):
         """Add product to user's wishlist by product slug"""
         try:
@@ -153,6 +201,53 @@ class WishListViewSet(viewsets.ModelViewSet):
             logger.error(f"Error adding product to wishlist: {str(e)}")
             return Response(
                 {'error': 'An error occurred while adding product to wishlist'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['post'])
+    def remove_product(self, request):
+        """Remove product from user's wishlist by product ID"""
+        try:
+            # Get user's wishlist
+            try:
+                wishlist = WishList.objects.get(user=request.user)
+            except WishList.DoesNotExist:
+                return Response(
+                    {'error': 'Wishlist not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Get product ID from request data
+            product_id = request.data.get('product_id')
+            if not product_id:
+                return Response(
+                    {'error': 'product_id is required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Get product by ID
+            try:
+                product = Product.objects.get(id=product_id, is_active=True)
+            except Product.DoesNotExist:
+                return Response(
+                    {'error': 'Product not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            # Remove product from wishlist
+            wishlist.products.remove(product)
+
+            logger.info(f"Product {product.id} removed from wishlist for user {request.user.username}")
+
+            return Response(
+                {'message': 'Product removed from wishlist successfully'},
+                status=status.HTTP_204_NO_CONTENT
+            )
+
+        except Exception as e:
+            logger.error(f"Error removing product from wishlist: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while removing product from wishlist'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
@@ -225,6 +320,62 @@ class WishListViewSet(viewsets.ModelViewSet):
             logger.error(f"Error checking product in wishlist: {str(e)}")
             return Response(
                 {'error': 'An error occurred while checking wishlist'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['get'])
+    def by_seller(self, request):
+        """Get wishlist items grouped by seller"""
+        try:
+            wishlist, created = WishList.objects.get_or_create(user=request.user)
+
+            # Group products by seller
+            sellers_data = {}
+            for product in wishlist.products.select_related('student__user').all():
+                seller_id = product.student.id
+                seller_username = product.student.user.username
+
+                if seller_id not in sellers_data:
+                    sellers_data[seller_id] = {
+                        'seller': {
+                            'id': seller_id,
+                            'username': seller_username,
+                            'first_name': product.student.user.first_name,
+                            'last_name': product.student.user.last_name,
+                            'email': product.student.user.email,
+                            'date_joined': product.student.user.date_joined,
+                        },
+                        'products': []
+                    }
+
+                # Add product data
+                product_data = {
+                    'id': product.id,
+                    'title': product.title,
+                    'slug': product.slug,
+                    'price': product.price,
+                    'condition': product.condition,
+                    'image_url': request.build_absolute_uri(product.image.url) if product.image else None,
+                    'category_name': product.category.name,
+                    'created_at': product.created_at,
+                    'available_stock': product.stock - product.reserved_stock,
+                }
+
+                sellers_data[seller_id]['products'].append(product_data)
+
+            # Convert to list format
+            result = {
+                'sellers': list(sellers_data.values()),
+                'total_sellers': len(sellers_data),
+                'total_products': wishlist.products.count()
+            }
+
+            return Response(result)
+
+        except Exception as e:
+            logger.error(f"Error fetching wishlist by seller: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while fetching wishlist by seller'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 

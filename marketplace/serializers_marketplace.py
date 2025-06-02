@@ -1,6 +1,7 @@
 from rest_framework import serializers
+from django.db.models import Avg
 from .models import Cart, CartItem, WishList, Review
-from products.models import Product
+from products.models import Product, Category
 from users.serializers import StudentProfileSerializer
 from products.serializers import ProductSerializer
 
@@ -65,18 +66,67 @@ class CartSerializer(serializers.ModelSerializer):
         read_only_fields = ['user', 'created_at', 'updated_at']
 
 
+class WishListItemSerializer(serializers.ModelSerializer):
+    """Enhanced product serializer for wishlist items with seller information"""
+    category_name = serializers.CharField(source='category.name', read_only=True)
+    seller = serializers.SerializerMethodField()
+    average_rating = serializers.FloatField(read_only=True)
+    available_stock = serializers.IntegerField(read_only=True)
+    image_url = serializers.SerializerMethodField()
+    has_variants = serializers.BooleanField(source='variants.exists', read_only=True)
+    total_sales = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = [
+            'id', 'title', 'slug', 'price', 'category',
+            'category_name', 'image_url', 'seller',
+            'average_rating', 'available_stock',
+            'condition', 'created_at', 'total_sales', 'has_variants',
+        ]
+
+    def get_seller(self, obj):
+        """Return detailed seller information"""
+        student = obj.student
+        return {
+            'id': student.id,
+            'username': student.user.username,
+            'email': student.user.email,
+            'first_name': student.user.first_name,
+            'last_name': student.user.last_name,
+            'date_joined': student.user.date_joined,
+            'products_count': student.products.filter(is_active=True).count(),
+            'average_rating': student.products.aggregate(
+                avg_rating=Avg('reviews__rating')
+            )['avg_rating'] or 0.0
+        }
+
+    def get_image_url(self, obj):
+        """Return the absolute URL of the product image"""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+        return None
+
+
 class WishListSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True, read_only=True)
+    products = WishListItemSerializer(many=True, read_only=True)
     product_ids = serializers.ListField(
         child=serializers.IntegerField(),
         write_only=True,
         required=False
     )
+    total_items = serializers.SerializerMethodField()
 
     class Meta:
         model = WishList
-        fields = ['id', 'user', 'products', 'product_ids', 'created_at']
-        read_only_fields = ['user', 'created_at']
+        fields = ['id', 'user', 'products', 'product_ids', 'auto_now', 'total_items']
+        read_only_fields = ['user', 'auto_now']
+
+    def get_total_items(self, obj):
+        """Return total number of items in wishlist"""
+        return obj.products.count()
 
     def create(self, validated_data):
         """
@@ -86,61 +136,24 @@ class WishListSerializer(serializers.ModelSerializer):
         Returns:
             WishList: The newly created wishlist.
         """
-        request = self.context.get('request')
-        user = request.user if request else None
-        validated_data['user'] = user
-
-        existing = Wishlist.objects.filter(user=user).first()
-        if existing:
-            raise serializers.ValidationError("Wishlist already exists for this user.")
-
-        # Pop product IDs from validated data
         product_ids = validated_data.pop('product_ids', [])
-        # Create wishlist
         wishlist = WishList.objects.create(**validated_data)
-
-        # Add products to wishlist
         if product_ids:
             products = Product.objects.filter(id__in=product_ids)
             wishlist.products.set(products)
         return wishlist
-    
-    def update(self, instance, validated_data):
-        """
-        Update the wishlist and add/remove the given product IDs.
-        Args:
-            instance (WishList): The wishlist to update.
-            validated_data (dict): The validated data from the serializer.
-        Returns:
-            WishList: The updated wishlist.
-        """
-        # Pop product IDs from validated data
-        product_ids = validated_data.pop('product_ids', None)
-
-        validated_data.pop('user', None)
-
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        
-        if product_ids is not None:
-            products = Product.objects.filter(id__in=product_ids)
-            instance.products.set(products)
-
-        instance.save()
-        return instance
 
 
-class CategorySerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField()
-    slug = serializers.SlugField(read_only=True)
-    description = serializers.CharField(required=False)
-    parent = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(),
-        required=False
-    )
-    image = serializers.ImageField(required=False)
+class CategorySerializer(serializers.ModelSerializer):
     product_count = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Category
+        fields = [
+            'id', 'name', 'slug', 'description',
+            'image', 'product_count', 'is_active'
+        ]
+        read_only_fields = ['slug']
 
 
 class SearchResultSerializer(serializers.Serializer):
