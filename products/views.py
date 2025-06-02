@@ -68,8 +68,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             ),
             'variants'
         ).annotate(
-            avg_rating=Avg('reviews__rating'),
-            total_sales_amount=Sum(F('price') * F('total_sales'), output_field=models.DecimalField())
+            avg_rating=Avg('reviews__rating')
         )
 
         return queryset
@@ -95,6 +94,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         logger.debug(f"Looking up product with value: {lookup_value}")
 
         # Try to get by slug first, then by ID
+        from django.http import Http404
+
         try:
             if lookup_value.isdigit():
                 # If it's a number, try ID first
@@ -108,17 +109,17 @@ class ProductViewSet(viewsets.ModelViewSet):
             logger.debug(f"Found product: {product.title} (slug: {product.slug})")
             return product
 
-        except Exception as e:
-            logger.error(f"Error in get_object for {lookup_value}: {str(e)}")
+        except Http404:
+            logger.error(f"Product not found for {lookup_value}")
             # If slug lookup fails and it's not a digit, try as ID anyway
             if not lookup_value.isdigit():
                 try:
                     logger.debug(f"Fallback: trying ID lookup for non-digit: {lookup_value}")
                     return get_object_or_404(Product, id=int(lookup_value), is_active=True)
-                except (ValueError, Product.DoesNotExist) as fallback_e:
-                    logger.error(f"Fallback also failed: {str(fallback_e)}")
+                except (ValueError, Http404):
+                    logger.error(f"Fallback also failed for {lookup_value}")
                     pass
-            raise
+            raise Product.DoesNotExist(f"Product with identifier '{lookup_value}' not found")
 
     def retrieve(self, request, *args, **kwargs):
         """Retrieve a product with caching and view count increment"""
@@ -347,29 +348,11 @@ class ProductViewSet(viewsets.ModelViewSet):
             if cached_results is not None:
                 return Response(cached_results)
 
-            # Get products with high view counts, sales, and ratings
-            # Use COALESCE to handle NULL ratings
-            from django.db.models import Case, When, Value, FloatField, Cast
-
+            # Simple approach: get products with high view counts and sales
+            # Order by a combination of views and sales
             queryset = self.get_queryset().filter(
                 stock__gt=F('reserved_stock')
-            ).annotate(
-                # Handle NULL ratings by defaulting to 0
-                rating_score=Case(
-                    When(avg_rating__isnull=True, then=Value(0.0)),
-                    default=F('avg_rating'),
-                    output_field=FloatField()
-                ),
-                # Convert integer fields to float for consistent calculation
-                views_float=Cast('views_count', FloatField()),
-                sales_float=Cast('total_sales', FloatField()),
-                popularity_score=(
-                    F('views_float') * 0.3 +  # 30% weight to views
-                    F('sales_float') * 0.4 +  # 40% weight to sales
-                    F('rating_score') * 0.3,  # 30% weight to ratings
-                    output_field=FloatField()
-                )
-            ).order_by('-popularity_score')[:8]
+            ).order_by('-views_count', '-total_sales')[:8]
 
             serializer = ProductListSerializer(
                 queryset,
