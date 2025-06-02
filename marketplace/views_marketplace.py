@@ -5,14 +5,15 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Count, Avg, Q
+from django.shortcuts import get_object_or_404
 from .models import Cart, CartItem, WishList, Review
-from products.models import Product
+from products.models import Product, Category
 from .serializers_marketplace import (
     CartSerializer,
     CartItemSerializer,
     WishListSerializer,
     ReviewSerializer,
-    # CategorySerializer,
+    CategorySerializer,
     SearchResultSerializer
 )
 from products.serializers import ProductSerializer
@@ -72,6 +73,19 @@ class WishListViewSet(viewsets.ModelViewSet):
         logger.info(f"Fetching wishlist for user: {self.request.user}")
         return WishList.objects.filter(user=self.request.user)
 
+    def list(self, request):
+        """Get user's wishlist with products"""
+        try:
+            wishlist, created = WishList.objects.get_or_create(user=request.user)
+            serializer = self.get_serializer(wishlist)
+            return Response(serializer.data)
+        except Exception as e:
+            logger.error(f"Error fetching wishlist: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while fetching wishlist'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -101,6 +115,117 @@ class WishListViewSet(viewsets.ModelViewSet):
             return Response(
                 {'error': 'Product not found'},
                 status=status.HTTP_404_NOT_FOUND
+            )
+
+    @action(detail=False, methods=['post'])
+    def add_product_by_slug(self, request, product_slug=None):
+        """Add product to user's wishlist by product slug"""
+        try:
+            # Get or create user's wishlist
+            wishlist, created = WishList.objects.get_or_create(user=request.user)
+
+            # Get product by slug
+            product = get_object_or_404(Product, slug=product_slug, is_active=True)
+
+            # Check if product is already in wishlist
+            if wishlist.products.filter(id=product.id).exists():
+                return Response(
+                    {'message': 'Product already in wishlist'},
+                    status=status.HTTP_200_OK
+                )
+
+            # Add product to wishlist
+            wishlist.products.add(product)
+
+            logger.info(f"Product {product.slug} added to wishlist for user {request.user.username}")
+
+            return Response(
+                {'message': 'Product added to wishlist successfully'},
+                status=status.HTTP_200_OK
+            )
+
+        except Product.DoesNotExist:
+            return Response(
+                {'error': 'Product not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error adding product to wishlist: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while adding product to wishlist'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['post'])
+    def remove_product_by_slug(self, request, product_slug=None):
+        """Remove product from user's wishlist by product slug"""
+        try:
+            # Get user's wishlist
+            wishlist = WishList.objects.get(user=request.user)
+
+            # Get product by slug
+            product = get_object_or_404(Product, slug=product_slug, is_active=True)
+
+            # Remove product from wishlist
+            wishlist.products.remove(product)
+
+            logger.info(f"Product {product.slug} removed from wishlist for user {request.user.username}")
+
+            return Response(
+                {'message': 'Product removed from wishlist successfully'},
+                status=status.HTTP_204_NO_CONTENT
+            )
+
+        except WishList.DoesNotExist:
+            return Response(
+                {'error': 'Wishlist not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Product.DoesNotExist:
+            return Response(
+                {'error': 'Product not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error removing product from wishlist: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while removing product from wishlist'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['get'])
+    def check_product(self, request, product_slug=None):
+        """Check if a product is in user's wishlist"""
+        try:
+            # Get user's wishlist
+            wishlist = WishList.objects.get(user=request.user)
+
+            # Get product by slug
+            product = get_object_or_404(Product, slug=product_slug, is_active=True)
+
+            # Check if product is in wishlist
+            is_in_wishlist = wishlist.products.filter(id=product.id).exists()
+
+            return Response({
+                'in_wishlist': is_in_wishlist,
+                'product_slug': product_slug
+            })
+
+        except WishList.DoesNotExist:
+            return Response({
+                'in_wishlist': False,
+                'product_slug': product_slug
+            })
+        except Product.DoesNotExist:
+            return Response(
+                {'error': 'Product not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error checking product in wishlist: {str(e)}")
+            return Response(
+                {'error': 'An error occurred while checking wishlist'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
 
@@ -154,10 +279,11 @@ class SearchView(APIView):
             products = products.order_by('-created_at')
 
         # Get category aggregations
-        categories = Product.objects.filter(
-            id__in=products.values_list('id', flat=True)
-        ).values('category').annotate(
-            product_count=Count('id')
+        category_ids = products.values_list('category', flat=True).distinct()
+        categories = Category.objects.filter(
+            id__in=category_ids
+        ).annotate(
+            product_count=Count('products', filter=Q(products__id__in=products.values_list('id', flat=True)))
         )
 
         # Get price range

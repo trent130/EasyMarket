@@ -33,8 +33,8 @@ urlpatterns = [
 
          
      # Wishlist operations
-     path('wishlist', 
-          views_marketplace.WishListViewSet.as_view({'get': 'get_queryset'}),
+     path('wishlist/',
+          views_marketplace.WishListViewSet.as_view({'get': 'list'}),
           name='wishlist'),
      path('wishlist/<int:wishlist_id>/add/',
           views_marketplace.WishListViewSet.as_view({'post': 'add_product'}),
@@ -42,6 +42,17 @@ urlpatterns = [
      path('wishlist/<int:wishlist_id>/remove/',
           views_marketplace.WishListViewSet.as_view({'post': 'remove_product'}),
           name='wishlist-remove-product'),
+
+     # Wishlist operations by product slug (for frontend convenience)
+     path('wishlist/<slug:product_slug>/add/',
+          views_marketplace.WishListViewSet.as_view({'post': 'add_product_by_slug'}),
+          name='wishlist-add-product-by-slug'),
+     path('wishlist/<slug:product_slug>/remove/',
+          views_marketplace.WishListViewSet.as_view({'post': 'remove_product_by_slug'}),
+          name='wishlist-remove-product-by-slug'),
+     path('wishlist/<slug:product_slug>/check/',
+          views_marketplace.WishListViewSet.as_view({'get': 'check_product'}),
+          name='wishlist-check-product'),
 
      # Search and recommendations
      path('search/',
