@@ -21,6 +21,15 @@ urlpatterns = [
      # Router URLs
      path('', include(router.urls)),
 
+     # Simple cart operations (no cart ID required)
+     path('cart/add/',
+          views_marketplace.CartViewSet.as_view({'post': 'add'}),
+          name='cart-add'),
+     path('cart/update-quantity/',
+          views_marketplace.CartViewSet.as_view({'post': 'update_quantity'}),
+          name='cart-update-quantity'),
+
+
      # Cart operations
      path('cart/<int:cart_id>/add/',
           views_marketplace.CartViewSet.as_view({'post': 'add_item'}),
@@ -32,7 +41,7 @@ urlpatterns = [
           views_marketplace.CartViewSet.as_view({'post': 'clear'}),
           name='cart-clear'),
 
-         
+
      # Wishlist CRUD operations (replacing router functionality)
      path('wishlist/',
           views_marketplace.WishListViewSet.as_view({
