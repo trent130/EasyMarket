@@ -16,6 +16,10 @@ urlpatterns = [
     path('categories/', views.CategoryViewSet.as_view({'get': 'list'}),
          name='categories'),
 
+     # Product conditions endpoint
+    path('products/conditions/', views.ProductViewSet.as_view({'get': 'conditions'}),
+         name='product-conditions'),
+
     # Featured and Trending products - MUST come before router patterns
     path('products/featured/', views.ProductViewSet.as_view({'get': 'featured'}),
          name='products-featured'),

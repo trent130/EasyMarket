@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 from django.db.models import Avg, F, Count, Sum, Q
 from django.db import models
 from django.db.models import Prefetch
@@ -40,7 +40,7 @@ def get_cache_key(prefix, identifier):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title', 'description', 'category__name']
     ordering_fields = ['price', 'created_at', 'title', 'stock']
@@ -48,13 +48,15 @@ class ProductViewSet(viewsets.ModelViewSet):
     lookup_field = 'slug'
 
     def get_permissions(self):
-        """Set permissions based on action"""
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            from users.permissions import IsStudentOrAdmin
-            return [IsStudentOrAdmin()]
-        return super().get_permissions()
+        """
+        Instantiate and return the list of permissions that this view requires.
+        """
+        if self.action in ['create', 'update', 'partial_update', 'destroy', 'my_products', 'save_draft', 'manage_draft', 'publish_draft', 'bulk_action', 'update_stock']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
 
-    # ...
     def get_queryset(self):
         """
         Override get_queryset to include necessary joins and annotations.
@@ -87,7 +89,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         Increment product view count with rate limiting
         """
         # Check if the view has been recently incremented (e.g., within the last minute)
-        cache_key = f'product_view_{product.id}_{request.user.id}'
+        user_id = request.user.id if request.user.is_authenticated else 'anonymous'
+        cache_key = f'product_view_{product.id}_{user_id}'
         if not cache.get(cache_key):
             Product.objects.filter(id=product.id).update(views_count=F('views_count') + 1)
             # cache to prevent frequent updates
@@ -304,6 +307,41 @@ class ProductViewSet(viewsets.ModelViewSet):
         
         cache.set(cache_key, response_data, CACHE_TTL)
         return Response(response_data)
+    
+    @action(detail=False, methods=['get'])
+    def conditions(self, request):
+        """Get product condition choices for frontend forms"""
+        try:
+            cache_key = f'{CACHE_PREFIX}conditions'
+            cached_results = cache.get(cache_key)
+
+            if cached_results is not None:
+                return Response(cached_results)
+
+            # Convert condition choices to frontend-friendly format
+            conditions = [
+                {
+                    'value': choice[0],
+                    'label': choice[1],
+                    'display_name': choice[1]
+                }
+                for choice in Product.CONDITION_CHOICES
+            ]
+
+            response_data = {
+                'conditions': conditions,
+                'default': 'new'
+            }
+
+            # Cache for 24 hours since conditions rarely change
+            cache.set(cache_key, response_data, 86400)
+            return Response(response_data)
+
+        except Exception as e:
+            logger.error(f"Error in conditions endpoint: {str(e)}")
+            return Response({
+                'detail': 'An unexpected error occurred'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=False, methods=['get'])
     def featured(self, request):
@@ -584,8 +622,6 @@ class ProductViewSet(viewsets.ModelViewSet):
             image = serializer.validated_data['image']
 
             # Create a temporary product to save the image
-            # In a real implementation, you might want to save images separately
-            # and associate them with products later
             try:
                 student = Student.objects.get(user=request.user)
 
@@ -660,7 +696,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
     serializer_class = CategorySerializer
     lookup_field = 'slug'
 
