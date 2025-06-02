@@ -10,27 +10,28 @@ router.register(r'products', views.ProductViewSet, basename='product')
 # router.register(r'categories', views.CategoryViewSet, basename='category')
 
 urlpatterns = [
-    # Router URLs
-    path('', include(router.urls)),
+    # Explicit patterns MUST come before router URLs to avoid conflicts
+
+    # fetch categories
+    path('categories/', views.CategoryViewSet.as_view({'get': 'list'}),
+         name='categories'),
+
+    # Featured and Trending products - MUST come before router patterns
+    path('products/featured/', views.ProductViewSet.as_view({'get': 'featured'}),
+         name='products-featured'),
+    path('products/trending/', views.ProductViewSet.as_view({'get': 'trending'}),
+         name='products-trending'),
 
     # Product Search and Filtering
     path('products/search/',
          views.ProductViewSet.as_view({'get': 'search'}),
          name='product-search'),
 
-    # Product by slug (alternative URL pattern)
-    path('products/<slug:slug>/',
-         views.ProductViewSet.as_view({'get': 'retrieve_by_slug'}),
-         name='product-by-slug'),
-
     # Product Management
     path('products/bulk-action/',
          views.ProductViewSet.as_view({'post': 'bulk_action'}),
          name='product-bulk-action'),
 
-    # fetch categories
-    path('categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
-         name='categories'),
     path('products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),
          name='my-products'),
@@ -138,8 +139,11 @@ urlpatterns = [
          views.ProductViewSet.as_view({'delete': 'delete_image'}),
          name='my-products-delete-image'),
 
-    # Product by slug - moved up to avoid conflicts
+    # Product by slug (custom pattern) - MUST come before router URLs
     path('products/slug/<slug:slug>/', views.ProductViewSet.as_view({'get': 'retrieve_by_slug'}), name='product-detail-by-slug'),
+
+    # Router URLs - placed here to handle standard CRUD operations
+    path('', include(router.urls)),
 ]
 
 

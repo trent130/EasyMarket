@@ -216,4 +216,58 @@ class FeedbackViewSet(viewsets.ViewSet):
             )
 
 class FooterViewSet(viewsets.ViewSet):
-    pass
+    permission_classes = [AllowAny]
+
+    def list(self, request):
+        """Get footer data including links and contact info"""
+        try:
+            from .models import FooterLinks, ContactInfo, Address
+
+            # Get footer links grouped by category
+            quick_links = FooterLinks.objects.filter(category='quick_links')
+            categories = FooterLinks.objects.filter(category='categories')
+
+            # Get contact info (assuming there's at least one)
+            contact_info = ContactInfo.objects.select_related('address').first()
+
+            footer_data = {
+                'quick_links': [
+                    {
+                        'title': link.title,
+                        'url': link.url,
+                        'slug': link.slug
+                    } for link in quick_links
+                ],
+                'categories': [
+                    {
+                        'title': link.title,
+                        'url': link.url,
+                        'slug': link.slug
+                    } for link in categories
+                ],
+                'contact_info': None
+            }
+
+            if contact_info:
+                footer_data['contact_info'] = {
+                    'phone': contact_info.phone,
+                    'email': contact_info.email,
+                    'address': {
+                        'street': contact_info.address.street,
+                        'city': contact_info.address.city,
+                        'state': contact_info.address.state,
+                        'postal_code': contact_info.address.postal_code,
+                        'country': contact_info.address.country
+                    }
+                }
+
+            return Response(footer_data)
+
+        except Exception as e:
+            logger.error(f"Error fetching footer data: {str(e)}")
+            # Return default footer data if there's an error
+            return Response({
+                'quick_links': [],
+                'categories': [],
+                'contact_info': None
+            })
