@@ -373,6 +373,139 @@ class ProductBulkActionSerializer(serializers.Serializer):
         return value
 
 
+class ProductDraftSerializer(serializers.ModelSerializer):
+    """Serializer for product drafts"""
+    variants = ProductVariantSerializer(many=True, required=False)
+    price = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[
+            MinValueValidator(Decimal('0.01')),
+            MaxValueValidator(Decimal('999999.99'))
+        ],
+        required=False
+    )
+
+    class Meta:
+        model = Product
+        fields = [
+            'id', 'title', 'description', 'price', 'category',
+            'image', 'condition', 'stock', 'variants', 'is_draft',
+            'created_at', 'updated_at', 'slug'
+        ]
+        read_only_fields = ['slug', 'created_at', 'updated_at']
+
+    def validate(self, attrs):
+        """Validate draft data - less strict than published products"""
+        # For drafts, we allow partial data
+        return attrs
+
+    def create(self, validated_data):
+        variants_data = validated_data.pop('variants', [])
+        validated_data['is_draft'] = True
+        student = Student.objects.get(user=self.context['request'].user)
+        product = Product.objects.create(student=student, **validated_data)
+
+        # Create variants if provided
+        for variant_data in variants_data:
+            variant = ProductVariant.objects.create(**variant_data)
+            product.variants.add(variant)
+
+        return product
+
+    def update(self, instance, validated_data):
+        variants_data = validated_data.pop('variants', None)
+        product = super().update(instance, validated_data)
+
+        if variants_data is not None:
+            # Remove existing variants
+            product.variants.clear()
+            # Add new variants
+            for variant_data in variants_data:
+                variant = ProductVariant.objects.create(**variant_data)
+                product.variants.add(variant)
+
+        return product
+
+
+class ProductValidationSerializer(serializers.Serializer):
+    """Serializer for validating product data before saving"""
+    title = serializers.CharField(max_length=100, required=False)
+    description = serializers.CharField(required=False)
+    price = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[
+            MinValueValidator(Decimal('0.01')),
+            MaxValueValidator(Decimal('999999.99'))
+        ],
+        required=False
+    )
+    category = serializers.IntegerField(required=False)
+    condition = serializers.ChoiceField(
+        choices=Product.CONDITION_CHOICES,
+        required=False
+    )
+    stock = serializers.IntegerField(min_value=0, required=False)
+
+    def validate_category(self, value):
+        """Validate category exists"""
+        if value and not Category.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Invalid category")
+        return value
+
+    def validate(self, attrs):
+        """Validate the product data and return validation results"""
+        errors = {}
+        warnings = []
+
+        # Check required fields for publishing
+        if not attrs.get('title'):
+            errors['title'] = 'Title is required'
+        elif len(attrs['title']) < 3:
+            warnings.append('Title should be at least 3 characters long')
+
+        if not attrs.get('description'):
+            errors['description'] = 'Description is required'
+        elif len(attrs['description']) < 10:
+            warnings.append('Description should be at least 10 characters long')
+
+        if not attrs.get('price'):
+            errors['price'] = 'Price is required'
+
+        if not attrs.get('category'):
+            errors['category'] = 'Category is required'
+
+        # Additional validations
+        if attrs.get('price') and attrs['price'] < Decimal('1.00'):
+            warnings.append('Very low price - consider if this is correct')
+
+        return {
+            'is_valid': len(errors) == 0,
+            'errors': errors,
+            'warnings': warnings,
+            'data': attrs
+        }
+
+
+class ImageUploadSerializer(serializers.Serializer):
+    """Serializer for image upload"""
+    image = serializers.ImageField()
+
+    def validate_image(self, value):
+        """Validate image file"""
+        # Check file size (max 5MB)
+        if value.size > 5 * 1024 * 1024:
+            raise serializers.ValidationError("Image file too large. Maximum size is 5MB.")
+
+        # Check file type
+        allowed_types = ['image/jpeg', 'image/png', 'image/webp']
+        if value.content_type not in allowed_types:
+            raise serializers.ValidationError("Invalid image format. Only JPEG, PNG, and WebP are allowed.")
+
+        return value
+
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
