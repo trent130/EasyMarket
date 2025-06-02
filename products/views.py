@@ -18,7 +18,10 @@ from .serializers import (
     ProductUpdateSerializer,
     ProductSearchSerializer,
     ProductBulkActionSerializer,
-    CategorySerializer
+    CategorySerializer,
+    ProductDraftSerializer,
+    ProductValidationSerializer,
+    ImageUploadSerializer
 )
 from .search import search_products
 from users.models import Student
@@ -339,6 +342,248 @@ class ProductViewSet(viewsets.ModelViewSet):
             cache.delete(get_cache_key('detail', product.id))
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=['get'])
+    def my_products(self, request):
+        """Get current user's products including drafts"""
+        try:
+            student = Student.objects.get(user=request.user)
+            queryset = self.get_queryset().filter(student=student)
+
+            # Filter by draft status if specified
+            is_draft = request.query_params.get('is_draft')
+            if is_draft is not None:
+                queryset = queryset.filter(is_draft=is_draft.lower() == 'true')
+
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = ProductListSerializer(
+                    page,
+                    many=True,
+                    context={'request': request}
+                )
+                return self.get_paginated_response(serializer.data)
+
+            serializer = ProductListSerializer(
+                queryset,
+                many=True,
+                context={'request': request}
+            )
+            return Response(serializer.data)
+        except Student.DoesNotExist:
+            return Response(
+                {'error': 'Student profile not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+    @action(detail=False, methods=['post'])
+    def validate_product(self, request):
+        """Validate product data before saving"""
+        serializer = ProductValidationSerializer(data=request.data)
+        if serializer.is_valid():
+            validation_result = serializer.validated_data
+            return Response(validation_result)
+        else:
+            return Response({
+                'is_valid': False,
+                'errors': serializer.errors,
+                'warnings': [],
+                'data': request.data
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'], url_path='draft')
+    def save_draft(self, request):
+        """Save product as draft"""
+        serializer = ProductDraftSerializer(
+            data=request.data,
+            context={'request': request}
+        )
+        if serializer.is_valid():
+            product = serializer.save()
+            return Response(
+                ProductDraftSerializer(product, context={'request': request}).data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['get', 'patch', 'delete'], url_path='draft')
+    def manage_draft(self, request, pk=None):
+        """Get, update, or delete a draft"""
+        try:
+            student = Student.objects.get(user=request.user)
+            product = get_object_or_404(
+                Product,
+                id=pk,
+                student=student,
+                is_draft=True
+            )
+
+            if request.method == 'GET':
+                serializer = ProductDraftSerializer(
+                    product,
+                    context={'request': request}
+                )
+                return Response(serializer.data)
+
+            elif request.method == 'PATCH':
+                serializer = ProductDraftSerializer(
+                    product,
+                    data=request.data,
+                    partial=True,
+                    context={'request': request}
+                )
+                if serializer.is_valid():
+                    product = serializer.save()
+                    return Response(
+                        ProductDraftSerializer(product, context={'request': request}).data
+                    )
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            elif request.method == 'DELETE':
+                product.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except Student.DoesNotExist:
+            return Response(
+                {'error': 'Student profile not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+    @action(detail=True, methods=['post'], url_path='draft/publish')
+    def publish_draft(self, request, pk=None):
+        """Publish a draft product"""
+        try:
+            student = Student.objects.get(user=request.user)
+            product = get_object_or_404(
+                Product,
+                id=pk,
+                student=student,
+                is_draft=True
+            )
+
+            # Validate that the product has all required fields for publishing
+            validation_data = {
+                'title': product.title,
+                'description': product.description,
+                'price': product.price,
+                'category': product.category.id if product.category else None,
+                'condition': product.condition,
+                'stock': product.stock
+            }
+
+            validator = ProductValidationSerializer(data=validation_data)
+            if validator.is_valid():
+                validation_result = validator.validated_data
+                if validation_result['is_valid']:
+                    # Publish the product
+                    product.is_draft = False
+                    product.save()
+
+                    # Clear caches
+                    cache.delete_pattern(f'{CACHE_PREFIX}list:*')
+
+                    return Response(
+                        ProductDetailSerializer(product, context={'request': request}).data,
+                        status=status.HTTP_200_OK
+                    )
+                else:
+                    return Response({
+                        'error': 'Product validation failed',
+                        'validation_errors': validation_result['errors']
+                    }, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({
+                    'error': 'Product validation failed',
+                    'validation_errors': validator.errors
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        except Student.DoesNotExist:
+            return Response(
+                {'error': 'Student profile not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+    @action(detail=False, methods=['post'], url_path='upload-image')
+    def upload_image(self, request):
+        """Upload product image"""
+        serializer = ImageUploadSerializer(data=request.data)
+        if serializer.is_valid():
+            image = serializer.validated_data['image']
+
+            # Create a temporary product to save the image
+            # In a real implementation, you might want to save images separately
+            # and associate them with products later
+            try:
+                student = Student.objects.get(user=request.user)
+
+                # Save the image to media directory
+                import os
+                from django.core.files.storage import default_storage
+                from django.core.files.base import ContentFile
+                import uuid
+
+                # Generate unique filename
+                file_extension = os.path.splitext(image.name)[1]
+                unique_filename = f"product_images/{uuid.uuid4()}{file_extension}"
+
+                # Save the file
+                file_path = default_storage.save(unique_filename, ContentFile(image.read()))
+                file_url = default_storage.url(file_path)
+
+                # Return the URL
+                return Response({
+                    'url': request.build_absolute_uri(file_url)
+                }, status=status.HTTP_201_CREATED)
+
+            except Student.DoesNotExist:
+                return Response(
+                    {'error': 'Student profile not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['delete'], url_path='delete-image')
+    def delete_image(self, request):
+        """Delete product image"""
+        image_url = request.data.get('image_url')
+        if not image_url:
+            return Response(
+                {'error': 'image_url is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            from django.core.files.storage import default_storage
+            from urllib.parse import urlparse
+            import os
+
+            # Extract file path from URL
+            parsed_url = urlparse(image_url)
+            file_path = parsed_url.path
+
+            # Remove leading slash and media prefix if present
+            if file_path.startswith('/'):
+                file_path = file_path[1:]
+            if file_path.startswith('media/'):
+                file_path = file_path[6:]
+
+            # Delete the file if it exists
+            if default_storage.exists(file_path):
+                default_storage.delete(file_path)
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response(
+                    {'error': 'Image not found'},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+        except Exception as e:
+            logger.error(f"Error deleting image: {str(e)}")
+            return Response(
+                {'error': 'Failed to delete image'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
