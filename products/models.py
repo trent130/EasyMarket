@@ -179,6 +179,8 @@ class Product(models.Model):
         decimal_places=2,
         default=0.00
     )
+    # Draft functionality
+    is_draft = models.BooleanField(default=False)
     last_sale_date = models.DateTimeField(null=True, blank=True)
     # average_rating = models.DecimalField(
     #     max_digits=3,
