@@ -8,7 +8,6 @@ from . import views_marketplace
 # Create a router and register our viewset with it.
 router = DefaultRouter()
 router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
-router.register(r'wishlist', views_marketplace.WishListViewSet, basename='wishlist')
 router.register(r'reviews', views_marketplace.ReviewViewSet, basename='review')
 
 # WebSocket URL patterns
@@ -32,10 +31,35 @@ urlpatterns = [
           name='cart-clear'),
 
          
-     # Wishlist operations
+     # Wishlist CRUD operations (replacing router functionality)
      path('wishlist/',
-          views_marketplace.WishListViewSet.as_view({'get': 'list'}),
-          name='wishlist'),
+          views_marketplace.WishListViewSet.as_view({
+              'get': 'list',
+              'post': 'create'
+          }),
+          name='wishlist-list'),
+     path('wishlist/<int:pk>/',
+          views_marketplace.WishListViewSet.as_view({
+              'get': 'retrieve',
+              'put': 'update',
+              'patch': 'partial_update',
+              'delete': 'destroy'
+          }),
+          name='wishlist-detail'),
+
+     # Simple wishlist operations (no wishlist ID required)
+     path('wishlist/add/',
+          views_marketplace.WishListViewSet.as_view({'post': 'add_product'}),
+          name='wishlist-add'),
+     path('wishlist/remove/',
+          views_marketplace.WishListViewSet.as_view({'post': 'remove_product'}),
+          name='wishlist-remove'),
+     path('wishlist/by-seller/',
+          views_marketplace.WishListViewSet.as_view({'get': 'by_seller'}),
+          name='wishlist-by-seller'),
+
+
+     # Legacy wishlist operations (with wishlist ID)
      path('wishlist/<int:wishlist_id>/add/',
           views_marketplace.WishListViewSet.as_view({'post': 'add_product'}),
           name='wishlist-add-product'),
