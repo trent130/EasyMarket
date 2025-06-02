@@ -95,39 +95,127 @@ class ProductViewSet(viewsets.ModelViewSet):
             cache.set(cache_key, True, 3600)  # 1 hour cooldown per user
 
     def get_object(self):
-        """Get single object with caching"""
-        slug = self.kwargs.get('slug')
-        cache_key = get_cache_key('detail', slug)
-        
-        try:
-            cached_data = cache.get(cache_key)
-            if cached_data:
-                return get_object_or_404(Product, slug=slug, is_active=True)
-        except Exception:
-            pass
-        
-        obj = get_object_or_404(Product, slug=slug, is_active=True)
-        obj.increment_views()
-        return obj
+        """Get single object with slug support"""
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        lookup_value = self.kwargs[lookup_url_kwarg]
 
-    def retrieve(self, request, slug=None):
-        """Retrieve a product by its slug with caching"""
+        logger.debug(f"Looking up product with value: {lookup_value}")
+
+        # Try to get by slug first, then by ID
+        try:
+            if lookup_value.isdigit():
+                # If it's a number, try ID first
+                logger.debug(f"Trying ID lookup for: {lookup_value}")
+                product = get_object_or_404(Product, id=lookup_value, is_active=True)
+            else:
+                # If it's not a number, treat as slug
+                logger.debug(f"Trying slug lookup for: {lookup_value}")
+                product = get_object_or_404(Product, slug=lookup_value, is_active=True)
+
+            logger.debug(f"Found product: {product.title} (slug: {product.slug})")
+            return product
+
+        except Exception as e:
+            logger.error(f"Error in get_object for {lookup_value}: {str(e)}")
+            # If slug lookup fails and it's not a digit, try as ID anyway
+            if not lookup_value.isdigit():
+                try:
+                    logger.debug(f"Fallback: trying ID lookup for non-digit: {lookup_value}")
+                    return get_object_or_404(Product, id=int(lookup_value), is_active=True)
+                except (ValueError, Product.DoesNotExist) as fallback_e:
+                    logger.error(f"Fallback also failed: {str(fallback_e)}")
+                    pass
+            raise
+
+    def retrieve(self, request, *args, **kwargs):
+        """Retrieve a product with caching and view count increment"""
+        try:
+            # Get the lookup value
+            lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+            lookup_value = self.kwargs.get(lookup_url_kwarg)
+
+            logger.debug(f"retrieve() called with lookup_value: {lookup_value}")
+
+            if not lookup_value:
+                logger.error("No lookup value found in kwargs")
+                return Response({
+                    'detail': 'Product identifier not provided'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            cache_key = get_cache_key('detail', lookup_value)
+            cached_results = cache.get(cache_key)
+
+            if cached_results is not None:
+                logger.debug(f"Returning cached product data for: {lookup_value}")
+                return Response(cached_results)
+
+            # Get product
+            product = self.get_object()
+
+            # Increment views count
+            product.increment_views()
+
+            # Serialize the product
+            serializer = self.get_serializer(product)
+
+            # Cache the serialized data for 1 hour
+            logger.debug(f"Caching product data for: {lookup_value}")
+            cache.set(cache_key, serializer.data, timeout=3600)
+
+            return Response(serializer.data)
+
+        except Product.DoesNotExist:
+            lookup_value = self.kwargs.get(self.lookup_url_kwarg or self.lookup_field, 'unknown')
+            logger.warning(f"Product not found for: {lookup_value}")
+            return Response({
+                'detail': 'Product not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            lookup_value = self.kwargs.get(self.lookup_url_kwarg or self.lookup_field, 'unknown')
+            logger.error(f"Error retrieving product {lookup_value}: {str(e)}")
+            return Response({
+                'detail': 'An unexpected error occurred'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def retrieve_by_slug(self, request, slug=None):
+        """
+        Retrieve a product by its slug with caching
+        This method is called directly from URL patterns, not as a DRF action
+        """
         try:
             cache_key = get_cache_key('detail', slug)
             cached_results = cache.get(cache_key)
-            
-            if cached_results:
+
+            if cached_results is not None:
+                logger.debug(f"Returning cached product data for slug: {slug}")
                 return Response(cached_results)
-            
-            product = self.get_object()
-            serializer = self.get_serializer(product)
-            cache.set(cache_key, serializer.data, CACHE_TTL)
+
+            # Get product by slug
+            product = get_object_or_404(Product, slug=slug, is_active=True)
+
+            # Increment views count
+            product.increment_views()
+
+            # Serialize the product
+            serializer = ProductDetailSerializer(product, context={'request': request})
+
+            # Cache the serialized data for 1 hour
+            logger.debug(f"Caching product data for slug: {slug}")
+            cache.set(cache_key, serializer.data, timeout=3600)
+
             return Response(serializer.data)
+
         except Product.DoesNotExist:
-            return Response({'detail': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+            logger.warning(f"Product not found for slug: {slug}")
+            return Response({
+                'detail': 'Product not found'
+            }, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            logger.error(f"Error retrieving product: {str(e)}")
-            return Response({'detail': 'An unexpected error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            # Log the error
+            logger.error(f"Error retrieving product by slug {slug}: {str(e)}")
+            return Response({
+                'detail': 'An unexpected error occurred'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_serializer_class(self):
         """
@@ -219,45 +307,81 @@ class ProductViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def featured(self, request):
         """Get featured products with caching"""
-        cache_key = get_cache_key('featured', '')
-        cached_results = cache.get(cache_key)
-        
-        if cached_results:
-            return Response(cached_results)
+        try:
+            cache_key = get_cache_key('featured', '')
+            cached_results = cache.get(cache_key)
 
-        queryset = self.get_queryset().filter(
-            featured=True,
-            stock__gt=F('reserved_stock')
-        ).order_by('-created_at')[:8]
+            if cached_results is not None:
+                return Response(cached_results)
 
-        serializer = ProductListSerializer(queryset, many=True, context={'request': request})
-        response_data = serializer.data
-        cache.set(cache_key, response_data, CACHE_TTL)
-        return Response(response_data)
+            queryset = self.get_queryset().filter(
+                featured=True,
+                stock__gt=F('reserved_stock')
+            ).order_by('-created_at')[:8]
+
+            serializer = ProductListSerializer(
+                queryset,
+                many=True,
+                context={'request': request}
+            )
+            response_data = serializer.data
+            cache.set(cache_key, response_data, CACHE_TTL)
+            return Response(response_data)
+
+        except Exception as e:
+            logger.error(f"Error in featured products: {str(e)}")
+            return Response({
+                'detail': 'An unexpected error occurred'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=False, methods=['get'])
     def trending(self, request):
-        """Get trending products with caching"""
-        cache_key = get_cache_key('trending', '')
-        cached_results = cache.get(cache_key)
-        
-        if cached_results:
-            return Response(cached_results)
+        """Get trending products based on views, sales and ratings"""
+        try:
+            cache_key = get_cache_key('trending', '')
+            cached_results = cache.get(cache_key)
 
-        queryset = self.get_queryset().filter(
-            stock__gt=F('reserved_stock')
-        ).annotate(
-            popularity_score=(
-                F('views_count') * 0.3 +
-                F('total_sales') * 0.4 +
-                F('avg_rating') * 0.3
+            if cached_results is not None:
+                return Response(cached_results)
+
+            # Get products with high view counts, sales, and ratings
+            # Use COALESCE to handle NULL ratings
+            from django.db.models import Case, When, Value, FloatField, Cast
+
+            queryset = self.get_queryset().filter(
+                stock__gt=F('reserved_stock')
+            ).annotate(
+                # Handle NULL ratings by defaulting to 0
+                rating_score=Case(
+                    When(avg_rating__isnull=True, then=Value(0.0)),
+                    default=F('avg_rating'),
+                    output_field=FloatField()
+                ),
+                # Convert integer fields to float for consistent calculation
+                views_float=Cast('views_count', FloatField()),
+                sales_float=Cast('total_sales', FloatField()),
+                popularity_score=(
+                    F('views_float') * 0.3 +  # 30% weight to views
+                    F('sales_float') * 0.4 +  # 40% weight to sales
+                    F('rating_score') * 0.3,  # 30% weight to ratings
+                    output_field=FloatField()
+                )
+            ).order_by('-popularity_score')[:8]
+
+            serializer = ProductListSerializer(
+                queryset,
+                many=True,
+                context={'request': request}
             )
-        ).order_by('-popularity_score')[:8]
+            response_data = serializer.data
+            cache.set(cache_key, response_data, CACHE_TTL)
+            return Response(response_data)
 
-        serializer = ProductListSerializer(queryset, many=True, context={'request': request})
-        response_data = serializer.data
-        cache.set(cache_key, response_data, CACHE_TTL)
-        return Response(response_data)
+        except Exception as e:
+            logger.error(f"Error in trending products: {str(e)}")
+            return Response({
+                'detail': 'An unexpected error occurred'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=True, methods=['post'])
     def update_stock(self, request, pk=None):
@@ -553,6 +677,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = CategorySerializer
     lookup_field = 'slug'
 
