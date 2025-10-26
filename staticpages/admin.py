@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import StaticPage, Footer, Testimonial, ContactMessage, FAQ, Footer
+from .models import StaticPage, Footer, Testimonial, ContactMessage, FAQ
 
 # Register your models here.
 @admin.register(ContactMessage)

@@ -33,6 +33,7 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+# Temporarily disable admin registrations to debug
 try:
     admin.site.unregister(Product)
 except NotRegistered:

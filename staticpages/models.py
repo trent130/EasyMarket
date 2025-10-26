@@ -102,10 +102,10 @@ class Footer(models.Model):
     /* footer data storage models for the static page */
 
     '''
-    quickLinks = models.ForeignKey(FooterLinks, on_delete=models.CASCADE)
+    quickLinks = models.OneToOneField(FooterLinks, on_delete=models.CASCADE)
     # categories = models.ForeignKey(FooterLinks, on_delete=models.CASCADE)
-    contactInfo = models.ForeignKey(ContactInfo, on_delete=models.CASCADE)
+    contactInfo = models.OneToOneField(ContactInfo, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"quick links {self.quicklinks}"
+        return f"Footer with quick links {self.quickLinks.title}"
 

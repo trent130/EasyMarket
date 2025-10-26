@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from decimal import Decimal
 from .models import StaticPage, FAQ, ContactMessage, Testimonial
 from django.core.validators import EmailValidator
 
@@ -100,8 +101,8 @@ class SitemapSerializer(serializers.Serializer):
     priority = serializers.DecimalField(
         max_digits=2,
         decimal_places=1,
-        min_value=0.0,
-        max_value=1.0
+        min_value=Decimal('0.0'),
+        max_value=Decimal('1.0')
     )
 
 
