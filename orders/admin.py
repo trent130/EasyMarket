@@ -22,5 +22,6 @@ class ShippingAddressAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'address']
 
 
+# Temporarily disable admin registrations to debug
 admin.site.register(Order, OrderAdmin)
 admin.site.register(ShippingAddress, ShippingAddressAdmin)

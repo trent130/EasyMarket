@@ -42,7 +42,6 @@ class ReactionAdmin(admin.ModelAdmin):
 
 class ReactionInline(admin.TabularInline):
     model = Reaction
-    fk_name = 'message'
     extra = 1
 
 

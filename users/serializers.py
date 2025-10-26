@@ -1,23 +1,34 @@
 from rest_framework import serializers
 import string
 import pyotp
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
 from .models import UserProfile, Student, CustomUser
 
 
-
 class CustomUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, validators=[validate_password])
+    full_name = serializers.ReadOnlyField(source='full_name')
+    user_type_display = serializers.ReadOnlyField(source='get_user_type_display_name')
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'first_name',  'email', 'password'] #'first_name', 'last_name',
-        read_only_fields = ['id']
+        fields = ['id', 'username', 'first_name', 'last_name', 'full_name', 'email', 'password', 'user_type', 'user_type_display', 'is_active', 'date_joined']
+        read_only_fields = ['id', 'date_joined']
 
     def create(self, validated_data):
+        password = validated_data.pop('password')
         user = CustomUser(**validated_data)
-        user.set_password(validated_data['password'])
+        user.set_password(password)
         user.save()
         return user
+
+    def validate_password(self, value):
+        try:
+            validate_password(value)
+        except DjangoValidationError as e:
+            raise serializers.ValidationError(list(e.messages))
+        return value
 
 
 
@@ -154,7 +165,7 @@ class SignInSerializer(serializers.Serializer):
         Raises:
             serializers.ValidationError: If the username and password are invalid.
         """
-        user = User.objects.filter(username=data['username']).first()
+        user = CustomUser.objects.filter(username=data['username']).first()
         if user is None or not user.check_password(data['password']):
             raise serializers.ValidationError("Invalid credentials")
         return data
@@ -208,7 +219,7 @@ class ForgotPasswordSerializer(serializers.Serializer):
         Raises:
             serializers.ValidationError: If the email address does not exist.
         """
-        if not User.objects.filter(email=value).exists():
+        if not CustomUser.objects.filter(email=value).exists():
             raise serializers.ValidationError("User with this email does not exist.")
         return value
 
