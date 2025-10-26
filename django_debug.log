@@ -8066,3 +8066,27 @@ DEBUG 2025-10-26 13:59:23,863 schema CREATE INDEX "student_pro_two_fac_eb19d5_id
 DEBUG 2025-10-26 13:59:23,896 schema CREATE INDEX "student_pro_student_063324_idx" ON "users_student" ("student_id"); (params None)
 DEBUG 2025-10-26 13:59:23,936 schema CREATE INDEX "student_pro_created_1c2259_idx" ON "users_student" ("created_at"); (params None)
 DEBUG 2025-10-26 13:59:23,977 schema ALTER TABLE "users_student" RENAME TO "student_profile"; (params ())
+WARNING 2025-10-26 14:09:03,516 log Not Found: /
+WARNING 2025-10-26 14:09:03,990 log Not Found: /favicon.ico
+WARNING 2025-10-26 14:09:09,693 log Not Found: /static/admin/js/theme.js
+WARNING 2025-10-26 14:09:09,705 log Not Found: /static/admin/css/dark_mode.css
+WARNING 2025-10-26 14:09:09,705 log Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2025-10-26 14:09:09,706 log Not Found: /static/admin/css/base.css
+WARNING 2025-10-26 14:09:09,714 log Not Found: /static/admin/css/login.css
+WARNING 2025-10-26 14:09:09,722 log Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2025-10-26 14:09:09,788 log Not Found: /static/admin/css/responsive.css
+WARNING 2025-10-26 14:09:09,936 log Not Found: /favicon.ico
+WARNING 2025-10-26 15:46:42,904 log Not Found: /marketplace/wishlist/
+WARNING 2025-10-26 15:46:42,905 log Not Found: /products/products/
+WARNING 2025-10-26 15:46:42,906 log Not Found: /footer/
+WARNING 2025-10-26 15:46:43,006 log Not Found: /marketplace/wishlist/
+WARNING 2025-10-26 15:46:43,056 log Not Found: /footer/
+WARNING 2025-10-26 15:46:43,069 log Not Found: /products/products/
+WARNING 2025-10-26 15:54:15,585 log Not Found: /footer/
+WARNING 2025-10-26 15:54:15,599 log Not Found: /marketplace/wishlist/
+WARNING 2025-10-26 15:54:15,813 log Not Found: /products/products/
+WARNING 2025-10-26 15:54:15,847 log Not Found: /products/products/
+WARNING 2025-10-26 15:54:15,907 log Not Found: /footer/
+WARNING 2025-10-26 15:54:15,933 log Not Found: /marketplace/wishlist/
+WARNING 2025-10-26 15:54:16,107 log Not Found: /products/products/
+WARNING 2025-10-26 15:54:16,134 log Not Found: /products/products/

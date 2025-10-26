@@ -19,7 +19,11 @@ from .serializers import (
     BackupCodesSerializer,
     ValidateBackupCodeSerializer,
     UserProfileSerializer,
-    SignUpSerializer
+    SignUpSerializer,
+    SignInSerializer,
+    AuthResponseSerializer,
+    StudentProfileSerializer,
+    CustomUserSerializer
 )
 from django.conf import settings 
 import redis
@@ -110,52 +114,117 @@ def enable_2fa(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signin(request):
-    """Sign in a user"""
-    username_or_email = request.data.get('username')# changed this username
-    password = request.data.get('password')
+    """Sign in a user with improved error handling and response"""
+    serializer = SignInSerializer(data=request.data)
+    
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    username_or_email = serializer.validated_data['username']
+    password = serializer.validated_data['password']
 
-    if not username_or_email or not password:
-        return Response({'error': 'Please provide both username and password'}, status=status.HTTP_400_BAD_REQUEST)
-
+    # Handle both username and email login
     if '@' in username_or_email:
         try:
             user = CustomUser.objects.get(email=username_or_email)
             username = user.username
         except CustomUser.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
     else:
         username = username_or_email
+    
     user = authenticate(request, username=username, password=password)
 
     if user is not None:
         refresh = RefreshToken.for_user(user)
-        return Response({'refresh': str(refresh), 'access': str(refresh.access_token), 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
-    return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Prepare response data
+        response_data = {
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': CustomUserSerializer(user).data
+        }
+        
+        # Add student profile if user is a student
+        try:
+            student_profile = Student.objects.get(user=user)
+            response_data['student_profile'] = StudentProfileSerializer(student_profile).data
+        except Student.DoesNotExist:
+            pass
+        
+        return Response(response_data, status=status.HTTP_200_OK)
+    
+    return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup(request):
-    """Sign up a user"""
-    username = request.data.get('username')
-    email = request.data.get('email')
-    password = request.data.get('password')
+    """Sign up a user with improved validation and response"""
+    serializer = SignUpSerializer(data=request.data)
+    
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        user = serializer.save()
+        
+        # Prepare response data
+        response_data = {
+            'message': 'User created successfully',
+            'user': CustomUserSerializer(user).data
+        }
+        
+        # Add student profile if user is a student
+        try:
+            student_profile = Student.objects.get(user=user)
+            response_data['student_profile'] = StudentProfileSerializer(student_profile).data
+        except Student.DoesNotExist:
+            pass
+        
+        return Response(response_data, status=status.HTTP_201_CREATED)
+        
+    except Exception as e:
+        logger.error(f"Error creating user: {str(e)}")
+        return Response({'error': 'Failed to create user'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    if not username or not email or not password:
-        return Response({'error': 'Please provide username, email, and password'}, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_current_user(request):
+    """Get current user's profile and student information"""
+    user = request.user
+    
+    response_data = {
+        'user': CustomUserSerializer(user).data
+    }
+    
+    # Add student profile if user is a student
+    try:
+        student_profile = Student.objects.get(user=user)
+        response_data['student_profile'] = StudentProfileSerializer(student_profile).data
+    except Student.DoesNotExist:
+        pass
+    
+    return Response(response_data, status=status.HTTP_200_OK)
 
-    if CustomUser.objects.filter(username=username).exists():
-        return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if CustomUser.objects.filter(email=email).exists():
-        return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['PUT', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def update_student_profile(request):
+    """Update student profile information"""
+    try:
+        student = Student.objects.get(user=request.user)
+    except Student.DoesNotExist:
+        return Response({'error': 'Student profile not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = StudentProfileSerializer(student, data=request.data, partial=True)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    user = CustomUser.objects.create_user(username=username, email=email, password=password)
-    # Check if a Student object already exists for this user
-    if not Student.objects.filter(user=user).exists():
-        Student.objects.create(user=user) #This line should not exist if there is a student
-
-    return Response({'message': 'User created successfully. Redirecting to login...'}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
