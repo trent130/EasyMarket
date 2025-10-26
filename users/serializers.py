@@ -33,21 +33,34 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class StudentProfileSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField(source='user.id')
-    username = serializers.CharField(source='user.username')
-    email = serializers.EmailField()
-    avatar = serializers.ImageField(source='userprofile.avatar')
-
+    # User-related fields
+    user_id = serializers.UUIDField(source='user.id', read_only=True)
+    username = serializers.CharField(source='user.username', read_only=True)
+    email = serializers.EmailField(source='user.email', read_only=True)
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    full_name = serializers.CharField(source='user.full_name', read_only=True)
+    user_type = serializers.CharField(source='user.user_type', read_only=True)
+    
+    # Profile fields
+    avatar = serializers.ImageField(source='user.userprofile.avatar', read_only=True)
+    
     class Meta:
         model = Student
         fields = [
-            'id', 'user_id', 'username', 'first_name', 'last_name',
-            'email', 'bio', 'avatar', 'two_factor_enabled'
+            'id', 'user_id', 'username', 'email', 'first_name', 'last_name', 'full_name',
+            'user_type', 'bio', 'phone_number', 'date_of_birth', 'university', 'student_id',
+            'avatar', 'two_factor_enabled', 'two_factor_verified', 'created_at', 'updated_at'
         ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'two_factor_verified']
+    
+    def update(self, instance, validated_data):
+        # Handle user profile updates if needed
+        return super().update(instance, validated_data)
 
 
 class TwoFactorEnableSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
+    user_id = serializers.UUIDField()
 
     def validate(self, data):
         """
@@ -172,35 +185,77 @@ class SignInSerializer(serializers.Serializer):
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, validators=[validate_password])
+    password_confirm = serializers.CharField(write_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password', 'password_confirm', 'user_type']
+        extra_kwargs = {
+            'user_type': {'default': 'student'}
+        }
+
+    def validate(self, data):
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError("Passwords don't match")
+        return data
+
+    def validate_password(self, value):
+        try:
+            validate_password(value)
+        except DjangoValidationError as e:
+            raise serializers.ValidationError(list(e.messages))
+        return value
+
+    def validate_username(self, value):
+        if CustomUser.objects.filter(username=value).exists():
+            raise serializers.ValidationError("Username already exists")
+        return value
+
+    def validate_email(self, value):
+        if CustomUser.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Email already exists")
+        return value
 
     def create(self, validated_data):
-        """
-        Create a new user with the given validated data.
-
-        Args:
-            validated_data (dict): Dictionary containing the username, email and password.
-
-        Returns:
-            User: The newly created user.
-        """
+        validated_data.pop('password_confirm')
+        password = validated_data.pop('password')
         user = CustomUser(**validated_data)
-        user.set_password(validated_data['password'])
+        user.set_password(password)
         user.save()
         return user
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    user_info = serializers.SerializerMethodField()
+    
     class Meta:
         model = UserProfile
-        fields = ['user', 'avatar']
+        fields = ['id', 'user', 'avatar', 'user_info']
         extra_kwargs = {
-            'user': {'read_only': True}  # Prevent users from modifying the associated user
+            'user': {'read_only': True}
         }
+    
+    def get_user_info(self, obj):
+        """Return user information"""
+        return {
+            'username': obj.user.username,
+            'email': obj.user.email,
+            'full_name': obj.user.full_name,
+            'user_type': obj.user.user_type
+        }
+    
+    def update(self, instance, validated_data):
+        # Handle avatar updates
+        return super().update(instance, validated_data)
+
+
+class AuthResponseSerializer(serializers.Serializer):
+    """Serializer for authentication response"""
+    access_token = serializers.CharField()
+    refresh_token = serializers.CharField()
+    user = CustomUserSerializer(read_only=True)
+    student_profile = StudentProfileSerializer(read_only=True, required=False)
 
 
 class ForgotPasswordSerializer(serializers.Serializer):
