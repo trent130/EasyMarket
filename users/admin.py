@@ -11,8 +11,25 @@ class CustomUserAdmin(admin.ModelAdmin):
     ordering = ('-date_joined',)
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email')
-    search_fields = ['first_name', 'last_name', 'email']
+    list_display = ('user', 'student_id', 'university', 'two_factor_enabled', 'created_at')
+    list_filter = ('two_factor_enabled', 'university', 'created_at')
+    search_fields = ['user__first_name', 'user__last_name', 'user__email', 'student_id', 'university']
+    readonly_fields = ('created_at', 'updated_at')
+    fieldsets = (
+        ('Student Information', {
+            'fields': ('user', 'student_id', 'university', 'bio', 'phone_number', 'date_of_birth')
+        }),
+        ('Two-Factor Authentication', {
+            'fields': ('two_factor_enabled', 'two_factor_verified', 'two_factor_secret', 'backup_codes')
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user')
 
 try:
     admin.site.unregister(Student)

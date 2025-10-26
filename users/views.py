@@ -2,20 +2,24 @@ from django.shortcuts import render
 import secrets
 import string
 import time
-from rest_framework import status
+from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, logout
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from .models import Student, CustomUser, UserProfile
 from .serializers import (
-    # TwoFactorEnableSerializer,
+    TwoFactorEnableSerializer,
     TwoFactorVerifySerializer,
     TwoFactorStatusSerializer,
-    # TwoFactorDisableSerializer,
+    TwoFactorDisableSerializer,
     BackupCodesSerializer,
-    ValidateBackupCodeSerializer
+    ValidateBackupCodeSerializer,
+    UserProfileSerializer,
+    SignUpSerializer
 )
 from django.conf import settings 
 import redis
@@ -27,6 +31,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.utils import timezone  # Import timezone
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
+from rest_framework.parsers import MultiPartParser, FormParser
+from django.contrib.auth.hashers import make_password
 
 logger = logging.getLogger(__name__)
 RATE_LIMIT_STORE = []
@@ -85,17 +91,18 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 @permission_classes([IsAuthenticated])
 def enable_2fa(request):
     """Enable 2FA for a user"""
-    user = get_object_or_404(User, id=request.data.get('user_id'))
+    student = get_object_or_404(Student, user=request.user)
 
-    if user.isTwoFactorEnabled:
+    if student.two_factor_enabled:
         return Response({'error': 'Two-factor authentication is already enabled'}, status=status.HTTP_400_BAD_REQUEST)
 
     secret = pyotp.random_base32()
-    user.twoFactorSecret = secret
-    user.save()
+    student.two_factor_secret = secret
+    student.two_factor_enabled = True
+    student.save()
 
     totp = pyotp.TOTP(secret)
-    provisioning_uri = totp.provisioning_uri(user.email, issuer_name="EasyMarket")
+    provisioning_uri = totp.provisioning_uri(student.email, issuer_name="EasyMarket")
 
     return Response({'secret': secret, 'qr_code_url': provisioning_uri})
 
@@ -112,9 +119,9 @@ def signin(request):
 
     if '@' in username_or_email:
         try:
-            user = User.objects.get(email=username_or_email)
+            user = CustomUser.objects.get(email=username_or_email)
             username = user.username
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     else:
         username = username_or_email
@@ -137,13 +144,13 @@ def signup(request):
     if not username or not email or not password:
         return Response({'error': 'Please provide username, email, and password'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if User.objects.filter(username=username).exists():
+    if CustomUser.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if User.objects.filter(email=email).exists():
+    if CustomUser.objects.filter(email=email).exists():
         return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = User.objects.create_user(username=username, email=email, password=password)
+    user = CustomUser.objects.create_user(username=username, email=email, password=password)
     # Check if a Student object already exists for this user
     if not Student.objects.filter(user=user).exists():
         Student.objects.create(user=user) #This line should not exist if there is a student
@@ -183,14 +190,16 @@ def get_2fa_status(request):
 @permission_classes([IsAuthenticated])
 def disable_2fa(request):
     """Disable 2FA for a user"""
-    user = get_object_or_404(User, id=request.user.id)
+    student = get_object_or_404(Student, user=request.user)
 
-    if not user.isTwoFactorEnabled:
+    if not student.two_factor_enabled:
         return Response({'error': 'Two-factor authentication is not enabled'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user.isTwoFactorEnabled = False
-    user.twoFactorSecret = None
-    user.save()
+    student.two_factor_enabled = False
+    student.two_factor_verified = False
+    student.two_factor_secret = None
+    student.backup_codes = []
+    student.save()
 
     return Response({'message': 'Two-factor authentication has been disabled'})
 
@@ -256,13 +265,14 @@ async def forgot_password(request):
     if not rate_limit(email):
         return Response({'error': 'Too many requests. Please try again later.'},
                         status=status.HTTP_429_TOO_MANY_REQUESTS)
-    alphabet = string.ascii_letters + string.digits + string.puntuation
+    alphabet = string.ascii_letters + string.digits + string.punctuation
     reset_token = "".join(secrets.choice(alphabet))
     reset_token_expiry = timezone.now() + timezone.timedelta(hours=1)
 
-    user = get_object_or_404(User, email=email)
-    user.resetToken = reset_token
-    user.resetTokenExpiry = reset_token_expiry
+    user = get_object_or_404(CustomUser, email=email)
+    # Note: CustomUser doesn't have resetToken fields, we'll need to add them or use a different approach
+    # For now, we'll store the token in a separate model or use Redis
+    # This is a placeholder - you may want to create a PasswordResetToken model
     user.save()
 
     await send_password_reset_email(email, reset_token)
@@ -280,13 +290,10 @@ async def reset_password(request):
     if not token or not new_password:
         return Response({'error': 'Token and new password are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = get_object_or_404(User, resetToken=token, resetTokenExpiry__gt=timezone.now())
-
-    hashed_password = await hash(new_password, 10)
-    user.password = hashed_password
-    user.resetToken = None
-    user.resetTokenExpiry = None
-    user.save()
+    # Note: This needs to be implemented with proper token storage
+    # For now, this is a placeholder - you may want to create a PasswordResetToken model
+    # or use Redis to store reset tokens
+    return Response({'error': 'Password reset functionality needs proper token storage implementation'}, status=status.HTTP_501_NOT_IMPLEMENTED)
 
     return Response({'message': 'Password has been reset successfully'})
 

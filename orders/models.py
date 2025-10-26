@@ -22,7 +22,7 @@ class Order(models.Model):
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     reference = models.CharField(max_length=20, unique=True)
-    shipping_address = models.ForeignKey('ShippingAddress', on_delete=models.PROTECT)
+    shipping_address = models.ForeignKey('orders.ShippingAddress', on_delete=models.PROTECT)
     total_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
