@@ -8,7 +8,7 @@ from .models import UserProfile, Student, CustomUser
 
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, validators=[validate_password])
-    full_name = serializers.ReadOnlyField(source='full_name')
+    full_name = serializers.ReadOnlyField()
     user_type_display = serializers.ReadOnlyField(source='get_user_type_display_name')
 
     class Meta:
