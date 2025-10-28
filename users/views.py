@@ -125,15 +125,15 @@ def signin(request):
 
     # Handle both username and email login
     if '@' in username_or_email:
+        # If it's an email, authenticate directly with email
+        user = authenticate(request, username=username_or_email, password=password)
+    else:
+        # If it's a username, find the user and authenticate with their email
         try:
-            user = CustomUser.objects.get(email=username_or_email)
-            username = user.username
+            user_obj = CustomUser.objects.get(username=username_or_email)
+            user = authenticate(request, username=user_obj.email, password=password)
         except CustomUser.DoesNotExist:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-    else:
-        username = username_or_email
-    
-    user = authenticate(request, username=username, password=password)
 
     if user is not None:
         refresh = RefreshToken.for_user(user)
