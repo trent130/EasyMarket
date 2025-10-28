@@ -167,18 +167,25 @@ class SignInSerializer(serializers.Serializer):
 
     def validate(self, data):
         """
-        Validate that the given username and password are valid.
+        Validate that the given username/email and password are valid.
 
         Args:
-            data (dict): Dictionary containing the username and password.
+            data (dict): Dictionary containing the username/email and password.
 
         Returns:
-            dict: The validated data if the username and password are valid.
+            dict: The validated data if the username/email and password are valid.
 
         Raises:
-            serializers.ValidationError: If the username and password are invalid.
+            serializers.ValidationError: If the username/email and password are invalid.
         """
-        user = CustomUser.objects.filter(username=data['username']).first()
+        username_or_email = data['username']
+        
+        # Check if it's an email or username
+        if '@' in username_or_email:
+            user = CustomUser.objects.filter(email=username_or_email).first()
+        else:
+            user = CustomUser.objects.filter(username=username_or_email).first()
+            
         if user is None or not user.check_password(data['password']):
             raise serializers.ValidationError("Invalid credentials")
         return data
