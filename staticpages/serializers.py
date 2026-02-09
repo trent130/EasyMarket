@@ -7,14 +7,14 @@ from django.core.validators import EmailValidator
 class StaticPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = StaticPage
-        fields = ['id', 'title', 'slug', 'content', 'meta_description', 'is_published', 'updated_at']
+        fields = ['id', 'title', 'slug', 'content', 'is_published', 'updated_at']
         read_only_fields = ['slug', 'updated_at']
 
 
 class FAQSerializer(serializers.ModelSerializer):
     class Meta:
         model = FAQ
-        fields = ['id', 'question', 'answer', 'category', 'order', 'is_published']
+        fields = ['id', 'question', 'answer', 'is_published']
 
 
 class FAQCategorySerializer(serializers.Serializer):
@@ -27,7 +27,7 @@ class ContactMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ContactMessage
-        fields = ['id', 'name', 'email', 'subject', 'message', 'created_at']
+        fields = ['id', 'name', 'email', 'message', 'created_at']
         read_only_fields = ['created_at']
 
     def validate_message(self, value):
@@ -39,21 +39,15 @@ class ContactMessageSerializer(serializers.ModelSerializer):
 
 
 class TestimonialSerializer(serializers.ModelSerializer):
-    student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
-    student_avatar = serializers.ImageField(source='student.userprofile.avatar', read_only=True)
+    author_name = serializers.CharField(source='author.get_full_name', read_only=True)
 
     class Meta:
         model = Testimonial
         fields = [
-            'id', 'student', 'student_name', 'student_avatar',
-            'content', 'rating', 'is_featured', 'created_at'
+            'id', 'author', 'author_name',
+            'content', 'is_featured', 'created_at'
         ]
         read_only_fields = ['created_at']
-
-    def validate_rating(self, value):
-        if not (1 <= value <= 5):
-            raise serializers.ValidationError("Rating must be between 1 and 5")
-        return value
 
 
 class SiteSettingsSerializer(serializers.Serializer):
