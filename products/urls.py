@@ -11,51 +11,53 @@ router.register(r'categories', views.CategoryViewSet, basename='category')
 
 urlpatterns = [
     # Router URLs
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 
     # Product Search and Filtering
-    path('api/products/search/',
+    path('products/search/',
          views.ProductViewSet.as_view({'get': 'search'}),
          name='product-search'),
 
     # Product Management
-    path('api/products/bulk-action/',
+    path('products/bulk-action/',
          views.ProductViewSet.as_view({'post': 'bulk_action'}),
          name='product-bulk-action'),
 
-    # fetch categories
-    path('api/categories/', views.CategoryViewSet.as_view({'get': 'categories'}),
-         name='categories'),
-    path('api/products/my-products/',
+    # My Products
+    path('products/my-products/',
          views.ProductViewSet.as_view({'get': 'my_products'}),
          name='my-products'),
 
+    # fetch categories
+    path('categories/', views.CategoryViewSet.as_view({'get': 'list'}),
+         name='categories'),
+
     # Category Products
-    path('api/categories/<slug:slug>/products/',
+    path('categories/<slug:slug>/products/',
          views.CategoryViewSet.as_view({'get': 'products'}),
          name='category-products'),
 
     # Related Products
-    path('api/products/<int:pk>/related/',
+    path('products/<slug:slug>/related/',
          views.ProductViewSet.as_view({'get': 'related'}),
          name='related-products'),
 
     # Product Analytics
-    path('api/products/analytics/',
+    path('products/analytics/',
          views.ProductViewSet.as_view({'get': 'analytics'}),
          name='product-analytics'),
-    path('api/products/analytics/export/',
+    path('products/analytics/export/',
          views.ProductViewSet.as_view({'get': 'export_analytics'}),
          name='export-product-analytics'),
 
     # Product Reviews
-    path('api/products/<int:pk>/reviews/',
+    path('products/<slug:slug>/reviews/',
          views.ProductViewSet.as_view({
              'get': 'reviews',
              'post': 'add_review'
          }),
          name='product-reviews'),
-    path('api/products/reviews/<int:review_id>/',
+    path('products/reviews/<int:review_id>/',
          views.ProductViewSet.as_view({
              'put': 'update_review',
              'delete': 'delete_review'
@@ -63,7 +65,7 @@ urlpatterns = [
          name='review-detail'),
 
     # Product Images
-    path('api/products/<int:pk>/images/',
+    path('products/<slug:slug>/images/',
          views.ProductViewSet.as_view({
              'post': 'upload_images',
              'delete': 'delete_images'
@@ -71,44 +73,44 @@ urlpatterns = [
          name='product-images'),
 
     # Product Categories
-    path('api/categories/tree/',
+    path('categories/tree/',
          views.CategoryViewSet.as_view({'get': 'tree'}),
          name='category-tree'),
-    path('api/categories/featured/',
+    path('categories/featured/',
          views.CategoryViewSet.as_view({'get': 'featured'}),
          name='featured-categories'),
 
     # Product Reports
-    path('api/products/<int:pk>/report/',
+    path('products/<slug:slug>/report/',
          views.ProductViewSet.as_view({'post': 'report_product'}),
          name='report-product'),
-    path('api/products/reports/',
+    path('products/reports/',
          views.ProductViewSet.as_view({'get': 'product_reports'}),
          name='product-reports'),
 
     # Product Statistics
-    path('api/products/stats/',
+    path('products/stats/',
          views.ProductViewSet.as_view({'get': 'product_stats'}),
          name='product-stats'),
-    path('api/products/<int:pk>/stats/',
+    path('products/<slug:slug>/stats/',
          views.ProductViewSet.as_view({'get': 'single_product_stats'}),
          name='single-product-stats'),
 
     # Product Export/Import
-    path('api/products/export/',
+    path('products/export/',
          views.ProductViewSet.as_view({'get': 'export_products'}),
          name='export-products'),
-    path('api/products/import/',
+    path('products/import/',
          views.ProductViewSet.as_view({'post': 'import_products'}),
          name='import-products'),
 
     # Product Validation
-    path('api/products/validate/',
+    path('products/validate/',
          views.ProductViewSet.as_view({'post': 'validate_product'}),
          name='validate-product'),
 
-    # New URL for retrieving product by slug
-    path('api/products/<slug:slug>/', views.ProductViewSet.as_view({'get': 'retrieve'}), name='product-detail'),
+    # Product detail by slug
+    path('products/<slug:slug>/', views.ProductViewSet.as_view({'get': 'retrieve'}), name='product-detail'),
 ]
 
 
@@ -117,10 +119,10 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += [
         # Test endpoints
-        path('api/products/test/create/',
+        path('products/test/create/',
              views.ProductViewSet.as_view({'post': 'test_create'}),
              name='test-create-product'),
-        path('api/products/test/bulk-create/',
+        path('products/test/bulk-create/',
              views.ProductViewSet.as_view({'post': 'test_bulk_create'}),
              name='test-bulk-create'),
     ]

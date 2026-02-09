@@ -231,10 +231,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         variants_data = validated_data.pop('variants', [])
-        student = Student.objects.get(user=self.context['request'].user)
-        product = Product.objects.create(student=student, **validated_data)
+        product = Product.objects.create(**validated_data)
 
-        # Create variants if provided
         for variant_data in variants_data:
             variant = ProductVariant.objects.create(**variant_data)
             product.variants.add(variant)
