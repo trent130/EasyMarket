@@ -13,6 +13,9 @@ urlpatterns = [
     # Router URLs
     path('api/', include(router.urls)),
 
+    # Footer
+    path('api/footer/', views.get_footer_data, name='footer-data'),
+
     # Static Pages
     path('api/pages/home/',
          views.StaticPageViewSet.as_view({'get': 'home'}),
