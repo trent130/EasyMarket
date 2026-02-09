@@ -88,51 +88,36 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Get single object with caching"""
         slug = self.kwargs.get('slug')
         cache_key = get_cache_key('detail', slug)
-        obj = cache.get(cache_key)
-
-        if obj is None:
-            """ obj = super().get_object() """
-            obj = get_object_or_404(Product, slug=slug, is_active=True)
-            serializer = self.get_serializer(obj)
-            cache.set(cache_key, serializer.data)
-
-        # Increment views count
+        
+        try:
+            cached_data = cache.get(cache_key)
+            if cached_data:
+                return get_object_or_404(Product, slug=slug, is_active=True)
+        except Exception:
+            pass
+        
+        obj = get_object_or_404(Product, slug=slug, is_active=True)
         obj.increment_views()
         return obj
 
     def retrieve(self, request, slug=None):
-        """
-        Retrieve a product by its slug.
-        Note the method signature uses 'slug' instead of 'pk'
-        """
+        """Retrieve a product by its slug with caching"""
         try:
             cache_key = get_cache_key('detail', slug)
             cached_results = cache.get(cache_key)
-
-            if cached_results is not None:
+            
+            if cached_results:
                 return Response(cached_results)
-
-            # Use get_object_or_404 with the slug
+            
             product = self.get_object()
-            # Increment views count
-            product.increment_views()
-            # Serialize and return the product
             serializer = self.get_serializer(product)
-
-            # Cache the serialized data for 1 hour
-            logger.debug(f"Caching product data: {serializer.data}")
-            cache.set(cache_key, serializer.data, timeout=3600)
+            cache.set(cache_key, serializer.data, CACHE_TTL)
             return Response(serializer.data)
         except Product.DoesNotExist:
-            return Response({
-                'detail': 'Product not found'
-            }, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            # Log the error
             logger.error(f"Error retrieving product: {str(e)}")
-            return Response({
-                'detail': 'An unexpected error occurred'
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'detail': 'An unexpected error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_serializer_class(self):
         """
@@ -155,20 +140,16 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Create product with inventory tracking"""
         student = Student.objects.get(user=self.request.user)
         product = serializer.save(student=student)
-        # Initialize statistics
         product.total_sales = 0
         product.total_revenue = 0
-        product.reviews.count()
         product.save()
-        # Clear relevant caches
         cache.delete_pattern(f'{CACHE_PREFIX}list:*')
         logger.info(f'Product created: {product.id} by student {student.id}')
 
     def perform_update(self, serializer):
         """Update product with cache management"""
         product = serializer.save()
-        # Clear relevant caches
-        cache.delete(get_cache_key('detail', product.id))
+        cache.delete(get_cache_key('detail', product.slug))
         cache.delete_pattern(f'{CACHE_PREFIX}list:*')
         logger.info(f'Product updated: {product.id}')
 
@@ -176,27 +157,22 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Soft delete with cache management"""
         instance.is_active = False
         instance.save()
-        # Clear relevant caches
-        cache.delete(get_cache_key('detail', instance.id))
+        cache.delete(get_cache_key('detail', instance.slug))
         cache.delete_pattern(f'{CACHE_PREFIX}list:*')
         logger.info(f'Product deactivated: {instance.id}')
 
     @action(detail=False, methods=['get'])
     def search(self, request):
         """Advanced product search with caching"""
-        # Validate search parameters
         serializer = ProductSearchSerializer(data=request.query_params)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
 
-        # Generate cache key based on search parameters
         cache_key = get_cache_key('search', slugify(str(request.query_params)))
         cached_results = cache.get(cache_key)
-
-        if cached_results is not None:
+        
+        if cached_results:
             return Response(cached_results)
-
-        # Perform search using search module
 
         queryset = search_products(
             query=data.get('query'),
@@ -210,24 +186,14 @@ class ProductViewSet(viewsets.ModelViewSet):
             }
         )
 
-        # Handle pagination
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = ProductListSerializer(
-                page,
-                many=True,
-                context={'request': request}
-            )
+            serializer = ProductListSerializer(page, many=True, context={'request': request})
             response_data = self.get_paginated_response(serializer.data).data
         else:
-            serializer = ProductListSerializer(
-                queryset,
-                many=True,
-                context={'request': request}
-            )
+            serializer = ProductListSerializer(queryset, many=True, context={'request': request})
             response_data = serializer.data
-
-        # Cache the results
+        
         cache.set(cache_key, response_data, CACHE_TTL)
         return Response(response_data)
 
@@ -236,8 +202,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Get featured products with caching"""
         cache_key = get_cache_key('featured', '')
         cached_results = cache.get(cache_key)
-
-        if cached_results is not None:
+        
+        if cached_results:
             return Response(cached_results)
 
         queryset = self.get_queryset().filter(
@@ -245,40 +211,31 @@ class ProductViewSet(viewsets.ModelViewSet):
             stock__gt=F('reserved_stock')
         ).order_by('-created_at')[:8]
 
-        serializer = ProductListSerializer(
-            queryset,
-            many=True,
-            context={'request': request}
-        )
+        serializer = ProductListSerializer(queryset, many=True, context={'request': request})
         response_data = serializer.data
         cache.set(cache_key, response_data, CACHE_TTL)
         return Response(response_data)
 
     @action(detail=False, methods=['get'])
     def trending(self, request):
-        """Get trending products based on views, sales and ratings"""
+        """Get trending products with caching"""
         cache_key = get_cache_key('trending', '')
         cached_results = cache.get(cache_key)
-
-        if cached_results is not None:
+        
+        if cached_results:
             return Response(cached_results)
 
-        # Get products with high view counts, sales, and ratings
         queryset = self.get_queryset().filter(
             stock__gt=F('reserved_stock')
         ).annotate(
             popularity_score=(
-                F('views_count') * 0.3 +  # 30% weight to views
-                F('total_sales') * 0.4 +  # 40% weight to sales
-                F('avg_rating') * 0.3  # 30% weight to ratings
+                F('views_count') * 0.3 +
+                F('total_sales') * 0.4 +
+                F('avg_rating') * 0.3
             )
         ).order_by('-popularity_score')[:8]
 
-        serializer = ProductListSerializer(
-            queryset,
-            many=True,
-            context={'request': request}
-        )
+        serializer = ProductListSerializer(queryset, many=True, context={'request': request})
         response_data = serializer.data
         cache.set(cache_key, response_data, CACHE_TTL)
         return Response(response_data)
@@ -301,16 +258,13 @@ class ProductViewSet(viewsets.ModelViewSet):
                 variant.save()
             else:
                 product.update_stock(new_stock)
-            # Clear caches
-            cache.delete(get_cache_key('detail', product.id))
+            
+            cache.delete(get_cache_key('detail', product.slug))
             cache.delete_pattern(f'{CACHE_PREFIX}list:*')
             serializer = self.get_serializer(product)
             return Response(serializer.data)
         except (TypeError, ValueError) as e:
-            return Response(
-                {'error': str(e)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['post'])
     def bulk_action(self, request):
@@ -324,38 +278,52 @@ class ProductViewSet(viewsets.ModelViewSet):
         )
 
         if not products.exists():
-            return Response(
-                {'error': 'No valid products found'},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({'error': 'No valid products found'}, status=status.HTTP_404_NOT_FOUND)
 
         action = serializer.validated_data['action']
         update_data = {'is_active': action != 'deactivate'}
         products.update(**update_data)
 
-        # Clear caches
         cache.delete_pattern(f'{CACHE_PREFIX}list:*')
         for product in products:
-            cache.delete(get_cache_key('detail', product.id))
+            cache.delete(get_cache_key('detail', product.slug))
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=['get'])
+    def my_products(self, request):
+        """Get current user's products"""
+        try:
+            student = Student.objects.get(user=request.user)
+            queryset = self.get_queryset().filter(student=student)
+            
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = ProductListSerializer(page, many=True, context={'request': request})
+                return self.get_paginated_response(serializer.data)
+            
+            serializer = ProductListSerializer(queryset, many=True, context={'request': request})
+            return Response(serializer.data)
+        except Student.DoesNotExist:
+            return Response({'error': 'Student profile not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     lookup_field = 'slug'
+    permission_classes = []  # Public access
 
     def get_queryset(self):
         """Get categories with caching"""
         cache_key = f'{CACHE_PREFIX}categories'
         queryset = cache.get(cache_key)
-
+        
         if queryset is None:
             queryset = Category.objects.annotate(
                 products_count=Count('products', filter=Q(products__is_active=True))
             )
             cache.set(cache_key, queryset, CACHE_TTL)
-
+        
         return queryset
 
     @action(detail=True, methods=['get'])
@@ -364,33 +332,22 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
         category = self.get_object()
         cache_key = get_cache_key('category_products', category.id)
         cached_results = cache.get(cache_key)
-
-        if cached_results is not None:
+        
+        if cached_results:
             return Response(cached_results)
 
         products = Product.objects.filter(
             category=category,
             is_active=True
-        ).select_related(
-            'student',
-            'student__user'
-        ).prefetch_related('reviews')
+        ).select_related('student', 'student__user').prefetch_related('reviews')
 
         page = self.paginate_queryset(products)
         if page is not None:
-            serializer = ProductListSerializer(
-                page,
-                many=True,
-                context={'request': request}
-            )
+            serializer = ProductListSerializer(page, many=True, context={'request': request})
             response_data = self.get_paginated_response(serializer.data).data
         else:
-            serializer = ProductListSerializer(
-                products,
-                many=True,
-                context={'request': request}
-            )
+            serializer = ProductListSerializer(products, many=True, context={'request': request})
             response_data = serializer.data
-
+        
         cache.set(cache_key, response_data, CACHE_TTL)
         return Response(response_data)
