@@ -110,6 +110,12 @@ class Product(models.Model):
         ('fair', 'Fair'),
     ]
 
+    EXCHANGE_CHOICES = [
+        ('sell', 'Sell'),
+        ('exchange', 'Exchange'),
+        ('both', 'Both'),
+    ]
+
     title = models.CharField(max_length=100)
     variants = models.ManyToManyField(
         ProductVariant,
@@ -138,6 +144,20 @@ class Product(models.Model):
         choices=CONDITION_CHOICES,
         default='new'
     )
+    
+    # Textbook-specific fields (optional)
+    isbn = models.CharField(max_length=13, blank=True, null=True, db_index=True)
+    author = models.CharField(max_length=200, blank=True, null=True)
+    edition = models.CharField(max_length=50, blank=True, null=True)
+    course_code = models.CharField(max_length=20, blank=True, null=True)
+    subject = models.CharField(max_length=100, blank=True, null=True)
+    exchange_option = models.CharField(
+        max_length=10,
+        choices=EXCHANGE_CHOICES,
+        blank=True,
+        null=True
+    )
+    
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
