@@ -33,14 +33,10 @@ class OrderItemSerializer(serializers.Serializer):
 
 class OrderCreateSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
-    shipping_address = serializers.CharField(required=True)
 
     class Meta:
         model = Order
-        fields = [
-            'items', 'shipping_address', 'payment_method',
-            'special_instructions'
-        ]
+        fields = ['items', 'shipping_address', 'payment_method', 'notes']
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')
@@ -51,13 +47,8 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             price = product.price
             quantity = item_data['quantity']
             total = price * quantity
-            total_amount += total  # Update total amount
-            order.items.create(
-                product=product,
-                quantity=quantity,
-                price=price,
-                total=total
-            )
+            total_amount += total
+            order.items.create(product=product, quantity=quantity, price=price)
         order.total_amount = total_amount
         order.save()
         return order
@@ -66,36 +57,22 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 class OrderDetailSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
-    payment_status_display = serializers.CharField(
-        source='get_payment_status_display',
-        read_only=True
-    )
-    tracking_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
         fields = [
             'id', 'user', 'items', 'total_amount', 'status',
-            'status_display', 'payment_status', 'payment_status_display',
-            'shipping_address', 'tracking_number', 'tracking_url',
-            'special_instructions', 'created_at', 'updated_at'
+            'status_display', 'payment_status', 'payment_method',
+            'shipping_address', 'notes', 'created_at', 'updated_at'
         ]
-        read_only_fields = [
-            'user', 'total_amount', 'payment_status',
-            'tracking_number', 'created_at', 'updated_at'
-        ]
-
-    def get_tracking_url(self, obj):
-        if obj.tracking_number:
-            return f"https://tracking.easymarket.com/{obj.tracking_number}"
-        return None
+        read_only_fields = ['user', 'total_amount', 'payment_status', 'created_at', 'updated_at']
 
 
 class OrderUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['shipping_address', 'special_instructions', 'status']
-        read_only_fields = ['status']  # Status can only be updated by staff
+        fields = ['shipping_address', 'notes', 'status']
+        read_only_fields = ['status']
 
 
 class OrderCancellationSerializer(serializers.Serializer):
@@ -111,24 +88,8 @@ class OrderCancellationSerializer(serializers.Serializer):
 
 
 class OrderTrackingSerializer(serializers.ModelSerializer):
-    status_history = serializers.SerializerMethodField()
-    estimated_delivery = serializers.DateTimeField(read_only=True)
-
     class Meta:
         model = Order
-        fields = [
-            'status', 'status_display', 'tracking_number',
-            'tracking_url', 'status_history', 'estimated_delivery'
-        ]
+        fields = ['status', 'status_display', 'created_at', 'updated_at']
 
-    def get_status_history(self, obj):
-        # This would be implemented based on my order tracking system
-        return [
-            {
-                'status': status.status,
-                'location': status.location,
-                'timestamp': status.timestamp,
-                'description': status.description
-            }
-            for status in obj.status_history.all()
-        ]
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
