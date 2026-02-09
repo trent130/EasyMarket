@@ -301,8 +301,13 @@ class ProductViewSet(viewsets.ModelViewSet):
     def my_products(self, request):
         """Get current user's products"""
         try:
-            student = Student.objects.get(user=request.user)
-            queryset = self.get_queryset().filter(student=student)
+            # Try to get student profile, return empty list if not found
+            try:
+                student = Student.objects.get(user=request.user)
+                queryset = self.get_queryset().filter(student=student)
+            except Student.DoesNotExist:
+                # User is not a student (customer or admin), return empty list
+                return Response([])
             
             page = self.paginate_queryset(queryset)
             if page is not None:
@@ -311,8 +316,9 @@ class ProductViewSet(viewsets.ModelViewSet):
             
             serializer = ProductListSerializer(queryset, many=True, context={'request': request})
             return Response(serializer.data)
-        except Student.DoesNotExist:
-            return Response({'error': 'Student profile not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            logger.error(f'Error in my_products: {str(e)}')
+            return Response({'error': 'Failed to fetch products'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
