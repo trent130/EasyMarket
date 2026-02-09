@@ -44,6 +44,13 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering = ['-created_at']
     lookup_field = 'slug'
 
+    def get_permissions(self):
+        """Set permissions based on action"""
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            from users.permissions import IsStudentOrAdmin
+            return [IsStudentOrAdmin()]
+        return super().get_permissions()
+
     # ...
     def get_queryset(self):
         """
