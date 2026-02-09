@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from marketplace.consumers import MarketplaceConsumer
 from . import views_marketplace
+from . import views_textbooks
 
 
 # Create a router and register our viewset with it.
@@ -10,6 +11,7 @@ router = DefaultRouter()
 router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
 router.register(r'wishlist', views_marketplace.WishListViewSet, basename='wishlist')
 router.register(r'reviews', views_marketplace.ReviewViewSet, basename='review')
+router.register(r'textbooks', views_textbooks.TextbookViewSet, basename='textbook')
 
 # WebSocket URL patterns
 websocket_urlpatterns = [
