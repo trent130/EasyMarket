@@ -34,12 +34,34 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)
+    payment_date = models.DateTimeField(null=True, blank=True)
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'Order #{self.id} - {self.user.username}'
+
+    @property
+    def is_paid(self):
+        return self.payment_status
+
+    @property
+    def can_request_refund(self):
+        return self.status == 'delivered' and self.is_paid
+
+    def send_cancellation_notification(self):
+        pass  # Implement email notification
+
+    def send_delivery_confirmation(self):
+        pass  # Implement email notification
+
+    def generate_invoice(self):
+        return b'PDF content'  # Implement PDF generation
+
+    def create_refund_request(self, reason):
+        from .models import Refund
+        return Refund.objects.create(order=self, reason=reason)
 
 
 class OrderItem(models.Model):
@@ -62,3 +84,10 @@ class ShippingAddress(models.Model):
 
     class Meta:
         verbose_name_plural = 'Shipping addresses'
+
+
+class Refund(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    reason = models.TextField()
+    status = models.CharField(max_length=20, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
