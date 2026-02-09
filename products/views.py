@@ -169,6 +169,15 @@ class ProductViewSet(viewsets.ModelViewSet):
         logger.info(f'Product deactivated: {instance.id}')
 
     @action(detail=False, methods=['get'])
+    def conditions(self, request):
+        """Get list of product condition choices"""
+        conditions = [
+            {'value': choice[0], 'label': choice[1]}
+            for choice in Product.CONDITION_CHOICES
+        ]
+        return Response({'conditions': conditions})
+
+    @action(detail=False, methods=['get'])
     def search(self, request):
         """Advanced product search with caching"""
         serializer = ProductSearchSerializer(data=request.query_params)
