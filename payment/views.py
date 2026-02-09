@@ -25,10 +25,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
-        # Add select_related to reduce database queries
-        return Transaction.objects.select_related('order', 'order__user')\
-            .filter(order__user=self.request.user)\
-            .defer('payment_details')  # Defer loading of large JSON field unless needed
+        return Transaction.objects.filter(user=self.request.user)
 
     @action(detail=False, methods=['post'])
     def mpesa(self, request):
@@ -88,7 +85,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
                 # Check for payment timeout (2 minutes)
                 from django.utils import timezone
                 PAYMENT_TIMEOUT = 120  # 2 minutes in seconds
-                if (timezone.now() - transaction.created_at).total_seconds() > PAYMENT_TIMEOUT:
+                if (timezone.now() - transaction.timestamp).total_seconds() > PAYMENT_TIMEOUT:
                     transaction.status = 'failed'
                     transaction.save()
                     return Response({
@@ -157,18 +154,11 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def history(self, request):
-        # Add pagination with smaller page size for better performance
-        page_size = 10
-        transactions = self.get_queryset()\
-            .order_by('-created_at')\
-            .only('id', 'amount', 'status', 'created_at', 'payment_method')  # Select only needed fields
-        paginator = self.paginator
-        if paginator:
-            page = paginator.paginate_queryset(transactions, request)
+        transactions = self.get_queryset().order_by('-timestamp')
+        page = self.paginate_queryset(transactions)
+        if page is not None:
             serializer = PaymentHistorySerializer(page, many=True)
-            return paginator.get_paginated_response(serializer.data)
-        # Limit results if no pagination
-        transactions = transactions[:page_size]
+            return self.get_paginated_response(serializer.data)
         serializer = PaymentHistorySerializer(transactions, many=True)
         return Response(serializer.data)
 
