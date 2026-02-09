@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
-from .models import StaticPage, FAQ, ContactMessage, Testimonial
+from .models import StaticPage, FAQ, ContactMessage, Testimonial, FooterLinks, Address, ContactInfo
 from django.core.validators import EmailValidator
 
 
@@ -120,3 +120,29 @@ class MetaTagSerializer(serializers.Serializer):
         choices=['summary', 'summary_large_image'],
         required=False
     )
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ['street', 'city', 'state', 'postal_code', 'country']
+
+
+class ContactInfoSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+
+    class Meta:
+        model = ContactInfo
+        fields = ['phone', 'email', 'address']
+
+
+class FooterLinksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FooterLinks
+        fields = ['id', 'title', 'url', 'slug']
+
+
+class FooterDataSerializer(serializers.Serializer):
+    quickLinks = FooterLinksSerializer(many=True)
+    categories = FooterLinksSerializer(many=True)
+    contactInfo = ContactInfoSerializer()

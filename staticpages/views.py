@@ -1,5 +1,5 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from django.core.cache import cache
@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from .models import StaticPage, FAQ, ContactMessage, Testimonial
+from .models import StaticPage, FAQ, ContactMessage, Testimonial, FooterLinks, ContactInfo
 from .serializers import (
     StaticPageSerializer,
     FAQSerializer,
@@ -17,8 +17,8 @@ from .serializers import (
     SiteSettingsSerializer,
     NewsletterSubscriptionSerializer,
     FeedbackSerializer,
-    # SitemapSerializer,
-    MetaTagSerializer
+    MetaTagSerializer,
+    FooterDataSerializer
 )
 import logging
 
@@ -214,3 +214,28 @@ class FeedbackViewSet(viewsets.ViewSet):
                 {'error': 'Submission failed'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_footer_data(request):
+    """Get footer data including quick links, categories, and contact info"""
+    try:
+        quick_links = FooterLinks.objects.filter(category='quick_links')
+        categories = FooterLinks.objects.filter(category='categories')
+        contact_info = ContactInfo.objects.first()
+
+        data = {
+            'quickLinks': quick_links,
+            'categories': categories,
+            'contactInfo': contact_info
+        }
+
+        serializer = FooterDataSerializer(data)
+        return Response(serializer.data)
+    except Exception as e:
+        logger.error(f"Failed to fetch footer data: {str(e)}")
+        return Response(
+            {'error': 'Failed to load footer data'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
