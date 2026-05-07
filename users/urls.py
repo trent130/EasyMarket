@@ -1,5 +1,5 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
 # custom imports
 from . import views
@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import (
 )
 
 # Create a router and register our viewset with it.
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r'profile', views.UserProfileViewSet, basename='user_profile')
 
 urlpatterns = [
