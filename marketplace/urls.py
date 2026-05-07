@@ -1,5 +1,5 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
 from marketplace.consumers import MarketplaceConsumer
 from . import views_marketplace
@@ -7,7 +7,7 @@ from . import views_textbooks
 
 
 # Create a router and register our viewset with it.
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r'cart', views_marketplace.CartViewSet, basename='cart')
 router.register(r'wishlist', views_marketplace.WishListViewSet, basename='wishlist')
 router.register(r'reviews', views_marketplace.ReviewViewSet, basename='review')

@@ -18,7 +18,9 @@ from .serializers import (
     NewsletterSubscriptionSerializer,
     FeedbackSerializer,
     MetaTagSerializer,
-    FooterDataSerializer
+    FooterDataSerializer,
+    FooterLinksSerializer,
+    ContactInfoSerializer
 )
 import logging
 
@@ -226,13 +228,12 @@ def get_footer_data(request):
         contact_info = ContactInfo.objects.first()
 
         data = {
-            'quickLinks': quick_links,
-            'categories': categories,
-            'contactInfo': contact_info
+            'quickLinks': FooterLinksSerializer(quick_links, many=True).data,
+            'categories': FooterLinksSerializer(categories, many=True).data,
+            'contactInfo': ContactInfoSerializer(contact_info).data if contact_info else None,
         }
 
-        serializer = FooterDataSerializer(data)
-        return Response(serializer.data)
+        return Response(data)
     except Exception as e:
         logger.error(f"Failed to fetch footer data: {str(e)}")
         return Response(
