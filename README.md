@@ -49,10 +49,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-trent130 - lawrencewafula408@gmail.com - email
+trent130 - [email](nyyongesa@gmail.com)
 
 Project Link: [https://github.com/trent130/Easymarket.git](https://github.com/trent130/Easymarket.git)
 
 ## Acknowledgements
-
-- [greyworm](http://127.0.0.1:8000)
