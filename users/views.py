@@ -6,6 +6,7 @@ import time
 import json
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework import status, viewsets, permissions
+from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, logout
 from rest_framework.response import Response
@@ -14,13 +15,17 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import Student, CustomUser, UserProfile
 from .serializers import (
+    CustomUserSerializer,
     TwoFactorEnableSerializer,
     TwoFactorVerifySerializer,
     TwoFactorStatusSerializer,
     TwoFactorDisableSerializer,
     BackupCodesSerializer,
     ValidateBackupCodeSerializer,
-    SignInSerializer
+    SignInSerializer,
+    SignUpSerializer,
+    StudentProfileSerializer,
+    UserProfileSerializer
 )
 from django.contrib.auth import authenticate
 from django.conf import settings 

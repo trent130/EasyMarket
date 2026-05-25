@@ -121,8 +121,8 @@ class WishListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WishList
-        fields = ['id', 'user', 'products', 'product_ids', 'auto_now', 'total_items']
-        read_only_fields = ['user', 'auto_now']
+        fields = ['id', 'user', 'products', 'product_ids', 'created_at', 'total_items']
+        read_only_fields = ['user', 'created_at']
 
     def get_total_items(self, obj):
         """Return total number of items in wishlist"""

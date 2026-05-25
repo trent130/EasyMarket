@@ -2,6 +2,7 @@ from rest_framework import serializers
 import string
 import pyotp
 from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password
 from .models import UserProfile, Student
 from django.contrib.auth import authenticate
 CustomUser = get_user_model()

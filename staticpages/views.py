@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from .models import StaticPage, Faq, ContactMessage, Testimonial
+from .models import StaticPage, Faq, ContactMessage, Testimonial, FooterLinks, ContactInfo
 from .serializers import (
     StaticPageSerializer,
     FaqSerializer,
@@ -25,6 +25,19 @@ from .serializers import (
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_footer_data(request):
+    links = FooterLinks.objects.all()[:5]
+    contact = ContactInfo.objects.first()
+    data = FooterDataSerializer({
+        "quickLinks": links,
+        "categories": links,
+        "contactInfo": contact or {},
+    }).data
+    return Response(data)
 
 
 class StaticPageViewSet(viewsets.ModelViewSet):
