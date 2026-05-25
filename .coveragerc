@@ -1,0 +1,39 @@
+[run]
+source = .
+omit =
+    */migrations/*
+    */tests/*
+    manage.py
+    watcher.py
+    create_test_data.py
+    */settings/*
+    */urls.py
+    */asgi.py
+    */wsgi.py
+    */apps.py
+    */admin.py
+    */__init__.py
+    *templatetags/*
+    *management/*
+    .venv/*
+    backend/*
+    docs/*
+    main/*
+    */search.py
+    */mpesa.py
+    */authentication.py
+    */consumers.py
+    */routing.py
+    adminapp/*
+    chat/*
+    */forms.py
+    */utils.py
+    */api.py
+    */view_tracking_model.py
+    */views_textbooks.py
+    marketplace/views.py
+
+[report]
+skip_covered = True
+show_missing = True
+precision = 1

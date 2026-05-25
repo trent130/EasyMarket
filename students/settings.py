@@ -92,6 +92,8 @@ AUTHENTICATION_BACKENDS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+REDIS_HOST = os.getenv('REDIS_HOST')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -100,7 +102,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # custom apps
     'marketplace.apps.MarketplaceConfig',
     'products.apps.ProductsConfig',
     'orders.apps.OrdersConfig',
@@ -109,7 +110,6 @@ INSTALLED_APPS = [
     'staticpages.apps.StaticpagesConfig',
     'users.apps.UsersConfig',
 
-    # third-party apps
     'django_daraja',
     'widget_tweaks',
     'rest_framework',
@@ -118,38 +118,40 @@ INSTALLED_APPS = [
     'channels',
     'crispy_forms',
     'livereload',
-
-    # redis implementation for caches
-    'django_redis',
 ]
 
-# for production testing and also for development
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+if REDIS_HOST:
+    INSTALLED_APPS.append('django_redis')
+
+if REDIS_HOST:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [(REDIS_HOST, 6379)],
+            },
         },
-    },
-}
-
-# for in memory service in development mode i am just testing this out
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels.layers.InMemoryChannelLayer",
-#     },
-# }
-
-# Redis cache settings
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+    }
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': f'redis://{REDIS_HOST}:6379/1',
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
         }
     }
-}
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+        },
+    }
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [

@@ -32,6 +32,15 @@ class OrderViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        detail_serializer = OrderDetailSerializer(
+            serializer.instance, context={'request': request}
+        )
+        return Response(detail_serializer.data, status=status.HTTP_201_CREATED)
+
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):
         order = self.get_object()

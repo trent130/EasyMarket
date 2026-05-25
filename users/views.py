@@ -399,8 +399,7 @@ def validate_backup_code(request):
 @permission_classes([IsAuthenticated])
 def signout(request):
     """Logout a user"""
-    user = request.user
-    logout(request, user)
+    logout(request)
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 

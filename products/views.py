@@ -39,6 +39,14 @@ def get_cache_key(prefix, identifier):
     return f'{CACHE_PREFIX}{prefix}:{identifier}'
 
 
+def invalidate_product_cache(slug=None):
+    """Invalidate product caches, compatible with any cache backend"""
+    if hasattr(cache, 'delete_pattern'):
+        cache.delete_pattern(f'{CACHE_PREFIX}list:*')
+    if slug:
+        cache.delete(get_cache_key('detail', slug))
+
+
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
@@ -245,22 +253,20 @@ class ProductViewSet(viewsets.ModelViewSet):
         product.total_sales = 0
         product.total_revenue = 0
         product.save()
-        cache.delete_pattern(f'{CACHE_PREFIX}list:*')
+        invalidate_product_cache()
         logger.info(f'Product created: {product.id} by student {student.id}')
 
     def perform_update(self, serializer):
         """Update product with cache management"""
         product = serializer.save()
-        cache.delete(get_cache_key('detail', product.slug))
-        cache.delete_pattern(f'{CACHE_PREFIX}list:*')
+        invalidate_product_cache(slug=product.slug)
         logger.info(f'Product updated: {product.id}')
 
     def perform_destroy(self, instance):
         """Soft delete with cache management"""
         instance.is_active = False
         instance.save()
-        cache.delete(get_cache_key('detail', instance.slug))
-        cache.delete_pattern(f'{CACHE_PREFIX}list:*')
+        invalidate_product_cache(slug=instance.slug)
         logger.info(f'Product deactivated: {instance.id}')
 
     @action(detail=False, methods=['get'])
@@ -405,7 +411,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=True, methods=['post'])
-    def update_stock(self, request, pk=None):
+    def update_stock(self, request, slug=None):
         """Update product stock with validation"""
         product = self.get_object()
         try:
@@ -423,8 +429,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             else:
                 product.update_stock(new_stock)
             
-            cache.delete(get_cache_key('detail', product.slug))
-            cache.delete_pattern(f'{CACHE_PREFIX}list:*')
+            invalidate_product_cache(slug=product.slug)
             serializer = self.get_serializer(product)
             return Response(serializer.data)
         except (TypeError, ValueError) as e:
@@ -433,7 +438,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def bulk_action(self, request):
         """Bulk actions with validation and cache management"""
-        serializer = ProductBulkActionSerializer(data=request.data)
+        serializer = ProductBulkActionSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
 
         products = Product.objects.filter(
@@ -448,7 +453,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         update_data = {'is_active': action != 'deactivate'}
         products.update(**update_data)
 
-        cache.delete_pattern(f'{CACHE_PREFIX}list:*')
+        invalidate_product_cache()
         for product in products:
             cache.delete(get_cache_key('detail', product.slug))
 
@@ -591,7 +596,7 @@ class ProductViewSet(viewsets.ModelViewSet):
                     product.save()
 
                     # Clear caches
-                    cache.delete_pattern(f'{CACHE_PREFIX}list:*')
+                    invalidate_product_cache()
 
                     return Response(
                         ProductDetailSerializer(product, context={'request': request}).data,

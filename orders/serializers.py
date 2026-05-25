@@ -25,8 +25,8 @@ class OrderItemSerializer(serializers.Serializer):
 
     def validate_product_id(self, value):
         try:
-            product = Product.objects.get(id=value)
-            return product
+            Product.objects.get(id=value)
+            return value
         except Product.DoesNotExist:
             raise serializers.ValidationError("Product not found")
 
@@ -40,7 +40,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')
-        order = Order.objects.create(**validated_data)
+        order = Order.objects.create(**validated_data, total_amount=0)
         total_amount = 0
         for item_data in items_data:
             product = Product.objects.get(id=item_data['product_id'])
@@ -48,7 +48,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             quantity = item_data['quantity']
             total = price * quantity
             total_amount += total
-            order.items.create(product=product, quantity=quantity, price=price)
+            order.orderitem_set.create(product=product, quantity=quantity, price=price)
         order.total_amount = total_amount
         order.save()
         return order

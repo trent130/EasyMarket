@@ -1,0 +1,13 @@
+.venv/
+venv/
+env/
+.git/
+.gitignore
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+.env*
+staticfiles/
+django_debug.log
