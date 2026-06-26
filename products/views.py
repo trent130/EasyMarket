@@ -724,7 +724,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
         category = self.get_object()
         cache_key = get_cache_key('category_products', category.id)
         cached_results = cache.get(cache_key)
-        
+
         if cached_results:
             return Response(cached_results)
 
@@ -740,6 +740,23 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
         else:
             serializer = ProductListSerializer(products, many=True, context={'request': request})
             response_data = serializer.data
-        
+
         cache.set(cache_key, response_data, CACHE_TTL)
         return Response(response_data)
+
+    @action(detail=False, methods=['get'], url_path='stats')
+    def stats(self, request):
+        """Return each category with its active product count"""
+        categories = Category.objects.annotate(
+            product_count=Count('products', filter=Q(products__is_active=True))
+        )
+        data = [
+            {
+                'id': cat.id,
+                'name': cat.name,
+                'slug': cat.slug,
+                'product_count': cat.product_count,
+            }
+            for cat in categories
+        ]
+        return Response({'count': len(data), 'categories': data})

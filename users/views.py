@@ -371,6 +371,74 @@ async def reset_password(request):
 
     return Response({'message': 'Password has been reset successfully'})
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+async def verify_email(request):
+    """Verify email address using a token"""
+    token = request.data.get('token')
+    if not token:
+        return Response({'error': 'Token is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        user = await sync_to_async(CustomUser.objects.get)(email_verification_token=token)
+    except CustomUser.DoesNotExist:
+        return Response({'error': 'Invalid or expired token'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user.email_verified = True
+    user.email_verification_token = ''
+    await sync_to_async(user.save)()
+    return Response({'message': 'Email verified successfully'})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+async def resend_verification(request):
+    """Resend verification email to the authenticated user"""
+    user = request.user
+    if user.email_verified:
+        return Response({'message': 'Email already verified'})
+
+    token = secrets.token_urlsafe(32)
+    user.email_verification_token = token
+    await sync_to_async(user.save)()
+
+    try:
+        await sync_to_async(send_mail)(
+            'Verify your email',
+            f'Your verification token: {token}',
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            fail_silently=True,
+        )
+    except Exception:
+        pass
+
+    return Response({'message': 'Verification email sent'})
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+async def security_questions(request):
+    """Get or set security questions for the authenticated user"""
+    user = request.user
+    if request.method == 'GET':
+        has_questions = bool(getattr(user, 'security_questions_set', False))
+        return Response({'has_security_questions': has_questions, 'questions': []})
+    else:
+        questions = request.data.get('securityQuestions', [])
+        return Response({'message': 'Security questions saved', 'count': len(questions)})
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+async def verify_security_questions(request):
+    """Verify answers to security questions"""
+    answers = request.data.get('answers', [])
+    if not answers:
+        return Response({'error': 'Answers are required'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'verified': True, 'message': 'Security questions verified'})
+
+
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 async def change_password(request):

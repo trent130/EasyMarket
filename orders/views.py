@@ -87,6 +87,22 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer = OrderDetailSerializer(orders, many=True)
         return Response(serializer.data)
 
+    @action(detail=False, methods=['get'], url_path='stats')
+    def stats(self, request):
+        """Return order counts grouped by status for the current user"""
+        queryset = self.get_queryset()
+        stats_data = {
+            'total': queryset.count(),
+            'pending': queryset.filter(status='pending').count(),
+            'processing': queryset.filter(status='processing').count(),
+            'shipped': queryset.filter(status='shipped').count(),
+            'delivered': queryset.filter(status='delivered').count(),
+            'canceled': queryset.filter(status='canceled').count(),
+            'refunded': queryset.filter(status='refunded').count(),
+            'returned': queryset.filter(status='returned').count(),
+        }
+        return Response(stats_data)
+
     @action(detail=True, methods=['get'])
     def invoice(self, request, pk=None):
         order = self.get_object()

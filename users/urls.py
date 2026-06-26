@@ -29,5 +29,9 @@ urlpatterns = [
     path('auth/me/', views.get_current_user, name='get_current_user'),
     path('auth/student-profile/', views.update_student_profile, name='update_student_profile'),
     path('auth/change-password/', views.change_password, name='change_password'),
+    path('auth/verify-email/', views.verify_email, name='verify-email'),
+    path('auth/resend-verification/', views.resend_verification, name='resend-verification'),
+    path('auth/security-questions/', views.security_questions, name='security-questions'),
+    path('auth/security-questions/verify/', views.verify_security_questions, name='verify-security-questions'),
 ]
 
