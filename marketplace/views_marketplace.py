@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.db.models import Count, Avg, Q
+from django.db.models import Count, Avg, Q, Prefetch
 from django.shortcuts import get_object_or_404
 from .models import Cart, CartItem, WishList, Review
 from products.models import Product, Category
@@ -30,7 +30,28 @@ class CartViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Cart.objects.filter(user=self.request.user)
+        return (
+            Cart.objects
+            .filter(user=self.request.user)
+            .prefetch_related(
+                Prefetch('cartitem_set', queryset=CartItem.objects.select_related('product'))
+            )
+        )
+
+    def list(self, request):
+        """Return the user's cart, creating it if it doesn't exist."""
+        try:
+            cart = (
+                Cart.objects
+                .prefetch_related(
+                    Prefetch('cartitem_set', queryset=CartItem.objects.select_related('product'))
+                )
+                .get(user=request.user)
+            )
+        except Cart.DoesNotExist:
+            cart = Cart.objects.create(user=request.user)
+        serializer = self.get_serializer(cart)
+        return Response(serializer.data)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -383,34 +404,6 @@ class WishListViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-    @action(detail=True, methods=['post'])
-    def add_product(self, request, pk=None):
-        wishlist = self.get_object()
-        product_id = request.data.get('product_id')
-        try:
-            product = Product.objects.get(id=product_id)
-            wishlist.products.add(product)
-            return Response(status=status.HTTP_200_OK)
-        except Product.DoesNotExist:
-            return Response(
-                {'error': 'Product not found'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
-    @action(detail=True, methods=['post'])
-    def remove_product(self, request, pk=None):
-        wishlist = self.get_object()
-        product_id = request.data.get('product_id')
-        try:
-            product = Product.objects.get(id=product_id)
-            wishlist.products.remove(product)
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except Product.DoesNotExist:
-            return Response(
-                {'error': 'Product not found'},
-                status=status.HTTP_404_NOT_FOUND
-            )
 
     @action(detail=False, methods=['post'])
     def add_product(self, request):
