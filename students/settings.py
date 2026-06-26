@@ -6,16 +6,12 @@ import sys
 
 load_dotenv()
 
-PAYMENT_HOST = 'http://localhost:8000'  # Base URL of your website
-PAYMENT_MODEL = 'students.Payment'  # Custom payment model
+PAYMENT_HOST = os.getenv('PAYMENT_HOST', 'http://localhost:8000')
+PAYMENT_MODEL = 'students.Payment'
 PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {
         'url': '/payment/process/',
     }),
-    # 'stripe': ('payments.stripe.StripeProvider', {
-    #     'secret_key': 'stripe-secret-key',
-    #     'publishable_key': 'stripe-publishable-key',
-    # }),
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,10 +46,10 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
-        'users': {  # Add specific logger for users app
+        'users': {
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': True,
@@ -61,29 +57,26 @@ LOGGING = {
     },
 }
 
-MPESA_CALLBACK_URL = 'mpesa_callback'
-
-MPESA_ENVIRONMENT = 'sandbox'
+MPESA_CALLBACK_URL = os.getenv('MPESA_CALLBACK_URL', 'mpesa_callback')
+MPESA_ENVIRONMENT = os.getenv('MPESA_ENVIRONMENT', 'sandbox')
 MPESA_CONSUMER_KEY = os.getenv('MPESA_CONSUMER_KEY')
 MPESA_CONSUMER_SECRET = os.getenv('MPESA_CONSUMER_SECRET')
-MPESA_SHORTCODE = '174379'
-MPESA_EXPRESS_SHORTCODE = '174379'
-MPESA_SHORTCODE_TYPE = 'paybill'
+MPESA_SHORTCODE = os.getenv('MPESA_SHORTCODE', '174379')
+MPESA_EXPRESS_SHORTCODE = os.getenv('MPESA_EXPRESS_SHORTCODE', '174379')
+MPESA_SHORTCODE_TYPE = os.getenv('MPESA_SHORTCODE_TYPE', 'paybill')
 MPESA_PASSKEY = os.getenv('MPESA_PASSKEY')
 MPESA_INITIATOR_USERNAME = os.getenv('MPESA_INITIATOR_USERNAME')
-MPESA_INITIATOR_SECURITY_CREDENTIALS = os.getenv(
-    'MPESA_INITIATOR_SECURITY_CREDENTIALS'
-    )
+MPESA_INITIATOR_SECURITY_CREDENTIALS = os.getenv('MPESA_INITIATOR_SECURITY_CREDENTIALS')
+
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-w%r6m-g^uf&+077us1j$y-+m5+v_fk5b)$3=)id!15+(o!&f9d'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-me-in-production')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Temporarily enable debug for troubleshooting
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']  # for now the django app is running on a local machine so it allows all the hosts to connect
+_allowed_hosts_env = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_env.split(',') if h.strip()]
 
 AUTHENTICATION_BACKENDS = [
     'users.authentication.EmailOrUsernameModelBackend',
@@ -93,6 +86,8 @@ AUTHENTICATION_BACKENDS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 REDIS_HOST = os.getenv('REDIS_HOST')
+REDIS_PORT = int(os.getenv('REDIS_PORT', '6379'))
+REDIS_DB = int(os.getenv('REDIS_DB', '0'))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -128,14 +123,14 @@ if REDIS_HOST:
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
             'CONFIG': {
-                "hosts": [(REDIS_HOST, 6379)],
+                "hosts": [(REDIS_HOST, REDIS_PORT)],
             },
         },
     }
     CACHES = {
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': f'redis://{REDIS_HOST}:6379/1',
+            'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}',
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             }
@@ -154,10 +149,11 @@ else:
     }
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Next.js frontend
-    "http://127.0.0.1:3000",
-]
+_cors_origins_env = os.getenv(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000'
+)
+CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins_env.split(',') if o.strip()]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -192,28 +188,27 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-# additional security settings
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True
-# SECURE_HSTS_SECONDS = 3600
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-# SESSION_COOKIE_SAMESITE = 'strict'
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SESSION_COOKIE_SAMESITE = 'Strict'
 
 ASGI_APPLICATION = 'students.asgi.application'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # Add CORS middleware
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # If using whitenoise
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'users.middleware.TwoFactorMiddleware',
     'livereload.middleware.LiveReloadScript'
 ]
@@ -225,14 +220,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
-# Static files storage - use whitenoise in production, default in development
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'\
-    if DEBUG else 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# LOGIN_REDIRECT_URL = 'home'
-# LOGOUT_REDIRECT_URL = 'home'
-# LOGIN_URL = 'marketplace:signin'
-# LOGOUT_URL = 'marketplace:signout'
+STATICFILES_STORAGE = (
+    'django.contrib.staticfiles.storage.StaticFilesStorage'
+    if DEBUG
+    else 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+)
 
 ROOT_URLCONF = 'students.urls'
 
@@ -254,31 +246,36 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'students.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Use PostgreSQL when DB_NAME is set, otherwise fall back to SQLite for local dev
+if os.getenv('DB_NAME'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER', 'easymarket_user'),
+            'PASSWORD': os.getenv('DB_PASSWORD', ''),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+        }
     }
-}
-# PostgreSQL config (commented out for quick testing)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DB_NAME', 'easymarket'),
-#         'USER': os.getenv('DB_USER', 'easymarket_user'),
-#         'PASSWORD': os.getenv('DB_PASSWORD', 'easymarket_pass'),
-#         'HOST': os.getenv('DB_HOST', 'localhost'),
-#         'PORT': os.getenv('DB_PORT', '5432'),
-#     }
-# }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -300,7 +297,10 @@ AUTH_USER_MODEL = "users.CustomUser"
 USE_I18N = True
 USE_TZ = True
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'default'
+if REDIS_HOST:
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+    SESSION_CACHE_ALIAS = 'default'
+else:
+    SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -15,7 +15,7 @@ urlpatterns = [
     path('', include(router.urls)),
 
     # Footer
-    path('api/footer/', views.get_footer_data, name='footer-data'),
+    path('footer/', views.get_footer_data, name='footer-data'),
 
     # Static Pages
     path('pages/home/',
@@ -111,14 +111,14 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += [
         # Preview URLs
-        path('api/preview/pages/<slug:slug>/',
+        path('preview/pages/<slug:slug>/',
              views.StaticPageViewSet.as_view({'get': 'preview_draft'}),
              name='preview-draft'),
         # Test URLs
-        path('api/test/contact/',
+        path('test/contact/',
              views.ContactMessageViewSet.as_view({'post': 'test_contact'}),
              name='test-contact'),
-        path('api/test/newsletter/',
+        path('test/newsletter/',
              views.NewsletterViewSet.as_view({'post': 'test_subscribe'}),
              name='test-newsletter'),
     ]

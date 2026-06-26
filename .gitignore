@@ -1,5 +1,7 @@
 db.sqlite3
-.env*
+.env
+.env.local
+.env.*.local
 .venv/
 venv/
 env/
