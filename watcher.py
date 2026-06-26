@@ -1,41 +1,53 @@
 import os
 import time
+import subprocess
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import subprocess
+
+DAPHNE_CMD = ['daphne', '-b', '0.0.0.0', '-p', '8000', 'students.asgi:application']
+
+server_process = None
+
+
+def start_server():
+    global server_process
+    if server_process and server_process.poll() is None:
+        print('Stopping previous server...')
+        server_process.terminate()
+        try:
+            server_process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            server_process.kill()
+    print('Starting Daphne...')
+    server_process = subprocess.Popen(DAPHNE_CMD)
 
 
 class ReloadHandler(FileSystemEventHandler):
     def on_modified(self, event):
-        """ Called when a file is modified. If the modified file is a
-        Python source file, restart the Daphne server. """
-        if event.src_path.endswith('.py'):  # Adjust this as needed
-            print(f'{event.src_path} has been modified, restarting Daphne...')
-            self.restart_server()
-
-    def restart_server(self):
-        # Command to run your Daphne server
-        """
-        Restart the Daphne server.
-
-        This method is called when the source files are modified. It is
-        responsible for restarting the Daphne server. The actual command
-        to run the server is specified in the code below.
-
-        """
-        subprocess.run(['daphne', 'students.asgi:application'])  # Adjust to your ASGI app location
+        if event.is_directory:
+            return
+        if event.src_path.endswith('.py'):
+            print(f'Changed: {event.src_path} — reloading...')
+            start_server()
 
 
-time.sleep(1)  # Wait for the server to restart
-if __name__ == "__main__":
-    path = '.'  # The directory to watch
-    event_handler = ReloadHandler()
+if __name__ == '__main__':
+    print('Starting dev watcher...')
+    start_server()
+
+    path = '.'
     observer = Observer()
-    observer.schedule(event_handler, path, recursive=True)
+    observer.schedule(ReloadHandler(), path, recursive=True)
     observer.start()
+    print('Watching for .py changes. Press Ctrl+C to stop.')
+
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
+        pass
+    finally:
         observer.stop()
-    observer.join()
+        observer.join()
+        if server_process and server_process.poll() is None:
+            server_process.terminate()
