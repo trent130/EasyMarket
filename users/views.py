@@ -40,6 +40,7 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.contrib.auth.hashers import make_password
+from asgiref.sync import sync_to_async
 
 logger = logging.getLogger(__name__)
 RATE_LIMIT_STORE = []
@@ -342,9 +343,9 @@ async def forgot_password(request):
     reset_token_expiry = timezone.now() + timezone.timedelta(hours=0.5)
 
     user = get_object_or_404(CustomUser, email=email)
-    user.resetToken = reset_token
-    user.resetTokenExpiry = reset_token_expiry
-    user.save()
+    user.reset_token = reset_token
+    user.reset_token_expiry = reset_token_expiry
+    await sync_to_async(user.save)()
 
     await send_password_reset_email(email, reset_token)
 
@@ -361,23 +362,44 @@ async def reset_password(request):
     if not token or not new_password:
         return Response({'error': 'Token and new password are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = get_object_or_404(CustomUser, resetToken=token, resetTokenExpiry__gt=timezone.now())
+    user = get_object_or_404(CustomUser, reset_token=token, reset_token_expiry__gt=timezone.now())
 
-    hashed_password = await hash(new_password, 10)
-    user.password = hashed_password
-    user.resetToken = None
-    user.resetTokenExpiry = None
-    user.save()
+    await sync_to_async(user.set_password)(new_password)
+    user.reset_token = ''
+    user.reset_token_expiry = None
+    await sync_to_async(user.save)()
 
     return Response({'message': 'Password has been reset successfully'})
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 async def change_password(request):
-    """Change password using the change password token"""
-    # TODO: implement a functionality to change password
+    """Change password for an authenticated user"""
+    current_password = request.data.get('current_password')
+    new_password = request.data.get('new_password')
 
-    return Response({'message': 'Password has been changed successfully'})
+    if not current_password or not new_password:
+        return Response(
+            {'error': 'current_password and new_password are required'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    user = request.user
+    if not await sync_to_async(user.check_password)(current_password):
+        return Response(
+            {'error': 'Current password is incorrect'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if len(new_password) < 8:
+        return Response(
+            {'error': 'New password must be at least 8 characters'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    await sync_to_async(user.set_password)(new_password)
+    await sync_to_async(user.save)()
+    return Response({'message': 'Password changed successfully'})
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

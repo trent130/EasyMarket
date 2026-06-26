@@ -39,6 +39,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(blank=True, null=True)
+    reset_token = models.CharField(max_length=100, blank=True, default='')
+    reset_token_expiry = models.DateTimeField(null=True, blank=True)
 
     objects = CustomUserManager()
 

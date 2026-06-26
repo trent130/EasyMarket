@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group, Permission
 from django.contrib.admin.models import LogEntry
 from django.shortcuts import get_object_or_404, render, redirect
@@ -35,20 +36,17 @@ from marketplace.models import Review
 CustomUser = get_user_model()
 
 
-@login_required
-class UserList(ListView):
+class UserList(LoginRequiredMixin, ListView):
     model = CustomUser
     template_name = 'pages/adminapp/user_list.html'
 
 
-@login_required
-class UserDetailView(DetailView):
+class UserDetailView(LoginRequiredMixin, DetailView):
     model = CustomUser
     template_name = 'pages/adminapp/user_detail.html'
 
 
-@login_required
-class UserDeleteView(DeleteView):
+class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = CustomUser
     template_name = 'pages/adminapp/user_delete.html'
     success_url = reverse_lazy('user_list')
@@ -70,20 +68,17 @@ def assign_role(request, user_id):
     return render(request, 'pages/adminapp/assign_role.html', {'form': form})
 
 
-@login_required
-class GroupListView(ListView):
+class GroupListView(LoginRequiredMixin, ListView):
     model = Group
     template_name = 'pages/adminapp/group_list.html'
 
 
-@login_required
-class GroupDetailView(DetailView):
+class GroupDetailView(LoginRequiredMixin, DetailView):
     model = Group
     template_name = 'pages/adminapp/group_detail.html'
 
 
-@login_required
-class GroupDeleteView(DeleteView):
+class GroupDeleteView(LoginRequiredMixin, DeleteView):
     model = Group
     template_name = 'pages/adminapp/group_delete.html'
     success_url = reverse_lazy('group_list')
