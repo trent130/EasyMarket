@@ -47,10 +47,15 @@ class PaymentViewSet(viewsets.ModelViewSet):
                 )
                 if response.get('ResponseCode') == '0':
                     # Create transaction record
+                    import uuid
                     transaction = Transaction.objects.create(
-                        order=order,
+                        user=request.user,
+                        transaction_id=str(uuid.uuid4()),
                         amount=order.total_amount,
-                        payment_method='mpesa',
+                        payment_method='MPESA',
+                        phone_number=phone_number,
+                        reference=f"Order-{order.id}",
+                        description=f"Payment for Order #{order.id}",
                         status='pending',
                         checkout_request_id=response.get('CheckoutRequestID')
                     )
@@ -79,8 +84,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
             order_id = serializer.validated_data['order_id']
             try:
                 transaction = Transaction.objects.get(
-                    transaction_id=transaction_id,
-                    order_id=order_id
+                    transaction_id=transaction_id
                 )
 
                 # Check for payment timeout (2 minutes)
@@ -100,9 +104,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
                     if payment_status == 'completed':
                         transaction.status = 'completed'
                         transaction.save()
-                        # Update order status
-                        transaction.order.payment_status = 'paid'
-                        transaction.order.save()
                         return Response({'status': 'Payment completed'})
                     return Response({
                         'status': status,
@@ -181,17 +182,9 @@ def mpesa_callback(request):
         result_code = callback_data.get('ResultCode')
         if result_code == 0:  # Success
             transaction.status = 'completed'
-            transaction.payment_details = callback_data
             transaction.save()
-            # Update order status
-            order = transaction.order
-            order.payment_status = 'paid'
-            order.save()
-            # Send payment confirmation
-            order.send_payment_confirmation()
         else:  # Failed
             transaction.status = 'failed'
-            transaction.payment_details = callback_data
             transaction.save()
         return Response(status=status.HTTP_200_OK)
     except Exception as e:

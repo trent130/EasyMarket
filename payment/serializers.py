@@ -60,14 +60,14 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = [
-            'id', 'order', 'amount', 'currency', 'status',
+            'id', 'transaction_id', 'merchant_request_id', 'amount', 'status',
             'status_display', 'payment_method', 'payment_method_display',
-            'transaction_id', 'account_reference', 'created_at',
-            'updated_at', 'description'
+            'phone_number', 'reference', 'checkout_request_id',
+            'timestamp', 'updated_at', 'description'
         ]
         read_only_fields = [
-            'status', 'transaction_id', 'account_reference',
-            'created_at', 'updated_at'
+            'status', 'transaction_id', 'merchant_request_id',
+            'timestamp', 'updated_at'
         ]
 
 
@@ -112,20 +112,20 @@ class PaymentReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = [
-            'id', 'transaction_id', 'amount', 'currency',
+            'id', 'transaction_id', 'amount',
             'payment_method', 'customer_name', 'payment_method_details',
-            'created_at', 'description'
+            'timestamp', 'description'
         ]
 
     def get_customer_name(self, obj):
-        return f"{obj.order.user.first_name} {obj.order.user.last_name}"
+        full_name = obj.user.get_full_name()
+        return full_name if full_name else obj.user.email
 
     def get_payment_method_details(self, obj):
-        if obj.payment_method == 'mpesa':
+        if obj.payment_method == 'MPESA':
             return {
                 'type': 'M-Pesa',
-                'phone': obj.payment_details.get('phone_number'),
-                'confirmation_code': obj.payment_details.get('mpesa_receipt')
+                'phone': obj.phone_number,
             }
         return None
 
@@ -134,6 +134,6 @@ class PaymentHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = [
-            'id', 'order', 'amount', 'currency', 'status',
-            'payment_method', 'transaction_id', 'created_at'
+            'id', 'transaction_id', 'amount', 'status',
+            'payment_method', 'reference', 'phone_number', 'timestamp'
         ]
