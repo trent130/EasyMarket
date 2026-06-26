@@ -71,10 +71,10 @@ class StaticPageViewSet(viewsets.ModelViewSet):
         page = self.get_object()
         serializer = MetaTagSerializer({
             'title': page.title,
-            'description': page.meta_description,
-            'keywords': page.meta_keywords.split(',') if page.meta_keywords else [],
+            'description': page.content,
+            'keywords': [],
             'og_title': page.title,
-            'og_description': page.meta_description
+            'og_description': page.content
         })
         return Response(serializer.data)
 
@@ -86,22 +86,10 @@ class FAQViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def by_category(self, request):
-        """Get FAQs grouped by category"""
-        categories = Faq.objects.values_list(
-            'category', flat=True
-        ).distinct()
-        result = []
-        for category in categories:
-            faqs = Faq.objects.filter(
-                category=category,
-                is_published=True
-            )
-            serializer = FaqCategorySerializer({
-                'category': category,
-                'faqs': faqs
-            })
-            result.append(serializer.data)
-        return Response(result)
+        """Get all published FAQs (Faq model has no category field)"""
+        faqs = Faq.objects.filter(is_published=True)
+        serializer = self.get_serializer(faqs, many=True)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['get'])
     def search(self, request):
@@ -134,7 +122,6 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
             context = {
                 'name': serializer.validated_data['name'],
                 'email': serializer.validated_data['email'],
-                'subject': serializer.validated_data['subject'],
                 'message': serializer.validated_data['message']
             }
             html_message = render_to_string(
@@ -143,7 +130,7 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
             )
             plain_message = strip_tags(html_message)
             send_mail(
-                f"Contact Form: {serializer.validated_data['subject']}",
+                f"Contact Form: {serializer.validated_data['name']}",
                 plain_message,
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.CONTACT_EMAIL],
@@ -170,7 +157,7 @@ class TestimonialViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(student=self.request.user.student)
+        serializer.save(author=self.request.user)
 
 
 class SiteSettingsViewSet(viewsets.ViewSet):
@@ -179,9 +166,9 @@ class SiteSettingsViewSet(viewsets.ViewSet):
     def list(self, request):
         """Get site settings"""
         cache_key = 'site_settings'
-        settings = cache.get(cache_key)
-        if not settings:
-            settings = {
+        site_settings = cache.get(cache_key)
+        if not site_settings:
+            site_settings = {
                 'site_name': settings.SITE_NAME,
                 'site_description': settings.SITE_DESCRIPTION,
                 'contact_email': settings.CONTACT_EMAIL,
@@ -189,8 +176,8 @@ class SiteSettingsViewSet(viewsets.ViewSet):
                 'social_links': settings.SOCIAL_LINKS,
                 'maintenance_mode': settings.MAINTENANCE_MODE
             }
-            cache.set(cache_key, settings, 3600)  # Cache for 1 hour
-        serializer = SiteSettingsSerializer(settings)
+            cache.set(cache_key, site_settings, 3600)  # Cache for 1 hour
+        serializer = SiteSettingsSerializer(site_settings)
         return Response(serializer.data)
 
 

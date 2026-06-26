@@ -47,6 +47,7 @@ class Order(models.Model):
         ]
     )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    cancellation_reason = models.TextField(blank=True, default='')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES)
     payment_status = models.BooleanField(default=False)
     payment_date = models.DateTimeField(null=True, blank=True)

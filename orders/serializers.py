@@ -55,7 +55,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True, read_only=True)
+    items = OrderItemSerializer(source='orderitem_set', many=True, read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
 
     class Meta:
