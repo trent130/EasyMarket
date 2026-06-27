@@ -98,6 +98,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'marketplace.apps.MarketplaceConfig',
+    'chat.apps.ChatConfig',
     'products.apps.ProductsConfig',
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',

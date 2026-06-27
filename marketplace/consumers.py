@@ -77,53 +77,74 @@ class MarketplaceConsumer(BaseConsumer):
 
 
 class ChatConsumer(BaseConsumer):
-    """Consumer for chat functionality"""
-    
+    """Consumer for per-conversation real-time chat."""
+
     async def connect(self):
         await super().connect()
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'chat_{self.room_name}'
-        
-        # Join room group
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
-    
+        # room_name is expected to be the conversation ID
+        self.conversation_id = self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = f'chat_{self.conversation_id}'
+
+        if not self.user.is_authenticated:
+            await self.close()
+            return
+
+        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+
     async def disconnect(self, close_code):
-        # Leave room group
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
-    
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+
     async def process_message(self, data):
-        message = data.get('message', '')
-        
-        # Store message in database
-        if self.user.is_authenticated:
-            await self.save_message(message)
-        
-        # Send message to room group
+        content = data.get('message', '').strip()
+        if not content or not self.user.is_authenticated:
+            return
+
+        message = await self.save_message(content)
+        if not message:
+            return
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message,
-                'username': self.user.username if self.user.is_authenticated else 'Anonymous'
+                'message_id': message['id'],
+                'content': message['content'],
+                'sender_id': message['sender_id'],
+                'username': self.user.username,
+                'created_at': message['created_at'],
             }
         )
-    
+
     async def chat_message(self, event):
-        """Send message to WebSocket"""
         await self.send_json({
             'type': 'chat_message',
-            'message': event['message'],
-            'username': event['username']
+            'id': event['message_id'],
+            'content': event['content'],
+            'sender_id': event['sender_id'],
+            'username': event['username'],
+            'created_at': event['created_at'],
         })
-    
+
     @database_sync_to_async
-    def save_message(self, message):
-        # TODO: Implement message saving logic here
-        pass
+    def save_message(self, content):
+        from chat.models import Conversation, Message
+        try:
+            conversation = Conversation.objects.get(
+                id=self.conversation_id,
+                participants=self.user
+            )
+            msg = Message.objects.create(
+                conversation=conversation,
+                sender=self.user,
+                content=content,
+            )
+            Conversation.objects.filter(pk=conversation.pk).update(updated_at=msg.created_at)
+            return {
+                'id': msg.id,
+                'content': msg.content,
+                'sender_id': self.user.id,
+                'created_at': msg.created_at.isoformat(),
+            }
+        except Conversation.DoesNotExist:
+            return None
 

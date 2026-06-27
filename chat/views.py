@@ -1,100 +1,87 @@
-from .models import Message, Reaction
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse
-from django.utils import timezone
-from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.contrib.auth import get_user_model
+from .models import Conversation, Message
+from .serializers import ConversationSerializer, MessageSerializer
 
-try:
-    from channels.layers import get_channel_layer
-    from asgiref.sync import async_to_sync
-    CHANNELS_AVAILABLE = True
-except ImportError:
-    CHANNELS_AVAILABLE = False
+CustomUser = get_user_model()
 
 
-@login_required
-def chat_room(request):
-    messages = Message.objects.all()
-    for message in messages:
-        message.read = True
-        message.save()
-    return JsonResponse({'messages': list(messages.values())})
+class ConversationViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ConversationSerializer
 
+    def get_queryset(self):
+        return (
+            Conversation.objects
+            .filter(participants=self.request.user)
+            .prefetch_related('participants__userprofile', 'messages__sender__userprofile')
+            .select_related('product')
+        )
 
-@login_required
-def send_message(request):
-    if request.method == 'POST':
-        user = request.user
-        message_content = request.POST.get('message', '')
+    def create(self, request):
+        other_user_id = request.data.get('user_id')
+        product_id = request.data.get('product_id')
 
-        if message_content.strip():
-            # Save message to database
-            message = Message.objects.create(user=user, content=message_content)
+        if not other_user_id:
+            return Response({'error': 'user_id is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Send message to the channel layer with timestamp
-            if CHANNELS_AVAILABLE:
-                timestamp = message.timestamp.strftime('%Y-%m-%d %H:%M:%S')
-                channel_layer = get_channel_layer()
-                async_to_sync(channel_layer.group_send)(
-                    'chat_room',
-                    {
-                        'type': 'chat_message',
-                        'username': user.username,
-                        'message': message_content,
-                        'timestamp': timestamp
-                    }
-                )
+        try:
+            other_user = CustomUser.objects.get(id=other_user_id)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({'status': 'error', 'message': 'Message cannot be empty'})
+        if other_user == request.user:
+            return Response({'error': 'Cannot start a conversation with yourself'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Return existing conversation if found
+        qs = Conversation.objects.filter(participants=request.user).filter(participants=other_user)
+        qs = qs.filter(product_id=product_id) if product_id else qs.filter(product__isnull=True)
+        existing = qs.first()
 
-@login_required
-def clear_messages(request):
-    Message.objects.all().delete()
-    return JsonResponse({'status': 'success'})
+        if existing:
+            serializer = self.get_serializer(existing)
+            return Response(serializer.data)
 
+        conversation = Conversation.objects.create(product_id=product_id or None)
+        conversation.participants.add(request.user, other_user)
+        serializer = self.get_serializer(conversation)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@login_required
-def get_messages(request):
-    messages = Message.objects.all()
-    data = [{'username': message.user.username, 'message': message.content, 'timestamp': message.timestamp.strftime(
-        '%Y-%m-%d %H:%M:%S')} for message in messages]
-    return JsonResponse(data, safe=False)
+    @action(detail=True, methods=['get', 'post'])
+    def messages(self, request, pk=None):
+        conversation = self.get_object()
 
+        if request.method == 'GET':
+            msgs = conversation.messages.select_related('sender__userprofile').order_by('created_at')
+            serializer = MessageSerializer(msgs, many=True, context={'request': request})
+            return Response(serializer.data)
 
-@login_required
-@csrf_exempt
-def typing_status(request):
-    if request.method == 'POST':
-        user = request.user
-        typing = request.POST.get('typing', 'false')
+        content = request.data.get('content', '').strip()
+        if not content:
+            return Response({'error': 'Content is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if CHANNELS_AVAILABLE:
-            channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)(
-                'chat_room',
-                {
-                    'type': 'typing_status',
-                    'username': user.username,
-                    'typing': typing
-                }
-            )
-        return HttpResponse('OK')
+        message = Message.objects.create(
+            conversation=conversation,
+            sender=request.user,
+            content=content,
+        )
+        # Bump conversation updated_at so it surfaces at top of list
+        Conversation.objects.filter(pk=conversation.pk).update(updated_at=message.created_at)
 
+        serializer = MessageSerializer(message, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@login_required
-def add_reaction(request):
-    if request.method == 'POST':
-        user = request.user
-        message_id = request.POST.get('message_id')
-        emoji = request.POST.get('emoji')
+    @action(detail=True, methods=['patch'])
+    def read(self, request, pk=None):
+        conversation = self.get_object()
+        conversation.messages.exclude(sender=request.user).update(read=True)
+        return Response({'status': 'marked as read'})
 
-        message = Message.objects.get(id=message_id)
-        reaction, created = Reaction.objects.get_or_create(emoji=emoji, user=user)
-
-        message.reactions.add(reaction)
-
-        return JsonResponse({'status': 'success'})
+    def destroy(self, request, *args, **kwargs):
+        conversation = self.get_object()
+        conversation.participants.remove(request.user)
+        if conversation.participants.count() == 0:
+            conversation.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
