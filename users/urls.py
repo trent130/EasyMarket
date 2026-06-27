@@ -33,5 +33,6 @@ urlpatterns = [
     path('auth/resend-verification/', views.resend_verification, name='resend-verification'),
     path('auth/security-questions/', views.security_questions, name='security-questions'),
     path('auth/security-questions/verify/', views.verify_security_questions, name='verify-security-questions'),
+    path('auth/settings/', views.user_settings, name='user-settings'),
 ]
 

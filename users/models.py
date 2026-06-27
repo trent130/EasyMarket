@@ -142,15 +142,32 @@ class Student(models.Model):
         """Check if 2FA is enabled and verified"""
         return self.two_factor_enabled and self.two_factor_verified
 
+# User notification and display preferences
+class UserPreferences(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='preferences')
+    email_notifications = models.BooleanField(default=True)
+    push_notifications = models.BooleanField(default=True)
+    dark_mode = models.BooleanField(default=False)
+    language = models.CharField(max_length=10, default='en')
+    currency = models.CharField(max_length=10, default='KES')
+    timezone = models.CharField(max_length=50, default='Africa/Nairobi')
+
+    class Meta:
+        db_table = 'user_preferences'
+
+    def __str__(self):
+        return f'{self.user.username} preferences'
+
+
 # Signal to create profiles automatically
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_related_profiles(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
-        if instance.user_type == 'student':  # Only create Student profile if user is a student
+        UserPreferences.objects.create(user=instance)
+        if instance.user_type == 'student':
             Student.objects.create(user=instance)
     else:
-        # Only save userprofile if it exists
         try:
             if hasattr(instance, 'userprofile'):
                 instance.userprofile.save()

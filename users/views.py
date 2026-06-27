@@ -13,9 +13,11 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Student, CustomUser, UserProfile
+from .models import Student, CustomUser, UserProfile, UserPreferences
 from .serializers import (
     CustomUserSerializer,
+    CurrentUserSerializer,
+    UserPreferencesSerializer,
     TwoFactorEnableSerializer,
     TwoFactorVerifySerializer,
     TwoFactorStatusSerializer,
@@ -195,21 +197,67 @@ def signup(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_current_user(request):
-    """Get current user's profile and student information"""
-    user = request.user
-    
-    response_data = {
-        'user': CustomUserSerializer(user).data
-    }
-    
-    # Add student profile if user is a student
+    """Get current user — flat object with user + student fields merged."""
+    serializer = CurrentUserSerializer(request.user, context={'request': request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', 'PATCH'])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser, JSONParser])
+def user_settings(request):
+    """Get or update user notification preferences and avatar."""
+    prefs, _ = UserPreferences.objects.get_or_create(user=request.user)
+
+    if request.method == 'GET':
+        try:
+            profile = request.user.userprofile
+            avatar_url = request.build_absolute_uri(profile.avatar.url) if profile.avatar else None
+        except UserProfile.DoesNotExist:
+            avatar_url = None
+
+        return Response({
+            'email_notifications': prefs.email_notifications,
+            'push_notifications': prefs.push_notifications,
+            'dark_mode': prefs.dark_mode,
+            'language': prefs.language,
+            'currency': prefs.currency,
+            'timezone': prefs.timezone,
+            'email': request.user.email,
+            'avatar': avatar_url,
+        })
+
+    # PATCH
+    if 'avatar' in request.FILES:
+        profile, _ = UserProfile.objects.get_or_create(user=request.user)
+        profile.avatar = request.FILES['avatar']
+        profile.save()
+
+    bool_fields = {'email_notifications', 'push_notifications', 'dark_mode'}
+    for field in ['email_notifications', 'push_notifications', 'dark_mode', 'language', 'currency', 'timezone']:
+        if field in request.data:
+            val = request.data[field]
+            if field in bool_fields and isinstance(val, str):
+                val = val.lower() in ('true', '1', 'yes')
+            setattr(prefs, field, val)
+    prefs.save()
+
     try:
-        student_profile = Student.objects.get(user=user)
-        response_data['student_profile'] = StudentProfileSerializer(student_profile).data
-    except Student.DoesNotExist:
-        pass
-    
-    return Response(response_data, status=status.HTTP_200_OK)
+        profile = request.user.userprofile
+        avatar_url = request.build_absolute_uri(profile.avatar.url) if profile.avatar else None
+    except UserProfile.DoesNotExist:
+        avatar_url = None
+
+    return Response({
+        'email_notifications': prefs.email_notifications,
+        'push_notifications': prefs.push_notifications,
+        'dark_mode': prefs.dark_mode,
+        'language': prefs.language,
+        'currency': prefs.currency,
+        'timezone': prefs.timezone,
+        'email': request.user.email,
+        'avatar': avatar_url,
+    })
 
 
 @api_view(['PUT', 'PATCH'])
@@ -292,25 +340,27 @@ def rate_limit(email):
     pipe.zadd(key, {now: now})
     pipe.expire(key, RATE_LIMIT_WINDOW)
 
-    count, _, _ = pipe.execute()
+    _, count, _, _ = pipe.execute()
 
     if count >= RATE_LIMIT_MAX_REQUESTS:
         return False
     return True
 
 
-async def send_password_reset_email(email, reset_token):
+def send_password_reset_email(email, reset_token):
     subject = "Password Reset Request"
-    reset_link = f"{settings.FRONTEND_URL}/reset-password?token={reset_token}"
+    frontend_url = getattr(settings, 'FRONTEND_URL', 'http://localhost:3000')
+    reset_link = f"{frontend_url}/reset-password?token={reset_token}"
 
-    html_message = render_to_string('emails/password_reset_email.html', {
-        'reset_link': reset_link,
-        'email': email
-    })
-    plain_message = render_to_string( 'emails/password_reset_email.html', {
-    'reset_link': reset_link,
-    'email': email
-    })
+    try:
+        html_message = render_to_string('emails/password_reset_email.html', {
+            'reset_link': reset_link,
+            'email': email
+        })
+        plain_message = f"Click the link to reset your password: {reset_link}"
+    except Exception:
+        html_message = None
+        plain_message = f"Click the link to reset your password: {reset_link}"
 
     try:
         send_mail(
@@ -318,17 +368,17 @@ async def send_password_reset_email(email, reset_token):
             plain_message,
             settings.DEFAULT_FROM_EMAIL,
             [email],
-            html_message = html_message,
-            fail_silently = False
+            html_message=html_message,
+            fail_silently=False,
         )
-        print(f"Password reset email sent to {email}")
+        logger.info(f"Password reset email sent to {email}")
     except Exception as e:
-        print(f"Error sending password reset email {email}: {e}")
+        logger.error(f"Error sending password reset email to {email}: {e}")
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-async def forgot_password(request):
+def forgot_password(request):
     """Handle forgot password"""
     email = request.data.get('email')
 
@@ -338,61 +388,63 @@ async def forgot_password(request):
     if not rate_limit(email):
         return Response({'error': 'Too many requests. Please try again later.'},
                         status=status.HTTP_429_TOO_MANY_REQUESTS)
-    alphabet = string.ascii_letters + string.digits + string.punctuation
-    reset_token = "".join(secrets.choice(alphabet))
-    reset_token_expiry = timezone.now() + timezone.timedelta(hours=0.5)
 
-    user = get_object_or_404(CustomUser, email=email)
-    user.reset_token = reset_token
-    user.reset_token_expiry = reset_token_expiry
-    await sync_to_async(user.save)()
+    reset_token = secrets.token_urlsafe(32)
+    reset_token_expiry = timezone.now() + timezone.timedelta(hours=1)
 
-    await send_password_reset_email(email, reset_token)
+    try:
+        user = CustomUser.objects.get(email=email)
+        user.reset_token = reset_token
+        user.reset_token_expiry = reset_token_expiry
+        user.save()
+        send_password_reset_email(email, reset_token)
+    except CustomUser.DoesNotExist:
+        pass
 
     return Response({'message': 'If an account exists for this email, a password reset link has been sent.'})
 
 
-@api_view(['PUT'])
+@api_view(['PUT', 'POST'])
 @permission_classes([AllowAny])
-async def reset_password(request):
+def reset_password(request):
     """Reset password using the reset token"""
     token = request.data.get('token')
-    new_password = request.data.get('newPassword')
+    new_password = request.data.get('new_password')
 
     if not token or not new_password:
         return Response({'error': 'Token and new password are required'}, status=status.HTTP_400_BAD_REQUEST)
 
     user = get_object_or_404(CustomUser, reset_token=token, reset_token_expiry__gt=timezone.now())
 
-    await sync_to_async(user.set_password)(new_password)
+    user.set_password(new_password)
     user.reset_token = ''
     user.reset_token_expiry = None
-    await sync_to_async(user.save)()
+    user.save()
 
     return Response({'message': 'Password has been reset successfully'})
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-async def verify_email(request):
+def verify_email(request):
     """Verify email address using a token"""
     token = request.data.get('token')
     if not token:
         return Response({'error': 'Token is required'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        user = await sync_to_async(CustomUser.objects.get)(email_verification_token=token)
+        user = CustomUser.objects.get(email_verification_token=token)
     except CustomUser.DoesNotExist:
         return Response({'error': 'Invalid or expired token'}, status=status.HTTP_400_BAD_REQUEST)
 
     user.email_verified = True
     user.email_verification_token = ''
-    await sync_to_async(user.save)()
+    user.save()
     return Response({'message': 'Email verified successfully'})
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-async def resend_verification(request):
+def resend_verification(request):
     """Resend verification email to the authenticated user"""
     user = request.user
     if user.email_verified:
@@ -400,10 +452,10 @@ async def resend_verification(request):
 
     token = secrets.token_urlsafe(32)
     user.email_verification_token = token
-    await sync_to_async(user.save)()
+    user.save()
 
     try:
-        await sync_to_async(send_mail)(
+        send_mail(
             'Verify your email',
             f'Your verification token: {token}',
             settings.DEFAULT_FROM_EMAIL,
@@ -418,7 +470,7 @@ async def resend_verification(request):
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-async def security_questions(request):
+def security_questions(request):
     """Get or set security questions for the authenticated user"""
     user = request.user
     if request.method == 'GET':
@@ -431,7 +483,7 @@ async def security_questions(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-async def verify_security_questions(request):
+def verify_security_questions(request):
     """Verify answers to security questions"""
     answers = request.data.get('answers', [])
     if not answers:
@@ -439,9 +491,9 @@ async def verify_security_questions(request):
     return Response({'verified': True, 'message': 'Security questions verified'})
 
 
-@api_view(['PATCH'])
+@api_view(['PATCH', 'POST'])
 @permission_classes([IsAuthenticated])
-async def change_password(request):
+def change_password(request):
     """Change password for an authenticated user"""
     current_password = request.data.get('current_password')
     new_password = request.data.get('new_password')
@@ -453,7 +505,7 @@ async def change_password(request):
         )
 
     user = request.user
-    if not await sync_to_async(user.check_password)(current_password):
+    if not user.check_password(current_password):
         return Response(
             {'error': 'Current password is incorrect'},
             status=status.HTTP_400_BAD_REQUEST
@@ -465,8 +517,8 @@ async def change_password(request):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    await sync_to_async(user.set_password)(new_password)
-    await sync_to_async(user.save)()
+    user.set_password(new_password)
+    user.save()
     return Response({'message': 'Password changed successfully'})
 
 @api_view(['POST'])
@@ -488,7 +540,17 @@ def validate_backup_code(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def signout(request):
-    """Logout a user"""
+    """Logout a user and blacklist the refresh token"""
+    refresh_token = (
+        request.data.get('refresh')
+        or request.META.get('HTTP_X_REFRESH_TOKEN')
+    )
+    if refresh_token:
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+        except Exception as e:
+            logger.warning(f"Could not blacklist refresh token: {e}")
     logout(request)
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 

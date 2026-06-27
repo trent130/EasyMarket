@@ -3,7 +3,8 @@ import string
 import pyotp
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from .models import UserProfile, Student
+from django.core.exceptions import ValidationError as DjangoValidationError
+from .models import UserProfile, Student, UserPreferences
 from django.contrib.auth import authenticate
 CustomUser = get_user_model()
 
@@ -282,25 +283,69 @@ class ForgotPasswordSerializer(serializers.Serializer):
         return value
 
 class ChangePasswordSerializer(serializers.Serializer):
-    #email = serializers.EmailField()
-
     def validate_user(self, value):  # pragma: no cover
-        """
-        Validate that the given email address exists in the database 
-        while the user is authenticated.
-        
-
-        Args:
-            value (str): The email address to be validated.
-
-        Returns:
-            str: The validated email address if it exists.
-
-        Raises:
-            serializers.ValidationError: If the email address does not exist.
-        """
-        
         pass
-        #: TODO: implement the right functionality for the change password functions 
 
-# TODO: the change password functionality not implemented
+
+class UserPreferencesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPreferences
+        fields = ['email_notifications', 'push_notifications', 'dark_mode', 'language', 'currency', 'timezone']
+
+
+class CurrentUserSerializer(serializers.ModelSerializer):
+    """Flattened serializer: user fields + student fields merged into one object."""
+    full_name = serializers.ReadOnlyField()
+    user_type_display = serializers.ReadOnlyField(source='get_user_type_display_name')
+    avatar = serializers.SerializerMethodField()
+    bio = serializers.SerializerMethodField()
+    phone_number = serializers.SerializerMethodField()
+    university = serializers.SerializerMethodField()
+    student_id = serializers.SerializerMethodField()
+    two_factor_enabled = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CustomUser
+        fields = [
+            'id', 'username', 'first_name', 'last_name', 'full_name', 'email',
+            'user_type', 'user_type_display', 'is_active', 'date_joined',
+            'email_verified', 'avatar',
+            'bio', 'phone_number', 'university', 'student_id', 'two_factor_enabled',
+        ]
+        read_only_fields = fields
+
+    def get_avatar(self, obj):
+        try:
+            request = self.context.get('request')
+            avatar = obj.userprofile.avatar
+            if avatar and request:
+                return request.build_absolute_uri(avatar.url)
+        except Exception:
+            pass
+        return None
+
+    def _get_student(self, obj):
+        try:
+            return obj.student_profile
+        except Student.DoesNotExist:
+            return None
+
+    def get_bio(self, obj):
+        s = self._get_student(obj)
+        return s.bio if s else ''
+
+    def get_phone_number(self, obj):
+        s = self._get_student(obj)
+        return s.phone_number if s else ''
+
+    def get_university(self, obj):
+        s = self._get_student(obj)
+        return s.university if s else ''
+
+    def get_student_id(self, obj):
+        s = self._get_student(obj)
+        return s.student_id if s else None
+
+    def get_two_factor_enabled(self, obj):
+        s = self._get_student(obj)
+        return s.two_factor_enabled if s else False
