@@ -194,10 +194,26 @@ def signup(request):
         logger.error(f"Error creating user: {str(e)}")
         return Response({'error': 'Failed to create user'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@api_view(['GET'])
+@api_view(['GET', 'PATCH'])
 @permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser, JSONParser])
 def get_current_user(request):
-    """Get current user — flat object with user + student fields merged."""
+    """Get or partially update current user profile fields."""
+    if request.method == 'PATCH':
+        updatable = {'first_name', 'last_name', 'username'}
+        changed = False
+        for field in updatable:
+            if field in request.data:
+                setattr(request.user, field, request.data[field])
+                changed = True
+        if 'avatar' in request.FILES:
+            profile, _ = UserProfile.objects.get_or_create(user=request.user)
+            profile.avatar = request.FILES['avatar']
+            profile.save()
+            changed = True
+        if changed:
+            request.user.save()
+
     serializer = CurrentUserSerializer(request.user, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
