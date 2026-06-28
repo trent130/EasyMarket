@@ -47,6 +47,7 @@ urlpatterns = [
 
     # Analytics API endpoints
     path('analytics/', views.analytics_data, name='admin_analytics_api'),
+    path('analytics/dashboard/', views.analytics_dashboard, name='admin_analytics_dashboard'),
 
     # System health and backup API endpoints
     path('system/health/', views.system_health, name='admin_system_health'),

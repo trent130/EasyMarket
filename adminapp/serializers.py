@@ -163,7 +163,7 @@ class AnalyticsSerializer(serializers.Serializer):
     metric = serializers.CharField()
     period = serializers.CharField()
     data = serializers.ListField()
-    total = serializers.IntegerField()
+    total = serializers.FloatField()
     growth_rate = serializers.FloatField()
 
 

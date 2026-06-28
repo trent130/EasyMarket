@@ -217,13 +217,14 @@ def user_settings(request):
             avatar_url = None
 
         return Response({
+            'username': request.user.username,
+            'email': request.user.email,
             'email_notifications': prefs.email_notifications,
             'push_notifications': prefs.push_notifications,
             'dark_mode': prefs.dark_mode,
             'language': prefs.language,
             'currency': prefs.currency,
             'timezone': prefs.timezone,
-            'email': request.user.email,
             'avatar': avatar_url,
         })
 
@@ -249,13 +250,14 @@ def user_settings(request):
         avatar_url = None
 
     return Response({
+        'username': request.user.username,
+        'email': request.user.email,
         'email_notifications': prefs.email_notifications,
         'push_notifications': prefs.push_notifications,
         'dark_mode': prefs.dark_mode,
         'language': prefs.language,
         'currency': prefs.currency,
         'timezone': prefs.timezone,
-        'email': request.user.email,
         'avatar': avatar_url,
     })
 
