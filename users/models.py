@@ -151,12 +151,30 @@ class UserPreferences(models.Model):
     language = models.CharField(max_length=10, default='en')
     currency = models.CharField(max_length=10, default='KES')
     timezone = models.CharField(max_length=50, default='Africa/Nairobi')
+    security_questions = models.JSONField(default=list, blank=True)
 
     class Meta:
         db_table = 'user_preferences'
 
     def __str__(self):
         return f'{self.user.username} preferences'
+
+
+class UserSession(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_sessions')
+    jti = models.CharField(max_length=36, unique=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.CharField(max_length=512, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_active = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True, db_index=True)
+
+    class Meta:
+        db_table = 'user_session'
+        ordering = ['-last_active']
+
+    def __str__(self):
+        return f'{self.user.username} session ({self.jti[:8]})'
 
 
 # Signal to create profiles automatically

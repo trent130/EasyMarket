@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Student, CustomUser, UserProfile, UserPreferences
+from .models import Student, CustomUser, UserProfile, UserPreferences, UserSession
 from .serializers import (
     CustomUserSerializer,
     CurrentUserSerializer,
@@ -41,7 +41,7 @@ from django.utils import timezone  # Import timezone
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from rest_framework.parsers import MultiPartParser, FormParser
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password as check_hash
 from asgiref.sync import sync_to_async
 
 logger = logging.getLogger(__name__)
@@ -141,14 +141,28 @@ def signin(request):
         logger.info(f"User {user.username} signed in successfully")
         
         refresh = RefreshToken.for_user(user)
+
+        try:
+            ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', ''))
+            if ',' in ip:
+                ip = ip.split(',')[0].strip()
+            UserSession.objects.create(
+                user=user,
+                jti=refresh['jti'],
+                ip_address=ip or None,
+                user_agent=request.META.get('HTTP_USER_AGENT', '')[:512],
+            )
+        except Exception:
+            pass
+
         response_data = {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'user_id': str(user.id),  # Convert UUID to string
+            'user_id': str(user.id),
             'email': user.email,
             'username': user.username
         }
-        
+
         logger.debug(f"Sending successful signin response for user {user.username}")
         return Response(response_data, status=status.HTTP_200_OK)
         
@@ -489,24 +503,48 @@ def resend_verification(request):
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def security_questions(request):
-    """Get or set security questions for the authenticated user"""
-    user = request.user
+    """Get or save security questions for the authenticated user."""
+    prefs, _ = UserPreferences.objects.get_or_create(user=request.user)
     if request.method == 'GET':
-        has_questions = bool(getattr(user, 'security_questions_set', False))
-        return Response({'has_security_questions': has_questions, 'questions': []})
-    else:
-        questions = request.data.get('securityQuestions', [])
-        return Response({'message': 'Security questions saved', 'count': len(questions)})
+        questions_out = [
+            {'id': str(i), 'question': q['question']}
+            for i, q in enumerate(prefs.security_questions)
+        ]
+        return Response({
+            'has_security_questions': bool(prefs.security_questions),
+            'questions': questions_out,
+        })
+
+    raw = request.data.get('securityQuestions', [])
+    stored = []
+    for item in raw:
+        q = item.get('question', '').strip()
+        a = item.get('answer', '').strip().lower()
+        if q and a:
+            stored.append({'question': q, 'answer_hash': make_password(a)})
+    prefs.security_questions = stored
+    prefs.save()
+    return Response({'message': 'Security questions saved', 'count': len(stored)})
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def verify_security_questions(request):
-    """Verify answers to security questions"""
+    """Verify answers to the authenticated user's security questions."""
     answers = request.data.get('answers', [])
     if not answers:
         return Response({'error': 'Answers are required'}, status=status.HTTP_400_BAD_REQUEST)
-    return Response({'verified': True, 'message': 'Security questions verified'})
+
+    prefs, _ = UserPreferences.objects.get_or_create(user=request.user)
+    stored = prefs.security_questions
+    if not stored:
+        return Response({'error': 'No security questions set'}, status=status.HTTP_400_BAD_REQUEST)
+
+    verified = len(answers) >= len(stored) and all(
+        check_hash(str(ans.get('answer', '')).strip().lower(), q['answer_hash'])
+        for ans, q in zip(answers, stored)
+    )
+    return Response({'verified': verified})
 
 
 @api_view(['PATCH', 'POST'])
@@ -566,7 +604,10 @@ def signout(request):
     if refresh_token:
         try:
             token = RefreshToken(refresh_token)
+            jti = token.get('jti')
             token.blacklist()
+            if jti:
+                UserSession.objects.filter(jti=jti).update(is_active=False)
         except Exception as e:
             logger.warning(f"Could not blacklist refresh token: {e}")
     logout(request)
@@ -614,6 +655,72 @@ def signout(request):
 # status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 # #         return Response({'success': True})
 # #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def list_sessions(request):
+    """List active sessions (GET) or terminate all other sessions (DELETE)."""
+    if request.method == 'GET':
+        current_jti = None
+        raw_token = request.META.get('HTTP_X_REFRESH_TOKEN')
+        if raw_token:
+            try:
+                current_jti = RefreshToken(raw_token)['jti']
+            except Exception:
+                pass
+
+        sessions = UserSession.objects.filter(user=request.user, is_active=True)
+        data = [
+            {
+                'id': str(s.id),
+                'ip_address': s.ip_address or 'Unknown',
+                'device': s.user_agent or 'Unknown device',
+                'last_active': s.last_active.isoformat(),
+                'created_at': s.created_at.isoformat(),
+                'is_current': s.jti == current_jti,
+            }
+            for s in sessions
+        ]
+        return Response(data)
+
+    # DELETE — terminate all other active sessions
+    current_jti = None
+    raw_token = request.META.get('HTTP_X_REFRESH_TOKEN')
+    if raw_token:
+        try:
+            current_jti = RefreshToken(raw_token)['jti']
+        except Exception:
+            pass
+
+    others = UserSession.objects.filter(user=request.user, is_active=True).exclude(jti=current_jti)
+    for session in others:
+        try:
+            from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+            outstanding = OutstandingToken.objects.filter(jti=session.jti).first()
+            if outstanding:
+                BlacklistedToken.objects.get_or_create(token=outstanding)
+        except Exception:
+            pass
+    others.update(is_active=False)
+    return Response({'message': 'All other sessions terminated'})
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def terminate_session(request, session_id):
+    """Terminate a specific session by ID."""
+    session = get_object_or_404(UserSession, id=session_id, user=request.user)
+    try:
+        from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+        outstanding = OutstandingToken.objects.filter(jti=session.jti).first()
+        if outstanding:
+            BlacklistedToken.objects.get_or_create(token=outstanding)
+    except Exception:
+        pass
+    session.is_active = False
+    session.save()
+    return Response({'message': 'Session terminated'})
 
 
 @api_view(['POST'])

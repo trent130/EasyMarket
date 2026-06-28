@@ -34,5 +34,7 @@ urlpatterns = [
     path('auth/security-questions/', views.security_questions, name='security-questions'),
     path('auth/security-questions/verify/', views.verify_security_questions, name='verify-security-questions'),
     path('auth/settings/', views.user_settings, name='user-settings'),
+    path('auth/sessions/', views.list_sessions, name='sessions'),
+    path('auth/sessions/<int:session_id>/', views.terminate_session, name='terminate-session'),
 ]
 
