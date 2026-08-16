@@ -16,7 +16,8 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 - git config --global http.postBuffer 524288000
 
-- python django
+- Python 3.14
+- [uv](https://docs.astral.sh/uv/)
 - sql
 
 ### Installation
@@ -25,9 +26,12 @@ These instructions will get you a copy of the project up and running on your loc
    ```
    git clone https://github.com/trent130/Easymarket.git
    ```
-2. Install django packages
+2. Create a Python 3.14 environment and install packages
    ```
-   pip install -r requirements.txt
+   uv venv --python 3.14 easymarket
+   source easymarket/bin/activate
+   uv pip install -r requirements.txt -r test-requirements.txt
+   ```
 
 ## Usage
 
