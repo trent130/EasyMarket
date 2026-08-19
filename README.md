@@ -1,58 +1,156 @@
 # EasyMarket
 
-EasyMarket is a student marketplace where students can buy and sell items within their school community.
+EasyMarket is a student-focused marketplace that enables students to buy and sell products within their school community.
+
+The platform provides a dedicated marketplace where students can discover items, connect with sellers, manage listings, and conduct transactions within a familiar community.
 
 ## Features
 
-- CustomUser Registration: Students can create an account to start buying or selling.
-- Item Listing: Sellers can list their items with details and images.
-- Search and Filter: Buyers can search for items and filter results based on categories.
-- Secure Transactions: The platform ensures secure transactions between buyers and sellers.
+* **User Accounts** — Students can register, authenticate, and manage their accounts.
+* **Product Listings** — Sellers can create listings with product details, pricing, categories, and images.
+* **Search & Filtering** — Buyers can search the marketplace and filter products by category.
+* **Buyer & Seller Experience** — Users can browse available products and manage their own listings.
+* **Real-Time Support** — Built with Django Channels and Daphne for asynchronous and real-time functionality.
+* **API Support** — REST API functionality powered by Django REST Framework.
+* **Authentication & Security** — Includes JWT and OTP-related authentication capabilities.
+* **Payment Integration** — Includes support for M-Pesa integration through Daraja.
+
+## Tech Stack
+
+* **Backend:** Python, Django 5
+* **API:** Django REST Framework
+* **ASGI:** Django Channels, Daphne
+* **Database:** PostgreSQL
+* **Caching / Messaging:** Redis
+* **Authentication:** JWT, Django OTP
+* **Payments:** M-Pesa / Daraja
+* **Frontend:** Django Templates
+* **Media:** Pillow
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
 ### Prerequisites
-- git config --global http.postBuffer 524288000
 
-- python django
-- sql
+Make sure you have the following installed:
+
+* Python 3
+* pip
+* Git
+* PostgreSQL
+* Redis
 
 ### Installation
 
-1. Clone the repo
-   ```
-   git clone https://github.com/trent130/Easymarket.git
-   ```
-2. Install django packages
-   ```
-   pip install -r requirements.txt
+1. Clone the repository:
 
-## Usage
+```bash
+git clone https://github.com/trent130/EasyMarket.git
+cd EasyMarket
+```
 
-After setting up, you can run `python manage.py runserver or daphne -p 8000 students.asgi: application` to start the application. Open your browser and visit `http://localhost:8000/
+2. Create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+3. Activate the virtual environment:
+
+**Linux / macOS**
+
+```bash
+source .venv/bin/activate
+```
+
+**Windows**
+
+```bash
+.venv\Scripts\activate
+```
+
+4. Install the dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+5. Configure the required environment variables for your local environment.
+
+6. Apply database migrations:
+
+```bash
+python manage.py migrate
+```
+
+7. Start the development server:
+
+```bash
+python manage.py runserver
+```
+
+The application will be available at:
+
+```text
+http://localhost:8000
+```
+
+### Running with Daphne
+
+Because EasyMarket supports ASGI, you can also run the application using Daphne:
+
+```bash
+daphne -p 8000 students.asgi:application
+```
+
+Then visit:
+
+```text
+http://localhost:8000
+```
+
+## Project Structure
+
+EasyMarket is built around Django's application architecture, separating marketplace functionality, user management, persistence, authentication, and supporting services into maintainable components.
 
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are welcome.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the repository.
+2. Create a feature branch:
+
+```bash
+git checkout -b feature/my-feature
+```
+
+3. Commit your changes:
+
+```bash
+git commit -m "Add my feature"
+```
+
+4. Push your branch:
+
+```bash
+git push origin feature/my-feature
+```
+
+5. Open a pull request.
+
+For larger changes, consider opening an issue first to discuss the proposed implementation.
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+This project is distributed under the MIT License. See the `LICENSE` file for details.
 
-## Contact
+## Author
 
-trent130 - lawrencewafula408@gmail.com - email
+**Lawrence Nyongesa**
 
-Project Link: [https://github.com/trent130/Easymarket.git](https://github.com/trent130/Easymarket.git)
+* GitHub: `trent130`
+* Website: `nyyongesa.me`
+* Email: `nyyongesa@gmail.com`
 
-## Acknowledgements
+## Repository
 
-- [greyworm](http://127.0.0.1:8000)
+EasyMarket is available on GitHub under `trent130/EasyMarket`.
