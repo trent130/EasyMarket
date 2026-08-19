@@ -101,6 +101,11 @@ Because EasyMarket supports ASGI, you can also run the application using Daphne:
 ```bash
 daphne -p 8000 students.asgi:application
 ```
+or do it this way
+
+```bash
+python3 watcher.py
+```
 
 Then visit:
 
