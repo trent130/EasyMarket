@@ -190,6 +190,17 @@ class TestProductAPI:
         data = resp.json()
         assert data["count"] >= 2
 
+    def test_product_list_excludes_inactive_and_drafts(self, client):
+        ProductFactory(title="Visible", is_active=True, is_draft=False)
+        ProductFactory(title="Inactive", is_active=False, is_draft=False)
+        ProductFactory(title="Draft", is_active=True, is_draft=True)
+
+        resp = client.get("/api/products/products/")
+
+        assert resp.status_code == 200
+        titles = {product["title"] for product in resp.json()["results"]}
+        assert titles == {"Visible"}
+
     def test_product_detail_by_slug(self, client):
         p = ProductFactory(title="Unique Detail")
         resp = client.get(f"/api/products/products/slug/{p.slug}/")
@@ -295,6 +306,52 @@ class TestProductAPI:
             HTTP_AUTHORIZATION=f"Bearer {token}"
         )
         assert resp.status_code == 200
+
+    def test_update_product_rejects_a_different_owner(self, client):
+        owner = StudentFactory()
+        other_student = StudentFactory()
+        product = ProductFactory(student=owner, title="Original")
+        from rest_framework_simplejwt.tokens import AccessToken
+        token = AccessToken.for_user(other_student.user)
+
+        resp = client.patch(
+            f"/api/products/products/{product.slug}/",
+            {"title": "Should not change", "price": "29.99"},
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f"Bearer {token}",
+        )
+
+        assert resp.status_code == 404
+        product.refresh_from_db()
+        assert product.title == "Original"
+
+    def test_delete_product_image_requires_ownership(self, client):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from django.core.files.storage import default_storage
+        from rest_framework_simplejwt.tokens import AccessToken
+
+        owner = StudentFactory()
+        other_student = StudentFactory()
+        product = ProductFactory(student=owner)
+        product.image = SimpleUploadedFile(
+            "owned-image.jpg",
+            b"not-a-real-image",
+            content_type="image/jpeg",
+        )
+        product.save()
+        image_path = product.image.name
+
+        token = AccessToken.for_user(other_student.user)
+        response = client.delete(
+            "/api/products/products/my-products/delete-image/",
+            {"image_url": f"/media/{image_path}"},
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f"Bearer {token}",
+        )
+
+        assert response.status_code == 404
+        assert default_storage.exists(image_path)
+        product.image.delete(save=False)
 
     def test_delete_product(self, client):
         student = StudentFactory()
@@ -469,6 +526,41 @@ class TestProductAPI:
         resp = client.get(f"/api/products/categories/{cat.slug}/products/")
         assert resp.status_code == 200
 
+    def test_category_detail_by_slug(self, client):
+        from django.core.cache import cache
+
+        category = CategoryFactory()
+        cache.clear()
+
+        response = client.get(f"/api/products/categories/{category.slug}/")
+
+        assert response.status_code == 200
+        assert response.json()["slug"] == category.slug
+
+    def test_category_list_excludes_inactive_categories(self, client):
+        from django.core.cache import cache
+
+        CategoryFactory(name="Visible category", is_active=True)
+        CategoryFactory(name="Hidden category", is_active=False)
+        cache.clear()
+
+        response = client.get("/api/products/categories/")
+
+        assert response.status_code == 200
+        names = {item["name"] for item in response.json()["results"]}
+        assert "Visible category" in names
+        assert "Hidden category" not in names
+
+    def test_category_stats(self, client):
+        category = CategoryFactory()
+        ProductFactory(category=category, is_active=True)
+
+        response = client.get("/api/products/categories/stats/")
+
+        assert response.status_code == 200
+        result = next(item for item in response.json()["categories"] if item["id"] == category.id)
+        assert result["product_count"] == 1
+
     def test_upload_image_no_image(self, client):
         student = StudentFactory()
         from rest_framework_simplejwt.tokens import AccessToken
@@ -479,6 +571,13 @@ class TestProductAPI:
             HTTP_AUTHORIZATION=f"Bearer {token}"
         )
         assert resp.status_code == 400
+
+    def test_upload_image_requires_auth(self, client):
+        resp = client.post(
+            "/api/products/products/my-products/upload-image/",
+            {},
+        )
+        assert resp.status_code == 401
 
     def test_delete_image_missing_url(self, client):
         student = StudentFactory()
@@ -529,5 +628,3 @@ class TestProductAPI:
         product.increment_views()
         product.refresh_from_db()
         assert product.views_count == 2
-
-

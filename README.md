@@ -32,10 +32,28 @@ These instructions will get you a copy of the project up and running on your loc
    source easymarket/bin/activate
    uv pip install -r requirements.txt -r test-requirements.txt
    ```
+3. Create local configuration from the example and replace the placeholder
+   `SECRET_KEY` with a random value:
+   ```bash
+   cp .env.example .env
+   python -c "import secrets; print(secrets.token_urlsafe(50))"
+   ```
 
 ## Usage
 
-After setting up, you can run `python manage.py runserver or daphne -p 8000 students.asgi: application` to start the application. Open your browser and visit `http://localhost:8000/
+After setting up, run the development server:
+
+```bash
+python manage.py runserver
+```
+
+For ASGI and WebSocket support, use Daphne instead:
+
+```bash
+daphne -p 8000 students.asgi:application
+```
+
+Open your browser and visit `http://localhost:8000/`.
 
 ## Contributing
 

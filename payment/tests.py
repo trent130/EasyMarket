@@ -1,9 +1,10 @@
 import pytest
 from decimal import Decimal
+from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from payment.models import Transaction
 from payment import utils as payment_utils
-from tests.factories import TransactionFactory, CustomUserFactory
+from tests.factories import TransactionFactory, CustomUserFactory, OrderFactory
 
 
 pytestmark = pytest.mark.django_db
@@ -141,7 +142,7 @@ class TestPaymentAPI:
         from rest_framework_simplejwt.tokens import AccessToken
         token = AccessToken.for_user(user)
         resp = client.post(
-            "/api/payment/transactions/verify_payment/",
+            "/api/payment/verify/",
             {},
             content_type="application/json",
             HTTP_AUTHORIZATION=f"Bearer {token}"
@@ -160,4 +161,228 @@ class TestPaymentAPI:
         )
         assert resp.status_code == 404
 
+    def test_refund_uses_url_transaction_without_body_transaction_id(self, client):
+        user = CustomUserFactory()
+        transaction = TransactionFactory(user=user, status='completed')
 
+        with patch('payment.views.MpesaClient') as mpesa_client:
+            mpesa_client.return_value.process_refund.return_value = {
+                'success': True,
+                'refund_id': 'REFUND-1',
+            }
+            response = client.post(
+                f'/api/payment/transactions/{transaction.transaction_id}/refund/',
+                {'reason': 'Defective item'},
+                content_type='application/json',
+                **self._auth_headers(user),
+            )
+
+        assert response.status_code == 200
+        assert response.data['refund_id'] == 'REFUND-1'
+        transaction.refresh_from_db()
+        assert transaction.status == 'refunded'
+
+    def test_receipt_exposes_the_serializer_contract(self, client):
+        user = CustomUserFactory()
+        transaction = TransactionFactory(user=user, status='completed')
+
+        response = client.get(
+            f'/api/payment/transactions/{transaction.transaction_id}/receipt/',
+            **self._auth_headers(user),
+        )
+
+        assert response.status_code == 200
+        assert response.data['transaction_id'] == transaction.transaction_id
+        assert response.data['status'] == 'completed'
+        assert response.data['customer_name'] == user.full_name
+        assert response.data['payment_method_details']['type'] == 'M-Pesa'
+
+    def _auth_headers(self, user):
+        from rest_framework_simplejwt.tokens import AccessToken
+        token = AccessToken.for_user(user)
+        return {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+
+    def test_mpesa_initiation_rejects_another_users_order(self, client):
+        user = CustomUserFactory()
+        order = OrderFactory(user=CustomUserFactory(), payment_method='MPESA')
+
+        with patch('payment.views.MpesaClient') as mpesa_client:
+            response = client.post(
+                '/api/payment/mpesa/',
+                {'phone_number': '254700000000', 'order_id': order.id},
+                content_type='application/json',
+                **self._auth_headers(user),
+            )
+
+        assert response.status_code == 400
+        mpesa_client.assert_not_called()
+
+    def test_mpesa_initiation_returns_canonical_pending_response(self, client):
+        user = CustomUserFactory()
+        order = OrderFactory(user=user, payment_method='MPESA')
+
+        with patch('payment.views.MpesaClient') as mpesa_client:
+            mpesa_client.return_value.stk_push.return_value = {
+                'ResponseCode': '0',
+                'MerchantRequestID': 'MR-1',
+                'CheckoutRequestID': 'CR-1',
+            }
+            response = client.post(
+                '/api/payment/mpesa/',
+                {'phone_number': '254700000000', 'order_id': order.id},
+                content_type='application/json',
+                **self._auth_headers(user),
+            )
+
+        assert response.status_code == 200
+        assert set(response.data) == {
+            'message', 'transaction_id', 'checkout_request_id', 'status'
+        }
+        assert response.data['message'] == 'Payment initiated'
+        assert isinstance(response.data['transaction_id'], str)
+        assert response.data['checkout_request_id'] == 'CR-1'
+        assert response.data['status'] == 'pending'
+
+    def test_payment_verification_rejects_another_users_transaction(self, client):
+        owner = CustomUserFactory()
+        attacker = CustomUserFactory()
+        order = OrderFactory(user=owner, payment_method='MPESA')
+        transaction = TransactionFactory(
+            user=owner,
+            amount=order.total_amount,
+            reference=f'Order-{order.id}',
+        )
+
+        with patch('payment.views.MpesaClient') as mpesa_client:
+            response = client.post(
+                '/api/payment/verify/',
+                {
+                    'transaction_id': transaction.transaction_id,
+                    'order_id': order.id,
+                },
+                content_type='application/json',
+                **self._auth_headers(attacker),
+            )
+
+        assert response.status_code == 404
+        mpesa_client.assert_not_called()
+
+    def test_payment_verification_pending_is_lowercase(self, client):
+        user = CustomUserFactory()
+        order = OrderFactory(user=user, payment_method='MPESA')
+        transaction = TransactionFactory(
+            user=user,
+            amount=order.total_amount,
+            reference=f'Order-{order.id}',
+        )
+
+        with patch('payment.views.MpesaClient') as mpesa_client:
+            mpesa_client.return_value.check_payment_status.return_value = 'PENDING'
+            response = client.post(
+                '/api/payment/verify/',
+                {
+                    'transaction_id': transaction.transaction_id,
+                    'order_id': order.id,
+                },
+                content_type='application/json',
+                **self._auth_headers(user),
+            )
+
+        assert response.status_code == 200
+        assert response.data['status'] == 'pending'
+        transaction.refresh_from_db()
+        order.refresh_from_db()
+        assert transaction.status == 'pending'
+        assert order.payment_status is False
+
+    def test_mpesa_callback_completes_transaction_and_order_for_string_result_code(self, client):
+        user = CustomUserFactory()
+        order = OrderFactory(user=user, payment_method='MPESA')
+        transaction = TransactionFactory(
+            user=user,
+            amount=order.total_amount,
+            reference=f'Order-{order.id}',
+            checkout_request_id='CALLBACK-1',
+        )
+
+        response = client.post(
+            '/api/payment/mpesa-callback/',
+            {
+                'Body': {
+                    'stkCallback': {
+                        'CheckoutRequestID': 'CALLBACK-1',
+                        'ResultCode': '0',
+                    }
+                }
+            },
+            content_type='application/json',
+        )
+
+        assert response.status_code == 200
+        transaction.refresh_from_db()
+        order.refresh_from_db()
+        assert transaction.status == 'completed'
+        assert order.payment_status is True
+        assert order.payment_date is not None
+
+    def test_payment_verification_completion_updates_order_atomically(self, client):
+        user = CustomUserFactory()
+        order = OrderFactory(user=user, payment_method='MPESA')
+        transaction = TransactionFactory(
+            user=user,
+            amount=order.total_amount,
+            reference=f'Order-{order.id}',
+        )
+
+        with patch('payment.views.MpesaClient') as mpesa_client:
+            mpesa_client.return_value.check_payment_status.return_value = 'COMPLETED'
+            response = client.post(
+                '/api/payment/verify/',
+                {
+                    'transaction_id': transaction.transaction_id,
+                    'order_id': order.id,
+                },
+                content_type='application/json',
+                **self._auth_headers(user),
+            )
+
+        assert response.status_code == 200
+        assert response.data['status'] == 'completed'
+        transaction.refresh_from_db()
+        order.refresh_from_db()
+        assert transaction.status == 'completed'
+        assert order.payment_status is True
+        assert order.payment_date is not None
+
+    def test_transaction_financial_and_provider_fields_are_read_only(self, client):
+        user = CustomUserFactory()
+        transaction = TransactionFactory(user=user)
+        original = {
+            'amount': transaction.amount,
+            'status': transaction.status,
+            'payment_method': transaction.payment_method,
+            'phone_number': transaction.phone_number,
+            'reference': transaction.reference,
+            'checkout_request_id': transaction.checkout_request_id,
+            'description': transaction.description,
+        }
+
+        response = client.patch(
+            f'/api/payment/transactions/{transaction.transaction_id}/',
+            {
+                'amount': '999.99',
+                'status': 'completed',
+                'payment_method': 'CASH',
+                'phone_number': '254711111111',
+                'reference': 'changed-reference',
+                'checkout_request_id': 'changed-checkout',
+                'description': 'changed-description',
+            },
+            content_type='application/json',
+            **self._auth_headers(user),
+        )
+
+        assert response.status_code == 200
+        transaction.refresh_from_db()
+        for field, value in original.items():
+            assert getattr(transaction, field) == value

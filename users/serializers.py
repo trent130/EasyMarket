@@ -54,7 +54,10 @@ class StudentProfileSerializer(serializers.ModelSerializer):
             'user_type', 'bio', 'phone_number', 'date_of_birth', 'university', 'student_id',
             'avatar', 'two_factor_enabled', 'two_factor_verified', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'two_factor_verified']
+        read_only_fields = [
+            'id', 'created_at', 'updated_at',
+            'two_factor_enabled', 'two_factor_verified',
+        ]
     
     def update(self, instance, validated_data):
         # Handle user profile updates if needed
@@ -203,6 +206,13 @@ class SignUpSerializer(serializers.ModelSerializer):
         if data['password'] != data['password_confirm']:
             raise serializers.ValidationError("Passwords don't match")
         return data
+
+    def validate_user_type(self, value):
+        if value == 'admin':
+            raise serializers.ValidationError(
+                'Admin accounts cannot be created through public signup'
+            )
+        return value
 
     def validate_password(self, value):  # pragma: no cover
         try:

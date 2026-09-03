@@ -26,13 +26,19 @@ class MpesaPaymentSerializer(serializers.Serializer):
         return cleaned
 
     def validate_order_id(self, value):
-        try:
-            order = Order.objects.get(id=value)
-            if order.is_paid:
-                raise serializers.ValidationError("Order is already paid")
-            return value
-        except Order.DoesNotExist:
+        request = self.context.get('request')
+        user = getattr(request, 'user', None)
+        if user is None or not user.is_authenticated:
             raise serializers.ValidationError("Order not found")
+
+        order = Order.objects.filter(
+            id=value,
+            user=user,
+            payment_status=False,
+        ).first()
+        if order is None:
+            raise serializers.ValidationError("Order not found or already paid")
+        return value
 
 
 class CardPaymentSerializer(serializers.Serializer):
@@ -53,6 +59,7 @@ class TransactionSerializer(serializers.ModelSerializer):
     amount = serializers.DecimalField(
         max_digits=10,
         decimal_places=2,
+        read_only=True,
         required=False,
         validators=[MinValueValidator(Decimal('0.01')), MaxValueValidator(Decimal('999999.99'))]
     )
@@ -66,8 +73,9 @@ class TransactionSerializer(serializers.ModelSerializer):
             'timestamp', 'updated_at', 'description'
         ]
         read_only_fields = [
-            'status', 'transaction_id', 'merchant_request_id',
-            'timestamp', 'updated_at'
+            'status', 'transaction_id', 'merchant_request_id', 'amount',
+            'payment_method', 'phone_number', 'reference',
+            'checkout_request_id', 'description', 'timestamp', 'updated_at'
         ]
 
 
@@ -77,7 +85,7 @@ class PaymentVerificationSerializer(serializers.Serializer):
 
 
 class RefundSerializer(serializers.Serializer):
-    transaction_id = serializers.CharField()
+    transaction_id = serializers.CharField(required=False, write_only=True)
     amount = serializers.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -87,22 +95,22 @@ class RefundSerializer(serializers.Serializer):
     reason = serializers.CharField()
 
     def validate(self, data):
-        try:
-            transaction = Transaction.objects.get(
-                transaction_id=data['transaction_id']
-            )
-            if transaction.status != 'completed':
-                raise serializers.ValidationError(
-                    "Can only refund completed transactions"
-                )
-            if data.get('amount'):
-                if data['amount'] > transaction.amount:
-                    raise serializers.ValidationError(
-                        "Refund amount cannot exceed transaction amount"
-                    )
-            return data
-        except Transaction.DoesNotExist:
+        transaction = self.context.get('transaction')
+        if transaction is None:
             raise serializers.ValidationError("Transaction not found")
+
+        submitted_id = data.get('transaction_id')
+        if submitted_id and submitted_id != transaction.transaction_id:
+            raise serializers.ValidationError("Transaction does not match the URL")
+        if transaction.status != 'completed':
+            raise serializers.ValidationError(
+                "Can only refund completed transactions"
+            )
+        if data.get('amount') and data['amount'] > transaction.amount:
+            raise serializers.ValidationError(
+                "Refund amount cannot exceed transaction amount"
+            )
+        return data
 
 
 class PaymentReceiptSerializer(serializers.ModelSerializer):
@@ -112,7 +120,7 @@ class PaymentReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = [
-            'id', 'transaction_id', 'amount',
+            'id', 'transaction_id', 'amount', 'status',
             'payment_method', 'customer_name', 'payment_method_details',
             'timestamp', 'description'
         ]
@@ -122,7 +130,7 @@ class PaymentReceiptSerializer(serializers.ModelSerializer):
         return full_name if full_name else obj.user.email
 
     def get_payment_method_details(self, obj):
-        if obj.payment_method == 'MPESA':
+        if str(obj.payment_method).upper() == 'MPESA':
             return {
                 'type': 'M-Pesa',
                 'phone': obj.phone_number,

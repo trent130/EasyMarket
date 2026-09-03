@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from django.core.cache import cache
 from django.conf import settings
 from django.core.mail import send_mail
@@ -43,8 +43,13 @@ def get_footer_data(request):
 class StaticPageViewSet(viewsets.ModelViewSet):
     queryset = StaticPage.objects.filter(is_published=True)
     serializer_class = StaticPageSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
     lookup_field = 'slug'
+
+    def get_permissions(self):
+        if self.action in {'list', 'retrieve', 'home', 'meta'}:
+            return [AllowAny()]
+        return [IsAdminUser()]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -56,7 +61,7 @@ class StaticPageViewSet(viewsets.ModelViewSet):
     def home(self, request):
         """Get home page content"""
         try:
-            page = StaticPage.objects.get(slug='home')
+            page = StaticPage.objects.get(slug='home', is_published=True)
             serializer = self.get_serializer(page)
             return Response(serializer.data)
         except StaticPage.DoesNotExist:
@@ -82,7 +87,12 @@ class StaticPageViewSet(viewsets.ModelViewSet):
 class FAQViewSet(viewsets.ModelViewSet):
     queryset = Faq.objects.filter(is_published=True)
     serializer_class = FaqSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        if self.action in {'list', 'retrieve', 'by_category', 'search'}:
+            return [AllowAny()]
+        return [IsAdminUser()]
 
     @action(detail=False, methods=['get'])
     def by_category(self, request):
@@ -148,7 +158,12 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
 class TestimonialViewSet(viewsets.ModelViewSet):
     queryset = Testimonial.objects.filter(is_featured=True)
     serializer_class = TestimonialSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        if self.action in {'list', 'retrieve'}:
+            return [AllowAny()]
+        return [IsAdminUser()]
 
     def get_queryset(self):
         queryset = super().get_queryset()

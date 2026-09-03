@@ -8,7 +8,8 @@ class Transaction(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('completed', 'Completed'),
-        ('failed', 'Failed')
+        ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
     ]
     PAYMENT_METHODS = [
         ('MPESA', 'M-Pesa'),
@@ -20,7 +21,7 @@ class Transaction(models.Model):
     payment_method = models.CharField(
         max_length=20,
         choices=PAYMENT_METHODS,
-        default='mpesa'
+        default='MPESA'
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     amount = models.DecimalField(

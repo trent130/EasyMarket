@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
+from django.core.exceptions import ImproperlyConfigured
 import sys
 
 load_dotenv()
@@ -71,9 +72,15 @@ MPESA_INITIATOR_SECURITY_CREDENTIALS = os.getenv('MPESA_INITIATOR_SECURITY_CREDE
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-me-in-production')
+_secret_key = os.getenv('SECRET_KEY', '').strip()
+if not _secret_key or _secret_key in {
+    'django-insecure-change-me-in-production',
+    'your-secret-key-here-generate-with-python-secrets',
+}:
+    raise ImproperlyConfigured('SECRET_KEY must be set to a non-default value')
+SECRET_KEY = _secret_key
 
-DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
+DEBUG = os.getenv('DEBUG', 'False').strip().lower() in {'1', 'true', 'yes', 'on'}
 
 _allowed_hosts_env = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1')
 ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts_env.split(',') if h.strip()]

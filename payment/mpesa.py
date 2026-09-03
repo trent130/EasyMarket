@@ -4,20 +4,27 @@ from datetime import datetime
 from requests.auth import HTTPBasicAuth
 from django.conf import settings
 import logging
+from .config import (
+    MPESA_AUTH_URL,
+    MPESA_QUERY_URL,
+    MPESA_REVERSAL_URL,
+    MPESA_STK_PUSH_URL,
+)
 
 logger = logging.getLogger(__name__)
+REQUEST_TIMEOUT_SECONDS = 30
 
 
 class MpesaClient:
     def __init__(self):
-        self.business_shortcode = settings.MPESA_BUSINESS_SHORTCODE
+        self.business_shortcode = settings.MPESA_SHORTCODE
         self.consumer_key = settings.MPESA_CONSUMER_KEY
         self.consumer_secret = settings.MPESA_CONSUMER_SECRET
         self.passkey = settings.MPESA_PASSKEY
         # API endpoints
-        self.access_token_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
-        self.stk_push_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest'
-        self.query_url = 'https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query'
+        self.access_token_url = MPESA_AUTH_URL
+        self.stk_push_url = MPESA_STK_PUSH_URL
+        self.query_url = MPESA_QUERY_URL
         # Get access token on initialization
         self.access_token = self._get_access_token()
 
@@ -29,7 +36,8 @@ class MpesaClient:
                 auth=HTTPBasicAuth(
                     self.consumer_key,
                     self.consumer_secret
-                )
+                ),
+                timeout=REQUEST_TIMEOUT_SECONDS,
             )
             response.raise_for_status()
             result = response.json()
@@ -69,7 +77,8 @@ class MpesaClient:
             response = requests.post(
                 self.stk_push_url,
                 json=payload,
-                headers=headers
+                headers=headers,
+                timeout=REQUEST_TIMEOUT_SECONDS,
             )
             response.raise_for_status()
             return response.json()
@@ -94,11 +103,12 @@ class MpesaClient:
             response = requests.post(
                 self.query_url,
                 json=payload,
-                headers=headers
+                headers=headers,
+                timeout=REQUEST_TIMEOUT_SECONDS,
             )
             response.raise_for_status()
             result = response.json()
-            result_code = result.get('ResultCode')
+            result_code = str(result.get('ResultCode'))
             if result_code == "0":
                 return "completed"
             elif result_code == "1037":  # Timeout
@@ -119,8 +129,8 @@ class MpesaClient:
                 'Content-Type': 'application/json'
             }
             payload = {
-                "InitiatorName": settings.MPESA_INITIATOR_NAME,
-                "SecurityCredential": settings.MPESA_SECURITY_CREDENTIAL,
+                "InitiatorName": settings.MPESA_INITIATOR_USERNAME,
+                "SecurityCredential": settings.MPESA_INITIATOR_SECURITY_CREDENTIALS,
                 "CommandID": "TransactionReversal",
                 "TransactionID": transaction_id,
                 "Amount": str(amount),
@@ -132,14 +142,15 @@ class MpesaClient:
                 "Occasion": ""
             }
             response = requests.post(
-                settings.MPESA_REVERSAL_URL,
+                MPESA_REVERSAL_URL,
                 json=payload,
-                headers=headers
+                headers=headers,
+                timeout=REQUEST_TIMEOUT_SECONDS,
             )
             response.raise_for_status()
             result = response.json()
             return {
-                'success': result.get('ResponseCode') == "0",
+                'success': str(result.get('ResponseCode')) == "0",
                 'message': result.get('ResponseDescription'),
                 'refund_id': result.get('RefundRequestID')
             }

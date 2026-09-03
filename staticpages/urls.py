@@ -1,19 +1,14 @@
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter
 from . import views
-from django.conf import settings
 
 router = SimpleRouter()
 router.register(r'pages', views.StaticPageViewSet, basename='page')
 router.register(r'faqs', views.FAQViewSet, basename='faq')
 router.register(r'contact', views.ContactMessageViewSet, basename='contact')
 router.register(r'testimonials', views.TestimonialViewSet, basename='testimonial')
-router.register(r'footer', views.FooterViewSet, basename='footer')
 
 urlpatterns = [
-    # Router URLs
-    path('', include(router.urls)),
-
     # Footer
     path('footer/', views.get_footer_data, name='footer-data'),
 
@@ -48,77 +43,14 @@ urlpatterns = [
          views.FeedbackViewSet.as_view({'post': 'create'}),
          name='submit-feedback'),
 
-    # Content Management
-    path('pages/preview/<slug:slug>/',
-         views.StaticPageViewSet.as_view({'get': 'preview'}),
-         name='preview-page'),
-    path('pages/publish/<slug:slug>/',
-         views.StaticPageViewSet.as_view({'post': 'publish'}),
-         name='publish-page'),
-    path('pages/unpublish/<slug:slug>/',
-         views.StaticPageViewSet.as_view({'post': 'unpublish'}),
-         name='unpublish-page'),
-
-    # Testimonials Management
+    # Featured testimonials
+    # The viewset has no separate featured action, but its list queryset is
+    # already limited to featured testimonials.
     path('testimonials/featured/',
-         views.TestimonialViewSet.as_view({'get': 'featured'}),
+         views.TestimonialViewSet.as_view({'get': 'list'}),
          name='featured-testimonials'),
-    path('testimonials/approve/<int:pk>/',
-         views.TestimonialViewSet.as_view({'post': 'approve'}),
-         name='approve-testimonial'),
-    path('testimonials/reject/<int:pk>/',
-         views.TestimonialViewSet.as_view({'post': 'reject'}),
-         name='reject-testimonial'),
 
-    # Contact Form
-    path('contact/departments/',
-         views.ContactMessageViewSet.as_view({'get': 'departments'}),
-         name='contact-departments'),
-    path('contact/support/',
-         views.ContactMessageViewSet.as_view({'post': 'support'}),
-         name='contact-support'),
-
-    # SEO Management
-    path('seo/sitemap/',
-         views.StaticPageViewSet.as_view({'get': 'sitemap'}),
-         name='sitemap'),
-    path('seo/robots/',
-         views.StaticPageViewSet.as_view({'get': 'robots'}),
-         name='robots'),
-    path('seo/meta-tags/',
-         views.StaticPageViewSet.as_view({'get': 'meta_tags'}),
-         name='meta-tags'),
-
-    # Cache Management
-    path('cache/clear/',
-         views.SiteSettingsViewSet.as_view({'post': 'clear_cache'}),
-         name='clear-cache'),
-    path('cache/warm/',
-         views.SiteSettingsViewSet.as_view({'post': 'warm_cache'}),
-         name='warm-cache'),
-
-    # Analytics
-    path('analytics/page-views/',
-         views.StaticPageViewSet.as_view({'get': 'page_views'}),
-         name='page-views'),
-    path('analytics/popular-pages/',
-         views.StaticPageViewSet.as_view({'get': 'popular_pages'}),
-         name='popular-pages'),
-     
+    # Router URLs are fallbacks for the standard viewset endpoints. They
+    # must follow explicit routes such as pages/home/ and faqs/search/.
+    path('', include(router.urls)),
 ]
-
-# Add debug patterns if in debug mode
-if settings.DEBUG:
-    urlpatterns += [
-        # Preview URLs
-        path('preview/pages/<slug:slug>/',
-             views.StaticPageViewSet.as_view({'get': 'preview_draft'}),
-             name='preview-draft'),
-        # Test URLs
-        path('test/contact/',
-             views.ContactMessageViewSet.as_view({'post': 'test_contact'}),
-             name='test-contact'),
-        path('test/newsletter/',
-             views.NewsletterViewSet.as_view({'post': 'test_subscribe'}),
-             name='test-newsletter'),
-    ]

@@ -32,7 +32,6 @@ from .serializers import (
 from django.contrib.auth import authenticate
 from django.conf import settings 
 import redis
-import logging
 import pyotp
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -44,7 +43,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.contrib.auth.hashers import make_password, check_password as check_hash
 from asgiref.sync import sync_to_async
 
-logger = logging.getLogger(__name__)
 RATE_LIMIT_STORE = []
 RATE_LIMIT_WINDOW = 60 * 60
 RATE_LIMIT_MAX_REQUESTS = 5
@@ -123,22 +121,19 @@ def enable_2fa(request):
 @permission_classes([AllowAny])
 @parser_classes([JSONParser])  # Add JSONParser to handle JSON data properly
 def signin(request):
-    """Handle user signin with enhanced error logging and proper response formatting"""
+    """Handle user signin with proper response formatting."""
     try:
         # Ensure request.data is a dict
         data = request.data
         if isinstance(data, str):
             data = json.loads(data)
             
-        logger.debug(f"Signin attempt with data: {data}")
         serializer = SignInSerializer(data=data, context={'request': request})
         
         if not serializer.is_valid():
-            logger.warning(f"SignIn validation failed: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         user = serializer.validated_data['user']
-        logger.info(f"User {user.username} signed in successfully")
         
         refresh = RefreshToken.for_user(user)
 
@@ -163,14 +158,11 @@ def signin(request):
             'username': user.username
         }
 
-        logger.debug(f"Sending successful signin response for user {user.username}")
         return Response(response_data, status=status.HTTP_200_OK)
         
-    except json.JSONDecodeError as e:
-        logger.warning(f"Failed to parse JSON data: {str(e)}")
+    except json.JSONDecodeError:
         return Response({'error': 'Invalid JSON data'}, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        logger.error(f"Unexpected error in signin: {str(e)}", exc_info=True)
+    except Exception:
         return Response(
             {'error': 'Internal server error'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -204,8 +196,7 @@ def signup(request):
         
         return Response(response_data, status=status.HTTP_201_CREATED)
         
-    except Exception as e:
-        logger.error(f"Error creating user: {str(e)}")
+    except Exception:
         return Response({'error': 'Failed to create user'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET', 'PATCH'])
@@ -348,6 +339,23 @@ def disable_2fa(request):
     if not student.two_factor_enabled:
         return Response({'error': 'Two-factor authentication is not enabled'}, status=status.HTTP_400_BAD_REQUEST)
 
+    serializer = TwoFactorDisableSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        token_is_valid = bool(
+            student.two_factor_secret
+            and pyotp.TOTP(student.two_factor_secret).verify(
+                serializer.validated_data['token']
+            )
+        )
+    except Exception:
+        token_is_valid = False
+
+    if not token_is_valid:
+        return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+
     student.two_factor_enabled = False
     student.two_factor_verified = False
     student.two_factor_secret = None
@@ -403,9 +411,8 @@ def send_password_reset_email(email, reset_token):
             html_message=html_message,
             fail_silently=False,
         )
-        logger.info(f"Password reset email sent to {email}")
-    except Exception as e:
-        logger.error(f"Error sending password reset email to {email}: {e}")
+    except Exception:
+        pass
 
 
 @api_view(['POST'])
@@ -608,54 +615,10 @@ def signout(request):
             token.blacklist()
             if jti:
                 UserSession.objects.filter(jti=jti).update(is_active=False)
-        except Exception as e:
-            logger.warning(f"Could not blacklist refresh token: {e}")
+        except Exception:
+            pass
     logout(request)
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
-
-
-# @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
-# def regenerate_backup_codes(request):
-#     """Regenerate backup codes for 2FA"""
-#     student = get_object_or_404(Student, user=request.user)
-#     if not student.two_factor_enabled:
-#         return Response({'error': '2FA is not enabled'}, status=status.HTTP_400_BAD_REQUEST)
-
-#     backup_codes = student.generate_backup_codes()
-#     serializer = BackupCodesSerializer(data={'codes': backup_codes})
-#     if serializer.is_valid():
-#         return Response(serializer.data)
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-#     def validate(self, attrs):
-#         try:
-#             data = super().validate(attrs)
-#             data['user_id'] = self.user.id
-#             data['email'] = self.user.email
-#             return data
-#         except Exception as e:
-#             logger.error(f"Token generation error: {str(e)}")
-#             raise
-
-
-# class CustomTokenObtainPairView(TokenObtainPairView):
-#     serializer_class = CustomTokenObtainPairSerializer
-
-#     def post(self, request, *args, **kwargs):
-#         try:
-#             serializer = self.get_serializer(data=request.data)
-#             serializer.is_valid(raise_exception=True)
-#             return Response(serializer.validated_data)
-#         except Exception as e:
-#             logger.error(f"Unexpected token generation error: {str(e)}")
-#             return Response({'error': 'Authentication failed', 'details': str(e)},
-# status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-# #         return Response({'success': True})
-# #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['GET', 'DELETE'])
 @permission_classes([IsAuthenticated])
@@ -743,16 +706,11 @@ def regenerate_backup_codes(request):
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
-        try:
-            data = super().validate(attrs)
-            # Add additional user information
-            data['user_id'] = self.user.id
-            data['email'] = self.user.email
-            return data
-        except Exception as e:
-            # Detailed error logging
-            logger.error(f"Token generation error: {str(e)}")
-            raise
+        data = super().validate(attrs)
+        # Add additional user information
+        data['user_id'] = self.user.id
+        data['email'] = self.user.email
+        return data
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -764,21 +722,18 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             # Validate and handle errors explicitly
             try:
                 serializer.is_valid(raise_exception=True)
-            except Exception as e:
-                # Log validation errors
-                logger.error(f"Token validation error: {str(e)}")
-                return Response({
-                    'error': 'Invalid credentials',
-                    'details': str(e)
-                }, status=status.HTTP_401_UNAUTHORIZED)
+            except Exception:
+                return Response(
+                    {'error': 'Invalid credentials'},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
 
             return Response(serializer.validated_data)
-        except Exception as e:
-            logger.error(f"Unexpected token generation error: {str(e)}")
-            return Response({
-                'error': 'Authentication failed',
-                'details': str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception:
+            return Response(
+                {'error': 'Authentication failed'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 # TODO: 1: implement the change password functionality, look at the user types and start aggregating them per 
 # account type and permissions also

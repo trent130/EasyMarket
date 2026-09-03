@@ -31,7 +31,9 @@ logger = logging.getLogger(__name__)
 
 # Cache configuration
 CACHE_TTL = getattr(settings, 'PRODUCT_CACHE_TTL', 3600)  # 1 hour default
-CACHE_PREFIX = 'products:'
+# Bump the namespace when response visibility or serialization changes so
+# stale public entries cannot bypass the current queryset policy.
+CACHE_PREFIX = 'products:v2:'
 
 
 def get_cache_key(prefix, identifier):
@@ -59,7 +61,11 @@ class ProductViewSet(viewsets.ModelViewSet):
         """
         Instantiate and return the list of permissions that this view requires.
         """
-        if self.action in ['create', 'update', 'partial_update', 'destroy', 'my_products', 'save_draft', 'manage_draft', 'publish_draft', 'bulk_action', 'update_stock']:
+        if self.action in [
+            'create', 'update', 'partial_update', 'destroy', 'my_products',
+            'save_draft', 'manage_draft', 'publish_draft', 'bulk_action',
+            'update_stock', 'upload_image', 'delete_image',
+        ]:
             permission_classes = [IsAuthenticated]
         else:
             permission_classes = [AllowAny]
@@ -88,6 +94,18 @@ class ProductViewSet(viewsets.ModelViewSet):
             avg_rating=Avg('reviews__rating')
         )
 
+        owner_only_actions = {
+            'create', 'update', 'partial_update', 'destroy', 'my_products',
+            'save_draft', 'manage_draft', 'publish_draft', 'bulk_action',
+            'update_stock', 'upload_image', 'delete_image',
+        }
+        if self.action in owner_only_actions:
+            if not self.request.user.is_authenticated:
+                return queryset.none()
+            queryset = queryset.filter(student__user=self.request.user)
+        else:
+            queryset = queryset.filter(is_active=True, is_draft=False)
+
         return queryset
 
     def increment_views(self, product, request):
@@ -115,14 +133,15 @@ class ProductViewSet(viewsets.ModelViewSet):
         from django.http import Http404
 
         try:
+            queryset = self.get_queryset()
             if lookup_value.isdigit():
                 # If it's a number, try ID first
                 logger.debug(f"Trying ID lookup for: {lookup_value}")
-                product = get_object_or_404(Product, id=lookup_value, is_active=True)
+                product = get_object_or_404(queryset, id=lookup_value)
             else:
                 # If it's not a number, treat as slug
                 logger.debug(f"Trying slug lookup for: {lookup_value}")
-                product = get_object_or_404(Product, slug=lookup_value, is_active=True)
+                product = get_object_or_404(queryset, slug=lookup_value)
 
             logger.debug(f"Found product: {product.title} (slug: {product.slug})")
             return product
@@ -133,7 +152,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             if not lookup_value.isdigit():
                 try:
                     logger.debug(f"Fallback: trying ID lookup for non-digit: {lookup_value}")
-                    return get_object_or_404(Product, id=int(lookup_value), is_active=True)
+                    return get_object_or_404(queryset, id=int(lookup_value))
                 except (ValueError, Http404):
                     logger.error(f"Fallback also failed for {lookup_value}")
                     pass
@@ -155,7 +174,7 @@ class ProductViewSet(viewsets.ModelViewSet):
                 }, status=status.HTTP_400_BAD_REQUEST)
 
             cache_key = get_cache_key('detail', lookup_value)
-            cached_results = cache.get(cache_key)
+            cached_results = None if request.user.is_authenticated else cache.get(cache_key)
 
             if cached_results is not None:
                 logger.debug(f"Returning cached product data for: {lookup_value}")
@@ -171,8 +190,9 @@ class ProductViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(product)
 
             # Cache the serialized data for 1 hour
-            logger.debug(f"Caching product data for: {lookup_value}")
-            cache.set(cache_key, serializer.data, timeout=3600)
+            if not request.user.is_authenticated:
+                logger.debug(f"Caching product data for: {lookup_value}")
+                cache.set(cache_key, serializer.data, timeout=3600)
 
             return Response(serializer.data)
 
@@ -196,14 +216,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         """
         try:
             cache_key = get_cache_key('detail', slug)
-            cached_results = cache.get(cache_key)
+            cached_results = None if request.user.is_authenticated else cache.get(cache_key)
 
             if cached_results is not None:
                 logger.debug(f"Returning cached product data for slug: {slug}")
                 return Response(cached_results)
 
             # Get product by slug
-            product = get_object_or_404(Product, slug=slug, is_active=True)
+            product = get_object_or_404(Product, slug=slug, is_active=True, is_draft=False)
 
             # Increment views count
             product.increment_views()
@@ -212,8 +232,9 @@ class ProductViewSet(viewsets.ModelViewSet):
             serializer = ProductDetailSerializer(product, context={'request': request})
 
             # Cache the serialized data for 1 hour
-            logger.debug(f"Caching product data for slug: {slug}")
-            cache.set(cache_key, serializer.data, timeout=3600)
+            if not request.user.is_authenticated:
+                logger.debug(f"Caching product data for slug: {slug}")
+                cache.set(cache_key, serializer.data, timeout=3600)
 
             return Response(serializer.data)
 
@@ -270,15 +291,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         logger.info(f'Product deactivated: {instance.id}')
 
     @action(detail=False, methods=['get'])
-    def conditions(self, request):
-        """Get list of product condition choices"""
-        conditions = [
-            {'value': choice[0], 'label': choice[1]}
-            for choice in Product.CONDITION_CHOICES
-        ]
-        return Response({'conditions': conditions})
-
-    @action(detail=False, methods=['get'])
     def search(self, request):
         """Advanced product search with caching"""
         serializer = ProductSearchSerializer(data=request.query_params)
@@ -286,7 +298,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         data = serializer.validated_data
 
         cache_key = get_cache_key('search', slugify(str(request.query_params)))
-        cached_results = cache.get(cache_key)
+        cached_results = None if request.user.is_authenticated else cache.get(cache_key)
         
         if cached_results:
             return Response(cached_results)
@@ -301,7 +313,7 @@ class ProductViewSet(viewsets.ModelViewSet):
                 'sort_by': data.get('sort_by'),
                 'in_stock': data.get('in_stock'),
             }
-        )
+        ).filter(is_active=True, is_draft=False)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -311,7 +323,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             serializer = ProductListSerializer(queryset, many=True, context={'request': request})
             response_data = serializer.data
         
-        cache.set(cache_key, response_data, CACHE_TTL)
+        if not request.user.is_authenticated:
+            cache.set(cache_key, response_data, CACHE_TTL)
         return Response(response_data)
     
     @action(detail=False, methods=['get'])
@@ -319,7 +332,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Get product condition choices for frontend forms"""
         try:
             cache_key = f'{CACHE_PREFIX}conditions'
-            cached_results = cache.get(cache_key)
+            cached_results = None if request.user.is_authenticated else cache.get(cache_key)
 
             if cached_results is not None:
                 return Response(cached_results)
@@ -354,7 +367,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Get featured products with caching"""
         try:
             cache_key = get_cache_key('featured', '')
-            cached_results = cache.get(cache_key)
+            cached_results = None if request.user.is_authenticated else cache.get(cache_key)
 
             if cached_results is not None:
                 return Response(cached_results)
@@ -370,7 +383,8 @@ class ProductViewSet(viewsets.ModelViewSet):
                 context={'request': request}
             )
             response_data = serializer.data
-            cache.set(cache_key, response_data, CACHE_TTL)
+            if not request.user.is_authenticated:
+                cache.set(cache_key, response_data, CACHE_TTL)
             return Response(response_data)
 
         except Exception as e:
@@ -384,7 +398,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         """Get trending products based on views, sales and ratings"""
         try:
             cache_key = get_cache_key('trending', '')
-            cached_results = cache.get(cache_key)
+            cached_results = None if request.user.is_authenticated else cache.get(cache_key)
 
             if cached_results is not None:
                 return Response(cached_results)
@@ -401,7 +415,8 @@ class ProductViewSet(viewsets.ModelViewSet):
                 context={'request': request}
             )
             response_data = serializer.data
-            cache.set(cache_key, response_data, CACHE_TTL)
+            if not request.user.is_authenticated:
+                cache.set(cache_key, response_data, CACHE_TTL)
             return Response(response_data)
 
         except Exception as e:
@@ -523,13 +538,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['get', 'patch', 'delete'], url_path='draft')
-    def manage_draft(self, request, pk=None):
+    def manage_draft(self, request, pk=None, slug=None):
         """Get, update, or delete a draft"""
         try:
             student = Student.objects.get(user=request.user)
+            product_lookup = {'id': pk} if pk is not None else {'slug': slug}
             product = get_object_or_404(
                 Product,
-                id=pk,
+                **product_lookup,
                 student=student,
                 is_draft=True
             )
@@ -566,13 +582,14 @@ class ProductViewSet(viewsets.ModelViewSet):
             )
 
     @action(detail=True, methods=['post'], url_path='draft/publish')
-    def publish_draft(self, request, pk=None):
+    def publish_draft(self, request, pk=None, slug=None):
         """Publish a draft product"""
         try:
             student = Student.objects.get(user=request.user)
+            product_lookup = {'id': pk} if pk is not None else {'slug': slug}
             product = get_object_or_404(
                 Product,
-                id=pk,
+                **product_lookup,
                 student=student,
                 is_draft=True
             )
@@ -669,18 +686,31 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         try:
             from django.core.files.storage import default_storage
+            from posixpath import normpath
             from urllib.parse import urlparse
-            import os
 
             # Extract file path from URL
             parsed_url = urlparse(image_url)
-            file_path = parsed_url.path
+            file_path = normpath(parsed_url.path.lstrip('/'))
 
-            # Remove leading slash and media prefix if present
-            if file_path.startswith('/'):
-                file_path = file_path[1:]
             if file_path.startswith('media/'):
                 file_path = file_path[6:]
+
+            # Only product images owned by the requesting seller may be
+            # removed. This also rejects traversal and unrelated storage keys.
+            if (
+                file_path == '..'
+                or file_path.startswith('../')
+                or not file_path.startswith('product_images/')
+                or not Product.objects.filter(
+                    student__user=request.user,
+                    image=file_path,
+                ).exists()
+            ):
+                return Response(
+                    {'error': 'Image not found'},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
             # Delete the file if it exists
             if default_storage.exists(file_path):
@@ -711,7 +741,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = cache.get(cache_key)
         
         if queryset is None:
-            queryset = Category.objects.annotate(
+            queryset = Category.objects.filter(is_active=True).annotate(
                 products_count=Count('products', filter=Q(products__is_active=True))
             )
             cache.set(cache_key, queryset, CACHE_TTL)
@@ -723,14 +753,15 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
         """Get category products with caching"""
         category = self.get_object()
         cache_key = get_cache_key('category_products', category.id)
-        cached_results = cache.get(cache_key)
+        cached_results = None if request.user.is_authenticated else cache.get(cache_key)
 
         if cached_results:
             return Response(cached_results)
 
         products = Product.objects.filter(
             category=category,
-            is_active=True
+            is_active=True,
+            is_draft=False,
         ).select_related('student', 'student__user').prefetch_related('reviews')
 
         page = self.paginate_queryset(products)
@@ -741,13 +772,14 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
             serializer = ProductListSerializer(products, many=True, context={'request': request})
             response_data = serializer.data
 
-        cache.set(cache_key, response_data, CACHE_TTL)
+        if not request.user.is_authenticated:
+            cache.set(cache_key, response_data, CACHE_TTL)
         return Response(response_data)
 
     @action(detail=False, methods=['get'], url_path='stats')
     def stats(self, request):
         """Return each category with its active product count"""
-        categories = Category.objects.annotate(
+        categories = Category.objects.filter(is_active=True).annotate(
             product_count=Count('products', filter=Q(products__is_active=True))
         )
         data = [

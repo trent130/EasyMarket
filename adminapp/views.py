@@ -1,5 +1,5 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import Group, Permission
 from django.contrib.admin.models import LogEntry
 from django.shortcuts import get_object_or_404, render, redirect
@@ -36,23 +36,39 @@ from marketplace.models import Review
 CustomUser = get_user_model()
 
 
-class UserList(LoginRequiredMixin, ListView):
+def is_staff_or_admin(user):
+    return (
+        user.is_authenticated
+        and user.is_active
+        and (user.is_staff or getattr(user, 'user_type', None) == 'admin')
+    )
+
+
+staff_or_admin_required = user_passes_test(is_staff_or_admin)
+
+
+class StaffOrAdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        return is_staff_or_admin(self.request.user)
+
+
+class UserList(StaffOrAdminRequiredMixin, ListView):
     model = CustomUser
     template_name = 'pages/adminapp/user_list.html'
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+class UserDetailView(StaffOrAdminRequiredMixin, DetailView):
     model = CustomUser
     template_name = 'pages/adminapp/user_detail.html'
 
 
-class UserDeleteView(LoginRequiredMixin, DeleteView):
+class UserDeleteView(StaffOrAdminRequiredMixin, DeleteView):
     model = CustomUser
     template_name = 'pages/adminapp/user_delete.html'
     success_url = reverse_lazy('user_list')
 
 
-@login_required
+@staff_or_admin_required
 def assign_role(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     if request.method == 'POST':
@@ -68,43 +84,43 @@ def assign_role(request, user_id):
     return render(request, 'pages/adminapp/assign_role.html', {'form': form})
 
 
-class GroupListView(LoginRequiredMixin, ListView):
+class GroupListView(StaffOrAdminRequiredMixin, ListView):
     model = Group
     template_name = 'pages/adminapp/group_list.html'
 
 
-class GroupDetailView(LoginRequiredMixin, DetailView):
+class GroupDetailView(StaffOrAdminRequiredMixin, DetailView):
     model = Group
     template_name = 'pages/adminapp/group_detail.html'
 
 
-class GroupDeleteView(LoginRequiredMixin, DeleteView):
+class GroupDeleteView(StaffOrAdminRequiredMixin, DeleteView):
     model = Group
     template_name = 'pages/adminapp/group_delete.html'
     success_url = reverse_lazy('group_list')
 
 
-@login_required
+@staff_or_admin_required
 def user_activity_logs(request):
     logs = LogEntry.objects.all().order_by('-action_time')[:10]
     return render(request, 'pages/adminapp/user_activity_logs.html', {'logs': logs})
 
 
-@login_required
+@staff_or_admin_required
 def user_permissions(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     permissions = Permission.objects.filter(user=user)
     return render(request, 'pages/adminapp/user_permissions.html', {'user': user, 'permissions': permissions})
 
 
-@login_required
+@staff_or_admin_required
 def group_permissions(request, group_id):
     group = get_object_or_404(Group, id=group_id)
     permissions = Permission.objects.filter(group=group)
     return render(request, 'pages/adminapp/group_permissions.html', {'group': group, 'permissions': permissions})
 
 
-@login_required
+@staff_or_admin_required
 def admin_home(request):
     return render(request, 'pages/adminapp/admin_home.html')
 

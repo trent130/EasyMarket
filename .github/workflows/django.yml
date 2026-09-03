@@ -2,12 +2,20 @@ name: Django CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   build:
+
+    env:
+      # Tests use SQLite and never contact external payment services.
+      # This value is intentionally ephemeral and must not be reused in deployments.
+      SECRET_KEY: ci-only-not-for-deployment
+      # The test client uses HTTP. Keep production's SSL redirect disabled here
+      # so endpoint tests exercise application responses rather than redirects.
+      DEBUG: "True"
 
     runs-on: ubuntu-latest
     strategy:

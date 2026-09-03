@@ -221,6 +221,20 @@ class TestEmailOrUsernameBackend:
         result = backend.authenticate(request=None, username="nobody", password="anything")
         assert result is None
 
+    def test_inactive_user_cannot_authenticate_or_be_loaded(self):
+        user = CustomUser.objects.create_user(
+            email="inactive@example.com", username="inactive", first_name="Inactive",
+            password="secret123"
+        )
+        user.is_active = False
+        user.save(update_fields=["is_active"])
+
+        backend = EmailOrUsernameModelBackend()
+        assert backend.authenticate(
+            request=None, username="inactive", password="secret123"
+        ) is None
+        assert backend.get_user(user.pk) is None
+
     def test_get_user(self):
         user = CustomUser.objects.create_user(
             email="auth4@example.com", username="auth4", first_name="A",
@@ -289,6 +303,17 @@ class TestUserSignupAPI:
         }, content_type="application/json")
         assert resp.status_code == 400
 
+    def test_signup_cannot_create_admin_user(self, client):
+        resp = client.post("/api/users/auth/signup/", {
+            "username": "publicadmin", "email": "publicadmin@example.com",
+            "first_name": "Public", "last_name": "Admin",
+            "password": "StrongPass1!", "password_confirm": "StrongPass1!",
+            "user_type": "admin"
+        }, content_type="application/json")
+
+        assert resp.status_code == 400
+        assert not CustomUser.objects.filter(email="publicadmin@example.com").exists()
+
 
 class TestUserSigninAPI:
     def test_signin_success(self, client):
@@ -327,6 +352,31 @@ class TestUserSigninAPI:
         }, content_type="application/json")
         assert resp.status_code == 400
 
+    def test_signin_does_not_log_credentials(self, client, caplog):
+        password = "StrongPass1!"
+        CustomUser.objects.create_user(
+            email="nolog@example.com", username="nologuser",
+            first_name="NoLog", password=password
+        )
+
+        client.post("/api/users/auth/signin/", {
+            "username_or_email": "nologuser",
+            "password": password
+        }, content_type="application/json")
+
+        assert password not in caplog.text
+        assert "Signin attempt with data" not in caplog.text
+
+    def test_token_endpoint_does_not_expose_validation_details(self, client):
+        response = client.post(
+            "/api/users/auth/token/",
+            {"username": "missing", "password": "wrong"},
+            content_type="application/json",
+        )
+
+        assert response.status_code == 401
+        assert "details" not in response.json()
+
 
 class TestGetCurrentUserAPI:
     def test_get_current_user_authenticated(self, client):
@@ -338,7 +388,7 @@ class TestGetCurrentUserAPI:
         token = AccessToken.for_user(user)
         resp = client.get("/api/users/auth/me/", HTTP_AUTHORIZATION=f"Bearer {token}")
         assert resp.status_code == 200
-        assert resp.json()["user"]["email"] == "current@example.com"
+        assert resp.json()["email"] == "current@example.com"
 
     def test_get_current_user_unauthenticated(self, client):
         resp = client.get("/api/users/auth/me/")
@@ -502,6 +552,22 @@ class TestUserProfileAPI:
 
 
 class TestTwoFactorAPI:
+    def test_student_profile_cannot_toggle_2fa_directly(self, client):
+        student = StudentFactory(two_factor_enabled=False)
+        from rest_framework_simplejwt.tokens import AccessToken
+        token = AccessToken.for_user(student.user)
+
+        resp = client.patch(
+            "/api/users/auth/student-profile/",
+            {"two_factor_enabled": True},
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f"Bearer {token}",
+        )
+
+        assert resp.status_code == 200
+        student.refresh_from_db()
+        assert student.two_factor_enabled is False
+
     def test_enable_2fa_requires_auth(self, client):
         resp = client.post("/api/users/auth/2fa/enable/")
         assert resp.status_code == 401
@@ -588,14 +654,36 @@ class TestTwoFactorAPI:
         assert resp.status_code == 401
 
     def test_disable_2fa_success(self, client):
-        student = StudentFactory(two_factor_enabled=True, two_factor_secret="tests")
+        import pyotp
+        secret = pyotp.random_base32()
+        student = StudentFactory(two_factor_enabled=True, two_factor_secret=secret)
         from rest_framework_simplejwt.tokens import AccessToken
         token = AccessToken.for_user(student.user)
         resp = client.post(
             "/api/users/auth/2fa/disable/",
+            {"token": pyotp.TOTP(secret).now()},
+            content_type="application/json",
             HTTP_AUTHORIZATION=f"Bearer {token}"
         )
         assert resp.status_code == 200
+
+    def test_disable_2fa_requires_token(self, client):
+        import pyotp
+        student = StudentFactory(
+            two_factor_enabled=True,
+            two_factor_secret=pyotp.random_base32()
+        )
+        from rest_framework_simplejwt.tokens import AccessToken
+        token = AccessToken.for_user(student.user)
+        resp = client.post(
+            "/api/users/auth/2fa/disable/",
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f"Bearer {token}"
+        )
+
+        assert resp.status_code == 400
+        student.refresh_from_db()
+        assert student.two_factor_enabled is True
 
     def test_disable_2fa_not_enabled(self, client):
         student = StudentFactory(two_factor_enabled=False)
